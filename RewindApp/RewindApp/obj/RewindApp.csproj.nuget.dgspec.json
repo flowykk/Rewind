@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/Users/danila/Desktop/rewind/Rewind/RewindApp/RewindApp/RewindApp.csproj": {}
+    "/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp/RewindApp.csproj": {}
   },
   "projects": {
-    "/Users/danila/Desktop/rewind/Rewind/RewindApp/RewindApp/RewindApp.csproj": {
+    "/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp/RewindApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/danila/Desktop/rewind/Rewind/RewindApp/RewindApp/RewindApp.csproj",
+        "projectUniqueName": "/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp/RewindApp.csproj",
         "projectName": "RewindApp",
-        "projectPath": "/Users/danila/Desktop/rewind/Rewind/RewindApp/RewindApp/RewindApp.csproj",
-        "packagesPath": "/Users/danila/.nuget/packages/",
-        "outputPath": "/Users/danila/Desktop/rewind/Rewind/RewindApp/RewindApp/obj/",
+        "projectPath": "/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp/RewindApp.csproj",
+        "packagesPath": "/Users/danilarahmanov/.nuget/packages/",
+        "outputPath": "/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/danila/.nuget/NuGet/NuGet.Config"
+          "/Users/danilarahmanov/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
@@ -38,6 +38,10 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "MailKit": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[6.0.25, )"
@@ -61,8 +65,7 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -74,7 +77,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.417/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.321/RuntimeIdentifierGraph.json"
         }
       }
     }

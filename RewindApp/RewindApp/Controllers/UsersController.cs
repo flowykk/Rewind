@@ -1,60 +1,83 @@
+using System.CodeDom.Compiler;
 using System.Security.Cryptography;
 using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using RewindApp.Data;
 using RewindApp.Models;
 using RewindApp.Models.RequestsModels;
 
 namespace RewindApp.Controllers;
 
-internal interface IUsersController
-{
-    public Task<ActionResult<IEnumerable<Users>>> GetUsers();
-    public Task<ActionResult<IEnumerable<Users>>> Register(UserRegisterRequest request);
-    public Task<ActionResult<IEnumerable<Users>>> Login(UserLoginRequest request);
-    public Task<ActionResult> DeleteUserAccount(int userId);
-    public Task<ActionResult> EditUserName(int userId);
-    public Task<ActionResult> EditUserEmail(int userId);
-    public Task<ActionResult> EditUserProfileImage(int userId);
-    public Task<ActionResult> EditUserPassword(int userId);
-    public Task<ActionResult> ForgotPasswordPassword(string userEmail);
-}
-
 [ApiController]
 [Route("[controller]")]
-public class UsersController : ControllerBase, IUsersController
+public class UsersController : ControllerBase
 {
     private readonly DataContext _context;
     private readonly ILogger<UsersController> _logger;
+    private readonly IEmailSender _emailSender;
 
-    public UsersController(DataContext context, ILogger<UsersController> logger)
+    public UsersController(DataContext context, ILogger<UsersController> logger, IEmailSender emailSender)
     {
         _context = context;
         _logger = logger;
+        _emailSender = emailSender;
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Users>>> GetUsers()   
+    public async Task<ActionResult<IEnumerable<User>>> GetUsers()
     {
         return await _context.Users.ToListAsync();
     }
 
-    [HttpPost("register")]
-    public async Task<ActionResult<IEnumerable<Users>>> Register(UserRegisterRequest request)
+    [HttpGet("check-email/{email}")]
+    public async Task<ActionResult<IEnumerable<User>>> CheckEmail(string email)
     {
-        if (_context.Users.Any(user => user.Email == request.Email))
+        int verificationCode = SendVerificationCode(email);
+        //int verificationCode = GenerateCode();
+
+        var user = await GetUserByEmail(email);
+        if (user != null)
         {
-            return BadRequest("User with this email already exists!");
+            return BadRequest($"Bad");
         }
 
-        ComputeHash(request.Password, out string passwordHash);
-        //passwordSalt
+        return Ok($"{verificationCode}");
+    }
+
+    public int SendVerificationCode(string receiverEmail)
+    {
+        var receiver = receiverEmail;
+        var subject = "verification code";
+
+        int verificationCode = GenerateCode();
+        var message = $"your code - {verificationCode}";
+
+        _emailSender.SendEmailAsync(receiver, subject, message);
+
+        return verificationCode;
+    }
+
+    public int GenerateCode()
+    {
+        Random random = new Random();
+        return random.Next(1000, 10000);
+    }
+
+    [HttpPost("register")]
+    public async Task<ActionResult<IEnumerable<User>>> Register(UserRegisterRequest request)
+    {
+        /*if (_context.Users.Any(user => user.Email == request.Email))
+        {
+            return BadRequest("User with this email already exists!");
+        }*/
+
+        string passwordHash = ComputeHash(request.Password);
         
-        var user = new Users
+        var user = new User
         { 
-            FirstName = request.FirstName,
-            LastName = request.LastName,
+            UserName = request.UserName,
             Email = request.Email,
             Password = passwordHash,
             RegistrationDateTime = DateTime.Now
@@ -63,49 +86,70 @@ public class UsersController : ControllerBase, IUsersController
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
 
-        return Ok("User created successfully!");
+        return Ok($"{GetUserByEmail(request.Email).Id}");
     }
     
     [HttpPost("login")]
-    public async Task<ActionResult<IEnumerable<Users>>> Login(UserLoginRequest request)
+    public async Task<ActionResult<IEnumerable<User>>> Login(UserLoginRequest request)
     {
-        var user = await _context.Users.FirstOrDefaultAsync(user => user.Email == request.Email);
+        var user = await GetUserByEmail(request.Email);
+        
+        // maybe dont need this
         if (user == null)
         {
             return BadRequest("User not found.");
         }
         
-        ComputeHash(request.Password, out string passwordHash);
-        //Console.WriteLine(passwordHash);
+        string passwordHash = ComputeHash(request.Password);
         if (passwordHash != user.Password)
         {
             return BadRequest("Incorrect password!");
         }
 
-        //SendEmail(request.Email);
-
-        return Ok($"Welcome back, {user.FirstName}! Your id is {user.Id} <3");
+        return Ok($"id - {user.Id}");
     }
+    
     
     [HttpDelete("{userId}")]
     public async Task<ActionResult> DeleteUserAccount(int userId)
     {
-        var user = await _context.Users.FirstOrDefaultAsync(user => user.Id == userId);
-        if (user == null)
+        var user = await GetUserById(userId);
+        if (user != null)
         {
-            return BadRequest("User not found.");
+            _context.Users.Remove(user);
+            await _context.SaveChangesAsync();
+            return Ok($"User with Id {userId} was successfully deleted");
         }
         
-        _context.Users.Remove(user);
-        await _context.SaveChangesAsync();
-
-        return Ok($"User with Id {userId} was successfully deleted");
+        return BadRequest("User not found.");
     }
-
-    [HttpPut("edit-name/{userId}")]
-    public async Task<ActionResult> EditUserName(int userId)
+    
+    public async Task<User?> GetUserByEmail(string email)
     {
-        throw new NotImplementedException();
+        var user = await _context.Users.FirstOrDefaultAsync(user => user.Email == email);
+        return user;
+    }
+    
+    public async Task<User?> GetUserById(int userId)
+    {
+        var user = await _context.Users.FirstOrDefaultAsync(user => user.Id == userId);
+        return user;
+    } 
+
+    [HttpPut("edit-name/{userId}/{newName}")]
+    public async Task<ActionResult> EditUserName(int userId, string newName)
+    {
+        var user = await GetUserById(userId);
+        if (user != null)
+        {
+            user.UserName = newName;
+            _context.Users.Update(user);
+            
+            await _context.SaveChangesAsync();
+            return Ok($"name changed id - {user.Id}; name - {user.UserName}");
+        }
+
+        return BadRequest($"error");
     }
     
     [HttpPut("edit-email/{userId}")]
@@ -178,25 +222,19 @@ public class UsersController : ControllerBase, IUsersController
     //     smtp.Send(m);
     // }
     
-    static void ComputeHash(string input, out string hash)
+    static string ComputeHash(string input)
     {
-        // Convert the input string to a byte array
         byte[] inputBytes = Encoding.UTF8.GetBytes(input);
-
-        // Create an MD5 hash object
         using var sha512 = SHA512.Create();
-        
-        // Compute the hash value from the input bytes
         byte[] hashBytes = sha512.ComputeHash(inputBytes);
 
-        // Convert the hash bytes to a hexadecimal string
         StringBuilder sb = new StringBuilder();
         foreach (byte hashByte in hashBytes)
         {
-            sb.Append(hashByte.ToString("x2")); // "x2" formats the byte as a two-digit hexadecimal number
+            sb.Append(hashByte.ToString("x2")); 
         }
 
-        hash = sb.ToString();
+        return sb.ToString();
     }
     
     // private void CreatePasswordHash(string password)

@@ -9,7 +9,7 @@ public class DataContext : DbContext
     {
     }
 
-    public DbSet<Users> Users => Set<Users>();
+    public DbSet<User> Users => Set<User>();
     public DbSet<Groups> Groups => Set<Groups>(); 
     public DbSet<Media> Media => Set<Media>();
 }

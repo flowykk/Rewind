@@ -1,6 +1,7 @@
 using System.Configuration;
 using System.Data;
 using Microsoft.EntityFrameworkCore;
+using RewindApp;
 using RewindApp.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddTransient<IEmailSender, EmailSender>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 //builder.Services.AddEndpointsApiExplorer();
 //builder.Services.AddSwaggerGen();
@@ -16,6 +18,9 @@ builder.Services.AddDbContext<DataContext>(options => options.UseMySQL(
 ));
 
 var app = builder.Build();
+app.UseMiddleware<GlobalRoutePrefixMiddleware>("/api");
+app.UsePathBase(new PathString("/api"));
+app.UseRouting();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

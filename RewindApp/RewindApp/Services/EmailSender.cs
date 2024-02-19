@@ -6,15 +6,15 @@ using System.Net.Sockets;
 using MailKit.Security;
 using MimeKit.Text;
 
-namespace RewindApp;
+namespace RewindApp.Services;
 
 public interface IEmailSender
 {
-    void SendEmailAsync(string email, string subject, string message);
+    void SendEmail(string email, string subject, string message);
 }
 public class EmailSender : IEmailSender
 {
-    public void SendEmailAsync(string email, string subject, string body)
+    public void SendEmail(string recevier, string subject, string body)
     {
         var mail = "noreply@rewindapp.ru";
         var pass = "QN6pppyRLB1Hkfz4zRWU";
@@ -25,6 +25,7 @@ public class EmailSender : IEmailSender
             Credentials = new NetworkCredential(mail, pass),
             EnableSsl = true,
         };
-        smtpClient.Send(mail, email, subject, body);
+
+        smtpClient.Send(mail, recevier, subject, body);
     }
 }

@@ -2,7 +2,9 @@ using System.Configuration;
 using System.Data;
 using Microsoft.EntityFrameworkCore;
 using RewindApp;
+using RewindApp.Controllers;
 using RewindApp.Data;
+using RewindApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +12,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddTransient<IEmailSender, EmailSender>();
+builder.Services.AddTransient<IUsersController, UsersController>();
+builder.Services.AddTransient<IUserService, UserService>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 //builder.Services.AddEndpointsApiExplorer();
 //builder.Services.AddSwaggerGen();

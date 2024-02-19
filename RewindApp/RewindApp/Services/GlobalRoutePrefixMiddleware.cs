@@ -1,4 +1,4 @@
-namespace RewindApp;
+namespace RewindApp.Services;
 
 public class GlobalRoutePrefixMiddleware
 {

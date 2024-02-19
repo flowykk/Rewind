@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" serverName="rewindapp" remoteFilesAllowedToDisappearOnAutoupload="false">
+    <serverData>
+      <paths name="rewindapp">
+        <serverdata>
+          <mappings>
+            <mapping deploy="home/rewind/RewindApp" local="$PROJECT_DIR$/RewindApp/bin/Debug/net6.0" web="/" />
+            <mapping local="" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
+</project>

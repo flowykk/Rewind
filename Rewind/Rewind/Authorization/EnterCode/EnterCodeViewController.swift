@@ -82,8 +82,11 @@ extension EnterCodeViewController {
         digit3Field = createDigitField()
         digit4Field = createDigitField()
         
+        var tagNumber = 0
         for subView in [digit1Field, digit2Field, digit3Field, digit4Field] {
             stackView.addArrangedSubview(subView)
+            subView.tag = tagNumber
+            tagNumber += 1
         }
         
         stackView.pinCenterX(to: view.centerXAnchor)
@@ -111,9 +114,9 @@ extension EnterCodeViewController {
         continueButton.translatesAutoresizingMaskIntoConstraints = false
         
         continueButton.setTitle("Continue", for: .normal)
-        continueButton.setTitleColor(UIColor(named: "pink"), for: .normal)
+        continueButton.setTitleColor(UIColor(named: "customPink"), for: .normal)
         continueButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .bold)
-        continueButton.layer.borderColor = UIColor(named: "pink")?.cgColor
+        continueButton.layer.borderColor = UIColor(named: "customPink")?.cgColor
         continueButton.layer.borderWidth = 4
         continueButton.layer.cornerRadius = 30
         

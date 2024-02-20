@@ -22,4 +22,9 @@ final class EnterEmailRouter {
         let vc = EnterCodeBuilder.build()
         view?.navigationController?.pushViewController(vc, animated: true)
     }
+    
+    func navigateToEnterPassword() {
+        let vc = EnterPasswordBuilder.build()
+        view?.navigationController?.pushViewController(vc, animated: true)
+    }
 }

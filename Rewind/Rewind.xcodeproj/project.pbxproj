@@ -116,8 +116,11 @@
 		55A3267B2B81FB7F007C9B74 /* Authorization */ = {
 			isa = PBXGroup;
 			children = (
-				55A326D02B82712C007C9B74 /* Registration */,
 				55A326AE2B825274007C9B74 /* Wellcome */,
+				55A3269F2B821DF3007C9B74 /* EnterEmail */,
+				55A326B12B825425007C9B74 /* EnterCode */,
+				55A326BD2B8263A5007C9B74 /* EnterPassword */,
+				55A326C62B8268A4007C9B74 /* EnterName */,
 				55A326AF2B82535E007C9B74 /* UserModel.swift */,
 				55A326BA2B82612B007C9B74 /* DataManager.swift */,
 				55A326AC2B823CF7007C9B74 /* NetworkService.swift */,
@@ -187,17 +190,6 @@
 				55A326692B81F8FC007C9B74 /* SceneDelegate.swift */,
 			);
 			path = App;
-			sourceTree = "<group>";
-		};
-		55A326D02B82712C007C9B74 /* Registration */ = {
-			isa = PBXGroup;
-			children = (
-				55A3269F2B821DF3007C9B74 /* EnterEmail */,
-				55A326B12B825425007C9B74 /* EnterCode */,
-				55A326BD2B8263A5007C9B74 /* EnterPassword */,
-				55A326C62B8268A4007C9B74 /* EnterName */,
-			);
-			path = Registration;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

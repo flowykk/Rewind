@@ -28,7 +28,26 @@ final class EnterPasswordViewController: UIViewController {
     @objc
     private func continueButtonTapped() {
         guard let password = passwordField.text else { return }
-        presenter?.savePassword(password: password)
+        presenter?.continueButtonTapped(password: password)
+    }
+    
+    // MARK: - Presenter To View
+    func showLoadingView() {
+        let loadingView = UIView(frame: view.bounds)
+        loadingView.backgroundColor = UIColor(white: 0, alpha: 0.3)
+        let activityIndicator = UIActivityIndicatorView(style: .large)
+        activityIndicator.color = .white
+        activityIndicator.center = loadingView.center
+        loadingView.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
+        view.addSubview(loadingView)
+        loadingView.isUserInteractionEnabled = true
+        view.isUserInteractionEnabled = false
+    }
+    
+    func hideLoadingView() {
+        view.subviews.first(where: { $0.backgroundColor == UIColor(white: 0, alpha: 0.3) })?.removeFromSuperview()
+        view.isUserInteractionEnabled = true
     }
 }
 
@@ -87,9 +106,9 @@ extension EnterPasswordViewController {
         continueButton.translatesAutoresizingMaskIntoConstraints = false
         
         continueButton.setTitle("Continue", for: .normal)
-        continueButton.setTitleColor(UIColor(named: "pink"), for: .normal)
+        continueButton.setTitleColor(UIColor(named: "customPink"), for: .normal)
         continueButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .bold)
-        continueButton.layer.borderColor = UIColor(named: "pink")?.cgColor
+        continueButton.layer.borderColor = UIColor(named: "customPink")?.cgColor
         continueButton.layer.borderWidth = 4
         continueButton.layer.cornerRadius = 30
         

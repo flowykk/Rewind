@@ -8,6 +8,13 @@
 import Foundation
 
 struct User {
+    enum Process {
+        case none
+        case registration
+        case authorization
+    }
+    
+    var proccess: Process = .none
     var email: String = ""
     var verificationCode: String = ""
     var password: String = ""

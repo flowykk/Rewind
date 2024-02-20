@@ -22,13 +22,13 @@ final class EnterPasswordPresenter {
     }
     
     func continueButtonTapped(password: String) {
-        view?.showLoadingView()
         DataManager.shared.setUserPassword(password)
         let process = DataManager.shared.getUserProcess()
         switch process {
         case .registration:
             router.navigateToEnterName()
         case .authorization:
+            view?.showLoadingView()
             let user = DataManager.shared.getUser()
             authorizeUser(user: user)
         default:

@@ -19,6 +19,7 @@ final class EnterNameRouter {
     }
     
     func navigateToMainScreen() {
-        // TODO: go to main screen
+        let vc = ViewController()
+        view?.navigationController?.pushViewController(vc, animated: true)
     }
 }

@@ -22,7 +22,6 @@ final class EnterNamePresenter {
     
     func saveName(name: String) {
         DataManager.shared.setUserName(name)
-        print(DataManager.shared.getUser())
         NetworkService.registerUser(user: DataManager.shared.getUser()) { response in
             if response.success {
                 print("New user created")

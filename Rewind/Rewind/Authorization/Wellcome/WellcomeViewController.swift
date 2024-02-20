@@ -24,6 +24,11 @@ final class WellcomeViewController: UIViewController {
     private func registerButtonTapped() {
         presenter?.registerButtonTapped()
     }
+    
+    @objc
+    private func loginButtonTapped() {
+        presenter?.loginButtonTapped()
+    }
 }
 
 // MARK: - UI Configuration
@@ -51,7 +56,7 @@ extension WellcomeViewController {
         registerButton.translatesAutoresizingMaskIntoConstraints = false
         
         registerButton.setTitle("Create an account", for: .normal)
-        registerButton.setTitleColor(UIColor(named: "pink"), for: .normal)
+        registerButton.setTitleColor(UIColor(named: "customPink"), for: .normal)
         registerButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         registerButton.layer.borderColor = UIColor(named: "pink")?.cgColor
         registerButton.layer.borderWidth = 4
@@ -72,6 +77,8 @@ extension WellcomeViewController {
         loginButton.setTitle("Sign in", for: .normal)
         loginButton.setTitleColor(UIColor(named: "pink"), for: .normal)
         loginButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        
+        loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
         
         loginButton.pinBottom(to: view.bottomAnchor, 100)
         loginButton.pinCenterX(to: view.centerXAnchor)

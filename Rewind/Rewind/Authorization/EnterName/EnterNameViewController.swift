@@ -1,5 +1,5 @@
 //
-//  EnterEmailViewController.swift
+//  EnterNameViewController.swift
 //  Rewind
 //
 //  Created by Aleksa Khruleva on 18.02.2024.
@@ -7,11 +7,11 @@
 
 import UIKit
 
-final class EnterEmailViewController: UIViewController {
-    var presenter: EnterEmailPresenter?
+final class EnterNameViewController: UIViewController {
+    var presenter: EnterNamePresenter?
     
-    private let emailLabel: UILabel = UILabel()
-    private let emailField: UITextField = UITextField()
+    private let nameLabel: UILabel = UILabel()
+    private let nameField: UITextField = UITextField()
     private let continueButton: UIButton = UIButton(type: .system)
     
     override func viewDidLoad() {
@@ -27,19 +27,19 @@ final class EnterEmailViewController: UIViewController {
     
     @objc
     private func continueButtonTapped() {
-        guard let email = emailField.text else { return }
-        presenter?.sendVerificationCode(toEmail: email)
+        guard let name = nameField.text else { return }
+        presenter?.saveName(name: name)
     }
 }
 
 // MARK: - UI Configuration
-extension EnterEmailViewController {
+extension EnterNameViewController {
     private func configureUI() {
         navigationItem.hidesBackButton = true
         view.backgroundColor = .white
         configureBackButton()
-        configureEmailLabel()
-        configureEmailField()
+        configurePasswordLabel()
+        configurePasswordField()
         configureContinueButton()
     }
     
@@ -51,35 +51,35 @@ extension EnterEmailViewController {
         navigationItem.leftBarButtonItem?.tintColor = .black
     }
     
-    private func configureEmailLabel() {
-        view.addSubview(emailLabel)
-        emailLabel.translatesAutoresizingMaskIntoConstraints = false
+    private func configurePasswordLabel() {
+        view.addSubview(nameLabel)
+        nameLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        emailLabel.text = "What's your email?"
-        emailLabel.font = UIFont.systemFont(ofSize: 24, weight: .heavy)
+        nameLabel.text = "What's your name?"
+        nameLabel.font = UIFont.systemFont(ofSize: 24, weight: .heavy)
         
-        emailLabel.pinTop(to: view.topAnchor, 300)
-        emailLabel.pinCenterX(to: view.centerXAnchor)
+        nameLabel.pinTop(to: view.topAnchor, 300)
+        nameLabel.pinCenterX(to: view.centerXAnchor)
     }
     
-    private func configureEmailField() {
-        view.addSubview(emailField)
-        emailField.translatesAutoresizingMaskIntoConstraints = false
+    private func configurePasswordField() {
+        view.addSubview(nameField)
+        nameField.translatesAutoresizingMaskIntoConstraints = false
         
-        emailField.backgroundColor = .systemGray6
-        emailField.placeholder = "Email address"
-        emailField.font = UIFont.systemFont(ofSize: 18, weight: .bold)
-        emailField.layer.cornerRadius = 15
+        nameField.backgroundColor = .systemGray6
+        nameField.placeholder = "Name"
+        nameField.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+        nameField.layer.cornerRadius = 15
         
-        emailField.leftView = UIView(frame: CGRect(x: .zero, y: .zero, width: 20, height: 50))
-        emailField.rightView = UIView(frame: CGRect(x: .zero, y: .zero, width: 20, height: 50))
-        emailField.leftViewMode = .always
-        emailField.rightViewMode = .always
+        nameField.leftView = UIView(frame: CGRect(x: .zero, y: .zero, width: 20, height: 50))
+        nameField.rightView = UIView(frame: CGRect(x: .zero, y: .zero, width: 20, height: 50))
+        nameField.leftViewMode = .always
+        nameField.rightViewMode = .always
         
-        emailField.setWidth(350)
-        emailField.setHeight(50)
-        emailField.pinTop(to: emailLabel.bottomAnchor, 30)
-        emailField.pinCenterX(to: view.centerXAnchor)
+        nameField.setWidth(350)
+        nameField.setHeight(50)
+        nameField.pinTop(to: nameLabel.bottomAnchor, 30)
+        nameField.pinCenterX(to: view.centerXAnchor)
     }
     
     private func configureContinueButton() {
@@ -87,9 +87,9 @@ extension EnterEmailViewController {
         continueButton.translatesAutoresizingMaskIntoConstraints = false
         
         continueButton.setTitle("Continue", for: .normal)
-        continueButton.setTitleColor(UIColor(named: "pink"), for: .normal)
+        continueButton.setTitleColor(UIColor(named: "customPink"), for: .normal)
         continueButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .bold)
-        continueButton.layer.borderColor = UIColor(named: "pink")?.cgColor
+        continueButton.layer.borderColor = UIColor(named: "customPink")?.cgColor
         continueButton.layer.borderWidth = 4
         continueButton.layer.cornerRadius = 30
         

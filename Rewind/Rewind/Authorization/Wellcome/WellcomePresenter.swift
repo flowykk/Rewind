@@ -17,6 +17,12 @@ final class WellcomePresenter {
     }
     
     func registerButtonTapped() {
+        DataManager.shared.setUserProcess(.registration)
+        router.navigateToEnterEmail()
+    }
+    
+    func loginButtonTapped() {
+        DataManager.shared.setUserProcess(.authorization)
         router.navigateToEnterEmail()
     }
 }

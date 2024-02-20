@@ -11,6 +11,10 @@ class DataManager {
     static let shared = DataManager()
     private var user = User()
     
+    func setUserProcess(_ process: User.Process) {
+        user.proccess = process
+    }
+    
     func setUserEmail(_ email: String) {
         user.email = email
     }
@@ -25,6 +29,10 @@ class DataManager {
     
     func setUserName(_ name: String) {
         user.name = name
+    }
+    
+    func getUserProcess() -> User.Process {
+        return user.proccess
     }
     
     func getUserVerificationCode() -> String {

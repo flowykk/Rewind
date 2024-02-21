@@ -64,7 +64,7 @@ extension EnterCodeViewController {
         codeLabel.text = "Enter verification code"
         codeLabel.font = UIFont.systemFont(ofSize: 24, weight: .heavy)
         
-        codeLabel.pinTop(to: view.topAnchor, 300)
+        codeLabel.pinTop(to: view.topAnchor, AuthConsts.labelTop)
         codeLabel.pinCenterX(to: view.centerXAnchor)
     }
     
@@ -122,7 +122,7 @@ extension EnterCodeViewController {
         
         continueButton.addTarget(self, action: #selector(continueButtonTapped), for: .touchUpInside)
         
-        continueButton.pinBottom(to: view.bottomAnchor, 145)
+        continueButton.pinBottom(to: view.bottomAnchor, AuthConsts.continueButtonBottom)
         continueButton.pinCenterX(to: view.centerXAnchor)
         continueButton.setHeight(60)
         continueButton.setWidth(200)

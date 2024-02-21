@@ -77,7 +77,7 @@ extension EnterEmailViewController {
         emailLabel.text = "What's your email?"
         emailLabel.font = UIFont.systemFont(ofSize: 24, weight: .heavy)
         
-        emailLabel.pinTop(to: view.topAnchor, 300)
+        emailLabel.pinTop(to: view.topAnchor, AuthConsts.labelTop)
         emailLabel.pinCenterX(to: view.centerXAnchor)
     }
     
@@ -89,6 +89,10 @@ extension EnterEmailViewController {
         emailField.placeholder = "Email address"
         emailField.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         emailField.layer.cornerRadius = 15
+        
+        emailField.autocapitalizationType = .none
+        emailField.autocorrectionType = .no
+        emailField.keyboardType = .emailAddress
         
         emailField.leftView = UIView(frame: CGRect(x: .zero, y: .zero, width: 20, height: 50))
         emailField.rightView = UIView(frame: CGRect(x: .zero, y: .zero, width: 20, height: 50))
@@ -114,7 +118,7 @@ extension EnterEmailViewController {
         
         continueButton.addTarget(self, action: #selector(continueButtonTapped), for: .touchUpInside)
         
-        continueButton.pinBottom(to: view.bottomAnchor, 145)
+        continueButton.pinBottom(to: view.bottomAnchor, AuthConsts.continueButtonBottom)
         continueButton.pinCenterX(to: view.centerXAnchor)
         continueButton.setHeight(60)
         continueButton.setWidth(200)

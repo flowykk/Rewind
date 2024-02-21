@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		555F07532B85EF5F00E6991E /* AuthConsts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555F07522B85EF5F00E6991E /* AuthConsts.swift */; };
 		55A326682B81F8FC007C9B74 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A326672B81F8FC007C9B74 /* AppDelegate.swift */; };
 		55A3266A2B81F8FC007C9B74 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A326692B81F8FC007C9B74 /* SceneDelegate.swift */; };
 		55A3266C2B81F8FC007C9B74 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A3266B2B81F8FC007C9B74 /* ViewController.swift */; };
@@ -39,6 +40,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		555F07522B85EF5F00E6991E /* AuthConsts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthConsts.swift; sourceTree = "<group>"; };
 		55A326642B81F8FC007C9B74 /* Rewind.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rewind.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		55A326672B81F8FC007C9B74 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		55A326692B81F8FC007C9B74 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -124,6 +126,7 @@
 				55A326AF2B82535E007C9B74 /* UserModel.swift */,
 				55A326BA2B82612B007C9B74 /* DataManager.swift */,
 				55A326AC2B823CF7007C9B74 /* NetworkService.swift */,
+				555F07522B85EF5F00E6991E /* AuthConsts.swift */,
 			);
 			path = Authorization;
 			sourceTree = "<group>";
@@ -281,6 +284,7 @@
 				55A326682B81F8FC007C9B74 /* AppDelegate.swift in Sources */,
 				55A326962B820A2D007C9B74 /* WellcomeViewController.swift in Sources */,
 				55A3266A2B81F8FC007C9B74 /* SceneDelegate.swift in Sources */,
+				555F07532B85EF5F00E6991E /* AuthConsts.swift in Sources */,
 				55A326C82B8268C1007C9B74 /* EnterNameViewController.swift in Sources */,
 				55A326AD2B823CF7007C9B74 /* NetworkService.swift in Sources */,
 				55A326A72B822103007C9B74 /* EnterEmailBuilder.swift in Sources */,

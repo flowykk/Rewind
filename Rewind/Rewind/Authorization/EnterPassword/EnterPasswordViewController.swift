@@ -77,7 +77,7 @@ extension EnterPasswordViewController {
         passwordLabel.text = "Choose a password"
         passwordLabel.font = UIFont.systemFont(ofSize: 24, weight: .heavy)
         
-        passwordLabel.pinTop(to: view.topAnchor, 300)
+        passwordLabel.pinTop(to: view.topAnchor, AuthConsts.labelTop)
         passwordLabel.pinCenterX(to: view.centerXAnchor)
     }
     
@@ -114,7 +114,7 @@ extension EnterPasswordViewController {
         
         continueButton.addTarget(self, action: #selector(continueButtonTapped), for: .touchUpInside)
         
-        continueButton.pinBottom(to: view.bottomAnchor, 145)
+        continueButton.pinBottom(to: view.bottomAnchor, AuthConsts.continueButtonBottom)
         continueButton.pinCenterX(to: view.centerXAnchor)
         continueButton.setHeight(60)
         continueButton.setWidth(200)

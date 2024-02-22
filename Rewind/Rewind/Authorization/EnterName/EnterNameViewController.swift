@@ -58,7 +58,7 @@ extension EnterNameViewController {
         nameLabel.text = "What's your name?"
         nameLabel.font = UIFont.systemFont(ofSize: 24, weight: .heavy)
         
-        nameLabel.pinTop(to: view.topAnchor, 300)
+        nameLabel.pinTop(to: view.topAnchor, AuthConsts.labelTop)
         nameLabel.pinCenterX(to: view.centerXAnchor)
     }
     
@@ -95,7 +95,7 @@ extension EnterNameViewController {
         
         continueButton.addTarget(self, action: #selector(continueButtonTapped), for: .touchUpInside)
         
-        continueButton.pinBottom(to: view.bottomAnchor, 145)
+        continueButton.pinBottom(to: view.bottomAnchor, AuthConsts.continueButtonBottom)
         continueButton.pinCenterX(to: view.centerXAnchor)
         continueButton.setHeight(60)
         continueButton.setWidth(200)

@@ -47,7 +47,7 @@ extension WellcomeViewController {
         appName.text = "Rewind"
         appName.font = UIFont.systemFont(ofSize: 50, weight: .heavy)
         
-        appName.pinTop(to: view.topAnchor, 300)
+        appName.pinTop(to: view.topAnchor, AuthConsts.appNameTop)
         appName.pinCenterX(to: view.centerXAnchor)
     }
     
@@ -64,7 +64,7 @@ extension WellcomeViewController {
         
         registerButton.addTarget(self, action: #selector(registerButtonTapped), for: .touchUpInside)
         
-        registerButton.pinBottom(to: loginButton.topAnchor, 20)
+        registerButton.pinBottom(to: loginButton.topAnchor, AuthConsts.registerButtonBottom)
         registerButton.pinCenterX(to: view.centerXAnchor)
         registerButton.setHeight(60)
         registerButton.setWidth(230)
@@ -80,7 +80,7 @@ extension WellcomeViewController {
         
         loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
         
-        loginButton.pinBottom(to: view.bottomAnchor, 100)
+        loginButton.pinBottom(to: view.bottomAnchor, AuthConsts.loginButtonBottom)
         loginButton.pinCenterX(to: view.centerXAnchor)
         loginButton.setHeight(25)
         loginButton.setWidth(70)

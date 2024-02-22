@@ -39,75 +39,6 @@ public class UsersController : ControllerBase, IUsersController
     {
         return await _context.Users.ToListAsync();
     }
-
-    /*[HttpGet("check-email/{email}")]
-    public async Task<ActionResult> CheckEmail(string email)
-    {
-        //int verificationCode = GenerateCode();
-
-        var user = await GetUserByEmail(email);
-        if (user != null)
-        {
-            return BadRequest($"Bad");
-        }
-
-        int verificationCode = SendVerificationCode(email);
-        return Ok($"{verificationCode}");
-    }
-
-    public int SendVerificationCode(string receiverEmail)
-    {
-        var verificationCode = _userService.GenerateCode();
-
-        _emailSender.SendEmail(
-            receiverEmail, 
-            "Rewind verification code",
-            $"Your verification code - {verificationCode}"
-            );
-
-        return verificationCode;
-    }
-
-    [HttpPost("register")]
-    public async Task<ActionResult> Register(UserRegisterRequest request)
-    {
-        // user exists check?
-        string passwordHash = _userService.ComputeHash(request.Password);
-        
-        var user = new User
-        { 
-            UserName = request.UserName,
-            Email = request.Email,
-            Password = passwordHash,
-            RegistrationDateTime = DateTime.Now
-        };
-
-        _context.Users.Add(user);
-        await _context.SaveChangesAsync();
-
-        return Ok($"{GetUserByEmail(request.Email).Id}");
-    }*/
-    
-    [HttpPost("login")]
-    public async Task<ActionResult> Login(UserLoginRequest request)
-    {
-        var user = await GetUserByEmail(request.Email);
-        
-        // maybe dont need this
-        if (user == null)
-        {
-            return BadRequest("User not found.");
-        }
-        
-        string passwordHash = _userService.ComputeHash(request.Password);
-        if (passwordHash != user.Password)
-        {
-            return BadRequest("Incorrect password!");
-        }
-
-        return Ok($"id - {user.Id}");
-    }
-    
     
     [HttpDelete("delete/{userId}")]
     public async Task<ActionResult> DeleteUserAccount(int userId)
@@ -123,6 +54,19 @@ public class UsersController : ControllerBase, IUsersController
         return BadRequest("User not found.");
     }
     
+    [HttpGet("image/{userId}")]
+    public async Task<ActionResult<byte[]>> GetUserImage(int userId)
+    {
+        var user = await GetUserById(userId);
+        if (user == null)
+        {
+            return BadRequest("Something went wrong");
+        }
+        
+        return File(user.Image, "application/png", "result.png");
+    }
+    
+    [HttpGet("send-code/{receiverEmail}")]
     public int SendVerificationCode(string receiverEmail)
     {
         var verificationCode = _userService.GenerateCode();

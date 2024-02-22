@@ -36,7 +36,7 @@ public class RegisterController : ControllerBase
         }
 
         int verificationCode = _usersController.SendVerificationCode(email);
-        return Ok($"{verificationCode}");
+        return Ok(verificationCode);
     }
 
     [HttpPost]
@@ -54,7 +54,8 @@ public class RegisterController : ControllerBase
             UserName = request.UserName,
             Email = request.Email,
             Password = passwordHash,
-            RegistrationDateTime = DateTime.Now
+            RegistrationDateTime = DateTime.Now,
+            Image = Array.Empty<byte>()
         };
 
         _context.Users.Add(user);

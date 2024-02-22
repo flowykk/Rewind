@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RewindApp.Data;
 using RewindApp.Models;
+using RewindApp.Models.Requests.ChangeRequests;
 using RewindApp.Services;
 
 namespace RewindApp.Controllers;
@@ -13,51 +14,89 @@ public class ChangeController : ControllerBase
     private readonly DataContext _context;
     private readonly ILogger<ChangeController> _logger;
     private readonly IUsersController _usersController;
+    private readonly IUserService _userService;
 
-    public ChangeController(DataContext context, ILogger<ChangeController> logger, IUsersController usersController)
+    public ChangeController(DataContext context, ILogger<ChangeController> logger, IUsersController usersController, IUserService userService)
     {
         _context = context;
         _logger = logger;
         _usersController = usersController;
+        _userService = userService;
     }
 
-    [HttpPut("name/{userId}/{newName}")]
-    public async Task<ActionResult> EditUserName(int userId, string newName)
+    [HttpPut("name/{userId}")]
+    public async Task<ActionResult> ChangeName(int userId, ChangeUserNameRequest request)
     {
         var user = await _usersController.GetUserById(userId);
         if (user == null) return BadRequest($"error");
         
-        user.UserName = newName;
+        user.UserName = request.UserName;
         _context.Users.Update(user);
         await _context.SaveChangesAsync();
         
         return Ok($"name changed id - {user.Id}; new name - {user.UserName}");
     }
     
-    [HttpPut("email/{userId}/{newEmail}")]
-    public async Task<ActionResult> EditUserEmail(int userId, string newEmail)
+    [HttpPut("email/{userId}")]
+    public async Task<ActionResult> ChangeEmail(int userId, ChangeUserEmailRequest request)
     {
         var user = await _usersController.GetUserById(userId);
         if (user == null) return BadRequest($"error");
         
-        user.Email = newEmail;
+        user.Email = request.Email;
         _context.Users.Update(user);
         await _context.SaveChangesAsync();
         
         return Ok($"email changed id - {user.Id}; new email - {user.UserName}");
     }
-    
-    [HttpPut("edit-profile-image/{userId}")]
-    public async Task<ActionResult> EditUserProfileImage(int userId)
+
+    [HttpPut("password/{userId}")]
+    public async Task<ActionResult> ChangePassword(int userId, ChangeUserPasswordRequest request)
     {
-        throw new NotImplementedException();
+        var user = await _usersController.GetUserById(userId);
+        if (user == null) return BadRequest($"error");
+        
+        user.Password = _userService.ComputeHash(request.Password);
+        _context.Users.Update(user);
+        await _context.SaveChangesAsync();
+        
+        return Ok($"password changed id - {user.Id}; new password - {user.Password}");
     }
     
-    [HttpPut("edit-password/{userId}")]
-    public async Task<ActionResult> EditUserPassword(int userId)
+    [HttpPut("image")]
+    public async Task<ActionResult> EditUserProfileImage(ChangeProfileImageRequest request)
     {
-        throw new NotImplementedException();
+        var user = await _usersController.GetUserById(request.UserId);
+        if (user == null) return BadRequest("Something went wrong");
+
+        user.Image = request.Image;
+        _context.Users.Update(user);
+        await _context.SaveChangesAsync();
+        
+        var media = new Media()
+        {
+            Date = DateTime.Now,
+            Photo = request.Image
+        };
+        _context.Media.Add(media);
+        await _context.SaveChangesAsync();
+
+        //return File(user.Image, "application/png", "users test.png");
+        return Ok($"image changed {user.Id} {request.Image} {user.UserName} {user.Image}" );
     }
+
+    
+    /*HttpGet("image/{userId}")]
+    public async Task<ActionResult<byte[]>> GetUserImage(int userId)
+    {
+        var user = await GetUserById(userId);
+        if (user == null)
+        {
+            return BadRequest("Something went wrong");
+        }
+        
+        return File(user.Image, "application/png", "result.png");
+    }*/
     
     [HttpPut("forgot-password/{userId}")]
     public async Task<ActionResult> ForgotPasswordPassword(string userEmail)

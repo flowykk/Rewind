@@ -28,10 +28,10 @@ public class MediaController : ControllerBase
     public async Task<ActionResult<Media>> GetMediaById(int id)
     {
         // Возврат медиа-файла 
-        //return File(_context.Media.FirstOrDefaultAsync(media => media.Id == id).Result.Photo, "application/png", "result.png");
+        return File(_context.Media.FirstOrDefaultAsync(media => media.Id == id).Result.Photo, "application/png", "result.png");
         
         // Возврат массива байтов для медиа-файлов
-        return await _context.Media.FirstOrDefaultAsync(media => media.Id == id);
+        //return await _context.Media.FirstOrDefaultAsync(media => media.Id == id);
     }
 
     [HttpPost("load")]
@@ -43,7 +43,6 @@ public class MediaController : ControllerBase
             Date = DateTime.Now,
             Photo = mediaBytes
         };
-
         
         _context.Media.Add(media);
         await _context.SaveChangesAsync();

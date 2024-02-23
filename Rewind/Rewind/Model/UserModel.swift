@@ -19,4 +19,6 @@ struct User {
     var verificationCode: String = ""
     var password: String = ""
     var name: String = ""
+    
+    var avatarBase64String: String = ""
 }

@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		551426FE2B88CBC6000446E9 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551426FD2B88CBC6000446E9 /* AccountViewController.swift */; };
+		551427002B88CBD5000446E9 /* AccountPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551426FF2B88CBD5000446E9 /* AccountPresenter.swift */; };
+		551427022B88CBEA000446E9 /* AccountRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551427012B88CBEA000446E9 /* AccountRouter.swift */; };
+		551427042B88CBF4000446E9 /* AccountBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551427032B88CBF4000446E9 /* AccountBuilder.swift */; };
 		555F07532B85EF5F00E6991E /* AuthConsts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555F07522B85EF5F00E6991E /* AuthConsts.swift */; };
 		55A326682B81F8FC007C9B74 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A326672B81F8FC007C9B74 /* AppDelegate.swift */; };
 		55A3266A2B81F8FC007C9B74 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A326692B81F8FC007C9B74 /* SceneDelegate.swift */; };
@@ -40,6 +44,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		551426FD2B88CBC6000446E9 /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
+		551426FF2B88CBD5000446E9 /* AccountPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountPresenter.swift; sourceTree = "<group>"; };
+		551427012B88CBEA000446E9 /* AccountRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountRouter.swift; sourceTree = "<group>"; };
+		551427032B88CBF4000446E9 /* AccountBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountBuilder.swift; sourceTree = "<group>"; };
 		555F07522B85EF5F00E6991E /* AuthConsts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthConsts.swift; sourceTree = "<group>"; };
 		55A326642B81F8FC007C9B74 /* Rewind.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rewind.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		55A326672B81F8FC007C9B74 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -102,6 +110,17 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
+		551426FC2B88CB45000446E9 /* Account */ = {
+			isa = PBXGroup;
+			children = (
+				551426FD2B88CBC6000446E9 /* AccountViewController.swift */,
+				551426FF2B88CBD5000446E9 /* AccountPresenter.swift */,
+				551427012B88CBEA000446E9 /* AccountRouter.swift */,
+				551427032B88CBF4000446E9 /* AccountBuilder.swift */,
+			);
+			path = Account;
+			sourceTree = "<group>";
+		};
 		55A3265B2B81F8FC007C9B74 = {
 			isa = PBXGroup;
 			children = (
@@ -123,6 +142,9 @@
 			children = (
 				55A326CF2B826FC0007C9B74 /* App */,
 				55A3267B2B81FB7F007C9B74 /* Authentication */,
+				551426FC2B88CB45000446E9 /* Account */,
+				551426FA2B88CAAB000446E9 /* Model */,
+				551426FB2B88CAD5000446E9 /* Services */,
 				55A3266B2B81F8FC007C9B74 /* ViewController.swift */,
 				55A326932B820701007C9B74 /* UIViewPin.swift */,
 				55A326702B81F8FE007C9B74 /* Assets.xcassets */,
@@ -135,13 +157,11 @@
 		55A3267B2B81FB7F007C9B74 /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
-				551426FA2B88CAAB000446E9 /* Model */,
 				55A326AE2B825274007C9B74 /* Wellcome */,
 				55A3269F2B821DF3007C9B74 /* EnterEmail */,
 				55A326B12B825425007C9B74 /* EnterCode */,
 				55A326BD2B8263A5007C9B74 /* EnterPassword */,
 				55A326C62B8268A4007C9B74 /* EnterName */,
-				551426FB2B88CAD5000446E9 /* Services */,
 				555F07522B85EF5F00E6991E /* AuthConsts.swift */,
 			);
 			path = Authentication;
@@ -284,10 +304,12 @@
 				55A326B52B8259D4007C9B74 /* EnterCodeBuilder.swift in Sources */,
 				55A326CE2B826A44007C9B74 /* EnterNameBuilder.swift in Sources */,
 				55A326BF2B8263C0007C9B74 /* EnterPasswordViewController.swift in Sources */,
+				551427042B88CBF4000446E9 /* AccountBuilder.swift in Sources */,
 				55A326CC2B8269F7007C9B74 /* EnterNameRouter.swift in Sources */,
 				55A326A52B822092007C9B74 /* EnterEmailRouter.swift in Sources */,
 				55A326942B820701007C9B74 /* UIViewPin.swift in Sources */,
 				55A3269C2B820FFA007C9B74 /* WellcomeRouter.swift in Sources */,
+				551427022B88CBEA000446E9 /* AccountRouter.swift in Sources */,
 				55A3266C2B81F8FC007C9B74 /* ViewController.swift in Sources */,
 				55A326C52B8263D9007C9B74 /* EnterPasswordBuilder.swift in Sources */,
 				55A326982B820B03007C9B74 /* WellcomePresenter.swift in Sources */,
@@ -297,10 +319,12 @@
 				55A326B92B8259F1007C9B74 /* EnterCodeRouter.swift in Sources */,
 				55A326B32B825453007C9B74 /* EnterCodeViewController.swift in Sources */,
 				55A326B72B8259E1007C9B74 /* EnterCodePresenter.swift in Sources */,
+				551427002B88CBD5000446E9 /* AccountPresenter.swift in Sources */,
 				55A326682B81F8FC007C9B74 /* AppDelegate.swift in Sources */,
 				55A326962B820A2D007C9B74 /* WellcomeViewController.swift in Sources */,
 				55A3266A2B81F8FC007C9B74 /* SceneDelegate.swift in Sources */,
 				555F07532B85EF5F00E6991E /* AuthConsts.swift in Sources */,
+				551426FE2B88CBC6000446E9 /* AccountViewController.swift in Sources */,
 				55A326C82B8268C1007C9B74 /* EnterNameViewController.swift in Sources */,
 				55A326AD2B823CF7007C9B74 /* NetworkService.swift in Sources */,
 				55A326A72B822103007C9B74 /* EnterEmailBuilder.swift in Sources */,
@@ -452,7 +476,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = MV84AF3V6Q;
+				DEVELOPMENT_TEAM = 8FRM8M93L5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Rewind/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -480,7 +504,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = MV84AF3V6Q;
+				DEVELOPMENT_TEAM = 8FRM8M93L5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Rewind/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

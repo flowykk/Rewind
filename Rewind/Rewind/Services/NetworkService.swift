@@ -176,4 +176,51 @@ final class NetworkService {
         }
         task.resume()
     }
+    
+    static func getAvatar(
+        completion: @escaping (NetworkResponse) -> Void
+    ) {
+        guard let url = URL(string: "https://www.rewindapp.ru/qwsaqwsa/select02.json") else {
+            let response = NetworkResponse(success: false)
+            completion(response)
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                let response = NetworkResponse(success: false, message: error.localizedDescription)
+                completion(response)
+                return
+            }
+            guard let httpResponse = response as? HTTPURLResponse else {
+                let response = NetworkResponse(success: false)
+                completion(response)
+                return
+            }
+            if httpResponse.statusCode == 200 {
+                do {
+                    guard let data = data else {
+                        let response = NetworkResponse(success: false)
+                        completion(response)
+                        return
+                    }
+                    let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+                    if let avatarString = json?["avatar"] as? String {
+                        let response = NetworkResponse(success: true, message: avatarString)
+                        completion(response)
+                    }
+                } catch {
+                    
+                }
+            } else {
+                print(httpResponse.statusCode)
+                let response = NetworkResponse(success: false, statusCode: httpResponse.statusCode)
+                completion(response)
+            }
+        }
+        task.resume()
+    }
 }

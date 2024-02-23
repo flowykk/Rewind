@@ -11,14 +11,17 @@ final class AccountViewController: UIViewController {
     var presenter: AccountPresenter?
     
     private let scrollView: UIScrollView = UIScrollView()
-    private let scrollViewContainer: UIView = UIView()
+    private let contentView: UIView = UIView()
     private let avatarView: UIImageView = UIImageView()
     private var avatarImage: UIImage? = nil
     private let nameLabel: UILabel = UILabel()
-    private let generalTable: UITableView = UITableView()
+    private let generalLabel: UILabel = UILabel()
+    private let generalTable: UITableView = GeneralTableView()
     private let appIconLabel: UILabel = UILabel()
-    
-    private let generalSections: [String] = ["Edit profile image", "Edit name", "Edit password", "Edit email", "Add a widget", "View groups", "Get help", "Share with friends"]
+    private var appIconCollectionView: UICollectionView = AppIconCollectionView()
+    private let riskyZoneLabel: UILabel = UILabel()
+    private let riskyZoneTabel: UITableView = RiskyZoneTableView()
+    private let daysLabel: UILabel = UILabel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,11 +47,16 @@ extension AccountViewController {
         view.backgroundColor = .white
         configureBackButton()
         configureScrollView()
-        configureScrollViewContainer()
+        configureContentView()
         configureAvatarView()
         configureNameLabel()
+        configureGeneralLabel()
         configureGeneralTable()
-//        configureAppIconLabel()
+        configureAppIconLabel()
+        configureAppIconCollectionView()
+        configureRiskyZoneLabel()
+        configureRiskyZoneTabel()
+        configureDaysLabel()
     }
     
     private func configureBackButton() {
@@ -61,99 +69,130 @@ extension AccountViewController {
     
     private func configureScrollView() {
         view.addSubview(scrollView)
-        scrollView.addSubview(scrollViewContainer)
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         
-        scrollView.backgroundColor = .brown
-        scrollView.showsVerticalScrollIndicator = false
+        scrollView.showsVerticalScrollIndicator = true
+        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.backgroundColor = .white
         
         scrollView.pinLeft(to: view.leadingAnchor)
         scrollView.pinRight(to: view.trailingAnchor)
-        scrollView.pinTop(to: view.safeAreaLayoutGuide.topAnchor)
-        scrollView.pinBottom(to: view.safeAreaLayoutGuide.bottomAnchor)
+        scrollView.pinTop(to: view.topAnchor)
+        scrollView.pinBottom(to: view.bottomAnchor)
     }
     
-    private func configureScrollViewContainer() {
-        scrollViewContainer.translatesAutoresizingMaskIntoConstraints = false
+    private func configureContentView() {
+        scrollView.addSubview(contentView)
+        contentView.translatesAutoresizingMaskIntoConstraints = false
         
-        scrollViewContainer.backgroundColor = .blue
+        contentView.backgroundColor = .white
         
-        scrollViewContainer.pinLeft(to: scrollView.leadingAnchor)
-        scrollViewContainer.pinRight(to: scrollView.trailingAnchor)
-        scrollViewContainer.pinTop(to: scrollView.topAnchor)
-        scrollViewContainer.pinBottom(to: scrollView.bottomAnchor)
-        scrollViewContainer.pinWidth(to: scrollView.widthAnchor)
-        scrollViewContainer.pinHeight(to: scrollView.heightAnchor)
+        contentView.pinLeft(to: scrollView.leadingAnchor)
+        contentView.pinRight(to: scrollView.trailingAnchor)
+        contentView.pinTop(to: scrollView.topAnchor)
+        contentView.pinBottom(to: scrollView.bottomAnchor)
+        contentView.pinWidth(to: scrollView.widthAnchor)
+        contentView.setHeight(1015)
     }
     
     private func configureAvatarView() {
-        scrollViewContainer.addSubview(avatarView)
+        contentView.addSubview(avatarView)
         avatarView.translatesAutoresizingMaskIntoConstraints = false
         
         avatarView.contentMode = .scaleAspectFill
         avatarView.clipsToBounds = true
         avatarView.layer.cornerRadius = 65
-        avatarView.layer.borderWidth = 2
+        avatarView.layer.borderWidth = 4
         avatarView.layer.borderColor = UIColor.systemPink.cgColor
         
         avatarView.image = avatarImage
         
         avatarView.setWidth(130)
         avatarView.setHeight(130)
-        avatarView.pinTop(to: scrollViewContainer.topAnchor)
-        avatarView.pinCenterX(to: scrollView.centerXAnchor)
+        avatarView.pinTop(to: contentView.topAnchor)
+        avatarView.pinCenterX(to: contentView.centerXAnchor)
     }
     
     private func configureNameLabel() {
-        scrollViewContainer.addSubview(nameLabel)
+        contentView.addSubview(nameLabel)
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         
         nameLabel.text = "User name"
+        nameLabel.font = UIFont.systemFont(ofSize: 24, weight: .bold)
         
-        nameLabel.pinTop(to: avatarView.bottomAnchor, 20)
-        nameLabel.pinCenterX(to: scrollView.centerXAnchor)
+        nameLabel.pinTop(to: avatarView.bottomAnchor, 10)
+        nameLabel.pinCenterX(to: contentView.centerXAnchor)
+    }
+    
+    private func configureGeneralLabel() {
+        contentView.addSubview(generalLabel)
+        generalLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        generalLabel.text = "General"
+        generalLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        
+        generalLabel.pinTop(to: nameLabel.bottomAnchor, 30)
+        generalLabel.pinLeft(to: contentView.leadingAnchor, 20)
     }
     
     private func configureGeneralTable() {
-        scrollViewContainer.addSubview(generalTable)
+        contentView.addSubview(generalTable)
         generalTable.translatesAutoresizingMaskIntoConstraints = false
         
-        generalTable.dataSource = self
-        generalTable.delegate = self
-        
-        generalTable.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        
-        generalTable.pinTop(to: nameLabel.bottomAnchor, 20)
-        generalTable.pinLeft(to: scrollViewContainer.leadingAnchor, 20)
-        generalTable.pinRight(to: scrollViewContainer.trailingAnchor, 20)
-        generalTable.setHeight(200)
+        generalTable.pinTop(to: generalLabel.bottomAnchor, 10)
+        generalTable.pinLeft(to: contentView.leadingAnchor, 20)
+        generalTable.pinRight(to: contentView.trailingAnchor, 20)
     }
     
     private func configureAppIconLabel() {
-        view.addSubview(appIconLabel)
+        contentView.addSubview(appIconLabel)
         appIconLabel.translatesAutoresizingMaskIntoConstraints = false
         
         appIconLabel.text = "App icon"
+        appIconLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         
         appIconLabel.pinTop(to: generalTable.bottomAnchor, 30)
-        appIconLabel.pinLeft(to: scrollViewContainer.leadingAnchor, 20)
-    }
-}
-
-// MARK: - UITableViewDataSource
-extension AccountViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 20
+        appIconLabel.pinLeft(to: contentView.leadingAnchor, 20)
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = "\(indexPath.row + 1)"
-        return cell
+    private func configureAppIconCollectionView() {
+        contentView.addSubview(appIconCollectionView)
+        appIconCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        
+        appIconCollectionView.pinLeft(to: contentView.leadingAnchor, 20)
+        appIconCollectionView.pinRight(to: contentView.trailingAnchor, 20)
+        appIconCollectionView.pinTop(to: appIconLabel.bottomAnchor, 10)
+    }
+    
+    private func configureRiskyZoneLabel() {
+        contentView.addSubview(riskyZoneLabel)
+        riskyZoneLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        riskyZoneLabel.text = "Risky zone"
+        riskyZoneLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        
+        riskyZoneLabel.pinTop(to: appIconCollectionView.bottomAnchor, 30)
+        riskyZoneLabel.pinLeft(to: contentView.leadingAnchor, 20)
+    }
+    
+    private func configureRiskyZoneTabel() {
+        contentView.addSubview(riskyZoneTabel)
+        riskyZoneTabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        riskyZoneTabel.pinTop(to: riskyZoneLabel.bottomAnchor, 10)
+        riskyZoneTabel.pinLeft(to: contentView.leadingAnchor, 20)
+        riskyZoneTabel.pinRight(to: contentView.trailingAnchor, 20)
+    }
+    
+    private func configureDaysLabel() {
+        contentView.addSubview(daysLabel)
+        daysLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        daysLabel.text = "You are already N days with Rewind"
+        daysLabel.font = UIFont.systemFont(ofSize: 12, weight: .bold)
+        daysLabel.textColor = .systemGray4
+        
+        daysLabel.pinTop(to: riskyZoneTabel.bottomAnchor, 30)
+        daysLabel.pinCenterX(to: contentView.centerXAnchor)
     }
 }
-
-extension AccountViewController: UITableViewDelegate {
-    
-}
-

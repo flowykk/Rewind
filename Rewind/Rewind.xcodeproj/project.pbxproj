@@ -85,6 +85,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		551426FA2B88CAAB000446E9 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				55A326AF2B82535E007C9B74 /* UserModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		551426FB2B88CAD5000446E9 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				55A326BA2B82612B007C9B74 /* DataManager.swift */,
+				55A326AC2B823CF7007C9B74 /* NetworkService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		55A3265B2B81F8FC007C9B74 = {
 			isa = PBXGroup;
 			children = (
@@ -105,7 +122,7 @@
 			isa = PBXGroup;
 			children = (
 				55A326CF2B826FC0007C9B74 /* App */,
-				55A3267B2B81FB7F007C9B74 /* Authorization */,
+				55A3267B2B81FB7F007C9B74 /* Authentication */,
 				55A3266B2B81F8FC007C9B74 /* ViewController.swift */,
 				55A326932B820701007C9B74 /* UIViewPin.swift */,
 				55A326702B81F8FE007C9B74 /* Assets.xcassets */,
@@ -115,20 +132,19 @@
 			path = Rewind;
 			sourceTree = "<group>";
 		};
-		55A3267B2B81FB7F007C9B74 /* Authorization */ = {
+		55A3267B2B81FB7F007C9B74 /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
+				551426FA2B88CAAB000446E9 /* Model */,
 				55A326AE2B825274007C9B74 /* Wellcome */,
 				55A3269F2B821DF3007C9B74 /* EnterEmail */,
 				55A326B12B825425007C9B74 /* EnterCode */,
 				55A326BD2B8263A5007C9B74 /* EnterPassword */,
 				55A326C62B8268A4007C9B74 /* EnterName */,
-				55A326AF2B82535E007C9B74 /* UserModel.swift */,
-				55A326BA2B82612B007C9B74 /* DataManager.swift */,
-				55A326AC2B823CF7007C9B74 /* NetworkService.swift */,
+				551426FB2B88CAD5000446E9 /* Services */,
 				555F07522B85EF5F00E6991E /* AuthConsts.swift */,
 			);
-			path = Authorization;
+			path = Authentication;
 			sourceTree = "<group>";
 		};
 		55A3269F2B821DF3007C9B74 /* EnterEmail */ = {

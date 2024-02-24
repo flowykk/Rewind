@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace RewindApp.Models.RequestsModels;
+namespace RewindApp.RequestsModels;
 
 public class UserLoginRequest
 {

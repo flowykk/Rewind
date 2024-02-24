@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RewindApp.Data;
 using RewindApp.Models;
-using RewindApp.Models.Requests.ChangeRequests;
+using RewindApp.Requests.ChangeRequests;
 using RewindApp.Services;
 
 namespace RewindApp.Controllers;
@@ -34,7 +34,7 @@ public class ChangeController : ControllerBase
         _context.Users.Update(user);
         await _context.SaveChangesAsync();
         
-        return Ok($"name changed id - {user.Id}; new name - {user.UserName}");
+        return Ok($"name changed id - {user.UserId}; new name - {user.UserName}");
     }
     
     [HttpPut("email/{userId}")]
@@ -47,7 +47,7 @@ public class ChangeController : ControllerBase
         _context.Users.Update(user);
         await _context.SaveChangesAsync();
         
-        return Ok($"email changed id - {user.Id}; new email - {user.UserName}");
+        return Ok($"email changed id - {user.UserId}; new email - {user.UserName}");
     }
 
     [HttpPut("password/{userId}")]
@@ -60,7 +60,7 @@ public class ChangeController : ControllerBase
         _context.Users.Update(user);
         await _context.SaveChangesAsync();
         
-        return Ok($"password changed id - {user.Id}; new password - {user.Password}");
+        return Ok($"password changed id - {user.UserId}; new password - {user.Password}");
     }
     
     [HttpPut("image")]
@@ -69,7 +69,7 @@ public class ChangeController : ControllerBase
         var user = await _usersController.GetUserById(request.UserId);
         if (user == null) return BadRequest("Something went wrong");
 
-        user.Image = request.Image;
+        user.ProfileImage = request.Image;
         _context.Users.Update(user);
         await _context.SaveChangesAsync();
         
@@ -82,7 +82,7 @@ public class ChangeController : ControllerBase
         await _context.SaveChangesAsync();
 
         //return File(user.Image, "application/png", "users test.png");
-        return Ok($"image changed {user.Id} {request.Image} {user.UserName} {user.Image}" );
+        return Ok($"image changed {user.UserId} {request.Image} {user.UserName} {user.ProfileImage}" );
     }
 
     

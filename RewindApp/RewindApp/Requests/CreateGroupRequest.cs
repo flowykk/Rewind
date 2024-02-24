@@ -1,11 +1,12 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace RewindApp.Models.RequestsModels;
+namespace RewindApp.RequestsModels;
 
 public class CreateGroupRequest
 {
-    [Required, EmailAddress]
-    public string GroupOwnerEmail { get; set; } = string.Empty;
+    [Required]
+    public int OwnerId { get; set; }
+    
     [Required]
     public string GroupName { get; set; } = string.Empty;
 

@@ -1,4 +1,4 @@
-namespace RewindApp.Models.Requests.ChangeRequests;
+namespace RewindApp.Requests.ChangeRequests;
 
 public class ChangeUserNameRequest
 {

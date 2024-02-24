@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RewindApp.Data;
 using RewindApp.Models;
-using RewindApp.Models.RequestsModels;
+using RewindApp.Requests;
 using RewindApp.Services;
 
 namespace RewindApp.Controllers;
@@ -55,12 +55,12 @@ public class RegisterController : ControllerBase
             Email = request.Email,
             Password = passwordHash,
             RegistrationDateTime = DateTime.Now,
-            Image = Array.Empty<byte>()
+            ProfileImage = Array.Empty<byte>()
         };
 
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
 
-        return Ok($"{user.Id}");
+        return Ok($"{user.UserId}");
     }
 }

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RewindApp.Data;
 using RewindApp.Models;
-using RewindApp.Models.RequestsModels;
+using RewindApp.RequestsModels;
 using RewindApp.Services;
 
 namespace RewindApp.Controllers;
@@ -53,6 +53,6 @@ public class LoginController : ControllerBase
             return BadRequest("Incorrect password!");
         }
 
-        return Ok($"{user.Id}");
+        return Ok($"{user.UserId}");
     }
 }

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RewindApp.Data;
 using RewindApp.Models;
-using RewindApp.Models.RequestsModels;
+using RewindApp.RequestsModels;
 using RewindApp.Services;
 
 namespace RewindApp.Controllers;
@@ -32,6 +32,12 @@ public class UsersController : ControllerBase, IUsersController
         _logger = logger;
         _emailSender = emailSender;
         _userService = userService;
+    }
+    
+    [HttpGet("groups/{userId}")]
+    public async Task<ActionResult<IEnumerable<Groups>>> GetUserGroups(int userId)
+    {
+        return await _context.Groups.Where(group => group.OwnerId == userId).ToListAsync();
     }
 
     [HttpGet]
@@ -63,7 +69,7 @@ public class UsersController : ControllerBase, IUsersController
             return BadRequest("Something went wrong");
         }
         
-        return File(user.Image, "application/png", "result.png");
+        return File(user.ProfileImage, "application/png", "result.png");
     }
     
     [HttpGet("send-code/{receiverEmail}")]
@@ -88,7 +94,7 @@ public class UsersController : ControllerBase, IUsersController
 
     public async Task<User?> GetUserById(int userId)
     {
-        var user = await _context.Users.FirstOrDefaultAsync(user => user.Id == userId);
+        var user = await _context.Users.FirstOrDefaultAsync(user => user.UserId == userId);
         return user;
     }
 }

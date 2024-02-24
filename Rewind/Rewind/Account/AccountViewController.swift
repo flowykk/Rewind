@@ -25,6 +25,8 @@ final class AccountViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        appIconCollectionView.presenter = presenter
+        presenter?.collectionView = appIconCollectionView
         presenter?.viewDidLoad()
         configureUI()
     }
@@ -71,7 +73,7 @@ extension AccountViewController {
         view.addSubview(scrollView)
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         
-        scrollView.showsVerticalScrollIndicator = true
+        scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.backgroundColor = .white
         
@@ -158,9 +160,6 @@ extension AccountViewController {
     private func configureAppIconCollectionView() {
         contentView.addSubview(appIconCollectionView)
         appIconCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        
-        presenter?.collectionView = appIconCollectionView
-        appIconCollectionView.presenter = presenter
         
         appIconCollectionView.pinLeft(to: contentView.leadingAnchor, 20)
         appIconCollectionView.pinRight(to: contentView.trailingAnchor, 20)

@@ -15,4 +15,13 @@ enum AppIcon: String, CaseIterable {
     case AppIconGreen
     case AppIconGradient
     case AppIconGradientCircle
+    
+    static func indexForCase(withValue stringValue: String) -> Int? {
+        for (index, caseValue) in AppIcon.allCases.enumerated() {
+            if caseValue.rawValue == stringValue {
+                return index
+            }
+        }
+        return nil
+    }
 }

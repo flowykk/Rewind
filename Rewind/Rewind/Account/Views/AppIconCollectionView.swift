@@ -9,6 +9,7 @@ import UIKit
 
 final class AppIconCollectionView: UICollectionView {
     weak var presenter: AccountPresenter?
+    var selectedAppIconIndexPath: IndexPath?
     
     init() {
         let layout = UICollectionViewFlowLayout()
@@ -34,7 +35,7 @@ final class AppIconCollectionView: UICollectionView {
     
     // MARK: - Presenter To View
     func updateSelectedCell(at index: Int) {
-        guard let cell = cellForItem(at: IndexPath(row: index, section: 0)) as? AppIconCell else { return }
+        guard let cell = cellForItem(at: IndexPath(item: index, section: 0)) as? AppIconCell else { return }
         cell.makeSelected()
     }
 }
@@ -42,8 +43,19 @@ final class AppIconCollectionView: UICollectionView {
 // MARK: - UICollectionViewDelegate
 extension AppIconCollectionView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let icon = AppIcon.allCases[indexPath.row]
-        presenter?.didSelectAppIcon(icon, at: indexPath.row)
+        if let previousSelectedIndexPath = selectedAppIconIndexPath {
+            collectionView.deselectItem(at: previousSelectedIndexPath, animated: false)
+            if let previousSelectedCell = collectionView.cellForItem(at: previousSelectedIndexPath) as? AppIconCell {
+                previousSelectedCell.makeUnselected()
+            }
+        }
+        
+        selectedAppIconIndexPath = indexPath
+        
+        if collectionView.cellForItem(at: indexPath) is AppIconCell {
+            let icon = AppIcon.allCases[indexPath.row]
+            presenter?.didSelectAppIcon(icon, at: indexPath.row)
+        }
     }
 }
 

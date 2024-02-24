@@ -9,6 +9,7 @@ import UIKit
 
 final class AppIconCell: UICollectionViewCell {
     private let appIconView: UIImageView = UIImageView()
+    static var initialSelectedIcon: String = ""
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -21,12 +22,19 @@ final class AppIconCell: UICollectionViewCell {
     
     func configure(withImage name: String) {
         appIconView.image = UIImage(named: name)
+        if AppIconCell.initialSelectedIcon == name {
+            makeSelected()
+        }
     }
     
     func makeSelected() {
         layer.borderColor = UIColor.systemTeal.cgColor
         layer.borderWidth = 4
         layer.cornerRadius = 10
+    }
+    
+    func makeUnselected() {
+        layer.borderWidth = 0
     }
 }
 

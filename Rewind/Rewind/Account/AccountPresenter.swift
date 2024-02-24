@@ -29,7 +29,7 @@ final class AccountPresenter {
         } else {
             UIApplication.shared.setAlternateIconName(icon.rawValue)
         }
-        collectionView?.updateSelectedCell(at: index)
+        updateSelection(idnex: index)
     }
     
     // MARK: - Presenter To View
@@ -37,6 +37,14 @@ final class AccountPresenter {
         if let avatarImage = imageFromBase64String(base64String: DataManager.shared.getAvatarBase64String()) {
             view?.setAvatarImage(image: avatarImage)
         }
+        let currentIconName = UIApplication.shared.alternateIconName ?? "AppIconWhite"
+        AppIconCell.initialSelectedIcon = currentIconName
+        let index = AppIcon.indexForCase(withValue: currentIconName) ?? 0
+        collectionView?.selectedAppIconIndexPath = IndexPath(item: index, section: 0)
+    }
+    
+    func updateSelection(idnex: Int) {
+        collectionView?.updateSelectedCell(at: idnex)
     }
 }
 

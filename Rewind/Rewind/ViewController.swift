@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+final class ViewController: UIViewController {
     private let button: UIButton = UIButton(type: .system)
     
     override func viewDidLoad() {

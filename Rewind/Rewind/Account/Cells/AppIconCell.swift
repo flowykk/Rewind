@@ -7,7 +7,7 @@
 
 import UIKit
 
-class AppIconCell: UICollectionViewCell {
+final class AppIconCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureCell()

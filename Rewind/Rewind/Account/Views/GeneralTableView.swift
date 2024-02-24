@@ -31,7 +31,7 @@ final class GeneralTableView: UITableView {
     private func commonInit() {
         delegate = self
         dataSource = self
-        register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        register(CustomTableViewCell.self, forCellReuseIdentifier: "cell")
         isScrollEnabled = false
         layer.cornerRadius = 20
         rowHeight = 50
@@ -52,9 +52,36 @@ extension GeneralTableView: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = generalItems[indexPath.row]
-        cell.textLabel?.font = UIFont.systemFont(ofSize: 18, weight: .medium)
-        cell.backgroundColor = .systemGray6
-        return cell
+        guard let generalItemCell = cell as? CustomTableViewCell else { return cell }
+        let name = generalItems[indexPath.row]
+        let iconName = getIconName(fromName: name)
+        generalItemCell.configure(withName: name, iconName: iconName, tintColor: .darkGray, squareColor: .systemGray4)
+        return generalItemCell
+    }
+}
+
+// MARK: - Private funcs
+extension GeneralTableView {
+    private func getIconName(fromName name: String) -> String {
+        switch name {
+        case "Edit profile image":
+            return "photo"
+        case "Edit name":
+            return "pencil"
+        case "Edit password":
+            return "shield.lefthalf.filled"
+        case "Edit email":
+            return "envelope.fill"
+        case "Add a widget":
+            return "plus"
+        case "View groups":
+            return "eye.fill"
+        case "Get help":
+            return "questionmark.circle.fill"
+        case "Share with friends":
+            return "square.and.arrow.up.fill"
+        default:
+            return ""
+        }
     }
 }

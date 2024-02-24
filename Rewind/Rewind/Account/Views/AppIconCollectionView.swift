@@ -27,7 +27,7 @@ final class AppIconCollectionView: UICollectionView {
         showsHorizontalScrollIndicator = false
         backgroundColor = .systemGray6
         layer.cornerRadius = 20
-        setHeight(100)
+        setHeight(90)
     }
 }
 

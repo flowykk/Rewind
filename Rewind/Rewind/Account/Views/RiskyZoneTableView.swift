@@ -25,7 +25,7 @@ final class RiskyZoneTableView: UITableView {
     private func commonInit() {
         delegate = self
         dataSource = self
-        register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        register(CustomTableViewCell.self, forCellReuseIdentifier: "cell")
         isScrollEnabled = false
         layer.cornerRadius = 20
         rowHeight = 50
@@ -46,10 +46,24 @@ extension RiskyZoneTableView: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = riskyZoneItems[indexPath.row]
-        cell.textLabel?.font = UIFont.systemFont(ofSize: 18, weight: .medium)
-        cell.textLabel?.textColor = .systemRed
-        cell.backgroundColor = .systemGray6
-        return cell
+        guard let customCell = cell as? CustomTableViewCell else { return cell }
+        let name = riskyZoneItems[indexPath.row]
+        let iconName = getIconName(fromName: name)
+        customCell.configure(withName: name, iconName: iconName, tintColor: .systemRed, squareColor: .systemRed.withAlphaComponent(0.3))
+        return customCell
+    }
+}
+
+// MARK: - Private funcs
+extension RiskyZoneTableView {
+    private func getIconName(fromName name: String) -> String {
+        switch name {
+        case "Log out":
+            return "rectangle.portrait.and.arrow.forward.fill"
+        case "Delete account":
+            return "xmark.bin.fill"
+        default:
+            return ""
+        }
     }
 }

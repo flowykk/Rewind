@@ -8,6 +8,8 @@
 import UIKit
 
 final class AppIconCollectionView: UICollectionView {
+    weak var presenter: AccountPresenter?
+    
     init() {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -29,22 +31,33 @@ final class AppIconCollectionView: UICollectionView {
         layer.cornerRadius = 20
         setHeight(90)
     }
+    
+    // MARK: - Presenter To View
+    func updateSelectedCell(at index: Int) {
+        guard let cell = cellForItem(at: IndexPath(row: index, section: 0)) as? AppIconCell else { return }
+        cell.makeSelected()
+    }
 }
 
 // MARK: - UICollectionViewDelegate
 extension AppIconCollectionView: UICollectionViewDelegate {
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let icon = AppIcon.allCases[indexPath.row]
+        presenter?.didSelectAppIcon(icon, at: indexPath.row)
+    }
 }
 
 // MARK: - UICollectionViewDataSource
 extension AppIconCollectionView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 7
+        return AppIcon.allCases.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
         guard let appIconCell = cell as? AppIconCell else { return cell }
+        let name = AppIcon.allCases[indexPath.row].rawValue
+        appIconCell.configure(withImage: name)
         return appIconCell
     }
 }

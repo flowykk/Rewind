@@ -18,7 +18,7 @@ final class AccountViewController: UIViewController {
     private let generalLabel: UILabel = UILabel()
     private let generalTable: UITableView = GeneralTableView()
     private let appIconLabel: UILabel = UILabel()
-    private var appIconCollectionView: UICollectionView = AppIconCollectionView()
+    private var appIconCollectionView: AppIconCollectionView = AppIconCollectionView()
     private let riskyZoneLabel: UILabel = UILabel()
     private let riskyZoneTabel: UITableView = RiskyZoneTableView()
     private let daysLabel: UILabel = UILabel()
@@ -158,6 +158,9 @@ extension AccountViewController {
     private func configureAppIconCollectionView() {
         contentView.addSubview(appIconCollectionView)
         appIconCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        
+        presenter?.collectionView = appIconCollectionView
+        appIconCollectionView.presenter = presenter
         
         appIconCollectionView.pinLeft(to: contentView.leadingAnchor, 20)
         appIconCollectionView.pinRight(to: contentView.trailingAnchor, 20)

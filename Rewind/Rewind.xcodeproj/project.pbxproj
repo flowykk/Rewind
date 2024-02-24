@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		550109852B89E99D0005F1D5 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550109842B89E99D0005F1D5 /* CustomTableViewCell.swift */; };
+		550109892B8A36FE0005F1D5 /* AppIconModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550109882B8A36FE0005F1D5 /* AppIconModel.swift */; };
 		551426FE2B88CBC6000446E9 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551426FD2B88CBC6000446E9 /* AccountViewController.swift */; };
 		551427002B88CBD5000446E9 /* AccountPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551426FF2B88CBD5000446E9 /* AccountPresenter.swift */; };
 		551427022B88CBEA000446E9 /* AccountRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551427012B88CBEA000446E9 /* AccountRouter.swift */; };
@@ -50,6 +51,7 @@
 
 /* Begin PBXFileReference section */
 		550109842B89E99D0005F1D5 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
+		550109882B8A36FE0005F1D5 /* AppIconModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIconModel.swift; sourceTree = "<group>"; };
 		551426FD2B88CBC6000446E9 /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		551426FF2B88CBD5000446E9 /* AccountPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountPresenter.swift; sourceTree = "<group>"; };
 		551427012B88CBEA000446E9 /* AccountRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountRouter.swift; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 				551426FF2B88CBD5000446E9 /* AccountPresenter.swift */,
 				551427012B88CBEA000446E9 /* AccountRouter.swift */,
 				551427032B88CBF4000446E9 /* AccountBuilder.swift */,
+				550109882B8A36FE0005F1D5 /* AppIconModel.swift */,
 			);
 			path = Account;
 			sourceTree = "<group>";
@@ -356,6 +359,7 @@
 				551427082B89375C000446E9 /* AppIconCell.swift in Sources */,
 				55A326C12B8263C8007C9B74 /* EnterPasswordPresenter.swift in Sources */,
 				55A326A32B82204E007C9B74 /* EnterEmailPresenter.swift in Sources */,
+				550109892B8A36FE0005F1D5 /* AppIconModel.swift in Sources */,
 				55A326B02B82535E007C9B74 /* UserModel.swift in Sources */,
 				55A326B92B8259F1007C9B74 /* EnterCodeRouter.swift in Sources */,
 				55A326B32B825453007C9B74 /* EnterCodeViewController.swift in Sources */,
@@ -516,7 +520,7 @@
 		55A326792B81F8FE007C9B74 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconWhite;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -545,7 +549,7 @@
 		55A3267A2B81F8FE007C9B74 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconWhite;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;

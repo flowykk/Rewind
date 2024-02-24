@@ -10,6 +10,7 @@ import UIKit
 
 final class AccountPresenter {
     private weak var view: AccountViewController?
+    weak var collectionView: AppIconCollectionView?
     private var router: AccountRouter
     
     init(view: AccountViewController?, router: AccountRouter) {
@@ -20,6 +21,15 @@ final class AccountPresenter {
     // MARK: - View To Presenter
     func backButtonTapped() {
         router.navigateToRewind()
+    }
+    
+    func didSelectAppIcon(_ icon: AppIcon, at index: Int) {
+        if icon == .AppIconWhite {
+            UIApplication.shared.setAlternateIconName(nil)
+        } else {
+            UIApplication.shared.setAlternateIconName(icon.rawValue)
+        }
+        collectionView?.updateSelectedCell(at: index)
     }
     
     // MARK: - Presenter To View

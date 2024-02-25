@@ -8,6 +8,7 @@
 
     <ItemGroup>
         <PackageReference Include="MailKit" Version="4.3.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.21" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.25" />
         <PackageReference Include="MySql.Data" Version="8.2.0" />
         <PackageReference Include="MySql.EntityFrameworkCore" Version="6.0.21" />

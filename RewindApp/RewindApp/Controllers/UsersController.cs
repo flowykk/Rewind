@@ -30,12 +30,6 @@ public class UsersController : ControllerBase, IUsersController
         _emailSender = emailSender;
         _userService = userService;
     }
-    
-    [HttpGet("groups/{userId}")]
-    public async Task<ActionResult<IEnumerable<Group>>> GetUserGroups(int userId)
-    {
-        return await _context.Groups.Where(group => group.OwnerId == userId).ToListAsync();
-    }
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<User>>> GetUsers()
@@ -89,6 +83,7 @@ public class UsersController : ControllerBase, IUsersController
         return user;
     }
 
+    [HttpGet("{userId}")]
     public async Task<User?> GetUserById(int userId)
     {
         var user = await _context.Users.FirstOrDefaultAsync(user => user.UsersId == userId);

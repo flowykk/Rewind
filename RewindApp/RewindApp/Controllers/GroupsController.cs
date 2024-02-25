@@ -26,7 +26,33 @@ public class GroupsController : ControllerBase
     {
         return await _context.Groups.ToListAsync();
     }
+    
+    [HttpGet("{userId}")]
+    public async Task<IEnumerable<Group>> GetGroupsByUser(int userId)
+    {
+        var users = await _context.Users
+            .Include(user => user.Groups)
+            .ToListAsync();
 
+        return users
+            .Where(user => user.UsersId == userId)
+            .SelectMany(user => user.Groups)
+            .ToList();
+    }
+    
+    [HttpGet("users/{groupId}")]
+    public async Task<IEnumerable<User>> GetUsersByGroup(int groupId)
+    {
+        var groups = await _context.Groups
+            .Include(group => group.Users)
+            .ToListAsync();
+
+        return groups
+            .Where(group => group.GroupsId == groupId)
+            .SelectMany(group => group.Users)
+            .ToList();
+    }
+    
     [HttpPost("create")]
     public async Task<ActionResult> CreateGroup(CreateGroupRequest request)
     {
@@ -43,12 +69,10 @@ public class GroupsController : ControllerBase
         };
 
         var owner = _usersController.GetUserById(request.OwnerId).Result;
-        if (owner == null) return BadRequest("No user with such ownerId");
+        if (owner == null) return BadRequest($"No user with Id {request.OwnerId}");
 
         group.Users.Add(owner);
         owner.Groups.Add(group);
-        //group.Users = new List<User> { owner };
-        //owner.Groups = new List<Group> { group };
         _context.Groups.Add(group);
 
         await _context.SaveChangesAsync();
@@ -56,11 +80,62 @@ public class GroupsController : ControllerBase
         return Ok("Group was created successfully!");
     }
 
+    [HttpPost("add/{groupId}/{userId}")]
+    public async Task<ActionResult> AddUserToGroup(int groupId, int userId)
+    {
+        var group = await GetGroupById(groupId);
+        if (group == null) return BadRequest($"No group with Id {groupId}");
+        if (GetGroupsByUser(userId).Result.ToList().Contains(group)) 
+            return BadRequest($"Group {groupId} already contains User {userId}");
+
+        var user = await _usersController.GetUserById(userId);
+        if (user == null) return BadRequest($"No user with Id {userId}");
+
+        group.Users.Add(user);
+        user.Groups.Add(group);
+        await _context.SaveChangesAsync();
+
+        return Ok($"User {userId} was successfully added to group {groupId} {group.Users.Count}");
+    }
+
+    [HttpPut("delete/{groupId}/{userId}")]
+    public async Task<ActionResult> DeleteUserFromGroup(int groupId, int userId)
+    {
+        var group = await GetGroupById(groupId);
+        if (group == null) return BadRequest($"No group with Id {groupId}");
+
+        var user = await _usersController.GetUserById(userId);
+        if (user == null) return BadRequest($"No user with Id {userId}");
+        
+        /*group.Users.Remove(user);
+        _context.Groups.Update(group);
+        
+        user.Groups.Remove(group);
+        _context.Users.Update(user);
+        
+        await _context.SaveChangesAsync();*/
+
+        var newUsers = GetUsersByGroup(groupId).Result.ToList();
+        newUsers.Remove(user);
+        group.Users = newUsers;
+        _context.Groups.Update(group);
+        //await _context.SaveChangesAsync();
+        
+        var newGroups = GetGroupsByUser(userId).Result.ToList();
+        newGroups.Remove(group);
+        user.Groups = newGroups;
+        _context.Users.Update(user);
+        
+        await _context.SaveChangesAsync();
+
+        return Ok($"{user.Groups.Count} {group.Users.Count} User {userId} was successfully removed from group {groupId}");
+    }
+
     [HttpDelete("delete/{groupId}")]
     public async Task<ActionResult> DeleteGroup(int groupId)
     {
-        var group = GetGroupById(groupId);
-        if (group == null) return BadRequest("No group with such Id");
+        var group = await GetGroupById(groupId);
+        if (group == null) return BadRequest($"No group with Id {groupId}");
 
         _context.Groups.Remove(group);
         await _context.SaveChangesAsync();
@@ -69,9 +144,9 @@ public class GroupsController : ControllerBase
         return Ok($"Group was deleted successfully! {group.Users.Count} {_usersController.GetUserById(group.OwnerId).Result.UserName} {_usersController.GetUserById(group.OwnerId).Result.Groups.Count} {group.GroupsId} {group.GroupName}");
     }
     
-    public Group? GetGroupById(int groupId)
+    public Task<Group?> GetGroupById(int groupId)
     {
-        var group = _context.Groups.FirstOrDefaultAsync(group => group.GroupsId == groupId).Result;
+        var group = _context.Groups.FirstOrDefaultAsync(group => group.GroupsId == groupId);
         return group;
     }
 }

@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
 
 namespace RewindApp.Entities;
 
@@ -14,6 +15,7 @@ public class Group
     [Required]
     public byte[] GroupImage { get; set; } = Array.Empty<byte>();
 
+    [IgnoreDataMember]
     public ICollection<User> Users { get; set; } = new List<User>();
 }
  

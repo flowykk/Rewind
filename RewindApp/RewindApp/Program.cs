@@ -19,7 +19,10 @@ builder.Services.AddTransient<IUserService, UserService>();
 //builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<DataContext>(options => options.UseMySQL(
     builder.Configuration.GetConnectionString("default")
-).LogTo(Console.WriteLine));
+) ); //.LogTo(Console.WriteLine));
+builder.Services.AddControllers().AddNewtonsoftJson(options =>
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+);
 
 var app = builder.Build();
 app.UseMiddleware<GlobalRoutePrefixMiddleware>("/api");

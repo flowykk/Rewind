@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RewindApp.Data;
-using RewindApp.Models;
+using RewindApp.Entities;
 using RewindApp.Requests.ChangeRequests;
 using RewindApp.Services;
 
@@ -25,7 +25,7 @@ public class ChangeController : ControllerBase
     }
 
     [HttpPut("name/{userId}")]
-    public async Task<ActionResult> ChangeName(int userId, ChangeUserNameRequest request)
+    public async Task<ActionResult> ChangeName(int userId, UserNameRequest request)
     {
         var user = await _usersController.GetUserById(userId);
         if (user == null) return BadRequest($"error");
@@ -34,11 +34,11 @@ public class ChangeController : ControllerBase
         _context.Users.Update(user);
         await _context.SaveChangesAsync();
         
-        return Ok($"name changed id - {user.UserId}; new name - {user.UserName}");
+        return Ok($"name changed id - {user.UserName}; new name - {user.UserName}");
     }
     
     [HttpPut("email/{userId}")]
-    public async Task<ActionResult> ChangeEmail(int userId, ChangeUserEmailRequest request)
+    public async Task<ActionResult> ChangeEmail(int userId, UserEmailRequest request)
     {
         var user = await _usersController.GetUserById(userId);
         if (user == null) return BadRequest($"error");
@@ -47,11 +47,11 @@ public class ChangeController : ControllerBase
         _context.Users.Update(user);
         await _context.SaveChangesAsync();
         
-        return Ok($"email changed id - {user.UserId}; new email - {user.UserName}");
+        return Ok($"email changed id - {user.UsersId}; new email - {user.UserName}");
     }
 
     [HttpPut("password/{userId}")]
-    public async Task<ActionResult> ChangePassword(int userId, ChangeUserPasswordRequest request)
+    public async Task<ActionResult> ChangePassword(int userId, UserPasswordRequest request)
     {
         var user = await _usersController.GetUserById(userId);
         if (user == null) return BadRequest($"error");
@@ -60,7 +60,7 @@ public class ChangeController : ControllerBase
         _context.Users.Update(user);
         await _context.SaveChangesAsync();
         
-        return Ok($"password changed id - {user.UserId}; new password - {user.Password}");
+        return Ok($"password changed id - {user.UsersId}; new password - {user.Password}");
     }
     
     [HttpPut("image")]
@@ -82,7 +82,7 @@ public class ChangeController : ControllerBase
         await _context.SaveChangesAsync();
 
         //return File(user.Image, "application/png", "users test.png");
-        return Ok($"image changed {user.UserId} {request.Image} {user.UserName} {user.ProfileImage}" );
+        return Ok($"image changed {user.UsersId} {request.Image} {user.UserName} {user.ProfileImage}" );
     }
 
     

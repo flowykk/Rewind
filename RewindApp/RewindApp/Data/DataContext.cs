@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using RewindApp.Models;
+using RewindApp.Entities;
 
 namespace RewindApp.Data;
 
@@ -17,7 +17,7 @@ public class DataContext : DbContext
     }
 
     public DbSet<User> Users => Set<User>();
-    public DbSet<Groups> Groups => Set<Groups>(); 
+    public DbSet<Group> Groups => Set<Group>(); 
     public DbSet<Media> Media => Set<Media>();
-    public DbSet<GroupMembers> GroupMembers => Set<GroupMembers>();
+    //public DbSet<GroupUser> GroupUsers => Set<GroupUser>();
 }

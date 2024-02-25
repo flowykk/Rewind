@@ -1,10 +1,7 @@
-using System.Security.Cryptography;
-using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RewindApp.Data;
-using RewindApp.Models;
-using RewindApp.RequestsModels;
+using RewindApp.Entities;
 using RewindApp.Services;
 
 namespace RewindApp.Controllers;
@@ -35,7 +32,7 @@ public class UsersController : ControllerBase, IUsersController
     }
     
     [HttpGet("groups/{userId}")]
-    public async Task<ActionResult<IEnumerable<Groups>>> GetUserGroups(int userId)
+    public async Task<ActionResult<IEnumerable<Group>>> GetUserGroups(int userId)
     {
         return await _context.Groups.Where(group => group.OwnerId == userId).ToListAsync();
     }
@@ -94,7 +91,7 @@ public class UsersController : ControllerBase, IUsersController
 
     public async Task<User?> GetUserById(int userId)
     {
-        var user = await _context.Users.FirstOrDefaultAsync(user => user.UserId == userId);
+        var user = await _context.Users.FirstOrDefaultAsync(user => user.UsersId == userId);
         return user;
     }
 }

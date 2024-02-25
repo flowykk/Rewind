@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RewindApp.Data;
-using RewindApp.Models;
+using RewindApp.Entities;
 
 namespace RewindApp.Controllers;
 
@@ -24,11 +24,15 @@ public class MediaController : ControllerBase
         return await _context.Media.ToListAsync();
     }
     
+    // may be - public async ActionResult<Media> GetMediaById(int id)
     [HttpGet("{id}")]
     public async Task<ActionResult<Media>> GetMediaById(int id)
     {
-        // Возврат медиа-файла 
-        return File(_context.Media.FirstOrDefaultAsync(media => media.Id == id).Result.Photo, "application/png", "result.png");
+        // Возврат медиа-файла
+        var result = _context.Media.FirstOrDefaultAsync(media => media.Id == id).Result;
+        if (result == null) return BadRequest("No media with such Id");
+        
+        return File(result.Photo, "application/png", "result.png");
         
         // Возврат массива байтов для медиа-файлов
         //return await _context.Media.FirstOrDefaultAsync(media => media.Id == id);

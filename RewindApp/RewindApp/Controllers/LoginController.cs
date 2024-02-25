@@ -1,9 +1,4 @@
-using System.Security.Cryptography;
-using System.Text;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using RewindApp.Data;
-using RewindApp.Models;
 using RewindApp.RequestsModels;
 using RewindApp.Services;
 
@@ -13,14 +8,12 @@ namespace RewindApp.Controllers;
 [Route("[controller]")]
 public class LoginController : ControllerBase
 {
-    private readonly DataContext _context;
     private readonly ILogger<LoginController> _logger;
     private readonly IUsersController _usersController;
     private readonly IUserService _userService;
 
-    public LoginController(DataContext context, ILogger<LoginController> logger, IUsersController usersController, IUserService userService)
+    public LoginController(ILogger<LoginController> logger, IUsersController usersController, IUserService userService)
     {
-        _context = context;
         _logger = logger;
         _usersController = usersController;
         _userService = userService;
@@ -53,6 +46,6 @@ public class LoginController : ControllerBase
             return BadRequest("Incorrect password!");
         }
 
-        return Ok($"{user.UserId}");
+        return Ok($"{user.UsersId}");
     }
 }

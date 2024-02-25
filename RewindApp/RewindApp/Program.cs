@@ -19,7 +19,7 @@ builder.Services.AddTransient<IUserService, UserService>();
 //builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<DataContext>(options => options.UseMySQL(
     builder.Configuration.GetConnectionString("default")
-));
+).LogTo(Console.WriteLine));
 
 var app = builder.Build();
 app.UseMiddleware<GlobalRoutePrefixMiddleware>("/api");

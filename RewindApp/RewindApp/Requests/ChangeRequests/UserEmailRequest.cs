@@ -1,6 +1,9 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace RewindApp.Requests.ChangeRequests;
 
-public class ChangeUserEmailRequest
+public class UserEmailRequest
 {
+    [Required]
     public string Email { get; set; } = string.Empty;
 }

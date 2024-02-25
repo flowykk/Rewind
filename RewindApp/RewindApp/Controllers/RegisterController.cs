@@ -1,9 +1,6 @@
-using System.Security.Cryptography;
-using System.Text;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using RewindApp.Data;
-using RewindApp.Models;
+using RewindApp.Entities;
 using RewindApp.Requests;
 using RewindApp.Services;
 
@@ -61,6 +58,6 @@ public class RegisterController : ControllerBase
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
 
-        return Ok($"{user.UserId}");
+        return Ok($"{user.UsersId}");
     }
 }

@@ -66,10 +66,13 @@ extension EnterNameViewController {
         view.addSubview(nameField)
         nameField.translatesAutoresizingMaskIntoConstraints = false
         
+        nameField.delegate = self
+        
         nameField.backgroundColor = .systemGray6
         nameField.placeholder = "Name"
         nameField.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         nameField.layer.cornerRadius = 15
+        nameField.returnKeyType = .done
         
         nameField.leftView = UIView(frame: CGRect(x: .zero, y: .zero, width: 20, height: 50))
         nameField.rightView = UIView(frame: CGRect(x: .zero, y: .zero, width: 20, height: 50))
@@ -99,5 +102,11 @@ extension EnterNameViewController {
         continueButton.pinCenterX(to: view.centerXAnchor)
         continueButton.setHeight(60)
         continueButton.setWidth(200)
+    }
+}
+
+extension EnterNameViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        view.endEditing(true)
     }
 }

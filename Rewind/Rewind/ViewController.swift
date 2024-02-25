@@ -12,6 +12,7 @@ final class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.hidesBackButton = true
         view.backgroundColor = .systemTeal
         NetworkService.getAvatar { response in
             if response.success {

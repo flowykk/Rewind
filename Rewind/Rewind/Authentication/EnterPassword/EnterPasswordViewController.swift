@@ -85,10 +85,14 @@ extension EnterPasswordViewController {
         view.addSubview(passwordField)
         passwordField.translatesAutoresizingMaskIntoConstraints = false
         
+        passwordField.delegate = self
+        
         passwordField.backgroundColor = .systemGray6
         passwordField.placeholder = "Password"
         passwordField.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         passwordField.layer.cornerRadius = 15
+        passwordField.returnKeyType = .done
+        passwordField.isSecureTextEntry = true
         
         passwordField.leftView = UIView(frame: CGRect(x: .zero, y: .zero, width: 20, height: 50))
         passwordField.rightView = UIView(frame: CGRect(x: .zero, y: .zero, width: 20, height: 50))
@@ -118,5 +122,12 @@ extension EnterPasswordViewController {
         continueButton.pinCenterX(to: view.centerXAnchor)
         continueButton.setHeight(60)
         continueButton.setWidth(200)
+    }
+}
+
+// MARK: - UITextFieldDelegate
+extension EnterPasswordViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        view.endEditing(true)
     }
 }

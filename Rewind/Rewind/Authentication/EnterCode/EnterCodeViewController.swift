@@ -97,12 +97,13 @@ extension EnterCodeViewController {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         
+        textField.delegate = self
+        
         textField.backgroundColor = .systemGray6
         textField.layer.cornerRadius = 15
         textField.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         textField.keyboardType = .numberPad
         textField.textAlignment = .center
-        textField.delegate = self
         
         textField.setWidth(60)
         textField.setHeight(70)

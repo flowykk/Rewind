@@ -85,10 +85,13 @@ extension EnterEmailViewController {
         view.addSubview(emailField)
         emailField.translatesAutoresizingMaskIntoConstraints = false
         
+        emailField.delegate = self
+        
         emailField.backgroundColor = .systemGray6
         emailField.placeholder = "Email address"
         emailField.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         emailField.layer.cornerRadius = 15
+        emailField.returnKeyType = .done
         
         emailField.autocapitalizationType = .none
         emailField.autocorrectionType = .no
@@ -122,5 +125,12 @@ extension EnterEmailViewController {
         continueButton.pinCenterX(to: view.centerXAnchor)
         continueButton.setHeight(60)
         continueButton.setWidth(200)
+    }
+}
+
+extension EnterEmailViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        view.endEditing(true)
+        return false
     }
 }

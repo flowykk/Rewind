@@ -17,6 +17,20 @@ final class EnterPasswordPresenter {
     }
     
     // MARK: - View To Presenter
+    func viewDidLoad() {
+        let process = DataManager.shared.getUserProcess()
+        var text = ""
+        var decision = false
+        if process == .registration {
+            text = "Choose a password"
+        } else if process == .authorization {
+            text = "Enter your password"
+            decision = true
+        }
+        configureLabel(withText: text)
+        configureShowForgotPasswordButton(withDecision: decision)
+    }
+    
     func backButtonTapped() {
         router.navigateToEnterCode()
     }
@@ -35,6 +49,15 @@ final class EnterPasswordPresenter {
             // TODO: something
             return
         }
+    }
+    
+    // MARK: - Presenter To View
+    func configureLabel(withText text: String) {
+        view?.configureLabel(withText: text)
+    }
+    
+    func configureShowForgotPasswordButton(withDecision decision: Bool) {
+        view?.configureForgotPasswordButton(withDecision: decision)
     }
 }
 

@@ -16,6 +16,7 @@ final class EnterEmailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.hideKeyboardWhenTappedAround()
         configureUI()
     }
     

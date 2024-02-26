@@ -16,6 +16,7 @@ final class EnterNameViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.hideKeyboardWhenTappedAround()
         configureUI()
     }
     

@@ -47,6 +47,7 @@
 		55A326CA2B826964007C9B74 /* EnterNamePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A326C92B826964007C9B74 /* EnterNamePresenter.swift */; };
 		55A326CC2B8269F7007C9B74 /* EnterNameRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A326CB2B8269F7007C9B74 /* EnterNameRouter.swift */; };
 		55A326CE2B826A44007C9B74 /* EnterNameBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A326CD2B826A44007C9B74 /* EnterNameBuilder.swift */; };
+		55C121892B8CCA6400520718 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C121882B8CCA6400520718 /* UIViewControllerExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -92,6 +93,7 @@
 		55A326C92B826964007C9B74 /* EnterNamePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterNamePresenter.swift; sourceTree = "<group>"; };
 		55A326CB2B8269F7007C9B74 /* EnterNameRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterNameRouter.swift; sourceTree = "<group>"; };
 		55A326CD2B826A44007C9B74 /* EnterNameBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterNameBuilder.swift; sourceTree = "<group>"; };
+		55C121882B8CCA6400520718 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -192,6 +194,7 @@
 				55A326702B81F8FE007C9B74 /* Assets.xcassets */,
 				55A326722B81F8FE007C9B74 /* LaunchScreen.storyboard */,
 				55A326752B81F8FE007C9B74 /* Info.plist */,
+				55C121882B8CCA6400520718 /* UIViewControllerExtension.swift */,
 			);
 			path = Rewind;
 			sourceTree = "<group>";
@@ -378,6 +381,7 @@
 				55A326A72B822103007C9B74 /* EnterEmailBuilder.swift in Sources */,
 				55A326A12B821E18007C9B74 /* EnterEmailViewController.swift in Sources */,
 				55A326BB2B82612B007C9B74 /* DataManager.swift in Sources */,
+				55C121892B8CCA6400520718 /* UIViewControllerExtension.swift in Sources */,
 				55A326C32B8263D1007C9B74 /* EnterPasswordRouter.swift in Sources */,
 				55A326CA2B826964007C9B74 /* EnterNamePresenter.swift in Sources */,
 				55A3269A2B820F83007C9B74 /* WellcomeBuilder.swift in Sources */,

@@ -21,6 +21,7 @@ final class EnterPasswordViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.hideKeyboardWhenTappedAround()
         presenter?.viewDidLoad()
         configureUI()
     }

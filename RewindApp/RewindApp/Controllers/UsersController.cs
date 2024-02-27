@@ -52,13 +52,10 @@ public class UsersController : ControllerBase, IUsersController
     }
     
     [HttpGet("image/{userId}")]
-    public async Task<ActionResult<byte[]>> GetUserImage(int userId)
+    public async Task<ActionResult> GetUserImage(int userId)
     {
         var user = await GetUserById(userId);
-        if (user == null)
-        {
-            return BadRequest("Something went wrong");
-        }
+        if (user == null) return BadRequest("Something went wrong");
         
         return File(user.ProfileImage, "application/png", "result.png");
     }

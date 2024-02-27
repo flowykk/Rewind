@@ -27,10 +27,7 @@ public class RegisterController : ControllerBase
     public async Task<ActionResult> CheckEmail(string email)
     {
         var user = await _usersController.GetUserByEmail(email);
-        if (user != null)
-        {
-            return BadRequest($"Bad");
-        }
+        if (user != null) return BadRequest($"Bad");
 
         int verificationCode = _usersController.SendVerificationCode(email);
         return Ok(verificationCode);
@@ -39,10 +36,7 @@ public class RegisterController : ControllerBase
     [HttpPost]
     public async Task<ActionResult> Register(UserRegisterRequest request)
     {
-        if (_context.Users.Any(user => user.Email == request.Email))
-        {
-             return BadRequest("User with this email already exists!");
-        }
+        if (_context.Users.Any(user => user.Email == request.Email)) return BadRequest("User with this email already exists!");
         
         string passwordHash = _userService.ComputeHash(request.Password);
         

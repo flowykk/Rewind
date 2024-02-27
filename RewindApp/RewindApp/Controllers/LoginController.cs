@@ -23,28 +23,19 @@ public class LoginController : ControllerBase
     public async Task<ActionResult> CheckEmail(string email)
     {
         var user = await _usersController.GetUserByEmail(email);
-        if (user == null)
-        {
-            return BadRequest("User not found");
-        }
+        if (user == null) return BadRequest("User not found");
 
-        return Ok("Ok");
+        return Ok(user.UsersId);
     }
 
     [HttpPost]
     public async Task<ActionResult> Login(UserLoginRequest request)
     {
         var user = await _usersController.GetUserByEmail(request.Email);
-        if (user == null)
-        {
-            return BadRequest("User not found");
-        }
+        if (user == null) return BadRequest("User not found");
         
         string passwordHash = _userService.ComputeHash(request.Password);
-        if (passwordHash != user.Password)
-        {
-            return BadRequest("Incorrect password!");
-        }
+        if (passwordHash != user.Password) return BadRequest("Incorrect password!");
 
         return Ok($"{user.UsersId}");
     }

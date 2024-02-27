@@ -70,19 +70,13 @@ public class ChangeController : ControllerBase
         if (user == null) return BadRequest("Something went wrong");
 
         user.ProfileImage = request.Image;
+        Console.WriteLine(user.ProfileImage.Length);
         _context.Users.Update(user);
-        await _context.SaveChangesAsync();
         
-        var media = new Media()
-        {
-            Date = DateTime.Now,
-            Photo = request.Image
-        };
-        _context.Media.Add(media);
         await _context.SaveChangesAsync();
 
         //return File(user.Image, "application/png", "users test.png");
-        return Ok($"image changed {user.UsersId} {request.Image} {user.UserName} {user.ProfileImage}" );
+        return Ok($"image changed {user.ProfileImage.Length}" );
     }
 
     

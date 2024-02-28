@@ -4,7 +4,7 @@ using RewindApp.Data;
 using RewindApp.Entities;
 using RewindApp.Services;
 
-namespace RewindApp.Controllers;
+namespace RewindApp.Controllers.UserControllers;
 
 public interface IUsersController
 {

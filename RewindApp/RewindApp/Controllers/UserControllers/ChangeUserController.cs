@@ -3,22 +3,24 @@ using Microsoft.EntityFrameworkCore;
 using RewindApp.Data;
 using RewindApp.Entities;
 using RewindApp.Requests.ChangeRequests;
+using RewindApp.Requests;
 using RewindApp.Services;
 using System.IO;
 using MySql.Data.MySqlClient;
+using RewindApp.Controllers.UserControllers;
 
-namespace RewindApp.Controllers;
+namespace RewindApp.Controllers.UserControllers;
 
 [ApiController]
-[Route("[controller]")]
-public class ChangeController : ControllerBase
+[Route("change-user")]
+public class ChangeUserController : ControllerBase
 {
     private readonly DataContext _context;
-    private readonly ILogger<ChangeController> _logger;
+    private readonly ILogger<ChangeUserController> _logger;
     private readonly IUsersController _usersController;
     private readonly IUserService _userService;
 
-    public ChangeController(DataContext context, ILogger<ChangeController> logger, IUsersController usersController, IUserService userService)
+    public ChangeUserController(DataContext context, ILogger<ChangeUserController> logger, IUsersController usersController, IUserService userService)
     {
         _context = context;
         _logger = logger;
@@ -49,7 +51,7 @@ public class ChangeController : ControllerBase
         _context.Users.Update(user);
         await _context.SaveChangesAsync();
         
-        return Ok($"email changed id - {user.UsersId}; new email - {user.UserName}");
+        return Ok($"email changed id - {user.UsersId}; new email - {user.Email}");
     }
 
     [HttpPut("password/{userId}")]
@@ -122,21 +124,5 @@ public class ChangeController : ControllerBase
 
         //return File(user.Image, "application/png", "users test.png");
         return Ok($"image changed {user.ProfileImage.Length} {media.Photo.Length}" )*/;
-    }
-    
-    [HttpPut("forgot-password/{userId}")]
-    public async Task<ActionResult> ForgotPasswordPassword(string userEmail)
-    {
-        var user = await _context.Users.FirstOrDefaultAsync(user => user.Email == userEmail);
-        if (user == null)
-        {
-            return BadRequest("User not found.");
-        }
-        
-        //TODO: Отправка кода верификации на указанный userEmail - SendEmailAsync(email).GetAwaiter() ???;
-        //TODO: После проверки введённого кода - запрос на новый пароль
-        //TODO: После - обновление пароля
-        
-        return Ok($"Your password was successfully changed!");
     }
 }

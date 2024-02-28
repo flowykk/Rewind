@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using MySql.Data.MySqlClient;
 using RewindApp.Data;
 using RewindApp.Entities;
-using RewindApp.Requests.ChangeRequests;
+using RewindApp.Requests;
 
-namespace RewindApp.Controllers;
+namespace RewindApp.Controllers.MediaControllers;
 
 [ApiController]
 [Route("[controller]")]

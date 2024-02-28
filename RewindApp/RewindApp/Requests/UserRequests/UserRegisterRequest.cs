@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace RewindApp.Requests;
+namespace RewindApp.Requests.UserRequests;
 
 public class UserRegisterRequest
 {

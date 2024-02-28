@@ -1,10 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using RewindApp.Controllers.UserControllers;
 using RewindApp.Data;
 using RewindApp.Entities;
 using RewindApp.RequestsModels;
 
-namespace RewindApp.Controllers;
+namespace RewindApp.Controllers.GroupControllers;
 
 [ApiController]
 [Route("[controller]")]
@@ -141,7 +142,6 @@ public class GroupsController : ControllerBase
         await _context.SaveChangesAsync();
 
         return Ok($"Group was deleted successfully! {group.Users.Count}");
-        return Ok($"Group was deleted successfully! {group.Users.Count} {_usersController.GetUserById(group.OwnerId).Result.UserName} {_usersController.GetUserById(group.OwnerId).Result.Groups.Count} {group.GroupsId} {group.GroupName}");
     }
     
     public Task<Group?> GetGroupById(int groupId)

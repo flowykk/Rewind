@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace RewindApp.Requests.ChangeRequests;
+namespace RewindApp.Requests;
 
 // maybe need to be renamed
 public class MediaRequest

@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using RewindApp.RequestsModels;
+using RewindApp.Requests.UserRequests;
 using RewindApp.Services;
 
-namespace RewindApp.Controllers;
+namespace RewindApp.Controllers.UserControllers;
 
 [ApiController]
 [Route("[controller]")]

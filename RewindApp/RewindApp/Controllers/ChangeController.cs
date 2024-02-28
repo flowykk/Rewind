@@ -4,6 +4,8 @@ using RewindApp.Data;
 using RewindApp.Entities;
 using RewindApp.Requests.ChangeRequests;
 using RewindApp.Services;
+using System.IO;
+using MySql.Data.MySqlClient;
 
 namespace RewindApp.Controllers;
 
@@ -63,34 +65,64 @@ public class ChangeController : ControllerBase
         return Ok($"password changed id - {user.UsersId}; new password - {user.Password}");
     }
     
-    [HttpPut("image")]
-    public async Task<ActionResult> EditUserProfileImage(ChangeProfileImageRequest request)
+    [HttpPut("image/{userId}")]
+    public async Task<ActionResult> EditUserProfileImage(MediaRequest mediaRequest, int userId)
     {
-        var user = await _usersController.GetUserById(request.UserId);
+        var rawData = mediaRequest.Media;
+        //var rawData = await System.IO.File.ReadAllBytesAsync("sample2.png");
+        var date = DateTime.Now;
+        
+        var server = "localhost";
+        var databaseName = "rewinddb";
+        var userName = "rewinduser";
+        var password = "rewindpass";
+
+        var connectionString = $"Server={server}; Port=3306; Database={databaseName}; UID={userName}; Pwd={password}";
+        //                       Server=myServerAddress; Port=1234; Database=myDataBase; Uid=myUsername; Pwd=myPassword;
+        var connection = new MySqlConnection(connectionString);
+        connection.Open();
+        
+        var command = new MySqlCommand()
+        {
+            Connection = connection,
+            CommandText = "UPDATE Users SET ProfileImage = @rawData WHERE UsersId = @userId;"
+        };
+        var fileContentParameter = new MySqlParameter("?rawData", MySqlDbType.Blob, rawData.Length)
+        {
+            Value = rawData
+        };
+        var userIdParameter = new MySqlParameter("?userId", MySqlDbType.Int64)
+        {
+            Value = userId
+        };
+        command.Parameters.Add(fileContentParameter);
+        command.Parameters.Add(userIdParameter);
+
+        command.ExecuteNonQuery();
+        
+        return Ok($"image changed" )
+        
+        /*var user = await _usersController.GetUserById(userId);
         if (user == null) return BadRequest("Something went wrong");
 
-        user.ProfileImage = request.Image;
-        Console.WriteLine(user.ProfileImage.Length);
-        _context.Users.Update(user);
+        var rawData = await System.IO.File.ReadAllBytesAsync("sample.png");
         
+        user.ProfileImage = rawData;
+        _context.Users.Update(user);
+        await _context.SaveChangesAsync();
+
+        var media = new Media()
+        {
+            Date = DateTime.Now,
+            Photo = rawData
+        };
+
+        _context.Media.Add(media);
         await _context.SaveChangesAsync();
 
         //return File(user.Image, "application/png", "users test.png");
-        return Ok($"image changed {user.ProfileImage.Length}" );
+        return Ok($"image changed {user.ProfileImage.Length} {media.Photo.Length}" )*/;
     }
-
-    
-    /*HttpGet("image/{userId}")]
-    public async Task<ActionResult<byte[]>> GetUserImage(int userId)
-    {
-        var user = await GetUserById(userId);
-        if (user == null)
-        {
-            return BadRequest("Something went wrong");
-        }
-        
-        return File(user.Image, "application/png", "result.png");
-    }*/
     
     [HttpPut("forgot-password/{userId}")]
     public async Task<ActionResult> ForgotPasswordPassword(string userEmail)

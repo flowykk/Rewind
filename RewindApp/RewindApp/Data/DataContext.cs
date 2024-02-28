@@ -8,16 +8,16 @@ public class DataContext : DbContext
     public DataContext(DbContextOptions<DataContext> options) : base(options)
     {
     }
-    
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        /*modelBuilder.Entity<User>()
-            .HasMany(e => e.Groups)
-            .WithMany(e => e.Members);*/
-    }
+
+    private static string server = "localhost";
+    private static string databaseName = "rewinddb";
+    private static string userName = "rewinduser";
+    private static string password = "rewindpass";
+
+    public static readonly string connection =
+        $"Server={server}; database={databaseName}; UID={userName}; password={password}";
 
     public DbSet<User> Users => Set<User>();
     public DbSet<Group> Groups => Set<Group>(); 
     public DbSet<Media> Media => Set<Media>();
-    //public DbSet<GroupUser> GroupUser => Set<GroupUser>();
 }

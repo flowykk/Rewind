@@ -28,7 +28,7 @@ final class ViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         
         button.setTitle("Go To Account View", for: .normal)
-        button.backgroundColor = .white
+        button.backgroundColor = .systemBackground
         
         button.addTarget(self, action: #selector(goToAccount), for: .touchUpInside)
         

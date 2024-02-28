@@ -1,14 +1,14 @@
 //
-//  EnterCodeViewController.swift
+//  EnterAuthCodeViewController.swift
 //  Rewind
 //
-//  Created by Aleksa Khruleva on 18.02.2024.
+//  Created by Aleksa Khruleva on 28.02.2024.
 //
 
 import UIKit
 
-final class EnterCodeViewController: UIViewController {
-    var presenter: EnterCodePresenter?
+final class EnterAuthCodeViewController: UIViewController {
+    var presenter: EnterAuthCodePresenter?
     
     private let codeLabel: UILabel = UILabel()
     private var digit1Field: UITextField = UITextField()
@@ -23,39 +23,20 @@ final class EnterCodeViewController: UIViewController {
         configureUI()
     }
     
-    // MARK: - View To Presenter
-    @objc
-    private func backButtonTapped() {
-        presenter?.backButtonTapped()
-    }
-    
     @objc
     private func continueButtonTapped() {
-        guard let digit1 = digit1Field.text else { return }
-        guard let digit2 = digit2Field.text else { return }
-        guard let digit3 = digit3Field.text else { return }
-        guard let digit4 = digit4Field.text else { return }
-        presenter?.validateCode(code: "\(digit1)\(digit2)\(digit3)\(digit4)")
+        let code = combineDigitsFromTextFields()
+        presenter?.validateCode(code)
     }
 }
 
 // MARK: - UI Configuration
-extension EnterCodeViewController {
+extension EnterAuthCodeViewController {
     private func configureUI() {
-        navigationItem.hidesBackButton = true
-        view.backgroundColor = .systemBackground
-        configureBackButton()
+        view.backgroundColor = .systemGray5
         configureCodeLabel()
         configureDigitsStack()
         configureContinueButton()
-    }
-    
-    private func configureBackButton() {
-        let largeFont = UIFont.systemFont(ofSize: 20, weight: .bold)
-        let configuration = UIImage.SymbolConfiguration(font: largeFont)
-        let image = UIImage(systemName: "chevron.left", withConfiguration: configuration)
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(backButtonTapped))
-        navigationItem.leftBarButtonItem?.tintColor = .black
     }
     
     private func configureCodeLabel() {
@@ -65,7 +46,7 @@ extension EnterCodeViewController {
         codeLabel.text = "Enter verification code"
         codeLabel.font = UIFont.systemFont(ofSize: 24, weight: .heavy)
         
-        codeLabel.pinTop(to: view.topAnchor, AuthConsts.labelTop)
+        codeLabel.pinTop(to: view.topAnchor, 200)
         codeLabel.pinCenterX(to: view.centerXAnchor)
     }
     
@@ -83,7 +64,7 @@ extension EnterCodeViewController {
         digit3Field = createDigitField()
         digit4Field = createDigitField()
         
-        digit1Field.becomeFirstResponder()
+        //        digit1Field.becomeFirstResponder()
         
         for subView in [digit1Field, digit2Field, digit3Field, digit4Field] {
             stackView.addArrangedSubview(subView)
@@ -99,7 +80,7 @@ extension EnterCodeViewController {
         
         textField.delegate = self
         
-        textField.backgroundColor = .systemGray6
+        textField.backgroundColor = .systemBackground
         textField.layer.cornerRadius = 15
         textField.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         textField.keyboardType = .numberPad
@@ -123,7 +104,7 @@ extension EnterCodeViewController {
         
         continueButton.addTarget(self, action: #selector(continueButtonTapped), for: .touchUpInside)
         
-        continueButton.pinBottom(to: view.bottomAnchor, AuthConsts.continueButtonBottom)
+        continueButton.pinBottom(to: view.bottomAnchor, 150)
         continueButton.pinCenterX(to: view.centerXAnchor)
         continueButton.setHeight(60)
         continueButton.setWidth(200)
@@ -131,7 +112,7 @@ extension EnterCodeViewController {
 }
 
 // MARK: - UITextFieldDelegate
-extension EnterCodeViewController: UITextFieldDelegate {
+extension EnterAuthCodeViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
         if let character = string.first, character.isNumber {
@@ -147,5 +128,18 @@ extension EnterCodeViewController: UITextFieldDelegate {
         }
         
         return true
+    }
+}
+
+extension EnterAuthCodeViewController {
+    private func combineDigitsFromTextFields() -> String {
+        guard let digit1 = digit1Field.text else { return "" }
+        guard let digit2 = digit2Field.text else { return "" }
+        guard let digit3 = digit3Field.text else { return "" }
+        guard let digit4 = digit4Field.text else { return "" }
+        
+        let code = digit1 + digit2 + digit3 + digit4
+        
+        return code
     }
 }

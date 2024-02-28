@@ -1,14 +1,14 @@
 //
-//  EnterNameViewController.swift
+//  EditNameViewController.swift
 //  Rewind
 //
-//  Created by Aleksa Khruleva on 18.02.2024.
+//  Created by Aleksa Khruleva on 28.02.2024.
 //
 
 import UIKit
 
-final class EnterNameViewController: UIViewController {
-    var presenter: EnterNamePresenter?
+final class EditNameViewController: UIViewController {
+    var presenter: EditNamePresenter?
     
     private let nameLabel: UILabel = UILabel()
     private let nameField: UITextField = UITextField()
@@ -20,46 +20,30 @@ final class EnterNameViewController: UIViewController {
         configureUI()
     }
     
-    // MARK: - View To Presenter
-    @objc
-    private func backButtonTapped() {
-        presenter?.backButtonTapped()
-    }
-    
     @objc
     private func continueButtonTapped() {
-        guard let name = nameField.text else { return }
-        presenter?.saveName(name: name)
+        guard let newName = nameField.text else { return }
+        presenter?.updateName(with: newName)
     }
 }
 
 // MARK: - UI Configuration
-extension EnterNameViewController {
+extension EditNameViewController {
     private func configureUI() {
-        navigationItem.hidesBackButton = true
-        view.backgroundColor = .systemBackground
-        configureBackButton()
+        view.backgroundColor = .systemGray5
         configureNameLabel()
         configureNameField()
         configureContinueButton()
-    }
-    
-    private func configureBackButton() {
-        let largeFont = UIFont.systemFont(ofSize: 20, weight: .bold)
-        let configuration = UIImage.SymbolConfiguration(font: largeFont)
-        let image = UIImage(systemName: "chevron.left", withConfiguration: configuration)
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(backButtonTapped))
-        navigationItem.leftBarButtonItem?.tintColor = .black
     }
     
     private func configureNameLabel() {
         view.addSubview(nameLabel)
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        nameLabel.text = "What's your name?"
+        nameLabel.text = "Enter new name"
         nameLabel.font = UIFont.systemFont(ofSize: 24, weight: .heavy)
         
-        nameLabel.pinTop(to: view.topAnchor, AuthConsts.labelTop)
+        nameLabel.pinTop(to: view.topAnchor, 200)
         nameLabel.pinCenterX(to: view.centerXAnchor)
     }
     
@@ -69,7 +53,7 @@ extension EnterNameViewController {
         
         nameField.delegate = self
         
-        nameField.backgroundColor = .systemGray6
+        nameField.backgroundColor = .systemBackground
         nameField.placeholder = "Name"
         nameField.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         nameField.layer.cornerRadius = 15
@@ -99,14 +83,14 @@ extension EnterNameViewController {
         
         continueButton.addTarget(self, action: #selector(continueButtonTapped), for: .touchUpInside)
         
-        continueButton.pinBottom(to: view.bottomAnchor, AuthConsts.continueButtonBottom)
+        continueButton.pinBottom(to: view.bottomAnchor, 150)
         continueButton.pinCenterX(to: view.centerXAnchor)
         continueButton.setHeight(60)
         continueButton.setWidth(200)
     }
 }
 
-extension EnterNameViewController: UITextFieldDelegate {
+extension EditNameViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         view.endEditing(true)
     }

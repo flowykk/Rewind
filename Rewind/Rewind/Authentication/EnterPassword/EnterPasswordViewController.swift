@@ -70,7 +70,7 @@ final class EnterPasswordViewController: UIViewController {
 extension EnterPasswordViewController {
     private func configureUI() {
         navigationItem.hidesBackButton = true
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         configureBackButton()
         configurePasswordLabel()
         configurePasswordField()

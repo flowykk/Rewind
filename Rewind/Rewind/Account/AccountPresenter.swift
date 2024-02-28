@@ -45,9 +45,9 @@ final class AccountPresenter {
         case .editImage:
             view?.showEditImageAlert()
         case .editName:
-            print("edit name")
+            router.showEditName()
         case .editPassword:
-            print("edit password")
+            router.showEnterAuthCode()
         case .editEmail:
             print("edit email")
         case .addWidget:

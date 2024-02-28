@@ -17,4 +17,14 @@ final class AccountRouter {
     func navigateToRewind() {
         view?.navigationController?.popViewController(animated: true)
     }
+    
+    func showEditName() {
+        let vc = EditNameBuilder.build()
+        view?.present(vc, animated: true)
+    }
+    
+    func showEnterAuthCode() {
+        let vc = EnterAuthCodeBuilder.build()
+        view?.present(vc, animated: true)
+    }
 }

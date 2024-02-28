@@ -34,7 +34,7 @@ final class WellcomeViewController: UIViewController {
 // MARK: - UI Configuration
 extension WellcomeViewController {
     private func configureUI() {
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         configureAppName()
         configureLoginButton()
         configureRegisterButton()

@@ -62,7 +62,7 @@ final class AccountViewController: UIViewController {
 // MARK: - UI Configuration
 extension AccountViewController {
     private func configureUI() {
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         configureBackButton()
         configureScrollView()
         configureContentView()
@@ -91,7 +91,7 @@ extension AccountViewController {
         
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
-        scrollView.backgroundColor = .white
+        scrollView.backgroundColor = .systemBackground
         
         scrollView.pinLeft(to: view.leadingAnchor)
         scrollView.pinRight(to: view.trailingAnchor)
@@ -103,7 +103,7 @@ extension AccountViewController {
         scrollView.addSubview(contentView)
         contentView.translatesAutoresizingMaskIntoConstraints = false
         
-        contentView.backgroundColor = .white
+        contentView.backgroundColor = .systemBackground
         
         contentView.pinLeft(to: scrollView.leadingAnchor)
         contentView.pinRight(to: scrollView.trailingAnchor)
@@ -121,7 +121,7 @@ extension AccountViewController {
         avatarView.clipsToBounds = true
         avatarView.layer.cornerRadius = 65
         avatarView.layer.borderWidth = 4
-        avatarView.layer.borderColor = UIColor.systemPink.cgColor
+        avatarView.layer.borderColor = UIColor(named: "customPink")?.cgColor
         
         avatarView.image = avatarImage
         

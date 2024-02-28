@@ -83,7 +83,7 @@ extension CustomTableViewCell {
         chevronImageView.translatesAutoresizingMaskIntoConstraints = false
         
         chevronImageView.contentMode = .scaleAspectFit
-        let largeFont = UIFont.systemFont(ofSize: 18, weight: .medium)
+        let largeFont = UIFont.systemFont(ofSize: 16, weight: .medium)
         let configuration = UIImage.SymbolConfiguration(font: largeFont)
         let image = UIImage(systemName: "chevron.right", withConfiguration: configuration)
         chevronImageView.image = image

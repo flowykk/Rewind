@@ -56,7 +56,7 @@ final class EnterEmailViewController: UIViewController {
 extension EnterEmailViewController {
     private func configureUI() {
         navigationItem.hidesBackButton = true
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         configureBackButton()
         configureEmailLabel()
         configureEmailField()

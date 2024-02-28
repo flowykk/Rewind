@@ -10,7 +10,7 @@ import UIKit
 final class CustomTableViewCell: UITableViewCell {
     private let iconBackgroundView: UIView = UIView()
     private let iconImageView: UIImageView = UIImageView()
-    private let nameLabel: UILabel = UILabel()
+    let nameLabel: UILabel = UILabel()
     private let chevronImageView: UIImageView = UIImageView()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {

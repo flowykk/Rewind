@@ -16,7 +16,7 @@ final class AccountViewController: UIViewController {
     private var avatarImage: UIImage? = nil
     private let nameLabel: UILabel = UILabel()
     private let generalLabel: UILabel = UILabel()
-    private let generalTable: UITableView = GeneralTableView()
+    private let generalTable: GeneralTableView = GeneralTableView()
     private let appIconLabel: UILabel = UILabel()
     private var appIconCollectionView: AppIconCollectionView = AppIconCollectionView()
     private let riskyZoneLabel: UILabel = UILabel()
@@ -25,21 +25,37 @@ final class AccountViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        generalTable.presenter = presenter
         appIconCollectionView.presenter = presenter
+        presenter?.generalTableView = generalTable
         presenter?.collectionView = appIconCollectionView
         presenter?.viewDidLoad()
         configureUI()
     }
     
-    // MARK: - View To Presenter
     @objc
     private func backButtonTapped() {
         presenter?.backButtonTapped()
     }
     
-    // MARK: - Presenter To View
+    @objc
+    private func newImageSelected() {
+        
+    }
+    
     func setAvatarImage(image: UIImage) {
-        avatarImage = image
+        avatarView.image = image
+    }
+    
+    func showEditImageAlert() {
+        let alertController = UIAlertController(title: "Load your media", message: "This media will be visible to all people", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertController.addAction(cancelAction)
+        let chooseImageAction = UIAlertAction(title: "Choose from Library", style: .default) { _ in
+            self.showImagePicker()
+        }
+        alertController.addAction(chooseImageAction)
+        present(alertController, animated: true, completion: nil)
     }
 }
 
@@ -196,5 +212,30 @@ extension AccountViewController {
         
         daysLabel.pinTop(to: riskyZoneTabel.bottomAnchor, 30)
         daysLabel.pinCenterX(to: contentView.centerXAnchor)
+    }
+}
+
+// MARK: - UIImagePickerControllerDelegate
+extension AccountViewController: UIImagePickerControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let selectedImage = info[.originalImage] as? UIImage {
+            presenter?.newImageSelected(selectedImage)
+        }
+        dismiss(animated: true)
+    }
+}
+
+// MARK: - UINavigationControllerDelegate
+extension AccountViewController: UINavigationControllerDelegate {
+    
+}
+
+// MARK: - Private funcs
+extension AccountViewController {
+    private func showImagePicker() {
+        let imagePickerController = UIImagePickerController()
+        imagePickerController.sourceType = .photoLibrary
+        imagePickerController.delegate = self
+        present(imagePickerController, animated: true, completion: nil)
     }
 }

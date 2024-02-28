@@ -54,7 +54,7 @@ extension AppIconCollectionView: UICollectionViewDelegate {
         
         if collectionView.cellForItem(at: indexPath) is AppIconCell {
             let icon = AppIcon.allCases[indexPath.row]
-            presenter?.didSelectAppIcon(icon, at: indexPath.row)
+            presenter?.appIconSelected(icon, at: indexPath.row)
         }
     }
 }

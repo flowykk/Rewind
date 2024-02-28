@@ -8,16 +8,20 @@
 import UIKit
 
 final class GeneralTableView: UITableView {
-    private let generalItems: [String] = [
-        "Edit profile image",
-        "Edit name",
-        "Edit password",
-        "Edit email",
-        "Add a widget",
-        "View groups",
-        "Get help",
-        "Share with friends"
-    ]
+    weak var presenter: AccountPresenter?
+    
+    private var iconName: String = ""
+    
+    enum GeneralRow: String, CaseIterable {
+        case editImage = "Edit profile image"
+        case editName = "Edit name"
+        case editPassword = "Edit password"
+        case editEmail = "Edit email"
+        case addWidget = "Add a widget"
+        case viewGroups = "View groups"
+        case getHelp = "Get help"
+        case share = "Share with friends"
+    }
     
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
@@ -41,19 +45,22 @@ final class GeneralTableView: UITableView {
 
 // MARK: - UITableViewDelegate
 extension GeneralTableView: UITableViewDelegate {
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        presenter?.generalRowSelected(GeneralRow.allCases[indexPath.row])
+        tableView.deselectRow(at: tableView.indexPathForSelectedRow ?? IndexPath(), animated: true)
+    }
 }
 
 // MARK: - UITableViewDataSource
 extension GeneralTableView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return generalItems.count
+        return GeneralRow.allCases.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         guard let generalItemCell = cell as? CustomTableViewCell else { return cell }
-        let name = generalItems[indexPath.row]
+        let name = GeneralRow.allCases[indexPath.row].rawValue
         let iconName = getIconName(fromName: name)
         generalItemCell.configure(withName: name, iconName: iconName, tintColor: .darkGray, squareColor: .systemGray4)
         return generalItemCell

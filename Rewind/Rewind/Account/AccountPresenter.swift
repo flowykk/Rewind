@@ -11,6 +11,8 @@ import UIKit
 final class AccountPresenter {
     private weak var view: AccountViewController?
     weak var collectionView: AppIconCollectionView?
+    weak var generalTableView: GeneralTableView?
+    
     private var router: AccountRouter
     
     init(view: AccountViewController?, router: AccountRouter) {
@@ -23,13 +25,40 @@ final class AccountPresenter {
         router.navigateToRewind()
     }
     
-    func didSelectAppIcon(_ icon: AppIcon, at index: Int) {
+    func newImageSelected(_ image: UIImage) {
+        view?.setAvatarImage(image: image)
+    }
+    
+    // MARK: - CollectionView To Presenter
+    func appIconSelected(_ icon: AppIcon, at index: Int) {
         if icon == .AppIconWhite {
             UIApplication.shared.setAlternateIconName(nil)
         } else {
             UIApplication.shared.setAlternateIconName(icon.rawValue)
         }
         updateSelection(idnex: index)
+    }
+    
+    // MARK: - GeneralTableView To Presenter
+    func generalRowSelected(_ row: GeneralTableView.GeneralRow) {
+        switch row {
+        case .editImage:
+            view?.showEditImageAlert()
+        case .editName:
+            print("edit name")
+        case .editPassword:
+            print("edit password")
+        case .editEmail:
+            print("edit email")
+        case .addWidget:
+            print("add widget")
+        case .viewGroups:
+            print("view groupds")
+        case .getHelp:
+            print("get help")
+        case .share:
+            print("share")
+        }
     }
     
     // MARK: - Presenter To View
@@ -43,6 +72,7 @@ final class AccountPresenter {
         collectionView?.selectedAppIconIndexPath = IndexPath(item: index, section: 0)
     }
     
+    // MARK: - Presenter to CollectionView
     func updateSelection(idnex: Int) {
         collectionView?.updateSelectedCell(at: idnex)
     }

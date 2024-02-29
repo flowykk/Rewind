@@ -35,7 +35,7 @@ public class LoginController : ControllerBase
         if (user == null) return BadRequest("User not found");
         
         string passwordHash = _userService.ComputeHash(request.Password);
-        if (passwordHash != user.Password) return BadRequest("Incorrect password!");
+        if (passwordHash != user.Password) return BadRequest("Incorrect password");
 
         return Ok(user.UsersId);
     }

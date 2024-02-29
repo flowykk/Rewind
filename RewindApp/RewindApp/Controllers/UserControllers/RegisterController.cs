@@ -38,7 +38,7 @@ public class RegisterController : ControllerBase
     {
         if (_context.Users.Any(user => user.Email == request.Email)) return BadRequest("User with this email already exists!");
         
-        string passwordHash = _userService.ComputeHash(request.Password);
+        var passwordHash = _userService.ComputeHash(request.Password);
         
         var user = new User
         { 
@@ -52,6 +52,6 @@ public class RegisterController : ControllerBase
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
 
-        return Ok($"{user.UsersId}");
+        return Ok(user.UsersId);
     }
 }

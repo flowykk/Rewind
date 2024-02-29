@@ -41,23 +41,21 @@ public class UsersController : ControllerBase, IUsersController
     public async Task<ActionResult> DeleteUserAccount(int userId)
     {
         var user = await GetUserById(userId);
-        if (user != null)
-        {
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
-            return Ok($"User with Id {userId} was successfully deleted");
-        }
+        if (user == null) return BadRequest("User not found");
         
-        return BadRequest("User not found.");
+        _context.Users.Remove(user);
+        await _context.SaveChangesAsync();
+        return Ok(userId);
     }
     
     [HttpGet("image/{userId}")]
-    public async Task<ActionResult> GetUserImage(int userId)
+    public async Task<ActionResult<byte[]>> GetUserImage(int userId)
     {
         var user = await GetUserById(userId);
-        if (user == null) return BadRequest("Something went wrong");
-        
-        return File(user.ProfileImage, "application/png", "result.png");
+        if (user == null) return BadRequest("User not found");
+
+        return user.ProfileImage;
+        //return File(user.ProfileImage, "application/png", "result.png");
     }
     
     [HttpGet("send-code/{receiverEmail}")]

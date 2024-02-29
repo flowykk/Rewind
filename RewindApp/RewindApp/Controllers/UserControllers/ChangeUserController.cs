@@ -28,44 +28,47 @@ public class ChangeUserController : ControllerBase
     public async Task<ActionResult> ChangeName(int userId, UserNameRequest request)
     {
         var user = await _usersController.GetUserById(userId);
-        if (user == null) return BadRequest($"error");
+        if (user == null) return BadRequest("User not found");
         
         user.UserName = request.UserName;
         _context.Users.Update(user);
         await _context.SaveChangesAsync();
         
-        return Ok($"name changed id - {user.UserName}; new name - {user.UserName}");
+        return Ok("Name changed");
     }
     
     [HttpPut("email/{userId}")]
     public async Task<ActionResult> ChangeEmail(int userId, UserEmailRequest request)
     {
         var user = await _usersController.GetUserById(userId);
-        if (user == null) return BadRequest($"error");
+        if (user == null) return BadRequest("User not found");
         
         user.Email = request.Email;
         _context.Users.Update(user);
         await _context.SaveChangesAsync();
         
-        return Ok($"email changed id - {user.UsersId}; new email - {user.Email}");
+        return Ok("Email changed");
     }
 
     [HttpPut("password/{userId}")]
     public async Task<ActionResult> ChangePassword(int userId, UserPasswordRequest request)
     {
         var user = await _usersController.GetUserById(userId);
-        if (user == null) return BadRequest($"error");
+        if (user == null) return BadRequest("User not found");
         
         user.Password = _userService.ComputeHash(request.Password);
         _context.Users.Update(user);
         await _context.SaveChangesAsync();
         
-        return Ok($"password changed id - {user.UsersId}; new password - {user.Password}");
+        return Ok($"Password changed");
     }
     
     [HttpPut("image/{userId}")]
     public async Task<ActionResult> EditUserProfileImage(MediaRequest mediaRequest, int userId)
     {
+        var user = await _usersController.GetUserById(userId);
+        if (user == null) return BadRequest("User not found");
+        
         var rawData = mediaRequest.Media;
         //var rawData = await System.IO.File.ReadAllBytesAsync("sample2.png");
         var date = DateTime.Now;
@@ -98,7 +101,7 @@ public class ChangeUserController : ControllerBase
 
         command.ExecuteNonQuery();
         
-        return Ok($"image changed" )
+        return Ok("Image changed" )
         
         /*var user = await _usersController.GetUserById(userId);
         if (user == null) return BadRequest("Something went wrong");

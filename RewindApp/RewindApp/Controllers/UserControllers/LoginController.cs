@@ -37,6 +37,6 @@ public class LoginController : ControllerBase
         string passwordHash = _userService.ComputeHash(request.Password);
         if (passwordHash != user.Password) return BadRequest("Incorrect password!");
 
-        return Ok($"{user.UsersId}");
+        return Ok(user.UsersId);
     }
 }

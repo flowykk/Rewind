@@ -1,10 +1,5 @@
-using System.Diagnostics.Tracing;
 using System.Net;
 using System.Net.Mail;
-using MimeKit;
-using System.Net.Sockets;
-using MailKit.Security;
-using MimeKit.Text;
 
 namespace RewindApp.Services;
 

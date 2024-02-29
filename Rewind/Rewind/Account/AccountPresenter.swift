@@ -46,22 +46,14 @@ final class AccountPresenter {
     // MARK: - GeneralTableView To Presenter
     func generalRowSelected(_ row: GeneralTableView.GeneralRow) {
         switch row {
-        case .editImage:
-            openPhotoGallery()
-        case .editName:
-            router.showEditName()
-        case .editPassword:
-            router.showEnterAuthCode()
-        case .editEmail:
-            router.showEditEmail()
-        case .addWidget:
-            print("add widget")
-        case .viewGroups:
-            print("view groupds")
-        case .getHelp:
-            openHelpAlert()
-        case .share:
-            print("share")
+        case .editImage:    openPhotoGallery()
+        case .editName:     router.presentEditName()
+        case .editPassword: router.presentEnterAuthCode()
+        case .editEmail:    router.presentEditEmail()
+        case .addWidget:    print("add widget")
+        case .viewGroups:   print("view groupds")
+        case .getHelp:      openHelpAlert()
+        case .share:        router.presentShareVC()
         }
     }
     

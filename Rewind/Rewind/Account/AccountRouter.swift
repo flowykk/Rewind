@@ -18,18 +18,27 @@ final class AccountRouter {
         view?.navigationController?.popViewController(animated: true)
     }
     
-    func showEditName() {
+    func presentEditName() {
         let vc = EditNameBuilder.build()
         view?.present(vc, animated: true)
     }
     
-    func showEnterAuthCode() {
+    func presentEnterAuthCode() {
         let vc = EnterAuthCodeBuilder.build()
         view?.present(vc, animated: true)
     }
     
-    func showEditEmail() {
+    func presentEditEmail() {
         let vc = EditEmailBuilder.build()
+        view?.present(vc, animated: true)
+    }
+    
+    func presentShareVC() {
+        guard let appURL = URL(string: "https://www.rewindapp.ru") else { return }
+        
+        let vc = UIActivityViewController(activityItems: [appURL], applicationActivities: nil)
+        vc.excludedActivityTypes = [.addToReadingList, .assignToContact, .print,]
+        
         view?.present(vc, animated: true)
     }
 }

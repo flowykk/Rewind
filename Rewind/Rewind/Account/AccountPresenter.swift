@@ -49,7 +49,7 @@ final class AccountPresenter {
         case .editPassword:
             router.showEnterAuthCode()
         case .editEmail:
-            print("edit email")
+            router.showEditEmail()
         case .addWidget:
             print("add widget")
         case .viewGroups:

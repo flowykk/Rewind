@@ -9,7 +9,6 @@ import Foundation
 
 final class EnterAuthCodePresenter {
     private weak var view: EnterAuthCodeViewController?
-    
     private var router: EnterAuthCodeRouter
     
     init(view: EnterAuthCodeViewController?, router: EnterAuthCodeRouter) {
@@ -18,7 +17,7 @@ final class EnterAuthCodePresenter {
     }
     
     func validateCode(_ code: String) {
-        print(code)
+        print("Code: <\(code)>")
         router.navigateToEditPassword()
     }
 }

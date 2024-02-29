@@ -27,4 +27,9 @@ final class AccountRouter {
         let vc = EnterAuthCodeBuilder.build()
         view?.present(vc, animated: true)
     }
+    
+    func showEditEmail() {
+        let vc = EditEmailBuilder.build()
+        view?.present(vc, animated: true)
+    }
 }

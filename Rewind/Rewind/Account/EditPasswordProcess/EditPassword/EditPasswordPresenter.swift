@@ -15,7 +15,7 @@ final class EditPasswordPresenter {
     }
     
     func updatePassword(with password: String) {
-        print("New password: \(password)")
+        print("New password: <\(password)>")
         view?.dismiss(animated: true, completion: {
             self.view?.enterAuthCodeVC?.dismiss(animated: true)
         })

@@ -17,6 +17,13 @@
 		5514270A2B893A95000446E9 /* GeneralTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551427092B893A95000446E9 /* GeneralTableView.swift */; };
 		5514270C2B893CBF000446E9 /* RiskyZoneTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5514270B2B893CBF000446E9 /* RiskyZoneTableView.swift */; };
 		5514270E2B894198000446E9 /* AppIconCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5514270D2B894198000446E9 /* AppIconCollectionView.swift */; };
+		551509732B90984100D162CF /* EditEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551509722B90984100D162CF /* EditEmailViewController.swift */; };
+		551509752B90993E00D162CF /* EditEmailPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551509742B90993E00D162CF /* EditEmailPresenter.swift */; };
+		551509772B90999200D162CF /* EditEmailRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551509762B90999200D162CF /* EditEmailRouter.swift */; };
+		551509792B9099A100D162CF /* EditEmailBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551509782B9099A100D162CF /* EditEmailBuilder.swift */; };
+		5515097D2B909CE600D162CF /* EnterVerificationCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5515097C2B909CE600D162CF /* EnterVerificationCodeViewController.swift */; };
+		5515097F2B909D0C00D162CF /* EnterVerificationCodePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5515097E2B909D0C00D162CF /* EnterVerificationCodePresenter.swift */; };
+		551509812B909D1500D162CF /* EnterVerificationCodeBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551509802B909D1500D162CF /* EnterVerificationCodeBuilder.swift */; };
 		555F07532B85EF5F00E6991E /* AuthConsts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555F07522B85EF5F00E6991E /* AuthConsts.swift */; };
 		556167AF2B8F58F9001AF383 /* EditNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 556167AE2B8F58F9001AF383 /* EditNameViewController.swift */; };
 		556167B22B8F5CDB001AF383 /* EditNamePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 556167B12B8F5CDB001AF383 /* EditNamePresenter.swift */; };
@@ -71,6 +78,13 @@
 		551427092B893A95000446E9 /* GeneralTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralTableView.swift; sourceTree = "<group>"; };
 		5514270B2B893CBF000446E9 /* RiskyZoneTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RiskyZoneTableView.swift; sourceTree = "<group>"; };
 		5514270D2B894198000446E9 /* AppIconCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIconCollectionView.swift; sourceTree = "<group>"; };
+		551509722B90984100D162CF /* EditEmailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditEmailViewController.swift; sourceTree = "<group>"; };
+		551509742B90993E00D162CF /* EditEmailPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditEmailPresenter.swift; sourceTree = "<group>"; };
+		551509762B90999200D162CF /* EditEmailRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditEmailRouter.swift; sourceTree = "<group>"; };
+		551509782B9099A100D162CF /* EditEmailBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditEmailBuilder.swift; sourceTree = "<group>"; };
+		5515097C2B909CE600D162CF /* EnterVerificationCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterVerificationCodeViewController.swift; sourceTree = "<group>"; };
+		5515097E2B909D0C00D162CF /* EnterVerificationCodePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterVerificationCodePresenter.swift; sourceTree = "<group>"; };
+		551509802B909D1500D162CF /* EnterVerificationCodeBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterVerificationCodeBuilder.swift; sourceTree = "<group>"; };
 		555F07522B85EF5F00E6991E /* AuthConsts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthConsts.swift; sourceTree = "<group>"; };
 		556167AE2B8F58F9001AF383 /* EditNameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditNameViewController.swift; sourceTree = "<group>"; };
 		556167B12B8F5CDB001AF383 /* EditNamePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditNamePresenter.swift; sourceTree = "<group>"; };
@@ -147,6 +161,7 @@
 		551426FC2B88CB45000446E9 /* Account */ = {
 			isa = PBXGroup;
 			children = (
+				551509712B90981D00D162CF /* EditEmailProcess */,
 				556167B52B8F5F59001AF383 /* EditPasswordProcess */,
 				556167B02B8F5900001AF383 /* EditName */,
 				551427102B8943C3000446E9 /* Cells */,
@@ -185,6 +200,36 @@
 				55A326932B820701007C9B74 /* UIViewPin.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		551509712B90981D00D162CF /* EditEmailProcess */ = {
+			isa = PBXGroup;
+			children = (
+				5515097A2B909CA600D162CF /* EditEmail */,
+				5515097B2B909CBC00D162CF /* EnterVerificationCode */,
+			);
+			path = EditEmailProcess;
+			sourceTree = "<group>";
+		};
+		5515097A2B909CA600D162CF /* EditEmail */ = {
+			isa = PBXGroup;
+			children = (
+				551509722B90984100D162CF /* EditEmailViewController.swift */,
+				551509742B90993E00D162CF /* EditEmailPresenter.swift */,
+				551509762B90999200D162CF /* EditEmailRouter.swift */,
+				551509782B9099A100D162CF /* EditEmailBuilder.swift */,
+			);
+			path = EditEmail;
+			sourceTree = "<group>";
+		};
+		5515097B2B909CBC00D162CF /* EnterVerificationCode */ = {
+			isa = PBXGroup;
+			children = (
+				5515097C2B909CE600D162CF /* EnterVerificationCodeViewController.swift */,
+				5515097E2B909D0C00D162CF /* EnterVerificationCodePresenter.swift */,
+				551509802B909D1500D162CF /* EnterVerificationCodeBuilder.swift */,
+			);
+			path = EnterVerificationCode;
 			sourceTree = "<group>";
 		};
 		556167B02B8F5900001AF383 /* EditName */ = {
@@ -411,9 +456,11 @@
 				55A326B52B8259D4007C9B74 /* EnterCodeBuilder.swift in Sources */,
 				55A326CE2B826A44007C9B74 /* EnterNameBuilder.swift in Sources */,
 				55A326BF2B8263C0007C9B74 /* EnterPasswordViewController.swift in Sources */,
+				551509772B90999200D162CF /* EditEmailRouter.swift in Sources */,
 				556167C72B8F6BD0001AF383 /* EditPasswordBuilder.swift in Sources */,
 				5514270C2B893CBF000446E9 /* RiskyZoneTableView.swift in Sources */,
 				551427042B88CBF4000446E9 /* AccountBuilder.swift in Sources */,
+				551509752B90993E00D162CF /* EditEmailPresenter.swift in Sources */,
 				55A326CC2B8269F7007C9B74 /* EnterNameRouter.swift in Sources */,
 				55A326A52B822092007C9B74 /* EnterEmailRouter.swift in Sources */,
 				55A326942B820701007C9B74 /* UIViewPin.swift in Sources */,
@@ -425,6 +472,7 @@
 				55A326982B820B03007C9B74 /* WellcomePresenter.swift in Sources */,
 				551427082B89375C000446E9 /* AppIconCell.swift in Sources */,
 				556167B42B8F5EA5001AF383 /* EditNameBuilder.swift in Sources */,
+				5515097D2B909CE600D162CF /* EnterVerificationCodeViewController.swift in Sources */,
 				55A326C12B8263C8007C9B74 /* EnterPasswordPresenter.swift in Sources */,
 				55A326A32B82204E007C9B74 /* EnterEmailPresenter.swift in Sources */,
 				550109892B8A36FE0005F1D5 /* AppIconModel.swift in Sources */,
@@ -436,10 +484,13 @@
 				5514270E2B894198000446E9 /* AppIconCollectionView.swift in Sources */,
 				55A326B72B8259E1007C9B74 /* EnterCodePresenter.swift in Sources */,
 				551427002B88CBD5000446E9 /* AccountPresenter.swift in Sources */,
+				5515097F2B909D0C00D162CF /* EnterVerificationCodePresenter.swift in Sources */,
+				551509812B909D1500D162CF /* EnterVerificationCodeBuilder.swift in Sources */,
 				55A326682B81F8FC007C9B74 /* AppDelegate.swift in Sources */,
 				55A326962B820A2D007C9B74 /* WellcomeViewController.swift in Sources */,
 				55A3266A2B81F8FC007C9B74 /* SceneDelegate.swift in Sources */,
 				555F07532B85EF5F00E6991E /* AuthConsts.swift in Sources */,
+				551509792B9099A100D162CF /* EditEmailBuilder.swift in Sources */,
 				556167B72B8F5F81001AF383 /* EnterAuthCodeViewController.swift in Sources */,
 				551426FE2B88CBC6000446E9 /* AccountViewController.swift in Sources */,
 				556167AF2B8F58F9001AF383 /* EditNameViewController.swift in Sources */,
@@ -457,6 +508,7 @@
 				55A326CA2B826964007C9B74 /* EnterNamePresenter.swift in Sources */,
 				556167BE2B8F6201001AF383 /* EnterAuthCodeBuilder.swift in Sources */,
 				55A3269A2B820F83007C9B74 /* WellcomeBuilder.swift in Sources */,
+				551509732B90984100D162CF /* EditEmailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -601,7 +653,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = MV84AF3V6Q;
+				DEVELOPMENT_TEAM = 8FRM8M93L5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Rewind/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -630,7 +682,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = MV84AF3V6Q;
+				DEVELOPMENT_TEAM = 8FRM8M93L5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Rewind/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

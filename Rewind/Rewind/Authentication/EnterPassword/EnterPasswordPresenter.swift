@@ -67,8 +67,12 @@ extension EnterPasswordPresenter {
         NetworkService.authorizeUser(user: DataManager.shared.getUser()) { response in
             DispatchQueue.main.async {
                 if response.success {
-                    print(response.message as Any)
-                    self.router.navigateToMainScreen()
+                    print("User logged in")
+                    print("Id: \(response.message as Any)")
+                    if let message = response.message, let userId = Int(message)  {
+                        UserDefaults.standard.set(userId, forKey: "UserId")
+                        self.router.navigateToMainScreen()
+                    }
                 } else {
                     print(response.message as Any)
                     print(response.statusCode as Any)

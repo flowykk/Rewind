@@ -23,11 +23,18 @@ final class EnterNamePresenter {
     func saveName(name: String) {
         DataManager.shared.setUserName(name)
         NetworkService.registerUser(user: DataManager.shared.getUser()) { response in
-            if response.success {
-                print("New user created")
-                print(response.message as Any)
-            } else {
-                print(response.success)
+            DispatchQueue.main.async {
+                if response.success {
+                    print("New user created")
+                    print("Id: \(response.message as Any)")
+                    if let message = response.message, let userId = Int(message)  {
+                        UserDefaults.standard.set(userId, forKey: "UserId")
+                        self.router.navigateToMainScreen()
+                    }
+                } else {
+                    print(response.message as Any)
+                    print(response.statusCode as Any)
+                }
             }
         }
     }

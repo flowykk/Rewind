@@ -37,6 +37,24 @@ final class AccountPresenter {
         router.navigateToWellcome()
     }
     
+    func deleteAccount() {
+        let userId = DataManager.shared.getUserId()
+        NetworkService.deleteUser(withId: userId) { response in
+            DispatchQueue.main.async {
+                if response.success {
+                    print("User deleted")
+                    print("Id: \(response.message as Any)")
+                    UserDefaults.standard.removeObject(forKey: "UserId")
+                    DataManager.shared.setUserId(-1)
+                    self.router.navigateToWellcome()
+                } else {
+                    print(response.message as Any)
+                    print(response.statusCode as Any)
+                }
+            }
+        }
+    }
+    
     // MARK: - CollectionView To Presenter
     func appIconSelected(_ icon: AppIcon, at index: Int) {
         if icon == .AppIconWhite {
@@ -65,7 +83,7 @@ final class AccountPresenter {
     func riskyZoneRowSelected(_ row: RiskyZoneTableView.RiskyZoneRow) {
         switch row {
         case .logOut:        openLogOutConfirmationAlert()
-        case .deleteAccount: print("abebra")
+        case .deleteAccount: openDeleteAccountConfirmationAlert()
         }
     }
     
@@ -90,6 +108,10 @@ final class AccountPresenter {
     
     func openLogOutConfirmationAlert() {
         view?.showLogOutConfirmationAlert()
+    }
+    
+    func openDeleteAccountConfirmationAlert() {
+        view?.showDeleteAccountConfirmationAlert()
     }
     
     func openPhotoGallery() {

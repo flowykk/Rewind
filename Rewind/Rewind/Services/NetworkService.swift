@@ -223,4 +223,40 @@ final class NetworkService {
         }
         task.resume()
     }
+    
+    static func deleteUser(
+        withId id: Int,
+        completion: @escaping (NetworkResponse) -> Void
+    ) {
+        guard let url = URL(string: "https://www.rewindapp.ru/api/users/delete/\(id)") else {
+            let response = NetworkResponse(success: false)
+            completion(response)
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "DELETE"
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                let response = NetworkResponse(success: false, message: error.localizedDescription)
+                completion(response)
+                return
+            }
+            guard let httpResponse = response as? HTTPURLResponse else {
+                let response = NetworkResponse(success: false)
+                completion(response)
+                return
+            }
+            if httpResponse.statusCode == 200 {
+                let response = NetworkResponse(success: true, message: String(data: data ?? Data(), encoding: .utf8))
+                completion(response)
+            } else {
+                print(httpResponse.statusCode)
+                let response = NetworkResponse(success: false, statusCode: httpResponse.statusCode)
+                completion(response)
+            }
+        }
+        task.resume()
+    }
 }

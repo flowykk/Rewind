@@ -83,8 +83,22 @@ final class AccountViewController: UIViewController {
             title: "Confirm Log Out",
             message: "Are you sure you want to log out? You will not be able to undo this action in the future",
             preferredStyle: .alert)
-        let confirmAction = UIAlertAction(title: "Log out", style: .default) { _ in
+        let confirmAction = UIAlertAction(title: "Log out", style: .destructive) { _ in
             self.presenter?.logOut()
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        alertController.addAction(confirmAction)
+        alertController.addAction(cancelAction)
+        present(alertController, animated: true)
+    }
+    
+    func showDeleteAccountConfirmationAlert() {
+        let alertController = UIAlertController(
+            title: "Confirm Delete",
+            message: "Are you sure you want to delete your account? You will not be able to undo this action in the future",
+            preferredStyle: .alert)
+        let confirmAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
+            self.presenter?.deleteAccount()
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         alertController.addAction(confirmAction)

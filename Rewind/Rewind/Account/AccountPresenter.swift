@@ -29,6 +29,10 @@ final class AccountPresenter {
         view?.setAvatarImage(image: image)
     }
     
+    func copyEmailToPasteboard() {
+        UIPasteboard.general.string = "sent@rewindapp.ru"
+    }
+    
     // MARK: - CollectionView To Presenter
     func appIconSelected(_ icon: AppIcon, at index: Int) {
         if icon == .AppIconWhite {
@@ -43,7 +47,7 @@ final class AccountPresenter {
     func generalRowSelected(_ row: GeneralTableView.GeneralRow) {
         switch row {
         case .editImage:
-            view?.showEditImageAlert()
+            openPhotoGallery()
         case .editName:
             router.showEditName()
         case .editPassword:
@@ -55,7 +59,7 @@ final class AccountPresenter {
         case .viewGroups:
             print("view groupds")
         case .getHelp:
-            print("get help")
+            openHelpAlert()
         case .share:
             print("share")
         }
@@ -70,6 +74,14 @@ final class AccountPresenter {
         AppIconCell.initialSelectedIcon = currentIconName
         let index = AppIcon.indexForCase(withValue: currentIconName) ?? 0
         collectionView?.selectedAppIconIndexPath = IndexPath(item: index, section: 0)
+    }
+    
+    func openPhotoGallery() {
+        view?.showImagePicker()
+    }
+    
+    func openHelpAlert() {
+        view?.showHelpAlert()
     }
     
     // MARK: - Presenter to CollectionView

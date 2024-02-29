@@ -38,24 +38,43 @@ final class AccountViewController: UIViewController {
         presenter?.backButtonTapped()
     }
     
-    @objc
-    private func newImageSelected() {
-        
-    }
-    
     func setAvatarImage(image: UIImage) {
         avatarView.image = image
     }
     
     func showEditImageAlert() {
-        let alertController = UIAlertController(title: "Load your media", message: "This media will be visible to all people", preferredStyle: .alert)
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        alertController.addAction(cancelAction)
+        let alertController = UIAlertController(
+            title: "Load your media",
+            message: "This media will be visible to all people",
+            preferredStyle: .alert)
         let chooseImageAction = UIAlertAction(title: "Choose from Library", style: .default) { _ in
-            self.showImagePicker()
+            self.presenter?.openPhotoGallery()
         }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         alertController.addAction(chooseImageAction)
-        present(alertController, animated: true, completion: nil)
+        alertController.addAction(cancelAction)
+        present(alertController, animated: true)
+    }
+    
+    func showImagePicker() {
+        let imagePickerController = UIImagePickerController()
+        imagePickerController.sourceType = .photoLibrary
+        imagePickerController.delegate = self
+        present(imagePickerController, animated: true, completion: nil)
+    }
+    
+    func showHelpAlert() {
+        let alertController = UIAlertController(
+            title: "Contact Us",
+            message: "If you want to ask questions, you faced some other problems, or you have new ideas for Rewind just email us on sent@rewindapp.ru",
+            preferredStyle: .alert)
+        let copyAction = UIAlertAction(title: "Copy our email", style: .default) { _ in
+            self.presenter?.copyEmailToPasteboard()
+        }
+        let cancelAction = UIAlertAction(title: "Ok", style: .cancel)
+        alertController.addAction(copyAction)
+        alertController.addAction(cancelAction)
+        present(alertController, animated: true)
     }
 }
 
@@ -228,14 +247,4 @@ extension AccountViewController: UIImagePickerControllerDelegate {
 // MARK: - UINavigationControllerDelegate
 extension AccountViewController: UINavigationControllerDelegate {
     
-}
-
-// MARK: - Private funcs
-extension AccountViewController {
-    private func showImagePicker() {
-        let imagePickerController = UIImagePickerController()
-        imagePickerController.sourceType = .photoLibrary
-        imagePickerController.delegate = self
-        present(imagePickerController, animated: true, completion: nil)
-    }
 }

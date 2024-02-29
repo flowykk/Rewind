@@ -71,6 +71,7 @@ extension EnterPasswordPresenter {
                     print("Id: \(response.message as Any)")
                     if let message = response.message, let userId = Int(message)  {
                         UserDefaults.standard.set(userId, forKey: "UserId")
+                        DataManager.shared.setUserId(userId)
                         self.router.navigateToMainScreen()
                     }
                 } else {

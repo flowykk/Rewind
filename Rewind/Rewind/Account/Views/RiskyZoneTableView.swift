@@ -8,10 +8,12 @@
 import UIKit
 
 final class RiskyZoneTableView: UITableView {
-    private let riskyZoneItems: [String] = [
-        "Log out",
-        "Delete account"
-    ]
+    weak var presenter: AccountPresenter?
+    
+    enum RiskyZoneRow: String, CaseIterable {
+        case logOut = "Log out"
+        case deleteAccount = "Delete account"
+    }
     
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
@@ -35,19 +37,22 @@ final class RiskyZoneTableView: UITableView {
 
 // MARK: - UITableViewDelegate
 extension RiskyZoneTableView: UITableViewDelegate {
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        presenter?.riskyZoneRowSelected(RiskyZoneRow.allCases[indexPath.row])
+        tableView.deselectRow(at: tableView.indexPathForSelectedRow ?? IndexPath(), animated: true)
+    }
 }
 
 // MARK: - UITableViewDataSource
 extension RiskyZoneTableView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        riskyZoneItems.count
+        return RiskyZoneRow.allCases.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         guard let customCell = cell as? CustomTableViewCell else { return cell }
-        let name = riskyZoneItems[indexPath.row]
+        let name = RiskyZoneRow.allCases[indexPath.row].rawValue
         let iconName = getIconName(fromName: name)
         customCell.configure(withName: name, iconName: iconName, tintColor: .systemRed, squareColor: .systemRed.withAlphaComponent(0.3))
         return customCell

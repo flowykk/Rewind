@@ -59,11 +59,11 @@ extension GeneralTableView: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        guard let generalItemCell = cell as? CustomTableViewCell else { return cell }
+        guard let customCell = cell as? CustomTableViewCell else { return cell }
         let name = GeneralRow.allCases[indexPath.row].rawValue
         let iconName = getIconName(fromName: name)
-        generalItemCell.configure(withName: name, iconName: iconName, tintColor: .darkGray, squareColor: .systemGray4)
-        return generalItemCell
+        customCell.configure(withName: name, iconName: iconName, tintColor: .darkGray, squareColor: .systemGray4)
+        return customCell
     }
 }
 

@@ -34,6 +34,7 @@ final class WellcomeViewController: UIViewController {
 // MARK: - UI Configuration
 extension WellcomeViewController {
     private func configureUI() {
+        navigationItem.hidesBackButton = true
         view.backgroundColor = .systemBackground
         configureAppName()
         configureLoginButton()

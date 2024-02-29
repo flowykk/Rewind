@@ -32,11 +32,19 @@ final class DataManager {
         user.name = name
     }
     
+    func setUserId(_ id: Int) {
+        user.id = id
+    }
+    
     func setAvatarBase64String(_ avatarBase64String: String) {
         user.avatarBase64String = avatarBase64String
     }
     
     // MARK: - GET methods
+    func getUser() -> User {
+        return user
+    }
+    
     func getUserProcess() -> User.Process {
         return user.proccess
     }
@@ -49,7 +57,7 @@ final class DataManager {
         return user.avatarBase64String
     }
     
-    func getUser() -> User {
-        return user
+    func getUserId() -> Int {
+        return user.id
     }
 }

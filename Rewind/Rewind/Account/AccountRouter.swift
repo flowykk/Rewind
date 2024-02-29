@@ -14,6 +14,11 @@ final class AccountRouter {
         self.view = view
     }
     
+    func navigateToWellcome() {
+        let vc = WellcomeBuilder.build()
+        view?.navigationController?.pushViewController(vc, animated: true)
+    }
+    
     func navigateToRewind() {
         view?.navigationController?.popViewController(animated: true)
     }

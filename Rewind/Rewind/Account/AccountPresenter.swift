@@ -11,7 +11,6 @@ import UIKit
 final class AccountPresenter {
     private weak var view: AccountViewController?
     weak var collectionView: AppIconCollectionView?
-    weak var generalTableView: GeneralTableView?
     
     private var router: AccountRouter
     
@@ -33,6 +32,11 @@ final class AccountPresenter {
         UIPasteboard.general.string = "sent@rewindapp.ru"
     }
     
+    func logOut() {
+        UserDefaults.standard.removeObject(forKey: "UserId")
+        router.navigateToWellcome()
+    }
+    
     // MARK: - CollectionView To Presenter
     func appIconSelected(_ icon: AppIcon, at index: Int) {
         if icon == .AppIconWhite {
@@ -46,7 +50,7 @@ final class AccountPresenter {
     // MARK: - GeneralTableView To Presenter
     func generalRowSelected(_ row: GeneralTableView.GeneralRow) {
         switch row {
-        case .editImage:    openPhotoGallery()
+        case .editImage:    openEditImageAlert()
         case .editName:     router.presentEditName()
         case .editPassword: router.presentEnterAuthCode()
         case .editEmail:    router.presentEditEmail()
@@ -54,6 +58,14 @@ final class AccountPresenter {
         case .viewGroups:   print("view groupds")
         case .getHelp:      openHelpAlert()
         case .share:        router.presentShareVC()
+        }
+    }
+    
+    // MARK: - RiskyZoneTableView To Presenter
+    func riskyZoneRowSelected(_ row: RiskyZoneTableView.RiskyZoneRow) {
+        switch row {
+        case .logOut:        openLogOutConfirmationAlert()
+        case .deleteAccount: print("abebra")
         }
     }
     
@@ -68,12 +80,20 @@ final class AccountPresenter {
         collectionView?.selectedAppIconIndexPath = IndexPath(item: index, section: 0)
     }
     
-    func openPhotoGallery() {
-        view?.showImagePicker()
+    func openEditImageAlert() {
+        view?.showEditImageAlert()
     }
     
     func openHelpAlert() {
         view?.showHelpAlert()
+    }
+    
+    func openLogOutConfirmationAlert() {
+        view?.showLogOutConfirmationAlert()
+    }
+    
+    func openPhotoGallery() {
+        view?.showImagePicker()
     }
     
     // MARK: - Presenter to CollectionView

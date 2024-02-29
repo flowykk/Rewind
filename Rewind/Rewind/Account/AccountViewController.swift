@@ -20,14 +20,15 @@ final class AccountViewController: UIViewController {
     private let appIconLabel: UILabel = UILabel()
     private var appIconCollectionView: AppIconCollectionView = AppIconCollectionView()
     private let riskyZoneLabel: UILabel = UILabel()
-    private let riskyZoneTabel: UITableView = RiskyZoneTableView()
+    private let riskyZoneTabel: RiskyZoneTableView = RiskyZoneTableView()
     private let daysLabel: UILabel = UILabel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(DataManager.shared.getUserId())
         generalTable.presenter = presenter
         appIconCollectionView.presenter = presenter
-        presenter?.generalTableView = generalTable
+        riskyZoneTabel.presenter = presenter
         presenter?.collectionView = appIconCollectionView
         presenter?.viewDidLoad()
         configureUI()
@@ -73,6 +74,20 @@ final class AccountViewController: UIViewController {
         }
         let cancelAction = UIAlertAction(title: "Ok", style: .cancel)
         alertController.addAction(copyAction)
+        alertController.addAction(cancelAction)
+        present(alertController, animated: true)
+    }
+    
+    func showLogOutConfirmationAlert() {
+        let alertController = UIAlertController(
+            title: "Confirm Log Out",
+            message: "Are you sure you want to log out? You will not be able to undo this action in the future",
+            preferredStyle: .alert)
+        let confirmAction = UIAlertAction(title: "Log out", style: .default) { _ in
+            self.presenter?.logOut()
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        alertController.addAction(confirmAction)
         alertController.addAction(cancelAction)
         present(alertController, animated: true)
     }

@@ -16,7 +16,7 @@ final class EditEmailRouter {
     
     func navigateToEnterVerificationCode() {
         let vc = EnterVerificationCodeBuilder.build()
-        vc.modalPresentationStyle = .currentContext
+        vc.modalPresentationStyle = .custom
         vc.editEmailVC = view
         view?.present(vc, animated: true)
     }

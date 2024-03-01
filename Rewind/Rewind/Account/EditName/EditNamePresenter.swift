@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 final class EditNamePresenter {
     private weak var view: EditNameViewController?

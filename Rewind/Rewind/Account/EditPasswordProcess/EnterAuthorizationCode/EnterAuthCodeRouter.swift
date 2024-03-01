@@ -16,7 +16,7 @@ final class EnterAuthCodeRouter {
     
     func navigateToEditPassword() {
         let vc = EditPasswordBuilder.build()
-        vc.modalPresentationStyle = .currentContext
+        vc.modalPresentationStyle = .custom
         vc.enterAuthCodeVC = view
         view?.present(vc, animated: true)
     }

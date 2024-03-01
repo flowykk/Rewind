@@ -25,16 +25,19 @@ final class AccountRouter {
     
     func presentEditName() {
         let vc = EditNameBuilder.build()
-        view?.present(vc, animated: true)
-    }
-    
-    func presentEnterAuthCode() {
-        let vc = EnterAuthCodeBuilder.build()
+        vc.modalPresentationStyle = .custom
         view?.present(vc, animated: true)
     }
     
     func presentEditEmail() {
         let vc = EditEmailBuilder.build()
+        vc.modalPresentationStyle = .custom
+        view?.present(vc, animated: true)
+    }
+    
+    func presentEnterAuthCode() {
+        let vc = EnterAuthCodeBuilder.build()
+        vc.modalPresentationStyle = .custom
         view?.present(vc, animated: true)
     }
     

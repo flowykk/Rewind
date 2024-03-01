@@ -16,8 +16,8 @@ final class EnterVerificationCodePresenter {
     
     func validateCode(_ code: String) {
         print("Code: <\(code)>")
-        view?.dismiss(animated: true, completion: {
+        view?.dismiss(animated: true) {
             self.view?.editEmailVC?.dismiss(animated: true)
-        })
+        }
     }
 }

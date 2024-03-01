@@ -27,7 +27,6 @@ final class AccountViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(DataManager.shared.getUserId())
         groupsTabel.presenter = presenter
         generalTable.presenter = presenter
         appIconCollectionView.presenter = presenter
@@ -297,7 +296,11 @@ extension AccountViewController {
 extension AccountViewController: UIImagePickerControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let selectedImage = info[.originalImage] as? UIImage {
-            presenter?.newImageSelected(selectedImage)
+            if let imageData = selectedImage.jpegData(compressionQuality: 1.0) {
+                let base64String = imageData.base64EncodedString()
+                print(base64String)
+                presenter?.newImageSelected(image: base64String)
+            }
         }
         dismiss(animated: true)
     }

@@ -36,8 +36,8 @@ final class DataManager {
         user.id = id
     }
     
-    func setAvatarBase64String(_ avatarBase64String: String) {
-        user.avatarBase64String = avatarBase64String
+    func setUserImageBase64String(_ imageBase64String: String) {
+        user.imageBase64String = imageBase64String
     }
     
     // MARK: - GET methods
@@ -58,7 +58,7 @@ final class DataManager {
     }
     
     func getAvatarBase64String() -> String {
-        return user.avatarBase64String
+        return user.imageBase64String
     }
     
     func getUserId() -> Int {

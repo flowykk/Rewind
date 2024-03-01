@@ -17,9 +17,8 @@ final class EnterVerificationCodePresenter {
     func validateCode(_ code: String) {
         let expectedCode = DataManager.shared.getUserVerificationCode()
         if expectedCode == code {
-            let userId = DataManager.shared.getUserId()
             if let newEmail = view?.newEmail {
-                updateUserEmail(userId: userId, newEmail: newEmail)
+                updateUserEmail(newEmail: newEmail)
             } else {
                 // TODO: catch nil
             }
@@ -29,7 +28,8 @@ final class EnterVerificationCodePresenter {
 
 // MARK: - Private funcs
 extension EnterVerificationCodePresenter {
-    private func updateUserEmail(userId: Int, newEmail: String) {
+    private func updateUserEmail(newEmail: String) {
+        let userId = DataManager.shared.getUserId()
         NetworkService.updateUserEmail(userId: userId, newEmail: newEmail) { response in
             DispatchQueue.global().async {
                 if response.success {

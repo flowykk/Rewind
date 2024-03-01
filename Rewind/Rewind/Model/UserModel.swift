@@ -21,5 +21,5 @@ struct User {
     var name: String = ""
     var id: Int = -1
     
-    var avatarBase64String: String = ""
+    var imageBase64String: String = ""
 }

@@ -36,7 +36,7 @@ final class EnterEmailPresenter {
     }
 }
 
-// MARK: - Private funcs
+// MARK: - Network Request Funcs
 extension EnterEmailPresenter {
     private func sendCodeToRegister(toEmail email: String) {
         NetworkService.sendCodeToRegister(toEmail: email) { [weak self] response in
@@ -47,7 +47,7 @@ extension EnterEmailPresenter {
     }
     
     private func sendCodeToLogin(toEmail email: String) {
-        NetworkService.sendCodeToLogin(email) { [weak self] response in
+        NetworkService.sendCodeToLogIn(email) { [weak self] response in
             DispatchQueue.global().async {
                 self?.handleSendCodeToLoginResponse(response, email: email)
             }

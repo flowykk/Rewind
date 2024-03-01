@@ -17,7 +17,7 @@ final class NetworkService {
     private static let appUrl: String = "https://www.rewindapp.ru/api"
     
     
-    // MARK: - sendCodeToRegister
+    // MARK: - Send Code To Register
     static func sendCodeToRegister(toEmail email: String, completion: @escaping (NetworkResponse) -> Void) {
         guard let url = URL(string: appUrl + "/register/check-email/\(email)") else {
             completion(NetworkResponse(success: false))
@@ -35,7 +35,25 @@ final class NetworkService {
     }
     
     
-    // MARK: - sendCode
+    // MARK: - Send Code To Log In
+    static func sendCodeToLogIn(_ email: String, completion: @escaping (NetworkResponse) -> Void) {
+        guard let url = URL(string: "\(appUrl)/login/check-email/\(email)") else {
+            completion(NetworkResponse(success: false))
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            let networkResponse = self.processResponse(data: data, response: response, error: error)
+            completion(networkResponse)
+        }
+        task.resume()
+    }
+    
+    
+    // MARK: - Send Code
     static func sendCode(toEmail email: String, completion: @escaping (NetworkResponse) -> Void) {
         guard let url = URL(string: appUrl + "/users/send-code/\(email)") else {
             completion(NetworkResponse(success: false))
@@ -53,7 +71,7 @@ final class NetworkService {
     }
     
     
-    // MARK: - registerUser
+    // MARK: - Register User
     static func registerUser(user: User, completion: @escaping (NetworkResponse) -> Void) {
         guard let url = URL(string: appUrl + "/register") else {
             completion(NetworkResponse(success: false))
@@ -80,26 +98,8 @@ final class NetworkService {
     }
     
     
-    // MARK: - sendCodeToLogin
-    static func sendCodeToLogin(_ email: String, completion: @escaping (NetworkResponse) -> Void) {
-        guard let url = URL(string: "\(appUrl)/login/check-email/\(email)") else {
-            completion(NetworkResponse(success: false))
-            return
-        }
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        
-        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            let networkResponse = self.processResponse(data: data, response: response, error: error)
-                completion(networkResponse)
-        }
-        task.resume()
-    }
-    
-    
-    // MARK: - loginUser
-    static func loginUser(withEmail email: String, password: String, completion: @escaping (NetworkResponse) -> Void) {
+    // MARK: - Log In User
+    static func logInUser(withEmail email: String, password: String, completion: @escaping (NetworkResponse) -> Void) {
         guard let url = URL(string: appUrl + "/login") else {
             completion(NetworkResponse(success: false))
             return
@@ -125,7 +125,7 @@ final class NetworkService {
     }
     
     
-    // MARK: - deleteUser
+    // MARK: - Delete User
     static func deleteUser(withId userId: Int, completion: @escaping (NetworkResponse) -> Void) {
         guard let url = URL(string: appUrl + "/users/delete/\(userId)") else {
             completion(NetworkResponse(success: false))
@@ -143,7 +143,7 @@ final class NetworkService {
     }
     
     
-    // MARK: - updateUserName
+    // MARK: - Update User Name
     static func updateUserName(userId: Int, newName: String, completion: @escaping (NetworkResponse) -> Void) {
         guard let url = URL(string: appUrl + "/change-user/name/\(userId)") else {
             completion(NetworkResponse(success: false, message: "Wrong URL"))
@@ -170,7 +170,7 @@ final class NetworkService {
     }
     
     
-    // MARK: - updateUserEmail
+    // MARK: - Update User Email
     static func updateUserEmail(userId: Int, newEmail: String, completion: @escaping (NetworkResponse) -> Void) {
         guard let url = URL(string: appUrl + "/change-user/email/\(userId)") else {
             completion(NetworkResponse(success: false, message: "Wrong URL"))
@@ -197,7 +197,7 @@ final class NetworkService {
     }
     
     
-    // MARK: - updateUserPassword
+    // MARK: - Update User Password
     static func updateUserPassword(userId: Int, newPassword: String, completion: @escaping (NetworkResponse) -> Void) {
         guard let url = URL(string: appUrl + "/change-user/password/\(userId)") else {
             completion(NetworkResponse(success: false, message: "Wrong URL"))
@@ -210,6 +210,33 @@ final class NetworkService {
         
         do {
             let parameters: [String : Any] = ["password" : newPassword]
+            request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: [])
+        } catch {
+            completion(NetworkResponse(success: false, message: error.localizedDescription))
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            let networkResponse = self.processResponse(data: data, response: response, error: error)
+            completion(networkResponse)
+        }
+        task.resume()
+    }
+    
+    
+    // MARK: - Update User Image
+    static func updateUserImage(userId: Int, newImage: String, completion: @escaping (NetworkResponse) -> Void) {
+        guard let url = URL(string: appUrl + "/change-user/image/\(userId)") else {
+            completion(NetworkResponse(success: false, message: "Wrong URL"))
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "PUT"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        do {
+            let parameters: [String : Any] = ["media" : newImage]
             request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: [])
         } catch {
             completion(NetworkResponse(success: false, message: error.localizedDescription))

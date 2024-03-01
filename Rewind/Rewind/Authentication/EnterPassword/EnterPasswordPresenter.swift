@@ -61,10 +61,10 @@ final class EnterPasswordPresenter {
     }
 }
 
-// MARK: - Private funcs
+// MARK: - Network Request Funcs
 extension EnterPasswordPresenter {
     private func loginUser(withEmail email: String, password: String) {
-        NetworkService.loginUser(withEmail: email, password: password) { [weak self] response in
+        NetworkService.logInUser(withEmail: email, password: password) { [weak self] response in
             DispatchQueue.global().async {
                 self?.handleLoginUserResponse(response, email: email)
             }

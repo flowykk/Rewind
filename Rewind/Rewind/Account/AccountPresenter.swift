@@ -24,8 +24,8 @@ final class AccountPresenter {
         router.navigateToRewind()
     }
     
-    func newImageSelected(_ image: UIImage) {
-        view?.setAvatarImage(image: image)
+    func newImageSelected(image: String) {
+        updateUserImage(withImage: image)
     }
     
     func copyEmailToPasteboard() {
@@ -121,6 +121,12 @@ final class AccountPresenter {
         collectionView?.selectedAppIconIndexPath = IndexPath(item: index, section: 0)
     }
     
+    func didUpdateImage(to image: String) {
+        if let avatarImage = imageFromBase64String(base64String: image) {
+            view?.setAvatarImage(image: avatarImage)
+        }
+    }
+    
     func openEditImageAlert() {
         view?.showEditImageAlert()
     }
@@ -147,16 +153,9 @@ final class AccountPresenter {
     }
 }
 
-// MARK: - Private funcs
+// MARK: - Network Request Funcs
 extension AccountPresenter {
-    private func imageFromBase64String(base64String: String) -> UIImage? {
-        guard let imageData = Data(base64Encoded: base64String) else { return nil }
-        guard let image = UIImage(data: imageData) else { return nil }
-        return image
-    }
-    
     private func sendAuthenticationCode(toEmail email: String) {
-        print(email)
         NetworkService.sendCode(toEmail: email) { response in
             DispatchQueue.global().async {
                 if response.success {
@@ -171,5 +170,35 @@ extension AccountPresenter {
                 }
             }
         }
+    }
+    
+    private func updateUserImage(withImage newImage: String) {
+        let userId = DataManager.shared.getUserId()
+        NetworkService.updateUserImage(userId: userId, newImage: newImage) { [weak self] response in
+            DispatchQueue.global().async {
+                self?.handleUpdateUserImageResponse(response, image: newImage)
+            }
+        }
+    }
+}
+
+// MARK: - Network Response Handlers
+extension AccountPresenter {
+    private func handleUpdateUserImageResponse(_ response: NetworkResponse, image: String) {
+        if response.success {
+            DataManager.shared.setUserImageBase64String(image)
+            DispatchQueue.main.async {
+                self.didUpdateImage(to: image)
+            }
+        }
+    }
+}
+
+// MARK: - Utility Functions
+extension AccountPresenter {
+    private func imageFromBase64String(base64String: String) -> UIImage? {
+        guard let imageData = Data(base64Encoded: base64String) else { return nil }
+        guard let image = UIImage(data: imageData) else { return nil }
+        return image
     }
 }

@@ -16,9 +16,18 @@ final class EditEmailPresenter {
         self.router = router
     }
     
-    func updateEmail(with email: String) {
-        print("New email: <\(email)>")
-        let value = view?.viewDistanceTop ?? 40
-        router.navigateToEnterVerificationCode(viewDistanceTop: value)
+    func sendVerificationVode(toEmail email: String) {
+        NetworkService.sendVerificationCode(toEmail: email) { response in
+            DispatchQueue.main.async {
+                if response.success {
+                    let value = self.view?.viewDistanceTop ?? 40
+                    DataManager.shared.setUserVerificationCode(response.message ?? "")
+                    self.router.navigateToEnterVerificationCode(viewDistanceTop: value, newEmail: email)
+                } else {
+                    print(response.statusCode as Any)
+                    print(response.message as Any)
+                }
+            }
+        }
     }
 }

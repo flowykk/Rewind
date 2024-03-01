@@ -14,11 +14,12 @@ final class EditEmailRouter {
         self.view = view
     }
     
-    func navigateToEnterVerificationCode(viewDistanceTop: CGFloat) {
+    func navigateToEnterVerificationCode(viewDistanceTop: CGFloat, newEmail: String) {
         let vc = EnterVerificationCodeBuilder.build()
         vc.modalPresentationStyle = .custom
         vc.editEmailVC = view
         vc.viewDistanceTop = viewDistanceTop
+        vc.newEmail = newEmail
         view?.present(vc, animated: true)
     }
 }

@@ -20,7 +20,7 @@ final class EditNamePresenter {
         NetworkService.updateUserName(userId: userId, newName: name) { response in
             DispatchQueue.main.async {
                 if response.success {
-                    if let message = response.message {
+                    if response.message != nil {
                         self.view?.delegate?.presenter?.didUpdateName(to: name)
                         DataManager.shared.setUserName(name)
                         self.view?.dismiss(animated: true)

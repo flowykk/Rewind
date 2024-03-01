@@ -148,8 +148,4 @@ extension AccountPresenter {
         guard let image = UIImage(data: imageData) else { return nil }
         return image
     }
-    
-    private func requestName(userId: Int) {
-        
-    }
 }

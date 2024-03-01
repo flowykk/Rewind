@@ -313,4 +313,56 @@ final class NetworkService {
         }
         task.resume()
     }
+    
+    static func updateUserEmail(
+        userId: Int,
+        newEmail: String,
+        completion: @escaping (NetworkResponse) -> Void
+    ) {
+        guard let url = URL(string: appUrl + "/change-user/name/\(userId)") else {
+            let response = NetworkResponse(success: false, message: "Wrong URL")
+            completion(response)
+            return
+        }
+        
+        print(url)
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "PUT"
+        
+        let parameters: [String : Any] = [
+            "email" : newEmail
+        ]
+        
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: [])
+        } catch {
+            // TODO: catch error
+            return
+        }
+        
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                let response = NetworkResponse(success: false, message: error.localizedDescription)
+                completion(response)
+                return
+            }
+            guard let httpResponse = response as? HTTPURLResponse else {
+                let response = NetworkResponse(success: false)
+                completion(response)
+                return
+            }
+            if httpResponse.statusCode == 200 {
+                let response = NetworkResponse(success: true, message: String(data: data ?? Data(), encoding: .utf8))
+                completion(response)
+            } else {
+                print(httpResponse.statusCode)
+                let response = NetworkResponse(success: false, statusCode: httpResponse.statusCode)
+                completion(response)
+            }
+        }
+        task.resume()
+    }
 }

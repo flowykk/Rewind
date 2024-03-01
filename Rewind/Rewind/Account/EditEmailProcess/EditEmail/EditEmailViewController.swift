@@ -35,7 +35,7 @@ final class EditEmailViewController: UIViewController {
     @objc
     private func continueButtonTapped() {
         guard let newEmail = emailField.text else { return }
-        presenter?.updateEmail(with: newEmail)
+        presenter?.sendVerificationVode(toEmail: newEmail)
     }
 }
 

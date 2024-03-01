@@ -11,6 +11,7 @@ final class EnterVerificationCodeViewController: UIViewController {
     var presenter: EnterVerificationCodePresenter?
     
     weak var editEmailVC: UIViewController?
+    var newEmail: String?
     
     private let codeLabel: UILabel = UILabel()
     private var digit1Field: UITextField = UITextField()

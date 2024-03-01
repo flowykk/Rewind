@@ -65,15 +65,21 @@ final class AccountPresenter {
         updateSelection(idnex: index)
     }
     
+    // MARK: - GroupsTableView To Presenter
+    func groupsRowSelected(_ row: GroupsTableView.GroupsRow) {
+        switch row {
+        case .viewGroups:   print("show all groups")
+        }
+    }
+    
     // MARK: - GeneralTableView To Presenter
     func generalRowSelected(_ row: GeneralTableView.GeneralRow) {
         switch row {
         case .editImage:    openEditImageAlert()
         case .editName:     router.presentEditName()
-        case .editPassword: router.presentEnterAuthCode()
         case .editEmail:    router.presentEditEmail()
-        case .addWidget:    print("add widget")
-        case .viewGroups:   print("view groupds")
+        case .editPassword: router.presentEnterAuthCode()
+//        case .addWidget:    print("add widget")
         case .getHelp:      openHelpAlert()
         case .share:        router.presentShareVC()
         }

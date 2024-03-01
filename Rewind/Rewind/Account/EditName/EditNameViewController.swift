@@ -59,6 +59,9 @@ extension EditNameViewController {
         nameField.layer.cornerRadius = 15
         nameField.returnKeyType = .done
         
+        nameField.autocapitalizationType = .none
+        nameField.autocorrectionType = .no
+        
         nameField.leftView = UIView(frame: CGRect(x: .zero, y: .zero, width: 20, height: 50))
         nameField.rightView = UIView(frame: CGRect(x: .zero, y: .zero, width: 20, height: 50))
         nameField.leftViewMode = .always

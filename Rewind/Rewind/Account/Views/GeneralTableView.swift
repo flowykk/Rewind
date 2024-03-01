@@ -15,10 +15,9 @@ final class GeneralTableView: UITableView {
     enum GeneralRow: String, CaseIterable {
         case editImage = "Edit profile image"
         case editName = "Edit name"
-        case editPassword = "Edit password"
         case editEmail = "Edit email"
-        case addWidget = "Add a widget"
-        case viewGroups = "View groups"
+        case editPassword = "Edit password"
+//        case addWidget = "Add a widget"
         case getHelp = "Get help"
         case share = "Share with friends"
     }
@@ -39,15 +38,16 @@ final class GeneralTableView: UITableView {
         isScrollEnabled = false
         layer.cornerRadius = 20
         rowHeight = 50
-        setHeight(50 * 8 - 1)
+        setHeight(Double(50 * (GeneralRow.allCases.count) - 1))
     }
 }
 
 // MARK: - UITableViewDelegate
 extension GeneralTableView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        presenter?.generalRowSelected(GeneralRow.allCases[indexPath.row])
-        tableView.deselectRow(at: tableView.indexPathForSelectedRow ?? IndexPath(), animated: true)
+        let selectedRow = GeneralRow.allCases[indexPath.row]
+        presenter?.generalRowSelected(selectedRow)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 
@@ -61,7 +61,7 @@ extension GeneralTableView: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         guard let customCell = cell as? CustomTableViewCell else { return cell }
         let name = GeneralRow.allCases[indexPath.row].rawValue
-        let iconName = getIconName(fromName: name)
+        let iconName = getIconName(fromRow: GeneralRow.allCases[indexPath.row])
         customCell.configure(withName: name, iconName: iconName, tintColor: .darkGray, squareColor: .systemGray4)
         return customCell
     }
@@ -69,26 +69,20 @@ extension GeneralTableView: UITableViewDataSource {
 
 // MARK: - Private funcs
 extension GeneralTableView {
-    private func getIconName(fromName name: String) -> String {
-        switch name {
-        case "Edit profile image":
+    private func getIconName(fromRow row: GeneralRow) -> String {
+        switch row {
+        case .editImage:
             return "photo"
-        case "Edit name":
+        case .editName:
             return "pencil"
-        case "Edit password":
-            return "shield.lefthalf.filled"
-        case "Edit email":
+        case .editEmail:
             return "envelope.fill"
-        case "Add a widget":
-            return "plus"
-        case "View groups":
-            return "eye.fill"
-        case "Get help":
+        case .editPassword:
+            return "shield.lefthalf.filled"
+        case .getHelp:
             return "questionmark.circle.fill"
-        case "Share with friends":
+        case .share:
             return "square.and.arrow.up.fill"
-        default:
-            return ""
         }
     }
 }

@@ -15,6 +15,8 @@ final class AccountViewController: UIViewController {
     private let avatarView: UIImageView = UIImageView()
     private var avatarImage: UIImage? = nil
     private let nameLabel: UILabel = UILabel()
+    private let groupsLabel: UILabel = UILabel()
+    private let groupsTabel: GroupsTableView = GroupsTableView()
     private let generalLabel: UILabel = UILabel()
     private let generalTable: GeneralTableView = GeneralTableView()
     private let appIconLabel: UILabel = UILabel()
@@ -26,6 +28,7 @@ final class AccountViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print(DataManager.shared.getUserId())
+        groupsTabel.presenter = presenter
         generalTable.presenter = presenter
         appIconCollectionView.presenter = presenter
         riskyZoneTabel.presenter = presenter
@@ -116,6 +119,8 @@ extension AccountViewController {
         configureContentView()
         configureAvatarView()
         configureNameLabel()
+        configureGroupsLabel()
+        configureGroupsTable()
         configureGeneralLabel()
         configureGeneralTable()
         configureAppIconLabel()
@@ -190,6 +195,26 @@ extension AccountViewController {
         nameLabel.pinCenterX(to: contentView.centerXAnchor)
     }
     
+    private func configureGroupsLabel() {
+        contentView.addSubview(groupsLabel)
+        groupsLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        groupsLabel.text = "Groups"
+        groupsLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        
+        groupsLabel.pinTop(to: nameLabel.bottomAnchor, 30)
+        groupsLabel.pinLeft(to: contentView.leadingAnchor, 20)
+    }
+    
+    private func configureGroupsTable() {
+        contentView.addSubview(groupsTabel)
+        groupsTabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        groupsTabel.pinTop(to: groupsLabel.bottomAnchor, 10)
+        groupsTabel.pinLeft(to: contentView.leadingAnchor, 20)
+        groupsTabel.pinRight(to: contentView.trailingAnchor, 20)
+    }
+    
     private func configureGeneralLabel() {
         contentView.addSubview(generalLabel)
         generalLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -197,7 +222,7 @@ extension AccountViewController {
         generalLabel.text = "General"
         generalLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         
-        generalLabel.pinTop(to: nameLabel.bottomAnchor, 30)
+        generalLabel.pinTop(to: groupsTabel.bottomAnchor, 25)
         generalLabel.pinLeft(to: contentView.leadingAnchor, 20)
     }
     
@@ -217,7 +242,7 @@ extension AccountViewController {
         appIconLabel.text = "App icon"
         appIconLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         
-        appIconLabel.pinTop(to: generalTable.bottomAnchor, 30)
+        appIconLabel.pinTop(to: generalTable.bottomAnchor, 25)
         appIconLabel.pinLeft(to: contentView.leadingAnchor, 20)
     }
     
@@ -237,7 +262,7 @@ extension AccountViewController {
         riskyZoneLabel.text = "Risky zone"
         riskyZoneLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         
-        riskyZoneLabel.pinTop(to: appIconCollectionView.bottomAnchor, 30)
+        riskyZoneLabel.pinTop(to: appIconCollectionView.bottomAnchor, 25)
         riskyZoneLabel.pinLeft(to: contentView.leadingAnchor, 20)
     }
     

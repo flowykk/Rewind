@@ -55,6 +55,10 @@ final class AccountPresenter {
         }
     }
     
+    func didUpdateName(to newName: String) {
+        view?.updateName(to: newName)
+    }
+    
     // MARK: - CollectionView To Presenter
     func appIconSelected(_ icon: AppIcon, at index: Int) {
         if icon == .AppIconWhite {
@@ -98,8 +102,15 @@ final class AccountPresenter {
         if let avatarImage = imageFromBase64String(base64String: DataManager.shared.getAvatarBase64String()) {
             view?.setAvatarImage(image: avatarImage)
         }
+        
+        let userName = DataManager.shared.getUserName()
+        if userName == "" {
+        }
+        view?.setUserName(name: userName)
+        
         let currentIconName = UIApplication.shared.alternateIconName ?? "AppIconWhite"
         AppIconCell.initialSelectedIcon = currentIconName
+        
         let index = AppIcon.indexForCase(withValue: currentIconName) ?? 0
         collectionView?.selectedAppIconIndexPath = IndexPath(item: index, section: 0)
     }
@@ -136,5 +147,9 @@ extension AccountPresenter {
         guard let imageData = Data(base64Encoded: base64String) else { return nil }
         guard let image = UIImage(data: imageData) else { return nil }
         return image
+    }
+    
+    private func requestName(userId: Int) {
+        
     }
 }

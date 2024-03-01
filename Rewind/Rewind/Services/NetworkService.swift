@@ -14,11 +14,13 @@ struct NetworkResponse {
 }
 
 final class NetworkService {
+    private static let appUrl: String = "https://www.rewindapp.ru/api"
+    
     static func sendVerificationCode(
         toEmail email: String,
         completion: @escaping (NetworkResponse) -> Void
     ) {
-        guard let url = URL(string: "https://www.rewindapp.ru/api/register/check-email/\(email)") else {
+        guard let url = URL(string: appUrl + "/register/check-email/\(email)") else {
             let response = NetworkResponse(success: false)
             completion(response)
             return
@@ -51,7 +53,7 @@ final class NetworkService {
         user: User,
         completion: @escaping (NetworkResponse) -> Void
     ) {
-        guard let url = URL(string: "https://www.rewindapp.ru/api/register") else {
+        guard let url = URL(string: appUrl + "/register") else {
             let response = NetworkResponse(success: false)
             completion(response)
             return
@@ -100,7 +102,7 @@ final class NetworkService {
         _ email: String,
         completion: @escaping (NetworkResponse) -> Void
     ) {
-        guard let url = URL(string: "https://www.rewindapp.ru/api/login/check-email/\(email)") else {
+        guard let url = URL(string: appUrl + "/login/check-email/\(email)") else {
             let response = NetworkResponse(success: false)
             completion(response)
             return
@@ -133,7 +135,7 @@ final class NetworkService {
         user: User,
         completion: @escaping (NetworkResponse) -> Void
     ) {
-        guard let url = URL(string: "https://www.rewindapp.ru/api/login") else {
+        guard let url = URL(string: appUrl + "/login") else {
             let response = NetworkResponse(success: false)
             completion(response)
             return
@@ -225,10 +227,10 @@ final class NetworkService {
     }
     
     static func deleteUser(
-        withId id: Int,
+        withId userId: Int,
         completion: @escaping (NetworkResponse) -> Void
     ) {
-        guard let url = URL(string: "https://www.rewindapp.ru/api/users/delete/\(id)") else {
+        guard let url = URL(string: appUrl + "/users/delete/\(userId)") else {
             let response = NetworkResponse(success: false)
             completion(response)
             return
@@ -236,6 +238,58 @@ final class NetworkService {
         
         var request = URLRequest(url: url)
         request.httpMethod = "DELETE"
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                let response = NetworkResponse(success: false, message: error.localizedDescription)
+                completion(response)
+                return
+            }
+            guard let httpResponse = response as? HTTPURLResponse else {
+                let response = NetworkResponse(success: false)
+                completion(response)
+                return
+            }
+            if httpResponse.statusCode == 200 {
+                let response = NetworkResponse(success: true, message: String(data: data ?? Data(), encoding: .utf8))
+                completion(response)
+            } else {
+                print(httpResponse.statusCode)
+                let response = NetworkResponse(success: false, statusCode: httpResponse.statusCode)
+                completion(response)
+            }
+        }
+        task.resume()
+    }
+    
+    static func updateUserName(
+        userId: Int,
+        newName: String,
+        completion: @escaping (NetworkResponse) -> Void
+    ) {
+        guard let url = URL(string: appUrl + "/change-user/name/\(userId)") else {
+            let response = NetworkResponse(success: false, message: "Wrong URL")
+            completion(response)
+            return
+        }
+        
+        print(url)
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "PUT"
+        
+        let parameters: [String : Any] = [
+            "username" : newName
+        ]
+        
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: [])
+        } catch {
+            // TODO: catch error
+            return
+        }
+        
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             if let error = error {

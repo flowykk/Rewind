@@ -16,6 +16,20 @@ final class EditNamePresenter {
     }
     
     func updateName(with name: String) {
-        view?.dismiss(animated: true)
+        let userId = DataManager.shared.getUserId()
+        NetworkService.updateUserName(userId: userId, newName: name) { response in
+            DispatchQueue.main.async {
+                if response.success {
+                    if let message = response.message {
+                        self.view?.delegate?.presenter?.didUpdateName(to: name)
+                        DataManager.shared.setUserName(name)
+                        self.view?.dismiss(animated: true)
+                    }
+                } else {
+                    print(response.message as Any)
+                    print(response.statusCode as Any)
+                }
+            }
+        }
     }
 }

@@ -46,6 +46,10 @@ final class AccountViewController: UIViewController {
         avatarView.image = image
     }
     
+    func setUserName(name: String) {
+        nameLabel.text = name
+    }
+    
     func showEditImageAlert() {
         let alertController = UIAlertController(
             title: "Load your media",
@@ -107,6 +111,10 @@ final class AccountViewController: UIViewController {
         alertController.addAction(confirmAction)
         alertController.addAction(cancelAction)
         present(alertController, animated: true)
+    }
+    
+    func updateName(to newName: String) {
+        nameLabel.text = newName
     }
 }
 
@@ -173,8 +181,6 @@ extension AccountViewController {
         avatarView.contentMode = .scaleAspectFill
         avatarView.clipsToBounds = true
         avatarView.layer.cornerRadius = 65
-        avatarView.layer.borderWidth = 4
-        avatarView.layer.borderColor = UIColor(named: "customPink")?.cgColor
         
         avatarView.image = avatarImage
         
@@ -188,7 +194,6 @@ extension AccountViewController {
         contentView.addSubview(nameLabel)
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        nameLabel.text = "User name"
         nameLabel.font = UIFont.systemFont(ofSize: 24, weight: .bold)
         
         nameLabel.pinTop(to: avatarView.bottomAnchor, 10)

@@ -60,4 +60,8 @@ final class DataManager {
     func getUserId() -> Int {
         return user.id
     }
+    
+    func getUserName() -> String {
+        return user.name
+    }
 }

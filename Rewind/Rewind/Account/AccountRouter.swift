@@ -26,18 +26,27 @@ final class AccountRouter {
     func presentEditName() {
         let vc = EditNameBuilder.build()
         vc.modalPresentationStyle = .custom
+        if let nc = view?.navigationController {
+            vc.viewDistanceTop = nc.navigationBar.frame.height + 10
+        }
         view?.present(vc, animated: true)
     }
     
     func presentEditEmail() {
         let vc = EditEmailBuilder.build()
         vc.modalPresentationStyle = .custom
+        if let nc = view?.navigationController {
+            vc.viewDistanceTop = nc.navigationBar.frame.height + 10
+        }
         view?.present(vc, animated: true)
     }
     
     func presentEnterAuthCode() {
         let vc = EnterAuthCodeBuilder.build()
         vc.modalPresentationStyle = .custom
+        if let nc = view?.navigationController {
+            vc.viewDistanceTop = nc.navigationBar.frame.height + 10
+        }
         view?.present(vc, animated: true)
     }
     

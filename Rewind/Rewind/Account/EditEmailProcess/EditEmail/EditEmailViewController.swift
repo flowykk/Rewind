@@ -14,7 +14,7 @@ final class EditEmailViewController: UIViewController {
     private let emailField: UITextField = UITextField()
     private let continueButton: UIButton = UIButton(type: .system)
     
-    private let viewDistanceTop: CGFloat = 60
+    var viewDistanceTop: CGFloat = 40
     
     override func viewDidLoad() {
         super.viewDidLoad()

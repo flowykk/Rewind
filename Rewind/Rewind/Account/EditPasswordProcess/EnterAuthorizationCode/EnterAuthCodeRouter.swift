@@ -14,10 +14,11 @@ final class EnterAuthCodeRouter {
         self.view = view
     }
     
-    func navigateToEditPassword() {
+    func navigateToEditPassword(viewDistanceTop: CGFloat) {
         let vc = EditPasswordBuilder.build()
         vc.modalPresentationStyle = .custom
         vc.enterAuthCodeVC = view
+        vc.viewDistanceTop = viewDistanceTop
         view?.present(vc, animated: true)
     }
 }

@@ -18,6 +18,7 @@ final class EnterAuthCodePresenter {
     
     func validateCode(_ code: String) {
         print("Code: <\(code)>")
-        router.navigateToEditPassword()
+        let value = view?.viewDistanceTop ?? 40
+        router.navigateToEditPassword(viewDistanceTop: value)
     }
 }

@@ -18,6 +18,7 @@ final class EditEmailPresenter {
     
     func updateEmail(with email: String) {
         print("New email: <\(email)>")
-        router.navigateToEnterVerificationCode()
+        let value = view?.viewDistanceTop ?? 40
+        router.navigateToEnterVerificationCode(viewDistanceTop: value)
     }
 }

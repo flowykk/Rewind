@@ -99,7 +99,7 @@ final class NetworkService {
     
     
     // MARK: - loginUser
-    static func loginUser(user: User, completion: @escaping (NetworkResponse) -> Void) {
+    static func loginUser(withEmail email: String, password: String, completion: @escaping (NetworkResponse) -> Void) {
         guard let url = URL(string: appUrl + "/login") else {
             completion(NetworkResponse(success: false))
             return
@@ -110,7 +110,7 @@ final class NetworkService {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         do {
-            let parameters: [String : Any] = ["email": user.email, "password": user.password]
+            let parameters: [String : Any] = ["email": email, "password": password]
             request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: [])
         } catch {
             completion(NetworkResponse(success: false, message: error.localizedDescription))

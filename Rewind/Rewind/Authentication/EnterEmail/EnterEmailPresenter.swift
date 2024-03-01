@@ -26,9 +26,9 @@ final class EnterEmailPresenter {
         let process = DataManager.shared.getUserProcess()
         switch process {
         case .registration:
-            sendVerificationCode(toEmail: email)
+            sendCodeToRegister(toEmail: email)
         case .authorization:
-            checkEmailExistence(email)
+            sendCodeToLogin(toEmail: email)
         default:
             // TODO: something
             return
@@ -38,36 +38,53 @@ final class EnterEmailPresenter {
 
 // MARK: - Private funcs
 extension EnterEmailPresenter {
-    private func sendVerificationCode(toEmail email: String) {
-        NetworkService.sendCodeToRegister(toEmail: email) { response in
-            DispatchQueue.main.async {
-                if response.success {
-                    print(response.message as Any)
-                    DataManager.shared.setUserEmail(email)
-                    DataManager.shared.setUserVerificationCode(response.message ?? "")
-                    self.router.navigateToEnterCode()
-                } else {
-                    print(response.message as Any)
-                    print(response.statusCode as Any)
-                }
-                self.view?.hideLoadingView()
+    private func sendCodeToRegister(toEmail email: String) {
+        NetworkService.sendCodeToRegister(toEmail: email) { [weak self] response in
+            DispatchQueue.global().async {
+                self?.handleSendCodeToRegisterResponse(response, email: email)
             }
         }
     }
     
-    private func checkEmailExistence(_ email: String) {
-        NetworkService.sendCodeToLogin(email) { response in
-            DispatchQueue.main.async {
-                if response.success {
-                    print(response.message as Any)
-                    DataManager.shared.setUserEmail(email)
-                    self.router.navigateToEnterPassword()
-                } else {
-                    print(response.message as Any)
-                    print(response.statusCode as Any)
-                }
-                self.view?.hideLoadingView()
+    private func sendCodeToLogin(toEmail email: String) {
+        NetworkService.sendCodeToLogin(email) { [weak self] response in
+            DispatchQueue.global().async {
+                self?.handleSendCodeToLoginResponse(response, email: email)
             }
+        }
+    }
+}
+
+// MARK: - Network Response Handlers
+extension EnterEmailPresenter {
+    private func handleSendCodeToRegisterResponse(_ response: NetworkResponse, email: String) {
+        if response.success, let message = response.message, let code = Int(message) {
+            DataManager.shared.setUserEmail(email)
+            DataManager.shared.setUserVerificationCode("\(code)")
+            DispatchQueue.main.async {
+                self.router.navigateToEnterCode()
+            }
+        } else {
+            print(response.statusCode as Any)
+            print(response.message as Any)
+        }
+        DispatchQueue.main.async {
+            self.view?.hideLoadingView()
+        }
+    }
+    
+    private func handleSendCodeToLoginResponse(_ response: NetworkResponse, email: String) {
+        if response.success {
+            DataManager.shared.setUserEmail(email)
+            DispatchQueue.main.async {
+                self.router.navigateToEnterPassword()
+            }
+        } else {
+            print(response.message as Any)
+            print(response.statusCode as Any)
+        }
+        DispatchQueue.main.async {
+            self.view?.hideLoadingView()
         }
     }
 }

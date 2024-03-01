@@ -43,8 +43,8 @@ final class EnterPasswordPresenter {
             router.navigateToEnterName()
         case .authorization:
             view?.showLoadingView()
-            let user = DataManager.shared.getUser()
-            authorizeUser(user: user)
+            let email = DataManager.shared.getUserEmail()
+            loginUser(withEmail: email, password: password)
         default:
             // TODO: something
             return
@@ -63,23 +63,30 @@ final class EnterPasswordPresenter {
 
 // MARK: - Private funcs
 extension EnterPasswordPresenter {
-    private func authorizeUser(user: User) {
-        NetworkService.loginUser(user: DataManager.shared.getUser()) { response in
-            DispatchQueue.main.async {
-                if response.success {
-                    print("User logged in")
-                    print("Id: \(response.message as Any)")
-                    if let message = response.message, let userId = Int(message)  {
-                        UserDefaults.standard.set(userId, forKey: "UserId")
-                        DataManager.shared.setUserId(userId)
-                        self.router.navigateToMainScreen()
-                    }
-                } else {
-                    print(response.message as Any)
-                    print(response.statusCode as Any)
-                }
-                self.view?.hideLoadingView()
+    private func loginUser(withEmail email: String, password: String) {
+        NetworkService.loginUser(withEmail: email, password: password) { [weak self] response in
+            DispatchQueue.global().async {
+                self?.handleLoginUserResponse(response, email: email)
             }
+        }
+    }
+}
+
+// MARK: - Network Response Handlers
+extension EnterPasswordPresenter {
+    private func handleLoginUserResponse(_ response: NetworkResponse, email: String) {
+        if response.success, let message = response.message, let userId = Int(message) {
+            UserDefaults.standard.set(userId, forKey: "UserId")
+            DataManager.shared.setUserId(userId)
+            DispatchQueue.main.async {
+                self.router.navigateToMainScreen()
+            }
+        } else {
+            print(response.statusCode as Any)
+            print(response.message as Any)
+        }
+        DispatchQueue.main.async {
+            self.view?.hideLoadingView()
         }
     }
 }

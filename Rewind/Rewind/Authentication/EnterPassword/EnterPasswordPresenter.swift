@@ -64,7 +64,7 @@ final class EnterPasswordPresenter {
 // MARK: - Private funcs
 extension EnterPasswordPresenter {
     private func authorizeUser(user: User) {
-        NetworkService.authorizeUser(user: DataManager.shared.getUser()) { response in
+        NetworkService.loginUser(user: DataManager.shared.getUser()) { response in
             DispatchQueue.main.async {
                 if response.success {
                     print("User logged in")

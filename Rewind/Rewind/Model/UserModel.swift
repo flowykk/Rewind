@@ -15,7 +15,7 @@ struct User {
     }
     
     var proccess: Process = .none
-    var email: String = ""
+    var email: String = "aleksa.khruleva@yandex.ru"
     var verificationCode: String = ""
     var password: String = ""
     var name: String = ""

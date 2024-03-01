@@ -14,12 +14,6 @@ final class ViewController: UIViewController {
         super.viewDidLoad()
         navigationItem.hidesBackButton = true
         view.backgroundColor = .systemTeal
-        NetworkService.getAvatar { response in
-            if response.success {
-                guard let base64String = response.message else { return }
-                DataManager.shared.setAvatarBase64String(base64String)
-            }
-        }
         configureButton()
     }
     

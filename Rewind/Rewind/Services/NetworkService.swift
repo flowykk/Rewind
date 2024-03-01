@@ -16,223 +16,119 @@ struct NetworkResponse {
 final class NetworkService {
     private static let appUrl: String = "https://www.rewindapp.ru/api"
     
-    static func sendVerificationCode(
-        toEmail email: String,
-        completion: @escaping (NetworkResponse) -> Void
-    ) {
+    
+    // MARK: - sendCodeToRegister
+    static func sendCodeToRegister(toEmail email: String, completion: @escaping (NetworkResponse) -> Void) {
         guard let url = URL(string: appUrl + "/register/check-email/\(email)") else {
-            let response = NetworkResponse(success: false)
-            completion(response)
+            completion(NetworkResponse(success: false))
             return
         }
+        
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
+        
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            if let error = error {
-                let response = NetworkResponse(success: false, message: error.localizedDescription)
-                completion(response)
-                return
-            }
-            guard let httpResponse = response as? HTTPURLResponse else {
-                let response = NetworkResponse(success: false)
-                completion(response)
-                return
-            }
-            if httpResponse.statusCode == 200 {
-                let response = NetworkResponse(success: true, message: String(data: data ?? Data(), encoding: .utf8))
-                completion(response)
-            } else {
-                let response = NetworkResponse(success: false, statusCode: httpResponse.statusCode)
-                completion(response)
-            }
+            let networkResponse = self.processResponse(data: data, response: response, error: error)
+            completion(networkResponse)
         }
         task.resume()
     }
     
-    static func registerUser(
-        user: User,
-        completion: @escaping (NetworkResponse) -> Void
-    ) {
+    
+    // MARK: - sendCode
+    static func sendCode(toEmail email: String, completion: @escaping (NetworkResponse) -> Void) {
+        guard let url = URL(string: appUrl + "/users/send-code/\(email)") else {
+            completion(NetworkResponse(success: false))
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            let networkResponse = processResponse(data: data, response: response, error: error)
+            completion(networkResponse)
+        }
+        task.resume()
+    }
+    
+    
+    // MARK: - registerUser
+    static func registerUser(user: User, completion: @escaping (NetworkResponse) -> Void) {
         guard let url = URL(string: appUrl + "/register") else {
-            let response = NetworkResponse(success: false)
-            completion(response)
+            completion(NetworkResponse(success: false))
             return
         }
+        
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        let parameters: [String : Any] = [
-            "userName": user.name,
-            "email": user.email,
-            "password": user.password
-        ]
-        
-        do {
-            request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: [])
-        } catch {
-            // TODO: catch error
-            return
-        }
-        
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            if let error = error {
-                let response = NetworkResponse(success: false, message: error.localizedDescription)
-                completion(response)
-                return
-            }
-            guard let httpResponse = response as? HTTPURLResponse else {
-                let response = NetworkResponse(success: false)
-                completion(response)
-                return
-            }
-            if httpResponse.statusCode == 200 {
-                let response = NetworkResponse(success: true, message: String(data: data ?? Data(), encoding: .utf8))
-                completion(response)
-            } else {
-                print(httpResponse.statusCode)
-                let response = NetworkResponse(success: false, statusCode: httpResponse.statusCode)
-                completion(response)
-            }
-        }
-        task.resume()
-    }
-    
-    static func checkEmailExistence(
-        _ email: String,
-        completion: @escaping (NetworkResponse) -> Void
-    ) {
-        guard let url = URL(string: appUrl + "/login/check-email/\(email)") else {
-            let response = NetworkResponse(success: false)
-            completion(response)
+        do {
+            let parameters: [String : Any] = ["userName": user.name, "email": user.email, "password": user.password]
+            request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: [])
+        } catch {
+            completion(NetworkResponse(success: false, message: error.localizedDescription))
             return
         }
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
+        
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            if let error = error {
-                let response = NetworkResponse(success: false, message: error.localizedDescription)
-                completion(response)
-                return
-            }
-            guard let httpResponse = response as? HTTPURLResponse else {
-                let response = NetworkResponse(success: false)
-                completion(response)
-                return
-            }
-            if httpResponse.statusCode == 200 {
-                let response = NetworkResponse(success: true, message: String(data: data ?? Data(), encoding: .utf8))
-                completion(response)
-            } else {
-                let response = NetworkResponse(success: false, statusCode: httpResponse.statusCode)
-                completion(response)
-            }
+            let networkResponse = self.processResponse(data: data, response: response, error: error)
+            completion(networkResponse)
         }
         task.resume()
     }
     
-    static func authorizeUser(
-        user: User,
-        completion: @escaping (NetworkResponse) -> Void
-    ) {
+    
+    // MARK: - sendCodeToLogin
+    static func sendCodeToLogin(_ email: String, completion: @escaping (NetworkResponse) -> Void) {
+        guard let url = URL(string: "\(appUrl)/login/check-email/\(email)") else {
+            completion(NetworkResponse(success: false))
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            let networkResponse = self.processResponse(data: data, response: response, error: error)
+                completion(networkResponse)
+        }
+        task.resume()
+    }
+    
+    
+    // MARK: - loginUser
+    static func loginUser(user: User, completion: @escaping (NetworkResponse) -> Void) {
         guard let url = URL(string: appUrl + "/login") else {
-            let response = NetworkResponse(success: false)
-            completion(response)
+            completion(NetworkResponse(success: false))
             return
         }
+        
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        let parameters: [String : Any] = [
-            "email": user.email,
-            "password": user.password
-        ]
-        
-        do {
-            request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: [])
-        } catch {
-            // TODO: catch error
-            return
-        }
-        
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            if let error = error {
-                let response = NetworkResponse(success: false, message: error.localizedDescription)
-                completion(response)
-                return
-            }
-            guard let httpResponse = response as? HTTPURLResponse else {
-                let response = NetworkResponse(success: false)
-                completion(response)
-                return
-            }
-            if httpResponse.statusCode == 200 {
-                let response = NetworkResponse(success: true, message: String(data: data ?? Data(), encoding: .utf8))
-                completion(response)
-            } else {
-                print(httpResponse.statusCode)
-                let response = NetworkResponse(success: false, statusCode: httpResponse.statusCode)
-                completion(response)
-            }
-        }
-        task.resume()
-    }
-    
-    static func getAvatar(
-        completion: @escaping (NetworkResponse) -> Void
-    ) {
-        guard let url = URL(string: "https://www.rewindapp.ru/qwsaqwsa/select02.json") else {
-            let response = NetworkResponse(success: false)
-            completion(response)
+        do {
+            let parameters: [String : Any] = ["email": user.email, "password": user.password]
+            request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: [])
+        } catch {
+            completion(NetworkResponse(success: false, message: error.localizedDescription))
             return
         }
         
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            if let error = error {
-                let response = NetworkResponse(success: false, message: error.localizedDescription)
-                completion(response)
-                return
-            }
-            guard let httpResponse = response as? HTTPURLResponse else {
-                let response = NetworkResponse(success: false)
-                completion(response)
-                return
-            }
-            if httpResponse.statusCode == 200 {
-                do {
-                    guard let data = data else {
-                        let response = NetworkResponse(success: false)
-                        completion(response)
-                        return
-                    }
-                    let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
-                    if let avatarString = json?["avatar"] as? String {
-                        let response = NetworkResponse(success: true, message: avatarString)
-                        completion(response)
-                    }
-                } catch {
-                    
-                }
-            } else {
-                print(httpResponse.statusCode)
-                let response = NetworkResponse(success: false, statusCode: httpResponse.statusCode)
-                completion(response)
-            }
+            let networkResponse = self.processResponse(data: data, response: response, error: error)
+            completion(networkResponse)
         }
         task.resume()
     }
     
-    static func deleteUser(
-        withId userId: Int,
-        completion: @escaping (NetworkResponse) -> Void
-    ) {
+    
+    // MARK: - deleteUser
+    static func deleteUser(withId userId: Int, completion: @escaping (NetworkResponse) -> Void) {
         guard let url = URL(string: appUrl + "/users/delete/\(userId)") else {
-            let response = NetworkResponse(success: false)
-            completion(response)
+            completion(NetworkResponse(success: false))
             return
         }
         
@@ -240,127 +136,113 @@ final class NetworkService {
         request.httpMethod = "DELETE"
         
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            if let error = error {
-                let response = NetworkResponse(success: false, message: error.localizedDescription)
-                completion(response)
-                return
-            }
-            guard let httpResponse = response as? HTTPURLResponse else {
-                let response = NetworkResponse(success: false)
-                completion(response)
-                return
-            }
-            if httpResponse.statusCode == 200 {
-                let response = NetworkResponse(success: true, message: String(data: data ?? Data(), encoding: .utf8))
-                completion(response)
-            } else {
-                print(httpResponse.statusCode)
-                let response = NetworkResponse(success: false, statusCode: httpResponse.statusCode)
-                completion(response)
-            }
+            let networkResponse = self.processResponse(data: data, response: response, error: error)
+            completion(networkResponse)
         }
         task.resume()
     }
     
-    static func updateUserName(
-        userId: Int,
-        newName: String,
-        completion: @escaping (NetworkResponse) -> Void
-    ) {
+    
+    // MARK: - updateUserName
+    static func updateUserName(userId: Int, newName: String, completion: @escaping (NetworkResponse) -> Void) {
         guard let url = URL(string: appUrl + "/change-user/name/\(userId)") else {
-            let response = NetworkResponse(success: false, message: "Wrong URL")
-            completion(response)
+            completion(NetworkResponse(success: false, message: "Wrong URL"))
             return
         }
-        
-        print(url)
         
         var request = URLRequest(url: url)
         request.httpMethod = "PUT"
-        
-        let parameters: [String : Any] = [
-            "username" : newName
-        ]
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         do {
+            let parameters: [String : Any] = ["username" : newName]
             request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: [])
         } catch {
-            // TODO: catch error
+            completion(NetworkResponse(success: false, message: error.localizedDescription))
             return
         }
         
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            if let error = error {
-                let response = NetworkResponse(success: false, message: error.localizedDescription)
-                completion(response)
-                return
-            }
-            guard let httpResponse = response as? HTTPURLResponse else {
-                let response = NetworkResponse(success: false)
-                completion(response)
-                return
-            }
-            if httpResponse.statusCode == 200 {
-                let response = NetworkResponse(success: true, message: String(data: data ?? Data(), encoding: .utf8))
-                completion(response)
-            } else {
-                print(httpResponse.statusCode)
-                let response = NetworkResponse(success: false, statusCode: httpResponse.statusCode)
-                completion(response)
-            }
+            let networkResponse = self.processResponse(data: data, response: response, error: error)
+            completion(networkResponse)
         }
         task.resume()
     }
     
-    static func updateUserEmail(
-        userId: Int,
-        newEmail: String,
-        completion: @escaping (NetworkResponse) -> Void
-    ) {
+    
+    // MARK: - updateUserEmail
+    static func updateUserEmail(userId: Int, newEmail: String, completion: @escaping (NetworkResponse) -> Void) {
         guard let url = URL(string: appUrl + "/change-user/email/\(userId)") else {
-            let response = NetworkResponse(success: false, message: "Wrong URL")
-            completion(response)
+            completion(NetworkResponse(success: false, message: "Wrong URL"))
             return
         }
         
         var request = URLRequest(url: url)
         request.httpMethod = "PUT"
-        
-        let parameters: [String : Any] = [
-            "email" : newEmail
-        ]
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         do {
+            let parameters: [String : Any] = ["email" : newEmail]
             request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: [])
         } catch {
-            // TODO: catch error
+            completion(NetworkResponse(success: false, message: error.localizedDescription))
             return
         }
         
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            if let error = error {
-                let response = NetworkResponse(success: false, message: error.localizedDescription)
-                completion(response)
-                return
-            }
-            guard let httpResponse = response as? HTTPURLResponse else {
-                let response = NetworkResponse(success: false)
-                completion(response)
-                return
-            }
-            if httpResponse.statusCode == 200 {
-                let response = NetworkResponse(success: true, message: String(data: data ?? Data(), encoding: .utf8))
-                completion(response)
-            } else {
-                print(httpResponse.statusCode)
-                let response = NetworkResponse(success: false, statusCode: httpResponse.statusCode)
-                completion(response)
-            }
+            let networkResponse = self.processResponse(data: data, response: response, error: error)
+            completion(networkResponse)
         }
         task.resume()
+    }
+    
+    
+    // MARK: - updateUserPassword
+    static func updateUserPassword(userId: Int, newPassword: String, completion: @escaping (NetworkResponse) -> Void) {
+        guard let url = URL(string: appUrl + "/change-user/password/\(userId)") else {
+            completion(NetworkResponse(success: false, message: "Wrong URL"))
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "PUT"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        do {
+            let parameters: [String : Any] = ["password" : newPassword]
+            request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: [])
+        } catch {
+            completion(NetworkResponse(success: false, message: error.localizedDescription))
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            let networkResponse = self.processResponse(data: data, response: response, error: error)
+            completion(networkResponse)
+        }
+        task.resume()
+    }
+}
+
+// MARK: - Private funcs
+extension NetworkService {
+    static private func processResponse(data: Data?, response: URLResponse?, error: Error?) -> NetworkResponse {
+        if let error = error {
+            return NetworkResponse(success: false, message: error.localizedDescription)
+        }
+        
+        guard let httpResponse = response as? HTTPURLResponse else {
+            return NetworkResponse(success: false)
+        }
+        
+        let success = httpResponse.statusCode == 200
+        let statusCode = httpResponse.statusCode
+        var message: String? = nil
+        
+        if let data = data, let encodingMessage = String(data: data, encoding: .utf8) {
+            message = encodingMessage
+        }
+        
+        return NetworkResponse(success: success, statusCode: statusCode, message: message)
     }
 }

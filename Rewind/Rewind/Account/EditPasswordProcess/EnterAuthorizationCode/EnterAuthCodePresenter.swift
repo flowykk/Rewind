@@ -17,8 +17,12 @@ final class EnterAuthCodePresenter {
     }
     
     func validateCode(_ code: String) {
-        print("Code: <\(code)>")
-        let value = view?.viewDistanceTop ?? 40
-        router.navigateToEditPassword(viewDistanceTop: value)
+        let expectedCode = DataManager.shared.getUserVerificationCode()
+        if expectedCode == code {
+            let value = view?.viewDistanceTop ?? 40
+            router.navigateToEditPassword(viewDistanceTop: value)
+        } else {
+            print("Wrong code")
+        }
     }
 }

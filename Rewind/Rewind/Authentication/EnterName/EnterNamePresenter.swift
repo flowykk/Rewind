@@ -25,8 +25,6 @@ final class EnterNamePresenter {
         NetworkService.registerUser(user: DataManager.shared.getUser()) { response in
             DispatchQueue.main.async {
                 if response.success {
-                    print("New user created")
-                    print("Id: \(response.message as Any)")
                     if let message = response.message, let userId = Int(message)  {
                         UserDefaults.standard.set(userId, forKey: "UserId")
                         DataManager.shared.setUserId(userId)

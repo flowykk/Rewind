@@ -39,7 +39,7 @@ final class EnterEmailPresenter {
 // MARK: - Private funcs
 extension EnterEmailPresenter {
     private func sendVerificationCode(toEmail email: String) {
-        NetworkService.sendVerificationCode(toEmail: email) { response in
+        NetworkService.sendCodeToRegister(toEmail: email) { response in
             DispatchQueue.main.async {
                 if response.success {
                     print(response.message as Any)
@@ -56,7 +56,7 @@ extension EnterEmailPresenter {
     }
     
     private func checkEmailExistence(_ email: String) {
-        NetworkService.checkEmailExistence(email) { response in
+        NetworkService.sendCodeToLogin(email) { response in
             DispatchQueue.main.async {
                 if response.success {
                     print(response.message as Any)

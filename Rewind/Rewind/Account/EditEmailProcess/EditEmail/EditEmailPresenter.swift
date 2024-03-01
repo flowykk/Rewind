@@ -17,7 +17,7 @@ final class EditEmailPresenter {
     }
     
     func sendVerificationVode(toEmail email: String) {
-        NetworkService.sendVerificationCode(toEmail: email) { response in
+        NetworkService.sendCodeToRegister(toEmail: email) { response in
             DispatchQueue.main.async {
                 if response.success {
                     let value = self.view?.viewDistanceTop ?? 40

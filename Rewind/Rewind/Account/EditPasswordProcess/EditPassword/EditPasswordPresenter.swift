@@ -14,10 +14,14 @@ final class EditPasswordPresenter {
         self.view = view
     }
     
-    func updatePassword(with password: String) {
-        print("New password: <\(password)>")
-        view?.dismiss(animated: true, completion: {
-            self.view?.enterAuthCodeVC?.dismiss(animated: true)
-        })
+    func updatePassword(with newPassword: String) {
+        let userId = DataManager.shared.getUserId()
+        NetworkService.updateUserPassword(userId: userId, newPassword: newPassword) { response in
+            DispatchQueue.main.async {
+                self.view?.dismiss(animated: true, completion: {
+                    self.view?.enterAuthCodeVC?.dismiss(animated: true)
+                })
+            }
+        }
     }
 }

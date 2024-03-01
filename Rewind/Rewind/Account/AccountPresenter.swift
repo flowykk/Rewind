@@ -80,11 +80,17 @@ final class AccountPresenter {
     func generalRowSelected(_ row: GeneralTableView.GeneralRow) {
         switch row {
         case .editImage:    openEditImageAlert()
+            
         case .editName:     router.presentEditName()
+            
         case .editEmail:    router.presentEditEmail()
-        case .editPassword: router.presentEnterAuthCode()
-//        case .addWidget:    print("add widget")
+            
+        case .editPassword: let userEmail = DataManager.shared.getUserEmail()
+            sendAuthenticationCode(toEmail: userEmail)
+            router.presentEnterAuthCode()
+            
         case .getHelp:      openHelpAlert()
+            
         case .share:        router.presentShareVC()
         }
     }
@@ -147,5 +153,23 @@ extension AccountPresenter {
         guard let imageData = Data(base64Encoded: base64String) else { return nil }
         guard let image = UIImage(data: imageData) else { return nil }
         return image
+    }
+    
+    private func sendAuthenticationCode(toEmail email: String) {
+        print(email)
+        NetworkService.sendCode(toEmail: email) { response in
+            DispatchQueue.global().async {
+                if response.success {
+                    if let message = response.message {
+                        if let code = Int(message) {
+                            DataManager.shared.setUserVerificationCode("\(code)")
+                        }
+                    }
+                } else {
+                    print(response.statusCode as Any)
+                    print(response.message as Any)
+                }
+            }
+        }
     }
 }

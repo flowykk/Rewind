@@ -23,7 +23,7 @@ public class LoginController : ControllerBase
     public async Task<ActionResult> CheckEmail(string email)
     {
         var user = await _usersController.GetUserByEmail(email);
-        if (user == null) return BadRequest("User not found");
+        if (user == null) return BadRequest("User not registered");
 
         return Ok(user.UsersId);
     }

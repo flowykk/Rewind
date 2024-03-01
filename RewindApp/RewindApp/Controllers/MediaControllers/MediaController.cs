@@ -31,7 +31,7 @@ public class MediaController : ControllerBase
     public async Task<ActionResult<Media>> GetMediaById(int id)
     {
         // Возврат медиа-файла
-        var result = _context.Media.FirstOrDefaultAsync(media => media.Id == id).Result;
+        var result = await _context.Media.FirstOrDefaultAsync(media => media.Id == id);
         if (result == null) return BadRequest("No media with such Id");
         
         return File(result.Photo, "application/png", "result.png");

@@ -27,7 +27,7 @@ public class RegisterController : ControllerBase
     public async Task<ActionResult> CheckEmail(string email)
     {
         var user = await _usersController.GetUserByEmail(email);
-        if (user != null) return BadRequest($"Bad");
+        if (user != null) return BadRequest("User is registered");
 
         int verificationCode = _usersController.SendVerificationCode(email);
         return Ok(verificationCode);

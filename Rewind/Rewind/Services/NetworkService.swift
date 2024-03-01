@@ -319,13 +319,11 @@ final class NetworkService {
         newEmail: String,
         completion: @escaping (NetworkResponse) -> Void
     ) {
-        guard let url = URL(string: appUrl + "/change-user/name/\(userId)") else {
+        guard let url = URL(string: appUrl + "/change-user/email/\(userId)") else {
             let response = NetworkResponse(success: false, message: "Wrong URL")
             completion(response)
             return
         }
-        
-        print(url)
         
         var request = URLRequest(url: url)
         request.httpMethod = "PUT"

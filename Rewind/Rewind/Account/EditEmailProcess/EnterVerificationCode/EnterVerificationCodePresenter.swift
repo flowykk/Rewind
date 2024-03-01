@@ -25,23 +25,23 @@ final class EnterVerificationCodePresenter {
             }
         }
     }
-    
-    var handleNetworkResponse = { (response: NetworkResponse) -> Void in
-        if response.success {
-            DispatchQueue.global().async {
-                
-            }
-        }
-    }
 }
 
 // MARK: - Private funcs
 extension EnterVerificationCodePresenter {
     private func updateUserEmail(userId: Int, newEmail: String) {
         NetworkService.updateUserEmail(userId: userId, newEmail: newEmail) { response in
-            DispatchQueue.main.async {
+            DispatchQueue.global().async {
                 if response.success {
-                    
+                    DataManager.shared.setUserEmail(newEmail)
+                    DispatchQueue.main.async {
+                        self.view?.dismiss(animated: true, completion: {
+                            self.view?.editEmailVC?.dismiss(animated: true)
+                        })
+                    }
+                } else {
+                    print(response.statusCode as Any)
+                    print(response.message as Any)
                 }
             }
         }

@@ -41,11 +41,11 @@ final class AccountViewController: UIViewController {
         presenter?.backButtonTapped()
     }
     
-    func setAvatarImage(image: UIImage) {
+    func setAvatarImage(to image: UIImage) {
         avatarView.image = image
     }
     
-    func setUserName(name: String) {
+    func setUserName(to name: String) {
         nameLabel.text = name
     }
     
@@ -110,10 +110,6 @@ final class AccountViewController: UIViewController {
         alertController.addAction(confirmAction)
         alertController.addAction(cancelAction)
         present(alertController, animated: true)
-    }
-    
-    func updateName(to newName: String) {
-        nameLabel.text = newName
     }
 }
 
@@ -180,8 +176,6 @@ extension AccountViewController {
         avatarView.contentMode = .scaleAspectFill
         avatarView.clipsToBounds = true
         avatarView.layer.cornerRadius = 65
-        
-        avatarView.image = avatarImage
         
         avatarView.setWidth(130)
         avatarView.setHeight(130)
@@ -298,7 +292,6 @@ extension AccountViewController: UIImagePickerControllerDelegate {
         if let selectedImage = info[.originalImage] as? UIImage {
             if let imageData = selectedImage.jpegData(compressionQuality: 1.0) {
                 let base64String = imageData.base64EncodedString()
-                print(base64String)
                 presenter?.newImageSelected(image: base64String)
             }
         }

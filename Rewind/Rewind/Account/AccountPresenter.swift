@@ -56,7 +56,7 @@ final class AccountPresenter {
     }
     
     func didUpdateName(to newName: String) {
-        view?.updateName(to: newName)
+        view?.setUserName(to: newName)
     }
     
     // MARK: - CollectionView To Presenter
@@ -106,13 +106,13 @@ final class AccountPresenter {
     // MARK: - Presenter To View
     func viewDidLoad() {
         if let avatarImage = imageFromBase64String(base64String: DataManager.shared.getAvatarBase64String()) {
-            view?.setAvatarImage(image: avatarImage)
+            view?.setAvatarImage(to: avatarImage)
         }
         
         let userName = DataManager.shared.getUserName()
         if userName == "" {
         }
-        view?.setUserName(name: userName)
+        view?.setUserName(to: userName)
         
         let currentIconName = UIApplication.shared.alternateIconName ?? "AppIconWhite"
         AppIconCell.initialSelectedIcon = currentIconName
@@ -123,7 +123,7 @@ final class AccountPresenter {
     
     func didUpdateImage(to image: String) {
         if let avatarImage = imageFromBase64String(base64String: image) {
-            view?.setAvatarImage(image: avatarImage)
+            view?.setAvatarImage(to: avatarImage)
         }
     }
     

@@ -298,7 +298,6 @@
 				55A326CF2B826FC0007C9B74 /* App */,
 				55A3267B2B81FB7F007C9B74 /* Authentication */,
 				551426FC2B88CB45000446E9 /* Account */,
-				55AF8C662B932F4800AC7CE0 /* Rewind */,
 				551426FA2B88CAAB000446E9 /* Model */,
 				551426FB2B88CAD5000446E9 /* Services */,
 				551427112B8944A1000446E9 /* Utils */,
@@ -385,13 +384,6 @@
 				55A326752B81F8FE007C9B74 /* Info.plist */,
 			);
 			path = App;
-			sourceTree = "<group>";
-		};
-		55AF8C662B932F4800AC7CE0 /* Rewind */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Rewind;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

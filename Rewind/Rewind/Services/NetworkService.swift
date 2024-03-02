@@ -36,7 +36,7 @@ final class NetworkService {
     
     
     // MARK: - Send Code To Log In
-    static func sendCodeToLogIn(_ email: String, completion: @escaping (NetworkResponse) -> Void) {
+    static func sendCodeToLogIn(toEmail email: String, completion: @escaping (NetworkResponse) -> Void) {
         guard let url = URL(string: "\(appUrl)/login/check-email/\(email)") else {
             completion(NetworkResponse(success: false))
             return
@@ -72,7 +72,7 @@ final class NetworkService {
     
     
     // MARK: - Register User
-    static func registerUser(user: User, completion: @escaping (NetworkResponse) -> Void) {
+    static func registerUser(withName name: String, email: String, password: String, completion: @escaping (NetworkResponse) -> Void) {
         guard let url = URL(string: appUrl + "/register") else {
             completion(NetworkResponse(success: false))
             return
@@ -83,7 +83,7 @@ final class NetworkService {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         do {
-            let parameters: [String : Any] = ["userName": user.name, "email": user.email, "password": user.password]
+            let parameters: [String : Any] = ["userName": name, "email": email, "password": password]
             request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: [])
         } catch {
             completion(NetworkResponse(success: false, message: error.localizedDescription))

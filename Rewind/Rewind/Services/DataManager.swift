@@ -49,6 +49,10 @@ final class DataManager {
         return user.email
     }
     
+    func getUserPassword() -> String {
+        return user.password
+    }
+    
     func getUserProcess() -> User.Process {
         return user.proccess
     }

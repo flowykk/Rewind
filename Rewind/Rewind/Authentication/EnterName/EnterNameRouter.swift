@@ -18,7 +18,7 @@ final class EnterNameRouter {
         view?.navigationController?.popViewController(animated: true)
     }
     
-    func navigateToMainScreen() {
+    func navigateToRewind() {
         let vc = ViewController()
         view?.navigationController?.pushViewController(vc, animated: true)
     }

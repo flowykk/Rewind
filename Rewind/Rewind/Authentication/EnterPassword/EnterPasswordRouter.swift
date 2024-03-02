@@ -23,7 +23,7 @@ final class EnterPasswordRouter {
         view?.navigationController?.pushViewController(vc, animated: true)
     }
     
-    func navigateToMainScreen() {
+    func navigateToRewind() {
         let vc = ViewController()
         vc.navigationController?.isNavigationBarHidden = true
         view?.navigationController?.pushViewController(vc, animated: true)

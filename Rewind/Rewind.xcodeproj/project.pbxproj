@@ -201,6 +201,7 @@
 			isa = PBXGroup;
 			children = (
 				55A326932B820701007C9B74 /* UIViewPin.swift */,
+				55C121882B8CCA6400520718 /* UIViewControllerExtension.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -297,14 +298,12 @@
 				55A326CF2B826FC0007C9B74 /* App */,
 				55A3267B2B81FB7F007C9B74 /* Authentication */,
 				551426FC2B88CB45000446E9 /* Account */,
+				55AF8C662B932F4800AC7CE0 /* Rewind */,
 				551426FA2B88CAAB000446E9 /* Model */,
 				551426FB2B88CAD5000446E9 /* Services */,
 				551427112B8944A1000446E9 /* Utils */,
 				55A3266B2B81F8FC007C9B74 /* ViewController.swift */,
-				55A326702B81F8FE007C9B74 /* Assets.xcassets */,
 				55A326722B81F8FE007C9B74 /* LaunchScreen.storyboard */,
-				55A326752B81F8FE007C9B74 /* Info.plist */,
-				55C121882B8CCA6400520718 /* UIViewControllerExtension.swift */,
 			);
 			path = Rewind;
 			sourceTree = "<group>";
@@ -382,8 +381,17 @@
 			children = (
 				55A326672B81F8FC007C9B74 /* AppDelegate.swift */,
 				55A326692B81F8FC007C9B74 /* SceneDelegate.swift */,
+				55A326702B81F8FE007C9B74 /* Assets.xcassets */,
+				55A326752B81F8FE007C9B74 /* Info.plist */,
 			);
 			path = App;
+			sourceTree = "<group>";
+		};
+		55AF8C662B932F4800AC7CE0 /* Rewind */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Rewind;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -657,9 +665,9 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = MV84AF3V6Q;
+				DEVELOPMENT_TEAM = 8FRM8M93L5;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Rewind/Info.plist;
+				INFOPLIST_FILE = Rewind/App/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
@@ -686,9 +694,9 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = MV84AF3V6Q;
+				DEVELOPMENT_TEAM = 8FRM8M93L5;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Rewind/Info.plist;
+				INFOPLIST_FILE = Rewind/App/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";

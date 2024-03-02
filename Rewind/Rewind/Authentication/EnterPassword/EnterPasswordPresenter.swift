@@ -36,10 +36,10 @@ final class EnterPasswordPresenter {
     }
     
     func continueButtonTapped(password: String) {
-        DataManager.shared.setUserPassword(password)
         let process = DataManager.shared.getUserProcess()
         switch process {
         case .registration:
+            DataManager.shared.setUserPassword(password)
             router.navigateToEnterName()
         case .authorization:
             view?.showLoadingView()
@@ -66,7 +66,7 @@ extension EnterPasswordPresenter {
     private func loginUser(withEmail email: String, password: String) {
         NetworkService.logInUser(withEmail: email, password: password) { [weak self] response in
             DispatchQueue.global().async {
-                self?.handleLoginUserResponse(response, email: email)
+                self?.handleLoginUserResponse(response)
             }
         }
     }
@@ -74,12 +74,12 @@ extension EnterPasswordPresenter {
 
 // MARK: - Network Response Handlers
 extension EnterPasswordPresenter {
-    private func handleLoginUserResponse(_ response: NetworkResponse, email: String) {
+    private func handleLoginUserResponse(_ response: NetworkResponse) {
         if response.success, let message = response.message, let userId = Int(message) {
             UserDefaults.standard.set(userId, forKey: "UserId")
             DataManager.shared.setUserId(userId)
             DispatchQueue.main.async {
-                self.router.navigateToMainScreen()
+                self.router.navigateToRewind()
             }
         } else {
             print(response.statusCode as Any)

@@ -47,7 +47,7 @@ extension EnterEmailPresenter {
     }
     
     private func sendCodeToLogin(toEmail email: String) {
-        NetworkService.sendCodeToLogIn(email) { [weak self] response in
+        NetworkService.sendCodeToLogIn(toEmail: email) { [weak self] response in
             DispatchQueue.global().async {
                 self?.handleSendCodeToLoginResponse(response, email: email)
             }

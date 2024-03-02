@@ -21,20 +21,36 @@ final class EnterNamePresenter {
     }
     
     func saveName(name: String) {
-        DataManager.shared.setUserName(name)
-        NetworkService.registerUser(user: DataManager.shared.getUser()) { response in
-            DispatchQueue.main.async {
-                if response.success {
-                    if let message = response.message, let userId = Int(message)  {
-                        UserDefaults.standard.set(userId, forKey: "UserId")
-                        DataManager.shared.setUserId(userId)
-                        self.router.navigateToMainScreen()
-                    }
-                } else {
-                    print(response.message as Any)
-                    print(response.statusCode as Any)
-                }
+        registerUser(withName: name)
+    }
+}
+
+// MARK: - Network Request Funcs
+extension EnterNamePresenter {
+    private func registerUser(withName name: String) {
+        let email = DataManager.shared.getUserEmail()
+        let password = DataManager.shared.getUserPassword()
+        NetworkService.registerUser(withName: name, email: email, password: password) { [weak self] response in
+            DispatchQueue.global().async {
+                self?.handleRegisterUserResponse(response, name: name)
             }
+        }
+    }
+}
+
+// MARK: - Network Response Handlers
+extension EnterNamePresenter {
+    private func handleRegisterUserResponse(_ response: NetworkResponse, name: String) {
+        if response.success, let message = response.message, let userId = Int(message) {
+            UserDefaults.standard.set(userId, forKey: "UserId")
+            DataManager.shared.setUserName(name)
+            DataManager.shared.setUserId(userId)
+            DispatchQueue.main.async {
+                self.router.navigateToRewind()
+            }
+        } else {
+            print(response.statusCode as Any)
+            print(response.message as Any)
         }
     }
 }

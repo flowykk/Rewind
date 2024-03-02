@@ -25,12 +25,12 @@ public class ChangeUserController : ControllerBase
     }
 
     [HttpPut("name/{userId}")]
-    public async Task<ActionResult> ChangeName(int userId, UserNameRequest request)
+    public async Task<ActionResult> ChangeName(int userId, NameRequest request)
     {
         var user = await _usersController.GetUserById(userId);
         if (user == null) return BadRequest("User not found");
         
-        user.UserName = request.UserName;
+        user.UserName = request.Name;
         _context.Users.Update(user);
         await _context.SaveChangesAsync();
         
@@ -38,7 +38,7 @@ public class ChangeUserController : ControllerBase
     }
     
     [HttpPut("email/{userId}")]
-    public async Task<ActionResult> ChangeEmail(int userId, UserEmailRequest request)
+    public async Task<ActionResult> ChangeEmail(int userId, EmailRequest request)
     {
         var user = await _usersController.GetUserById(userId);
         if (user == null) return BadRequest("User not found");
@@ -51,7 +51,7 @@ public class ChangeUserController : ControllerBase
     }
 
     [HttpPut("password/{userId}")]
-    public async Task<ActionResult> ChangePassword(int userId, UserPasswordRequest request)
+    public async Task<ActionResult> ChangePassword(int userId, PasswordRequest request)
     {
         var user = await _usersController.GetUserById(userId);
         if (user == null) return BadRequest("User not found");

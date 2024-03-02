@@ -2,8 +2,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace RewindApp.Requests.ChangeRequests;
 
-public class UserNameRequest
+public class NameRequest
 {
     [Required]
-    public string UserName { get; set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
 }

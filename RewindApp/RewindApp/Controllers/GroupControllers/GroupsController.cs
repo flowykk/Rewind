@@ -7,9 +7,14 @@ using RewindApp.RequestsModels;
 
 namespace RewindApp.Controllers.GroupControllers;
 
+public interface IGroupsController
+{
+    public Task<Group?> GetGroupById(int groupId);
+}
+
 [ApiController]
 [Route("[controller]")]
-public class GroupsController : ControllerBase
+public class GroupsController : ControllerBase, IGroupsController
 {
     private readonly DataContext _context;
     private readonly ILogger<GroupsController> _logger;

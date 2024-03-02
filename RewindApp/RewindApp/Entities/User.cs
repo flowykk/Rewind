@@ -18,6 +18,6 @@ public class User
     [Required]
     public byte[] ProfileImage { get; set; } = Array.Empty<byte>();
 
-    [IgnoreDataMember]
+    //[IgnoreDataMember]
     public ICollection<Group> Groups { get; set; } = new List<Group>();
 }

@@ -67,6 +67,9 @@
 		55A326CE2B826A44007C9B74 /* EnterNameBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A326CD2B826A44007C9B74 /* EnterNameBuilder.swift */; };
 		55AF8C6D2B9381DC00AC7CE0 /* RewindViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AF8C6C2B9381DC00AC7CE0 /* RewindViewController.swift */; };
 		55AF8C6F2B9381F100AC7CE0 /* RewindBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AF8C6E2B9381F100AC7CE0 /* RewindBuilder.swift */; };
+		55AF8C712B93C9F800AC7CE0 /* RewindPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AF8C702B93C9F800AC7CE0 /* RewindPresenter.swift */; };
+		55AF8C732B93CA1800AC7CE0 /* RewindRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AF8C722B93CA1800AC7CE0 /* RewindRouter.swift */; };
+		55AF8C762B93CF1C00AC7CE0 /* ImageInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AF8C752B93CF1C00AC7CE0 /* ImageInfoView.swift */; };
 		55C121892B8CCA6400520718 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C121882B8CCA6400520718 /* UIViewControllerExtension.swift */; };
 /* End PBXBuildFile section */
 
@@ -133,6 +136,9 @@
 		55A326CD2B826A44007C9B74 /* EnterNameBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterNameBuilder.swift; sourceTree = "<group>"; };
 		55AF8C6C2B9381DC00AC7CE0 /* RewindViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewindViewController.swift; sourceTree = "<group>"; };
 		55AF8C6E2B9381F100AC7CE0 /* RewindBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewindBuilder.swift; sourceTree = "<group>"; };
+		55AF8C702B93C9F800AC7CE0 /* RewindPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewindPresenter.swift; sourceTree = "<group>"; };
+		55AF8C722B93CA1800AC7CE0 /* RewindRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewindRouter.swift; sourceTree = "<group>"; };
+		55AF8C752B93CF1C00AC7CE0 /* ImageInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageInfoView.swift; sourceTree = "<group>"; };
 		55C121882B8CCA6400520718 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -394,10 +400,21 @@
 		55AF8C6B2B9381CB00AC7CE0 /* Rewind */ = {
 			isa = PBXGroup;
 			children = (
+				55AF8C742B93CF0000AC7CE0 /* Views */,
 				55AF8C6C2B9381DC00AC7CE0 /* RewindViewController.swift */,
+				55AF8C702B93C9F800AC7CE0 /* RewindPresenter.swift */,
+				55AF8C722B93CA1800AC7CE0 /* RewindRouter.swift */,
 				55AF8C6E2B9381F100AC7CE0 /* RewindBuilder.swift */,
 			);
 			path = Rewind;
+			sourceTree = "<group>";
+		};
+		55AF8C742B93CF0000AC7CE0 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				55AF8C752B93CF1C00AC7CE0 /* ImageInfoView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -495,8 +512,10 @@
 				55A326A32B82204E007C9B74 /* EnterEmailPresenter.swift in Sources */,
 				550109892B8A36FE0005F1D5 /* AppIconModel.swift in Sources */,
 				556167BC2B8F61D2001AF383 /* EnterAuthCodePresenter.swift in Sources */,
+				55AF8C712B93C9F800AC7CE0 /* RewindPresenter.swift in Sources */,
 				55AF8C6F2B9381F100AC7CE0 /* RewindBuilder.swift in Sources */,
 				55A326B02B82535E007C9B74 /* UserModel.swift in Sources */,
+				55AF8C732B93CA1800AC7CE0 /* RewindRouter.swift in Sources */,
 				55A326B92B8259F1007C9B74 /* EnterCodeRouter.swift in Sources */,
 				55A326B32B825453007C9B74 /* EnterCodeViewController.swift in Sources */,
 				550109852B89E99D0005F1D5 /* CustomTableViewCell.swift in Sources */,
@@ -518,6 +537,7 @@
 				5514270A2B893A95000446E9 /* GeneralTableView.swift in Sources */,
 				55A326AD2B823CF7007C9B74 /* NetworkService.swift in Sources */,
 				55A326A72B822103007C9B74 /* EnterEmailBuilder.swift in Sources */,
+				55AF8C762B93CF1C00AC7CE0 /* ImageInfoView.swift in Sources */,
 				556167C52B8F6B96001AF383 /* EditPasswordPresenter.swift in Sources */,
 				556167C32B8F659D001AF383 /* EditPasswordViewController.swift in Sources */,
 				55A326A12B821E18007C9B74 /* EnterEmailViewController.swift in Sources */,

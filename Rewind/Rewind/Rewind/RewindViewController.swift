@@ -8,12 +8,14 @@
 import UIKit
 
 final class RewindViewController: UIViewController {
+    var presenter: RewindPresenter?
+    
     private let goToGroupButton: UIButton = UIButton(type: .system)
     private let currentGroupView: UIView = UIView()
     private let goToAccountButton: UIButton = UIButton(type: .system)
     
     private let imageView: UIImageView = UIImageView()
-    private let imageInfoView: UIView = UIView()
+    private let imageInfoView: ImageInfoView = ImageInfoView()
     
     private let settingsButton: UIButton = UIButton(type: .system)
     private let detailsButton: UIButton = UIButton(type: .system)
@@ -28,36 +30,44 @@ final class RewindViewController: UIViewController {
         super.viewDidLoad()
         configureUI()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+    
+    @objc
+    private func goToAccountButtonTapped() {
+        presenter?.goToAccount()
+    }
 }
 
 // MARK: - UI Configuration
 extension RewindViewController {
     private func configureUI() {
-        navigationController?.navigationBar.isHidden = true
         view.backgroundColor = .systemBackground
-        
         configureCurrentGroupView()
-        
         configureImageView()
         configureImageInfoView()
-        
         configureDetailsButton()
         configureSettingsButton()
-        
         configureRewindButton()
         configureFavouriteButton()
         configureDownloadButton()
-        
-        configureGroupButton()
-        configureAccountButton()
-        
+        configureGoToGroupButton()
+        configureGoToAccountButton()
         configureGalleryButton()
     }
     
-    private func configureGroupButton() {
+    private func configureGoToGroupButton() {
         view.addSubview(goToGroupButton)
         
-        let font = UIFont.systemFont(ofSize: 16, weight: .semibold)
+        let font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         let configuration = UIImage.SymbolConfiguration(font: font)
         let image = UIImage(systemName: "person.2.fill", withConfiguration: configuration)
         goToGroupButton.setImage(image, for: .normal)
@@ -105,9 +115,9 @@ extension RewindViewController {
         showListButton.translatesAutoresizingMaskIntoConstraints = false
         
         showListButton.setTitle("curr group", for: .normal)
-        showListButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+        showListButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
         
-        let font = UIFont.systemFont(ofSize: 11, weight: .heavy)
+        let font = UIFont.systemFont(ofSize: 11, weight: .semibold)
         let configuration = UIImage.SymbolConfiguration(font: font)
         let image = UIImage(systemName: "chevron.down", withConfiguration: configuration)
         showListButton.setImage(image, for: .normal)
@@ -123,7 +133,7 @@ extension RewindViewController {
         showListButton.pinCenterY(to: currentGroupView.centerYAnchor)
     }
     
-    private func configureAccountButton() {
+    private func configureGoToAccountButton() {
         view.addSubview(goToAccountButton)
         goToAccountButton.translatesAutoresizingMaskIntoConstraints = false
         
@@ -134,8 +144,9 @@ extension RewindViewController {
         
         goToAccountButton.tintColor = .darkGray
         goToAccountButton.backgroundColor = .systemGray6
-        
         goToAccountButton.layer.cornerRadius = 40 / 2
+        
+        goToAccountButton.addTarget(self, action: #selector(goToAccountButtonTapped), for: .touchUpInside)
         
         goToAccountButton.setWidth(40)
         goToAccountButton.setHeight(40)
@@ -162,54 +173,8 @@ extension RewindViewController {
         view.addSubview(imageInfoView)
         imageInfoView.translatesAutoresizingMaskIntoConstraints = false
         
-        imageInfoView.backgroundColor = UIColor(white: 0.7, alpha: 0.9)
-        imageInfoView.layer.cornerRadius = 35 / 2
-        
-        imageInfoView.setWidth(160)
-        imageInfoView.setHeight(35)
         imageInfoView.pinCenterX(to: imageView.centerXAnchor)
         imageInfoView.pinBottom(to: imageView.bottomAnchor, 5)
-        
-        
-        let authorImageView = UIImageView()
-        imageInfoView.addSubview(authorImageView)
-        authorImageView.translatesAutoresizingMaskIntoConstraints = false
-        
-        authorImageView.image = UIImage(named: "author")
-        authorImageView.contentMode = .scaleAspectFill
-        authorImageView.clipsToBounds = true
-        authorImageView.layer.cornerRadius = 15
-        
-        authorImageView.setWidth(30)
-        authorImageView.setHeight(30)
-        authorImageView.pinLeft(to: imageInfoView.leadingAnchor, 3)
-        authorImageView.pinCenterY(to: imageInfoView.centerYAnchor)
-        
-        
-        let authorNameLabel = UILabel()
-        imageInfoView.addSubview(authorNameLabel)
-        authorNameLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        authorNameLabel.text = "aleksandra"
-        authorNameLabel.textColor = .darkGray
-        authorNameLabel.font = UIFont.systemFont(ofSize: 16, weight: .bold)
-        
-        authorNameLabel.setWidth(60)
-        authorNameLabel.pinLeft(to: authorImageView.trailingAnchor, 5)
-        authorNameLabel.pinCenterY(to: imageInfoView.centerYAnchor)
-        
-        
-        let dateImageAddedLabel = UILabel()
-        imageInfoView.addSubview(dateImageAddedLabel)
-        dateImageAddedLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        dateImageAddedLabel.text = "7 Jan"
-        dateImageAddedLabel.textColor = .secondaryLabel
-        dateImageAddedLabel.font = UIFont.systemFont(ofSize: 16, weight: .bold)
-        
-        dateImageAddedLabel.setWidth(60)
-        dateImageAddedLabel.pinLeft(to: authorNameLabel.trailingAnchor, 5)
-        dateImageAddedLabel.pinCenterY(to: imageInfoView.centerYAnchor)
     }
     
     private func configureSettingsButton() {
@@ -236,9 +201,9 @@ extension RewindViewController {
         detailsButton.translatesAutoresizingMaskIntoConstraints = false
         
         detailsButton.setTitle("View details", for: .normal)
-        detailsButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+        detailsButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
         
-        let font = UIFont.systemFont(ofSize: 9, weight: .heavy)
+        let font = UIFont.systemFont(ofSize: 9, weight: .semibold)
         let configuration = UIImage.SymbolConfiguration(font: font)
         let image = UIImage(systemName: "chevron.right", withConfiguration: configuration)
         detailsButton.setImage(image, for: .normal)
@@ -285,9 +250,9 @@ extension RewindViewController {
         rewindButton.translatesAutoresizingMaskIntoConstraints = false
         
         rewindButton.setTitle("Rewind", for: .normal)
-        rewindButton.titleLabel?.font = UIFont.systemFont(ofSize: 25, weight: .bold)
+        rewindButton.titleLabel?.font = UIFont.systemFont(ofSize: 25, weight: .semibold)
         
-        let font = UIFont.systemFont(ofSize: 14, weight: .bold)
+        let font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         let configuration = UIImage.SymbolConfiguration(font: font)
         let image = UIImage(systemName: "forward.fill", withConfiguration: configuration)
         rewindButton.setImage(image, for: .normal)
@@ -332,11 +297,11 @@ extension RewindViewController {
         galleryButton.translatesAutoresizingMaskIntoConstraints = false
         
         galleryButton.setTitle("1288 objects", for: .normal)
-        galleryButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        galleryButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
         
-        let font = UIFont.systemFont(ofSize: 18, weight: .heavy)
+        let font = UIFont.systemFont(ofSize: 28, weight: .semibold)
         let configuration = UIImage.SymbolConfiguration(font: font)
-        let image = UIImage(systemName: "chevron.down", withConfiguration: configuration)
+        let image = UIImage(systemName: "chevron.compact.down", withConfiguration: configuration)
         galleryButton.setImage(image, for: .normal)
         
         galleryButton.tintColor = .darkGray
@@ -347,7 +312,7 @@ extension RewindViewController {
         let titleSize = galleryButton.titleLabel?.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)) ?? CGSize.zero
         
         galleryButton.titleEdgeInsets = UIEdgeInsets(top: -30, left: imageSize.width, bottom: 0, right: 0)
-        galleryButton.imageEdgeInsets = UIEdgeInsets(top: 15, left: -titleSize.width, bottom: -20, right: 0)
+        galleryButton.imageEdgeInsets = UIEdgeInsets(top: 10, left: -titleSize.width, bottom: -15, right: 0)
         
         galleryButton.setWidth(titleSize.width * 2)
         galleryButton.setHeight(UIScreen.main.bounds.height * 0.07)

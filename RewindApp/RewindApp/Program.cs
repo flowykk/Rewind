@@ -1,8 +1,6 @@
-using System.Configuration;
-using System.Data;
 using Microsoft.EntityFrameworkCore;
-using RewindApp;
-using RewindApp.Controllers;
+using RewindApp.Controllers.GroupControllers;
+using RewindApp.Controllers.UserControllers;
 using RewindApp.Data;
 using RewindApp.Services;
 
@@ -13,13 +11,17 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 builder.Services.AddTransient<IUsersController, UsersController>();
+builder.Services.AddTransient<IGroupsController, GroupsController>();
 builder.Services.AddTransient<IUserService, UserService>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 //builder.Services.AddEndpointsApiExplorer();
 //builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<DataContext>(options => options.UseMySQL(
     builder.Configuration.GetConnectionString("default")
-));
+) ); //.LogTo(Console.WriteLine));
+builder.Services.AddControllers().AddNewtonsoftJson(options =>
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+);
 
 var app = builder.Build();
 app.UseMiddleware<GlobalRoutePrefixMiddleware>("/api");

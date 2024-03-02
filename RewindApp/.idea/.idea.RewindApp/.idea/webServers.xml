@@ -3,7 +3,7 @@
   <component name="WebServers">
     <option name="servers">
       <webServer id="d22ec43b-9160-4728-b929-d1ee3f48fe74" name="rewindapp">
-        <fileTransfer rootFolder="/home/rewind/app02" accessType="SFTP" host="rewindapp.ru" port="22" sshConfigId="49cdfbba-f53a-46bf-b990-0ab422c1bc1b" sshConfig="rewind@rewindapp.ru:22 key" keyPair="true">
+        <fileTransfer rootFolder="/home/rewind/RewindApp" accessType="SFTP" host="rewindapp.ru" port="22" sshConfigId="49cdfbba-f53a-46bf-b990-0ab422c1bc1b" sshConfig="rewind@rewindapp.ru:22 key" keyPair="true">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
           </advancedOptions>

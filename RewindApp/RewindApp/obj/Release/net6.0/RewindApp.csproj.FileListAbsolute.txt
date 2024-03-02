@@ -66,3 +66,7 @@
 /Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp/obj/Release/net6.0/RewindApp.pdb
 /Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp/obj/Release/net6.0/RewindApp.genruntimeconfig.cache
 /Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp/obj/Release/net6.0/ref/RewindApp.dll
+/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp/bin/Release/net6.0/Microsoft.AspNetCore.JsonPatch.dll
+/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp/bin/Release/net6.0/Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp/bin/Release/net6.0/Newtonsoft.Json.dll
+/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp/bin/Release/net6.0/Newtonsoft.Json.Bson.dll

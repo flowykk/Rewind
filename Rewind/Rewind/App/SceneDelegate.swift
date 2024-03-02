@@ -19,8 +19,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: windowScene)
         
-        let vc = WellcomeBuilder.build()
-        window.rootViewController = UINavigationController(rootViewController: vc)
+        let isUserIDStored = UserDefaults.standard.object(forKey: "UserId")
+        
+        var initialViewController = UIViewController()
+        
+        if isUserIDStored != nil {
+            initialViewController = ViewController()
+            let userId = UserDefaults.standard.integer(forKey: "UserId")
+            DataManager.shared.setUserId(userId)
+        } else {
+            initialViewController = WellcomeBuilder.build()
+        }
+        
+        window.rootViewController = UINavigationController(rootViewController: initialViewController)
         self.window = window
         window.makeKeyAndVisible()
     }

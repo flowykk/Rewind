@@ -252,7 +252,7 @@ final class NetworkService {
     }
     
     
-    // MARK: -
+    // MARK: - Get User Info
     static func getUserInfo(userId: Int, completion: @escaping (NetworkResponse) -> Void) {
         guard let url = URL(string: appUrl + "/users/\(userId)") else {
             completion(NetworkResponse(success: false, message: "Wrong URL"))

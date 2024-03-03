@@ -41,15 +41,22 @@ final class RewindViewController: UIViewController {
 extension RewindViewController {
     private func configureUI() {
         view.backgroundColor = .systemBackground
+        
         configureGoToGroupButton()
         configureCurrentGroupView()
         configureGoToAccountButton()
+        
         configureImageView()
         configureImageInfoView()
         configureDetailsButton()
         configureSettingsButton()
+        
         configureRewindButton()
+        configureDownloadButton()
+        configureFavouriteButton()
+        
         configureGalleryButton()
+        
         configureNavigationBar()
     }
     
@@ -146,7 +153,7 @@ extension RewindViewController {
         imageView.image = UIImage(named: "bonic")
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 30
+        imageView.layer.cornerRadius = 40
         
         imageView.setWidth(UIScreen.main.bounds.width - 15)
         imageView.setHeight(UIScreen.main.bounds.width - 15)

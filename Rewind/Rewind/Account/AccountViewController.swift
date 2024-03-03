@@ -41,7 +41,7 @@ final class AccountViewController: UIViewController {
         presenter?.backButtonTapped()
     }
     
-    func setAvatarImage(to image: UIImage) {
+    func setUserImage(to image: UIImage) {
         avatarView.image = image
     }
     

@@ -109,8 +109,11 @@ final class AccountPresenter {
     
     // MARK: - Presenter To View
     func viewDidLoad() {
-        if let avatarImage = imageFromBase64String(base64String: DataManager.shared.getAvatarBase64String()) {
-            view?.setAvatarImage(to: avatarImage)
+        if let userImage = UserDefaults.standard.image(forKey: "UserImage") {
+            view?.setUserImage(to: userImage)
+        } else {
+            guard let userImage = UIImage(named: "userImage") else { return }
+            view?.setUserImage(to: userImage)
         }
         
         if let userName = UserDefaults.standard.string(forKey: "UserName") {
@@ -126,7 +129,7 @@ final class AccountPresenter {
     
     func didUpdateImage(to image: String) {
         if let avatarImage = imageFromBase64String(base64String: image) {
-            view?.setAvatarImage(to: avatarImage)
+            view?.setUserImage(to: avatarImage)
         }
     }
     

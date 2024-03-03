@@ -52,6 +52,6 @@ public class RegisterController : ControllerBase
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
 
-        return Ok(user.UsersId);
+        return Ok(user.Id);
     }
 }

@@ -6,7 +6,7 @@ namespace RewindApp.Entities;
 public class Group
 {
     [Key]
-    public int GroupsId { get; set; }
+    public int Id { get; set; }
     [Required]
     public int OwnerId { get; set; }
     [Required, MaxLength(128)]

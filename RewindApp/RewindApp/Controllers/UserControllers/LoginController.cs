@@ -25,7 +25,7 @@ public class LoginController : ControllerBase
         var user = await _usersController.GetUserByEmail(email);
         if (user == null) return BadRequest("User not registered");
 
-        return Ok(user.UsersId);
+        return Ok(user.Id);
     }
 
     [HttpPost]
@@ -37,6 +37,6 @@ public class LoginController : ControllerBase
         string passwordHash = _userService.ComputeHash(request.Password);
         if (passwordHash != user.Password) return BadRequest("Incorrect password");
 
-        return Ok(user.UsersId);
+        return Ok(user.Id);
     }
 }

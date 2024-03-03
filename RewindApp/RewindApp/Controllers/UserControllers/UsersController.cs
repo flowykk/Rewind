@@ -81,7 +81,7 @@ public class UsersController : ControllerBase, IUsersController
     [HttpGet("{userId}")]
     public async Task<User?> GetUserById(int userId)
     {
-        var user = await _context.Users.FirstOrDefaultAsync(user => user.UsersId == userId);
+        var user = await _context.Users.FirstOrDefaultAsync(user => user.Id == userId);
         return user;
     }
 }

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MySql.Data.MySqlClient;
+using RewindApp.Controllers.GroupControllers;
 using RewindApp.Data;
 using RewindApp.Entities;
 using RewindApp.Requests;
@@ -13,11 +14,13 @@ public class MediaController : ControllerBase
 {
     private readonly DataContext _context;
     private readonly ILogger<MediaController> _logger;
+    private readonly IGroupsController _groupsController;
 
-    public MediaController(DataContext context, ILogger<MediaController> logger)
+    public MediaController(DataContext context, ILogger<MediaController> logger, IGroupsController groupsController)
     {
         _context = context;
         _logger = logger;
+        _groupsController = groupsController;
     }
 
     [HttpGet]
@@ -30,29 +33,30 @@ public class MediaController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<Media>> GetMediaById(int id)
     {
-        // Возврат медиа-файла
-        var result = await _context.Media.FirstOrDefaultAsync(media => media.MediaId == id);
+        var result = await _context.Media.FirstOrDefaultAsync(media => media.Id == id);
         if (result == null) return BadRequest("No media with such Id");
         
-        return File(result.Photo, "application/png", "result.png");
-        
-        // Возврат массива байтов для медиа-файлов
-        //return await _context.Media.FirstOrDefaultAsync(media => media.Id == id);
+        return result;
+//        return File(result.Photo, "application/png", "result.png");
     }
 
-    [HttpPost("load")]
-    public async Task<ActionResult<Media>> LoadMedia(MediaRequest mediaRequest)
+    [HttpPost("load/{groupId}")]
+    public async Task<ActionResult<Media>> LoadMedia(MediaRequest mediaRequest, int groupId)
     {
         Console.WriteLine(mediaRequest.Media.Length);
         var rawData = Convert.FromBase64String(mediaRequest.Media);
         Console.WriteLine(rawData.Length);
         Console.WriteLine(rawData);
         //var rawData = System.IO.File.ReadAllBytesAsync("sample2.png").Result;
+
+        var group = await _groupsController.GetGroupById(groupId);
+        if (group == null) return BadRequest("Group not found");
         
         var media = new Media()
         {
             Date = DateTime.Now,
-            Photo = Convert.FromBase64String(mediaRequest.Media)
+            Photo = Convert.FromBase64String(mediaRequest.Media),
+            Group = group
         };
         Console.WriteLine(media.Photo.Length);
 

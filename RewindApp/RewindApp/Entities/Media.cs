@@ -4,7 +4,7 @@ namespace RewindApp.Entities;
 
 public class Media
 {
-    public int MediaId { get; set; }
+    public int Id { get; set; }
     [Required]
     public DateTime Date { get; set; }
     [Required]

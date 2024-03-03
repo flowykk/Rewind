@@ -41,7 +41,7 @@ public class GroupsController : ControllerBase, IGroupsController
             .ToListAsync();
 
         return users
-            .Where(user => user.UsersId == userId)
+            .Where(user => user.Id == userId)
             .SelectMany(user => user.Groups)
             .ToList();
     }
@@ -54,7 +54,7 @@ public class GroupsController : ControllerBase, IGroupsController
             .ToListAsync();
 
         return groups
-            .Where(group => group.GroupsId == groupId)
+            .Where(group => group.Id == groupId)
             .SelectMany(group => group.Users)
             .ToList();
     }
@@ -153,7 +153,7 @@ public class GroupsController : ControllerBase, IGroupsController
     
     public Task<Group?> GetGroupById(int groupId)
     {
-        var group = _context.Groups.FirstOrDefaultAsync(group => group.GroupsId == groupId);
+        var group = _context.Groups.FirstOrDefaultAsync(group => group.Id == groupId);
         return group;
     }
 }

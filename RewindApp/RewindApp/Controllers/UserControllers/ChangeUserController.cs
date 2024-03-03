@@ -87,7 +87,7 @@ public class ChangeUserController : ControllerBase
         var command = new MySqlCommand()
         {
             Connection = connection,
-            CommandText = "UPDATE Users SET ProfileImage = @rawData WHERE UsersId = @userId;"
+            CommandText = "UPDATE Users SET ProfileImage = @rawData WHERE Id = @userId;"
         };
         var fileContentParameter = new MySqlParameter("?rawData", MySqlDbType.Blob, rawData.Length)
         {

@@ -12,4 +12,5 @@ public class DataContext : DbContext
     public DbSet<User> Users => Set<User>();
     public DbSet<Group> Groups => Set<Group>(); 
     public DbSet<Media> Media => Set<Media>();
+    public DbSet<Tag> Tags => Set<Tag>();
 }

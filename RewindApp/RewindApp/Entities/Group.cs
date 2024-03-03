@@ -16,5 +16,7 @@ public class Group
 
     [IgnoreDataMember]
     public ICollection<User> Users { get; set; } = new List<User>();
+    [IgnoreDataMember]
+    public ICollection<Media> Media { get; set; } = new List<Media>();
 }
  

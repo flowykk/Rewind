@@ -58,8 +58,15 @@ public class GroupsController : ControllerBase, IGroupsController
             .SelectMany(group => group.Users)
             .ToList();
     }
-    
-    
+
+    [HttpGet("media/{groupId}")]
+    public async Task<ActionResult<IEnumerable<Media>>> GetMediaByGroupId(int groupId)
+    {
+        var group = await GetGroupById(groupId);
+        if (group == null) return BadRequest("Group not found");
+        
+        return group.Media.ToList();
+    }
     
     [HttpPost("create")]
     public async Task<ActionResult> CreateGroup(CreateGroupRequest request)
@@ -153,7 +160,7 @@ public class GroupsController : ControllerBase, IGroupsController
     
     public Task<Group?> GetGroupById(int groupId)
     {
-        var group = _context.Groups.FirstOrDefaultAsync(group => group.Id == groupId);
+        var group = _context.Groups.Include(group => group.Media).FirstOrDefaultAsync(g => g.Id == groupId);
         return group;
     }
 }

@@ -59,6 +59,7 @@ public class MediaController : ControllerBase
             Group = group
         };
         Console.WriteLine(media.Photo.Length);
+        //Console.WriteLine("   {0}\n", BitConverter.ToString(media.Photo));
 
         _context.Media.Add(media);
         await _context.SaveChangesAsync();

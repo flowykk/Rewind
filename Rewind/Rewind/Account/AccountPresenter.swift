@@ -34,6 +34,8 @@ final class AccountPresenter {
     
     func logOut() {
         UserDefaults.standard.removeObject(forKey: "UserId")
+        UserDefaults.standard.removeObject(forKey: "UserName")
+        UserDefaults.standard.removeObject(forKey: "UserEmail")
         router.navigateToWellcome()
     }
     
@@ -45,6 +47,8 @@ final class AccountPresenter {
                     print("User deleted")
                     print("Id: \(response.message as Any)")
                     UserDefaults.standard.removeObject(forKey: "UserId")
+                    UserDefaults.standard.removeObject(forKey: "UserName")
+                    UserDefaults.standard.removeObject(forKey: "UserEmail")
                     DataManager.shared.setUserId(-1)
                     self.router.navigateToWellcome()
                 } else {
@@ -109,10 +113,9 @@ final class AccountPresenter {
             view?.setAvatarImage(to: avatarImage)
         }
         
-        let userName = DataManager.shared.getUserName()
-        if userName == "" {
+        if let userName = UserDefaults.standard.string(forKey: "UserName") {
+            view?.setUserName(to: userName)
         }
-        view?.setUserName(to: userName)
         
         let currentIconName = UIApplication.shared.alternateIconName ?? "AppIconWhite"
         AppIconCell.initialSelectedIcon = currentIconName

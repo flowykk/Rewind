@@ -11,6 +11,7 @@ struct NetworkResponse {
     var success: Bool
     var statusCode: Int?
     var message: String?
+    var json: [String : Any]?
 }
 
 final class NetworkService {
@@ -20,7 +21,7 @@ final class NetworkService {
     // MARK: - Send Code To Register
     static func sendCodeToRegister(toEmail email: String, completion: @escaping (NetworkResponse) -> Void) {
         guard let url = URL(string: appUrl + "/register/check-email/\(email)") else {
-            completion(NetworkResponse(success: false))
+            completion(NetworkResponse(success: false, message: "Wrong URL"))
             return
         }
         
@@ -28,7 +29,7 @@ final class NetworkService {
         request.httpMethod = "GET"
         
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            let networkResponse = self.processResponse(data: data, response: response, error: error)
+            let networkResponse = self.processStringResponse(data: data, response: response, error: error)
             completion(networkResponse)
         }
         task.resume()
@@ -38,7 +39,7 @@ final class NetworkService {
     // MARK: - Send Code To Log In
     static func sendCodeToLogIn(toEmail email: String, completion: @escaping (NetworkResponse) -> Void) {
         guard let url = URL(string: "\(appUrl)/login/check-email/\(email)") else {
-            completion(NetworkResponse(success: false))
+            completion(NetworkResponse(success: false, message: "Wrong URL"))
             return
         }
         
@@ -46,7 +47,7 @@ final class NetworkService {
         request.httpMethod = "GET"
         
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            let networkResponse = self.processResponse(data: data, response: response, error: error)
+            let networkResponse = self.processStringResponse(data: data, response: response, error: error)
             completion(networkResponse)
         }
         task.resume()
@@ -56,7 +57,7 @@ final class NetworkService {
     // MARK: - Send Code
     static func sendCode(toEmail email: String, completion: @escaping (NetworkResponse) -> Void) {
         guard let url = URL(string: appUrl + "/users/send-code/\(email)") else {
-            completion(NetworkResponse(success: false))
+            completion(NetworkResponse(success: false, message: "Wrong URL"))
             return
         }
         
@@ -64,7 +65,7 @@ final class NetworkService {
         request.httpMethod = "GET"
         
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            let networkResponse = processResponse(data: data, response: response, error: error)
+            let networkResponse = processStringResponse(data: data, response: response, error: error)
             completion(networkResponse)
         }
         task.resume()
@@ -74,7 +75,7 @@ final class NetworkService {
     // MARK: - Register User
     static func registerUser(withName name: String, email: String, password: String, completion: @escaping (NetworkResponse) -> Void) {
         guard let url = URL(string: appUrl + "/register") else {
-            completion(NetworkResponse(success: false))
+            completion(NetworkResponse(success: false, message: "Wrong URL"))
             return
         }
         
@@ -91,7 +92,7 @@ final class NetworkService {
         }
         
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            let networkResponse = self.processResponse(data: data, response: response, error: error)
+            let networkResponse = self.processStringResponse(data: data, response: response, error: error)
             completion(networkResponse)
         }
         task.resume()
@@ -101,7 +102,7 @@ final class NetworkService {
     // MARK: - Log In User
     static func logInUser(withEmail email: String, password: String, completion: @escaping (NetworkResponse) -> Void) {
         guard let url = URL(string: appUrl + "/login") else {
-            completion(NetworkResponse(success: false))
+            completion(NetworkResponse(success: false, message: "Wrong URL"))
             return
         }
         
@@ -118,7 +119,7 @@ final class NetworkService {
         }
         
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            let networkResponse = self.processResponse(data: data, response: response, error: error)
+            let networkResponse = self.processStringResponse(data: data, response: response, error: error)
             completion(networkResponse)
         }
         task.resume()
@@ -128,7 +129,7 @@ final class NetworkService {
     // MARK: - Delete User
     static func deleteUser(withId userId: Int, completion: @escaping (NetworkResponse) -> Void) {
         guard let url = URL(string: appUrl + "/users/delete/\(userId)") else {
-            completion(NetworkResponse(success: false))
+            completion(NetworkResponse(success: false, message: "Wrong URL"))
             return
         }
         
@@ -136,7 +137,7 @@ final class NetworkService {
         request.httpMethod = "DELETE"
         
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            let networkResponse = self.processResponse(data: data, response: response, error: error)
+            let networkResponse = self.processStringResponse(data: data, response: response, error: error)
             completion(networkResponse)
         }
         task.resume()
@@ -163,7 +164,7 @@ final class NetworkService {
         }
         
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            let networkResponse = self.processResponse(data: data, response: response, error: error)
+            let networkResponse = self.processStringResponse(data: data, response: response, error: error)
             completion(networkResponse)
         }
         task.resume()
@@ -190,7 +191,7 @@ final class NetworkService {
         }
         
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            let networkResponse = self.processResponse(data: data, response: response, error: error)
+            let networkResponse = self.processStringResponse(data: data, response: response, error: error)
             completion(networkResponse)
         }
         task.resume()
@@ -217,7 +218,7 @@ final class NetworkService {
         }
         
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            let networkResponse = self.processResponse(data: data, response: response, error: error)
+            let networkResponse = self.processStringResponse(data: data, response: response, error: error)
             completion(networkResponse)
         }
         task.resume()
@@ -244,22 +245,42 @@ final class NetworkService {
         }
         
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            let networkResponse = self.processResponse(data: data, response: response, error: error)
+            let networkResponse = self.processStringResponse(data: data, response: response, error: error)
             completion(networkResponse)
         }
         task.resume()
     }
+    
+    
+    // MARK: -
+    static func getUserInfo(userId: Int, completion: @escaping (NetworkResponse) -> Void) {
+        guard let url = URL(string: appUrl + "/users/\(userId)") else {
+            completion(NetworkResponse(success: false, message: "Wrong URL"))
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            let networkResponse = self.processJSONResponse(data: data, response: response, error: error)
+            completion(networkResponse)
+        }
+        task.resume()
+    }
+    
+    
 }
 
 // MARK: - Private funcs
 extension NetworkService {
-    static private func processResponse(data: Data?, response: URLResponse?, error: Error?) -> NetworkResponse {
+    static private func processStringResponse(data: Data?, response: URLResponse?, error: Error?) -> NetworkResponse {
         if let error = error {
             return NetworkResponse(success: false, message: error.localizedDescription)
         }
         
         guard let httpResponse = response as? HTTPURLResponse else {
-            return NetworkResponse(success: false)
+            return NetworkResponse(success: false, message: "Unexpected response format")
         }
         
         let success = httpResponse.statusCode == 200
@@ -271,5 +292,32 @@ extension NetworkService {
         }
         
         return NetworkResponse(success: success, statusCode: statusCode, message: message)
+    }
+    
+    static private func processJSONResponse(data: Data?, response: URLResponse?, error: Error?) -> NetworkResponse {
+        if let error = error {
+            return NetworkResponse(success: false, message: error.localizedDescription)
+        }
+        
+        guard let httpResponse = response as? HTTPURLResponse else {
+            return NetworkResponse(success: false, message: "Unexpected response format")
+        }
+        
+        let success = httpResponse.statusCode == 200
+        let statusCode = httpResponse.statusCode
+        var json: [String: Any]? = nil
+        
+        if let data = data {
+            do {
+                let jsonObject = try JSONSerialization.jsonObject(with: data, options: [])
+                if let jsonDictionary = jsonObject as? [String: Any] {
+                    json = jsonDictionary
+                }
+            } catch {
+                return NetworkResponse(success: false, statusCode: statusCode, message: "Error decoding JSON")
+            }
+        }
+        
+        return NetworkResponse(success: success, statusCode: statusCode, json: json)
     }
 }

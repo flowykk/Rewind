@@ -70,23 +70,44 @@ extension EnterPasswordPresenter {
             }
         }
     }
+    
+    private func getUserInfo(userId: Int) {
+        NetworkService.getUserInfo(userId: userId) { [weak self] response in
+            DispatchQueue.global().async {
+                self?.handleUserInfoResponse(response)
+            }
+        }
+    }
 }
 
 // MARK: - Network Response Handlers
 extension EnterPasswordPresenter {
     private func handleLoginUserResponse(_ response: NetworkResponse) {
         if response.success, let message = response.message, let userId = Int(message) {
-            UserDefaults.standard.set(userId, forKey: "UserId")
             DataManager.shared.setUserId(userId)
-            DispatchQueue.main.async {
-                self.router.navigateToRewind()
-            }
+            getUserInfo(userId: userId)
         } else {
             print(response.statusCode as Any)
             print(response.message as Any)
         }
         DispatchQueue.main.async {
             self.view?.hideLoadingView()
+        }
+    }
+    
+    private func handleUserInfoResponse(_ response: NetworkResponse) {
+        if response.success, let json = response.json {
+            if let id = json["usersId"] as? Int, let name = json["userName"] as? String, let email = json["email"] as? String {
+                print("\(id) - \(type(of: id))")
+                print("\(name) - \(type(of: name))")
+                print("\(email) - \(type(of: email))")
+                UserDefaults.standard.set(id, forKey: "UserId")
+                UserDefaults.standard.set(name, forKey: "UserName")
+                UserDefaults.standard.set(email, forKey: "UserEmail")
+                DispatchQueue.main.async {
+                    self.router.navigateToRewind()
+                }
+            }
         }
     }
 }

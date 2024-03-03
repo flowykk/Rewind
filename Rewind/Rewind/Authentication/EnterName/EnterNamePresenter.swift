@@ -21,6 +21,7 @@ final class EnterNamePresenter {
     }
     
     func saveName(name: String) {
+        DataManager.shared.setUserName(name)
         registerUser(withName: name)
     }
 }
@@ -42,9 +43,8 @@ extension EnterNamePresenter {
 extension EnterNamePresenter {
     private func handleRegisterUserResponse(_ response: NetworkResponse, name: String) {
         if response.success, let message = response.message, let userId = Int(message) {
-            UserDefaults.standard.set(userId, forKey: "UserId")
-            DataManager.shared.setUserName(name)
             DataManager.shared.setUserId(userId)
+            saveUserDataToUserDefaults(user: DataManager.shared.getUser())
             DispatchQueue.main.async {
                 self.router.navigateToRewind()
             }
@@ -52,5 +52,14 @@ extension EnterNamePresenter {
             print(response.statusCode as Any)
             print(response.message as Any)
         }
+    }
+}
+
+// MARK: - Private Functions
+extension EnterNamePresenter {
+    private func saveUserDataToUserDefaults(user: User) {
+        UserDefaults.standard.set(user.id, forKey: "UserId")
+        UserDefaults.standard.set(user.name, forKey: "UserName")
+        UserDefaults.standard.set(user.email, forKey: "UserEmail")
     }
 }

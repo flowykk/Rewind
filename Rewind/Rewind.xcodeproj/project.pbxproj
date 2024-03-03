@@ -71,6 +71,7 @@
 		55AF8C732B93CA1800AC7CE0 /* RewindRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AF8C722B93CA1800AC7CE0 /* RewindRouter.swift */; };
 		55AF8C762B93CF1C00AC7CE0 /* ImageInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AF8C752B93CF1C00AC7CE0 /* ImageInfoView.swift */; };
 		55C121892B8CCA6400520718 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C121882B8CCA6400520718 /* UIViewControllerExtension.swift */; };
+		55EFC5ED2B94B0CD00E82D20 /* UserDefaultsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EFC5EC2B94B0CD00E82D20 /* UserDefaultsExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -140,6 +141,7 @@
 		55AF8C722B93CA1800AC7CE0 /* RewindRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewindRouter.swift; sourceTree = "<group>"; };
 		55AF8C752B93CF1C00AC7CE0 /* ImageInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageInfoView.swift; sourceTree = "<group>"; };
 		55C121882B8CCA6400520718 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
+		55EFC5EC2B94B0CD00E82D20 /* UserDefaultsExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -212,6 +214,7 @@
 			children = (
 				55A326932B820701007C9B74 /* UIViewPin.swift */,
 				55C121882B8CCA6400520718 /* UIViewControllerExtension.swift */,
+				55EFC5EC2B94B0CD00E82D20 /* UserDefaultsExtension.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -548,6 +551,7 @@
 				55A326CA2B826964007C9B74 /* EnterNamePresenter.swift in Sources */,
 				556167BE2B8F6201001AF383 /* EnterAuthCodeBuilder.swift in Sources */,
 				55A3269A2B820F83007C9B74 /* WellcomeBuilder.swift in Sources */,
+				55EFC5ED2B94B0CD00E82D20 /* UserDefaultsExtension.swift in Sources */,
 				551509732B90984100D162CF /* EditEmailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

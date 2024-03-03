@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 final class EnterPasswordPresenter {
     private weak var view: EnterPasswordViewController?
@@ -101,9 +102,20 @@ extension EnterPasswordPresenter {
                 print("\(id) - \(type(of: id))")
                 print("\(name) - \(type(of: name))")
                 print("\(email) - \(type(of: email))")
+                print(json)
+                
+                if let base64String = json["profileImage"] as? String {
+                    if let imageData = Data(base64Encoded: base64String, options: .ignoreUnknownCharacters) {
+                        if let image = UIImage(data: imageData) {
+                            UserDefaults.standard.setImage(image, forKey: "UserImage")
+                        }
+                    }
+                }
+                
                 UserDefaults.standard.set(id, forKey: "UserId")
                 UserDefaults.standard.set(name, forKey: "UserName")
                 UserDefaults.standard.set(email, forKey: "UserEmail")
+                
                 DispatchQueue.main.async {
                     self.router.navigateToRewind()
                 }

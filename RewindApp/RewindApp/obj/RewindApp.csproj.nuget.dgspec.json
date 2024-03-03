@@ -52,11 +52,11 @@
             },
             "MySql.Data": {
               "target": "Package",
-              "version": "[8.2.0, )"
+              "version": "[8.3.0, )"
             },
             "MySql.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[6.0.21, )"
+              "version": "[6.0.25, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",

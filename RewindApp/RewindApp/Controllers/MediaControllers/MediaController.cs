@@ -31,7 +31,7 @@ public class MediaController : ControllerBase
     public async Task<ActionResult<Media>> GetMediaById(int id)
     {
         // Возврат медиа-файла
-        var result = await _context.Media.FirstOrDefaultAsync(media => media.Id == id);
+        var result = await _context.Media.FirstOrDefaultAsync(media => media.MediaId == id);
         if (result == null) return BadRequest("No media with such Id");
         
         return File(result.Photo, "application/png", "result.png");
@@ -41,52 +41,24 @@ public class MediaController : ControllerBase
     }
 
     [HttpPost("load")]
-    public async Task<ActionResult> LoadMedia(MediaRequest mediaRequest)
+    public async Task<ActionResult<Media>> LoadMedia(MediaRequest mediaRequest)
     {
-        var rawData = mediaRequest.Media;
-        //var rawData = await System.IO.File.ReadAllBytesAsync("sample2.png");
-        var date = DateTime.Now;
-        
-        var server = "localhost";
-        var databaseName = "rewinddb";
-        var userName = "rewinduser";
-        var password = "rewindpass";
-
-        var connectionString = $"Server={server}; Port=3306; Database={databaseName}; UID={userName}; Pwd={password}";
-        //                       Server=myServerAddress; Port=1234; Database=myDataBase; Uid=myUsername; Pwd=myPassword;
-        var connection = new MySqlConnection(connectionString);
-        connection.Open();
-        
-        var command = new MySqlCommand()
-        {
-            Connection = connection,
-            CommandText = "INSERT INTO Media (Date, Photo) VALUES (?date, ?rawData);"
-        };
-        var fileContentParameter = new MySqlParameter("?rawData", MySqlDbType.Blob, rawData.Length)
-        {
-            Value = rawData
-        };
-        var dateParameter = new MySqlParameter("?date", MySqlDbType.DateTime)
-        {
-            Value = date
-        };
-        command.Parameters.Add(fileContentParameter);
-        command.Parameters.Add(dateParameter);
-
-        command.ExecuteNonQuery();
-        
-        /*var rawData = System.IO.File.ReadAllBytesAsync("sample2.png").Result;
+        Console.WriteLine(mediaRequest.Media.Length);
+        var rawData = Convert.FromBase64String(mediaRequest.Media);
         Console.WriteLine(rawData.Length);
+        Console.WriteLine(rawData);
+        //var rawData = System.IO.File.ReadAllBytesAsync("sample2.png").Result;
         
         var media = new Media()
         {
             Date = DateTime.Now,
-            Photo = rawData
+            Photo = Convert.FromBase64String(mediaRequest.Media)
         };
+        Console.WriteLine(media.Photo.Length);
 
         _context.Media.Add(media);
-        await _context.SaveChangesAsync();*/
+        await _context.SaveChangesAsync();
 
-        return Ok("loaded");
+        return Ok(media);
     }
 }

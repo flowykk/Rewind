@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+/*using Microsoft.EntityFrameworkCore;
 
 namespace RewindApp.Entities;
 
@@ -9,4 +9,4 @@ public class GroupUser
     public int UsersId { get; set; }
     //[ForeignKey(nameof(Group))]
     public int GroupsId { get; set; }
-}
+}*/

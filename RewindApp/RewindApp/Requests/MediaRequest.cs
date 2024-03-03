@@ -6,5 +6,6 @@ namespace RewindApp.Requests;
 public class MediaRequest
 {
     [Required]
-    public byte[] Media { get; set; }
+    //public byte[] Media { get; set; }
+    public string Media { get; set; } = string.Empty;
 }

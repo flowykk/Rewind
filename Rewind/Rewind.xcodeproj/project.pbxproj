@@ -71,6 +71,10 @@
 		55AF8C732B93CA1800AC7CE0 /* RewindRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AF8C722B93CA1800AC7CE0 /* RewindRouter.swift */; };
 		55AF8C762B93CF1C00AC7CE0 /* ImageInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AF8C752B93CF1C00AC7CE0 /* ImageInfoView.swift */; };
 		55C121892B8CCA6400520718 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C121882B8CCA6400520718 /* UIViewControllerExtension.swift */; };
+		55C3E5392B95E2A300701BF8 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C3E5382B95E2A300701BF8 /* SettingsViewController.swift */; };
+		55C3E53B2B95E55D00701BF8 /* TypesTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C3E53A2B95E55D00701BF8 /* TypesTableView.swift */; };
+		55C3E53E2B9605ED00701BF8 /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C3E53D2B9605ED00701BF8 /* SettingsCell.swift */; };
+		55C3E5412B96227800701BF8 /* PropertiesTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C3E5402B96227800701BF8 /* PropertiesTableView.swift */; };
 		55EFC5ED2B94B0CD00E82D20 /* UserDefaultsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EFC5EC2B94B0CD00E82D20 /* UserDefaultsExtension.swift */; };
 /* End PBXBuildFile section */
 
@@ -141,6 +145,10 @@
 		55AF8C722B93CA1800AC7CE0 /* RewindRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewindRouter.swift; sourceTree = "<group>"; };
 		55AF8C752B93CF1C00AC7CE0 /* ImageInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageInfoView.swift; sourceTree = "<group>"; };
 		55C121882B8CCA6400520718 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
+		55C3E5382B95E2A300701BF8 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		55C3E53A2B95E55D00701BF8 /* TypesTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypesTableView.swift; sourceTree = "<group>"; };
+		55C3E53D2B9605ED00701BF8 /* SettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCell.swift; sourceTree = "<group>"; };
+		55C3E5402B96227800701BF8 /* PropertiesTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertiesTableView.swift; sourceTree = "<group>"; };
 		55EFC5EC2B94B0CD00E82D20 /* UserDefaultsExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -403,6 +411,7 @@
 		55AF8C6B2B9381CB00AC7CE0 /* Rewind */ = {
 			isa = PBXGroup;
 			children = (
+				55C3E5372B95E27500701BF8 /* Settings */,
 				55AF8C742B93CF0000AC7CE0 /* Views */,
 				55AF8C6C2B9381DC00AC7CE0 /* RewindViewController.swift */,
 				55AF8C702B93C9F800AC7CE0 /* RewindPresenter.swift */,
@@ -416,6 +425,33 @@
 			isa = PBXGroup;
 			children = (
 				55AF8C752B93CF1C00AC7CE0 /* ImageInfoView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		55C3E5372B95E27500701BF8 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				55C3E53F2B96224A00701BF8 /* Views */,
+				55C3E53C2B96058E00701BF8 /* Cells */,
+				55C3E5382B95E2A300701BF8 /* SettingsViewController.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		55C3E53C2B96058E00701BF8 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				55C3E53D2B9605ED00701BF8 /* SettingsCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		55C3E53F2B96224A00701BF8 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				55C3E53A2B95E55D00701BF8 /* TypesTableView.swift */,
+				55C3E5402B96227800701BF8 /* PropertiesTableView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -497,6 +533,7 @@
 				556167C72B8F6BD0001AF383 /* EditPasswordBuilder.swift in Sources */,
 				5514270C2B893CBF000446E9 /* RiskyZoneTableView.swift in Sources */,
 				551427042B88CBF4000446E9 /* AccountBuilder.swift in Sources */,
+				55C3E5392B95E2A300701BF8 /* SettingsViewController.swift in Sources */,
 				551509752B90993E00D162CF /* EditEmailPresenter.swift in Sources */,
 				55A326CC2B8269F7007C9B74 /* EnterNameRouter.swift in Sources */,
 				55A326A52B822092007C9B74 /* EnterEmailRouter.swift in Sources */,
@@ -504,6 +541,7 @@
 				55A3269C2B820FFA007C9B74 /* WellcomeRouter.swift in Sources */,
 				551427022B88CBEA000446E9 /* AccountRouter.swift in Sources */,
 				55A3266C2B81F8FC007C9B74 /* ViewController.swift in Sources */,
+				55C3E5412B96227800701BF8 /* PropertiesTableView.swift in Sources */,
 				55A326C52B8263D9007C9B74 /* EnterPasswordBuilder.swift in Sources */,
 				556167C02B8F6421001AF383 /* EnterAuthCodeRouter.swift in Sources */,
 				55A326982B820B03007C9B74 /* WellcomePresenter.swift in Sources */,
@@ -514,6 +552,7 @@
 				55A326C12B8263C8007C9B74 /* EnterPasswordPresenter.swift in Sources */,
 				55A326A32B82204E007C9B74 /* EnterEmailPresenter.swift in Sources */,
 				550109892B8A36FE0005F1D5 /* AppIconModel.swift in Sources */,
+				55C3E53E2B9605ED00701BF8 /* SettingsCell.swift in Sources */,
 				556167BC2B8F61D2001AF383 /* EnterAuthCodePresenter.swift in Sources */,
 				55AF8C712B93C9F800AC7CE0 /* RewindPresenter.swift in Sources */,
 				55AF8C6F2B9381F100AC7CE0 /* RewindBuilder.swift in Sources */,
@@ -543,6 +582,7 @@
 				55AF8C762B93CF1C00AC7CE0 /* ImageInfoView.swift in Sources */,
 				556167C52B8F6B96001AF383 /* EditPasswordPresenter.swift in Sources */,
 				556167C32B8F659D001AF383 /* EditPasswordViewController.swift in Sources */,
+				55C3E53B2B95E55D00701BF8 /* TypesTableView.swift in Sources */,
 				55A326A12B821E18007C9B74 /* EnterEmailViewController.swift in Sources */,
 				55A326BB2B82612B007C9B74 /* DataManager.swift in Sources */,
 				55C121892B8CCA6400520718 /* UIViewControllerExtension.swift in Sources */,

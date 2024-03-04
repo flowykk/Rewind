@@ -290,10 +290,7 @@ extension AccountViewController {
 extension AccountViewController: UIImagePickerControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let selectedImage = info[.originalImage] as? UIImage {
-            if let imageData = selectedImage.jpegData(compressionQuality: 1.0) {
-                let base64String = imageData.base64EncodedString()
-                presenter?.newImageSelected(image: base64String)
-            }
+            presenter?.newImageSelected(image: selectedImage)
         }
         dismiss(animated: true)
     }

@@ -24,8 +24,10 @@ final class AccountPresenter {
         router.navigateToRewind()
     }
     
-    func newImageSelected(image: String) {
-        updateUserImage(withImage: image)
+    func newImageSelected(image: UIImage) {
+        if let imageData = image.jpegData(compressionQuality: 0.8) {
+            updateUserImage(withImageData: imageData)
+        }
     }
     
     func copyEmailToPasteboard() {
@@ -127,9 +129,9 @@ final class AccountPresenter {
         collectionView?.selectedAppIconIndexPath = IndexPath(item: index, section: 0)
     }
     
-    func didUpdateImage(to image: String) {
-        if let avatarImage = imageFromBase64String(base64String: image) {
-            view?.setUserImage(to: avatarImage)
+    func didUpdateImage(to imageData: Data) {
+        if let image = UIImage(data: imageData) {
+            view?.setUserImage(to: image)
         }
     }
     
@@ -178,11 +180,12 @@ extension AccountPresenter {
         }
     }
     
-    private func updateUserImage(withImage newImage: String) {
+    private func updateUserImage(withImageData newImageData: Data) {
         let userId = DataManager.shared.getUserId()
-        NetworkService.updateUserImage(userId: userId, newImage: newImage) { [weak self] response in
+        let imageBase64String = newImageData.base64EncodedString()
+        NetworkService.updateUserImage(userId: userId, newImage: imageBase64String) { [weak self] response in
             DispatchQueue.global().async {
-                self?.handleUpdateUserImageResponse(response, image: newImage)
+                self?.handleUpdateUserImageResponse(response, imageData: newImageData)
             }
         }
     }
@@ -190,11 +193,11 @@ extension AccountPresenter {
 
 // MARK: - Network Response Handlers
 extension AccountPresenter {
-    private func handleUpdateUserImageResponse(_ response: NetworkResponse, image: String) {
+    private func handleUpdateUserImageResponse(_ response: NetworkResponse, imageData: Data) {
         if response.success {
-            DataManager.shared.setUserImageBase64String(image)
+            UserDefaults.standard.set(imageData, forKey: "UserImage")
             DispatchQueue.main.async {
-                self.didUpdateImage(to: image)
+                self.didUpdateImage(to: imageData)
             }
         }
     }

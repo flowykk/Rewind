@@ -38,7 +38,7 @@ final class GeneralTableView: UITableView {
         isScrollEnabled = false
         layer.cornerRadius = 20
         rowHeight = 50
-        setHeight(Double(50 * (GeneralRow.allCases.count) - 1))
+        setHeight(Double(Int(rowHeight) * (GeneralRow.allCases.count) - 1))
     }
 }
 

@@ -31,6 +31,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             initialViewController = WellcomeBuilder.build()
         }
         
+        initialViewController = SettingsViewController()
+        
         window.rootViewController = UINavigationController(rootViewController: initialViewController)
         self.window = window
         window.makeKeyAndVisible()

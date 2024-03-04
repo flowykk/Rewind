@@ -2,9 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RewindApp.Data;
 using RewindApp.Requests.ChangeRequests;
-using RewindApp.Requests;
-using RewindApp.Services;
-using MySql.Data.MySqlClient;
 using RewindApp.Entities;
 
 namespace RewindApp.Controllers.TagControllers;
@@ -40,8 +37,11 @@ public class TagsController : ControllerBase
     [HttpPost("add/{mediaId}")]
     public async Task<ActionResult> AddTag(NameRequest nameRequest, int mediaId)
     {
-        var media = await _context.Media.FirstOrDefaultAsync(m => m.Id == mediaId);
+        var media = await _context.Media.Include(media => media.Tags).FirstOrDefaultAsync(m => m.Id == mediaId);
         if (media == null) return BadRequest("Media not found");
+
+        var similarTag = media.Tags.ToList().FirstOrDefault(t => t.Text == nameRequest.Name);
+        if (similarTag != null) return BadRequest("Media already has such Tag");
 
         var tag = new Tag()
         {

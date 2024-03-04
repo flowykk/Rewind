@@ -37,33 +37,45 @@ public class MediaController : ControllerBase
         if (result == null) return BadRequest("No media with such Id");
         
         return result;
-//        return File(result.Photo, "application/png", "result.png");
+        // return File(result.Photo, "application/png", "result.png");
     }
 
     [HttpPost("load/{groupId}")]
     public async Task<ActionResult<Media>> LoadMedia(MediaRequest mediaRequest, int groupId)
     {
-        Console.WriteLine(mediaRequest.Media.Length);
-        var rawData = Convert.FromBase64String(mediaRequest.Media);
-        Console.WriteLine(rawData.Length);
-        Console.WriteLine(rawData);
-        //var rawData = System.IO.File.ReadAllBytesAsync("sample2.png").Result;
-
         var group = await _groupsController.GetGroupById(groupId);
         if (group == null) return BadRequest("Group not found");
         
-        var media = new Media()
+        var rawData = Convert.FromBase64String(mediaRequest.Media);
+        var date = DateTime.Now;
+
+        var connectionString = DataContext.GetDbConnection();
+        var connection = new MySqlConnection(connectionString);
+        connection.Open();
+
+        var command = new MySqlCommand()
         {
-            Date = DateTime.Now,
-            Photo = Convert.FromBase64String(mediaRequest.Media),
-            Group = group
+            Connection = connection,
+            CommandText = "INSERT INTO Media (Date, Photo, GroupId) VALUES (?date, ?rawData, ?groupId);"
         };
-        Console.WriteLine(media.Photo.Length);
-        //Console.WriteLine("   {0}\n", BitConverter.ToString(media.Photo));
+        var fileContentParameter = new MySqlParameter("?rawData", MySqlDbType.Blob, rawData.Length)
+        {
+            Value = rawData
+        };
+        var dateParameter = new MySqlParameter("?date", MySqlDbType.DateTime)
+        {
+            Value = date
+        };
+        var groupIdParameter = new MySqlParameter("?groupId", MySqlDbType.Int64)
+        {
+            Value = groupId
+        };
+        command.Parameters.Add(fileContentParameter);
+        command.Parameters.Add(dateParameter);
+        command.Parameters.Add(groupIdParameter);
 
-        _context.Media.Add(media);
-        await _context.SaveChangesAsync();
+        command.ExecuteNonQuery();
 
-        return Ok(media);
+        return Ok("Media added");
     }
 }

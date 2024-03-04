@@ -5,6 +5,8 @@ using RewindApp.Requests;
 using RewindApp.Services;
 using MySql.Data.MySqlClient;
 using RewindApp.Entities;
+using System.Data.Common;
+
 
 namespace RewindApp.Controllers.UserControllers;
 
@@ -65,22 +67,14 @@ public class ChangeUserController : ControllerBase
     }
     
     [HttpPut("image/{userId}")]
-    public async Task<ActionResult<User>> EditUserProfileImage(MediaRequest mediaRequest, int userId)
+    public async Task<ActionResult> EditUserProfileImage(MediaRequest mediaRequest, int userId)
     {
         var user = await _usersController.GetUserById(userId);
         if (user == null) return BadRequest("User not found");
 
         var rawData = Convert.FromBase64String(mediaRequest.Media);
-        Console.WriteLine(rawData.Length);
-        Console.WriteLine(mediaRequest.Media.Length);
 
-        var server = "localhost";
-        var databaseName = "rewinddb";
-        var userName = "rewinduser";
-        var password = "rewindpass";
-
-        var connectionString = $"Server={server}; Port=3306; Database={databaseName}; UID={userName}; Pwd={password}";
-//                       Server=myServerAddress; Port=1234; Database=myDataBase; Uid=myUsername; Pwd=myPassword;
+        var connectionString = DataContext.GetDbConnection();
         var connection = new MySqlConnection(connectionString);
         connection.Open();
 
@@ -103,27 +97,6 @@ public class ChangeUserController : ControllerBase
 
         command.ExecuteNonQuery();
 
-        return Ok("Image changed")
-
-/*var user = await _usersController.GetUserById(userId);
-if (user == null) return BadRequest("Something went wrong");
-
-var rawData = await System.IO.File.ReadAllBytesAsync("sample.png");
-
-user.ProfileImage = rawData;
-_context.Users.Update(user);
-await _context.SaveChangesAsync();
-
-var media = new Media()
-{
-    Date = DateTime.Now,
-    Photo = rawData
-};
-
-_context.Media.Add(media);
-await _context.SaveChangesAsync();
-
-//return File(user.Image, "application/png", "users test.png");
-return Ok($"image changed {user.ProfileImage.Length} {media.Photo.Length}" )*/;
+        return Ok("Image changed");
     }
 }

@@ -46,6 +46,15 @@ public class GroupsController : ControllerBase, IGroupsController
             .ToList();
     }
     
+    [HttpGet("image/{groupId}")]
+    public async Task<ActionResult<byte[]>> GetGroupImage(int groupId)
+    {
+        var group = await GetGroupById(groupId);
+        if (group == null) return BadRequest("Group not found");
+
+        return group.Image;
+    }
+    
     [HttpGet("users/{groupId}")]
     public async Task<IEnumerable<User>> GetUsersByGroup(int groupId)
     {
@@ -71,7 +80,7 @@ public class GroupsController : ControllerBase, IGroupsController
     [HttpPost("create")]
     public async Task<ActionResult> CreateGroup(CreateGroupRequest request)
     {
-        if (_context.Groups.Any(group => group.OwnerId == request.OwnerId && group.GroupName == request.GroupName))
+        if (_context.Groups.Any(group => group.OwnerId == request.OwnerId && group.Name == request.GroupName))
         {
             return BadRequest($"Group with this name, created by User {request.OwnerId} already exists!");
         }
@@ -79,8 +88,8 @@ public class GroupsController : ControllerBase, IGroupsController
         var group = new Group
         {
             OwnerId = request.OwnerId,
-            GroupName = request.GroupName,
-            GroupImage = Array.Empty<byte>()
+            Name = request.GroupName,
+            Image = Array.Empty<byte>()
         };
 
         var owner = _usersController.GetUserById(request.OwnerId).Result;
@@ -134,7 +143,6 @@ public class GroupsController : ControllerBase, IGroupsController
         newUsers.Remove(user);
         group.Users = newUsers;
         _context.Groups.Update(group);
-        //await _context.SaveChangesAsync();
         
         var newGroups = GetGroupsByUser(userId).Result.ToList();
         newGroups.Remove(group);

@@ -1,11 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using RewindApp.Controllers.GroupControllers;
-using RewindApp.Controllers.UserControllers;
+using MySql.Data.MySqlClient;
 using RewindApp.Data;
-using RewindApp.Entities;
+using RewindApp.Requests;
 using RewindApp.Requests.ChangeRequests;
-using RewindApp.RequestsModels;
 
 namespace RewindApp.Controllers.GroupControllers;
 
@@ -30,10 +27,44 @@ public class ChangeGroupController : ControllerBase
         var group = await _groupsController.GetGroupById(groupId);
         if (group == null) return BadRequest("Group not found");
 
-        group.GroupName = request.Name;
+        group.Name = request.Name;
         _context.Groups.Update(group);
         await _context.SaveChangesAsync();
 
         return Ok("Name changed");
+    }
+    
+    [HttpPut("image/{groupId}")]
+    public async Task<ActionResult> EditUserProfileImage(MediaRequest mediaRequest, int groupId)
+    {
+        var group = await _groupsController.GetGroupById(groupId);
+        if (group == null) return BadRequest("Group not found");
+
+        var rawData = Convert.FromBase64String(mediaRequest.Media);
+
+        var connectionString = DataContext.GetDbConnection();
+        var connection = new MySqlConnection(connectionString);
+        connection.Open();
+
+        var command = new MySqlCommand()
+        {
+            Connection = connection,
+            CommandText = "UPDATE Groups SET Image = @rawData WHERE Id = @groupId;"
+        };
+        var fileContentParameter = new MySqlParameter("?rawData", MySqlDbType.Blob, rawData.Length)
+        {
+            Value = rawData
+        };
+        var groupIdParameter = new MySqlParameter("?groupId", MySqlDbType.Int64)
+        {
+            Value = groupId
+        };
+        
+        command.Parameters.Add(fileContentParameter);
+        command.Parameters.Add(groupIdParameter);
+
+        command.ExecuteNonQuery();
+
+        return Ok("Image changed");
     }
 }

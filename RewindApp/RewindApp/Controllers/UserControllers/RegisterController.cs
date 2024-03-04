@@ -29,29 +29,28 @@ public class RegisterController : ControllerBase
         var user = await _usersController.GetUserByEmail(email);
         if (user != null) return BadRequest("User is registered");
 
-        int verificationCode = _usersController.SendVerificationCode(email);
+        var verificationCode = _usersController.SendVerificationCode(email);
         return Ok(verificationCode);
     }
 
     [HttpPost]
     public async Task<ActionResult> Register(UserRegisterRequest request)
     {
-        if (_context.Users.Any(user => user.Email == request.Email)) return BadRequest("User with this email already exists!");
+        var user = await _usersController.GetUserByEmail(request.Email);
+        if (user != null) return BadRequest("User with this email already exists!");
         
-        var passwordHash = _userService.ComputeHash(request.Password);
-        
-        var user = new User
+        var newUser = new User
         { 
             UserName = request.UserName,
             Email = request.Email,
-            Password = passwordHash,
+            Password = _userService.ComputeHash(request.Password),
             RegistrationDateTime = DateTime.Now,
             ProfileImage = Array.Empty<byte>()
         };
 
-        _context.Users.Add(user);
+        _context.Users.Add(newUser);
         await _context.SaveChangesAsync();
 
-        return Ok(user.Id);
+        return Ok(newUser.Id);
     }
 }

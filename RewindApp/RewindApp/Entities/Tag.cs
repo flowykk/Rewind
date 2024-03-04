@@ -5,10 +5,8 @@ namespace RewindApp.Entities;
 
 public class Tag
 {
-    [Key]
-    public int Id { get; set; }
-    [Required, MaxLength(10)]
-    public string Text { get; set; } = string.Empty;
+    [Key] public int Id { get; set; }
+    [Required, MaxLength(10)] public string Text { get; set; } = string.Empty;
     
-    public Media Media { get; set; }
+    [IgnoreDataMember] public Media Media { get; set; }
 }

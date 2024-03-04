@@ -7,7 +7,6 @@ public interface IUserService
 {
     public string ComputeHash(string input);
     public int GenerateCode();
-    public byte[] StringToBytes(string s);
 }
 
 public class UserService : IUserService
@@ -29,18 +28,7 @@ public class UserService : IUserService
     
     public int GenerateCode()
     {
-        Random random = new Random();
+        var random = new Random();
         return random.Next(1000, 10000);
-    }
-
-    public byte[] StringToBytes(string message)
-    {
-        var byteArray = new byte[message.Length];
-        for (int i = 0; i < message.Length; i++)
-        {
-            byteArray[i] = Convert.ToByte(message[i]);
-        }
-        
-        return byteArray;
     }
 }

@@ -34,9 +34,9 @@ public class LoginController : ControllerBase
         var user = await _usersController.GetUserByEmail(request.Email);
         if (user == null) return BadRequest("User not found");
         
-        string passwordHash = _userService.ComputeHash(request.Password);
+        var passwordHash = _userService.ComputeHash(request.Password);
         if (passwordHash != user.Password) return BadRequest("Incorrect password");
 
-        return Ok(user.Id);
+        return Ok(user);
     }
 }

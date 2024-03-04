@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using RewindApp.Controllers.UserControllers;
 using RewindApp.Data;
 using RewindApp.Entities;
-using RewindApp.RequestsModels;
+using RewindApp.Requests;
 
 namespace RewindApp.Controllers.GroupControllers;
 

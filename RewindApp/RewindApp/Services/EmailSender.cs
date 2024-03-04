@@ -5,14 +5,14 @@ namespace RewindApp.Services;
 
 public interface IEmailSender
 {
-    void SendEmail(string email, string subject, string message);
+    void SendEmail(string receiver, string subject, string message);
 }
 public class EmailSender : IEmailSender
 {
-    public void SendEmail(string recevier, string subject, string body)
+    public void SendEmail(string receiver, string subject, string body)
     {
-        var mail = "noreply@rewindapp.ru";
-        var pass = "QN6pppyRLB1Hkfz4zRWU";
+        const string mail = "noreply@rewindapp.ru";
+        const string pass = "QN6pppyRLB1Hkfz4zRWU";
         
         var smtpClient = new SmtpClient("smtp.mail.ru")
         {
@@ -21,6 +21,6 @@ public class EmailSender : IEmailSender
             EnableSsl = true,
         };
 
-        smtpClient.Send(mail, recevier, subject, body);
+        smtpClient.Send(mail, receiver, subject, body);
     }
 }

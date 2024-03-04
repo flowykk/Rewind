@@ -4,6 +4,5 @@ namespace RewindApp.Requests.ChangeRequests;
 
 public class NameRequest
 {
-    [Required]
-    public string Name { get; set; } = string.Empty;
+    [Required] public string Name { get; set; } = string.Empty;
 }

@@ -8,6 +8,8 @@
 import UIKit
 
 final class SettingsViewController: UIViewController {
+    var presenter: SettingsPresenter?
+    
     private let titleLabel: UILabel = UILabel()
     private let typesTable: TypesTableView = TypesTableView()
     private let propertiesTable: PropertiesTableView = PropertiesTableView()
@@ -15,6 +17,7 @@ final class SettingsViewController: UIViewController {
     private let fromDatePicker: UIDatePicker = UIDatePicker()
     private let toLabel: UILabel = UILabel()
     private let toDatePicker: UIDatePicker = UIDatePicker()
+    private let tagsCollection: TagsCollectionView = TagsCollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     private let continueButton: UIButton = UIButton(type: .system)
     
     override func viewDidLoad() {
@@ -35,6 +38,8 @@ extension SettingsViewController {
         
         configureToDatePicker()
         configureToLabel()
+        
+        configureTagsCollection()
         
         configureContinueButton()
     }
@@ -84,6 +89,7 @@ extension SettingsViewController {
         fromDatePicker.translatesAutoresizingMaskIntoConstraints = false
         
         fromDatePicker.datePickerMode = .date
+        fromDatePicker.tintColor = .customPink
         
         fromDatePicker.pinCenterY(to: fromLabel.centerYAnchor)
         fromDatePicker.pinLeft(to: fromLabel.trailingAnchor, 10)
@@ -105,9 +111,20 @@ extension SettingsViewController {
         toDatePicker.translatesAutoresizingMaskIntoConstraints = false
         
         toDatePicker.datePickerMode = .date
+        toDatePicker.tintColor = .customPink
         
         toDatePicker.pinCenterY(to: fromLabel.centerYAnchor)
         toDatePicker.pinRight(to: view.trailingAnchor, 20)
+    }
+    
+    private func configureTagsCollection() {
+        view.addSubview(tagsCollection)
+        tagsCollection.translatesAutoresizingMaskIntoConstraints = false
+        
+        tagsCollection.setHeight(200)
+        tagsCollection.pinTop(to: toDatePicker.bottomAnchor, 30)
+        tagsCollection.pinLeft(to: view.leadingAnchor, 20)
+        tagsCollection.pinRight(to: view.trailingAnchor, 20)
     }
     
     private func configureContinueButton() {

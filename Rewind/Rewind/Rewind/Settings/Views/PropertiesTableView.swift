@@ -50,7 +50,7 @@ extension PropertiesTableView: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         guard let customCell = cell as? SettingsCell else { return cell }
         let name = PropertyRow.allCases[indexPath.row].rawValue
-        let isOn = true
+        let isOn = false
         customCell.configure(withName: name, isOn: isOn)
         return customCell
     }

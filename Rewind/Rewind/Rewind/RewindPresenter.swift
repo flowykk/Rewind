@@ -19,4 +19,8 @@ final class RewindPresenter {
     func goToAccount() {
         router.navigateToAccount()
     }
+    
+    func settingsButtonTapped() {
+        router.presentSettings()
+    }
 }

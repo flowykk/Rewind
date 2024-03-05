@@ -9,7 +9,7 @@ import UIKit
 
 class TagsCollectionView: UICollectionView, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    var tags: [String] = ["tag1", "tag2", "tag3"] {
+    var tags: [String] = ["tag1", "tag2", "tag3", "tag4", "tag5"] {
         didSet {
             reloadData()
         }

@@ -35,6 +35,11 @@ final class RewindViewController: UIViewController {
     private func goToAccountButtonTapped() {
         presenter?.goToAccount()
     }
+    
+    @objc
+    private func settingButtonTapped() {
+        presenter?.settingsButtonTapped()
+    }
 }
 
 // MARK: - UI Configuration
@@ -181,6 +186,8 @@ extension RewindViewController {
         settingsButton.tintColor = .secondaryLabel
         settingsButton.backgroundColor = .systemGray6
         settingsButton.layer.cornerRadius = 35 / 2
+        
+        settingsButton.addTarget(self, action: #selector(settingButtonTapped), for: .touchUpInside)
         
         settingsButton.setWidth(35)
         settingsButton.setHeight(35)

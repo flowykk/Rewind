@@ -29,7 +29,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             initialViewController = WellcomeBuilder.build()
         }
         
-        initialViewController = SettingsViewController()
+        initialViewController = RewindBuilder.build()
         
         window.rootViewController = UINavigationController(rootViewController: initialViewController)
         self.window = window

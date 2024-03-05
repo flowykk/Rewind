@@ -13,4 +13,8 @@ final class SettingsPresenter {
     init(view: SettingsViewController?) {
         self.view = view
     }
+    
+    func continueButtonTapped() {
+        view?.dismiss(animated: true)
+    }
 }

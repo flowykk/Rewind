@@ -65,17 +65,9 @@ final class EnterPasswordPresenter {
 // MARK: - Network Request Funcs
 extension EnterPasswordPresenter {
     private func loginUser(withEmail email: String, password: String) {
-        NetworkService.logInUser(withEmail: email, password: password) { [weak self] response in
+        NetworkService.loginUser(withEmail: email, password: password) { [weak self] response in
             DispatchQueue.global().async {
                 self?.handleLoginUserResponse(response)
-            }
-        }
-    }
-    
-    private func getUserInfo(userId: Int) {
-        NetworkService.getUserInfo(userId: userId) { [weak self] response in
-            DispatchQueue.global().async {
-                self?.handleUserInfoResponse(response)
             }
         }
     }
@@ -84,41 +76,29 @@ extension EnterPasswordPresenter {
 // MARK: - Network Response Handlers
 extension EnterPasswordPresenter {
     private func handleLoginUserResponse(_ response: NetworkResponse) {
-        if response.success, let message = response.message, let userId = Int(message) {
-            DataManager.shared.setUserId(userId)
-            getUserInfo(userId: userId)
-        } else {
-            print(response.statusCode as Any)
-            print(response.message as Any)
-        }
-        DispatchQueue.main.async {
-            self.view?.hideLoadingView()
-        }
-    }
-    
-    private func handleUserInfoResponse(_ response: NetworkResponse) {
         if response.success, let json = response.json {
-            if let id = json["usersId"] as? Int, let name = json["userName"] as? String, let email = json["email"] as? String {
-                print("\(id) - \(type(of: id))")
-                print("\(name) - \(type(of: name))")
-                print("\(email) - \(type(of: email))")
-                print(json)
-                
-                if let base64String = json["profileImage"] as? String {
-                    if let imageData = Data(base64Encoded: base64String, options: .ignoreUnknownCharacters) {
-                        if let image = UIImage(data: imageData) {
-                            UserDefaults.standard.setImage(image, forKey: "UserImage")
-                        }
-                    }
-                }
-                
+            if
+                let id = json["id"] as? Int,
+                let name = json["userName"] as? String,
+                let email = json["email"] as? String,
+                let regDateString = json["registrationDateTime"] as? String
+            {
                 UserDefaults.standard.set(id, forKey: "UserId")
                 UserDefaults.standard.set(name, forKey: "UserName")
                 UserDefaults.standard.set(email, forKey: "UserEmail")
+                UserDefaults.standard.set(regDateString, forKey: "UserRegDate")
                 
                 DispatchQueue.main.async {
+                    self.view?.hideLoadingView()
                     self.router.navigateToRewind()
                 }
+            } else {
+                print(response.statusCode as Any)
+                print(response.message as Any)
+            }
+            
+            DispatchQueue.main.async {
+                self.view?.hideLoadingView()
             }
         }
     }

@@ -15,7 +15,7 @@ final class EditPasswordPresenter {
     }
     
     func updatePassword(with newPassword: String) {
-        let userId = DataManager.shared.getUserId()
+        let userId = UserDefaults.standard.integer(forKey: "UserId")
         NetworkService.updateUserPassword(userId: userId, newPassword: newPassword) { response in
             DispatchQueue.main.async {
                 self.view?.dismiss(animated: true, completion: {

@@ -28,7 +28,7 @@ final class EnterEmailPresenter {
         case .registration:
             sendCodeToRegister(toEmail: email)
         case .authorization:
-            sendCodeToLogin(toEmail: email)
+            checkEmailToLogin(email: email)
         default:
             // TODO: something
             return
@@ -46,10 +46,10 @@ extension EnterEmailPresenter {
         }
     }
     
-    private func sendCodeToLogin(toEmail email: String) {
-        NetworkService.sendCodeToLogIn(toEmail: email) { [weak self] response in
+    private func checkEmailToLogin(email: String) {
+        NetworkService.checkEmailToLogin(email: email) { [weak self] response in
             DispatchQueue.global().async {
-                self?.handleSendCodeToLoginResponse(response, email: email)
+                self?.handleCheckEmailToLoginResponse(response, email: email)
             }
         }
     }
@@ -73,7 +73,7 @@ extension EnterEmailPresenter {
         }
     }
     
-    private func handleSendCodeToLoginResponse(_ response: NetworkResponse, email: String) {
+    private func handleCheckEmailToLoginResponse(_ response: NetworkResponse, email: String) {
         if response.success {
             DataManager.shared.setUserEmail(email)
             DispatchQueue.main.async {

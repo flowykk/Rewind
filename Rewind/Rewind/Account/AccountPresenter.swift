@@ -38,20 +38,19 @@ final class AccountPresenter {
         UserDefaults.standard.removeObject(forKey: "UserId")
         UserDefaults.standard.removeObject(forKey: "UserName")
         UserDefaults.standard.removeObject(forKey: "UserEmail")
+        UserDefaults.standard.removeObject(forKey: "UserRegDate")
         router.navigateToWellcome()
     }
     
     func deleteAccount() {
-        let userId = DataManager.shared.getUserId()
+        let userId = UserDefaults.standard.integer(forKey: "UserId")
         NetworkService.deleteUser(withId: userId) { response in
             DispatchQueue.main.async {
                 if response.success {
-                    print("User deleted")
-                    print("Id: \(response.message as Any)")
                     UserDefaults.standard.removeObject(forKey: "UserId")
                     UserDefaults.standard.removeObject(forKey: "UserName")
                     UserDefaults.standard.removeObject(forKey: "UserEmail")
-                    DataManager.shared.setUserId(-1)
+                    UserDefaults.standard.removeObject(forKey: "UserRegDate")
                     self.router.navigateToWellcome()
                 } else {
                     print(response.message as Any)
@@ -86,17 +85,13 @@ final class AccountPresenter {
     func generalRowSelected(_ row: GeneralTableView.GeneralRow) {
         switch row {
         case .editImage:    openEditImageAlert()
-            
         case .editName:     router.presentEditName()
-            
         case .editEmail:    router.presentEditEmail()
-            
-        case .editPassword: let userEmail = DataManager.shared.getUserEmail()
+        case .editPassword:
+            guard let userEmail = UserDefaults.standard.string(forKey: "UserEmail") else { return }
             sendAuthenticationCode(toEmail: userEmail)
             router.presentEnterAuthCode()
-            
         case .getHelp:      openHelpAlert()
-            
         case .share:        router.presentShareVC()
         }
     }
@@ -111,15 +106,14 @@ final class AccountPresenter {
     
     // MARK: - Presenter To View
     func viewDidLoad() {
-        if let userImage = UserDefaults.standard.image(forKey: "UserImage") {
-            view?.setUserImage(to: userImage)
-        } else {
-            guard let userImage = UIImage(named: "userImage") else { return }
-            view?.setUserImage(to: userImage)
-        }
-        
         if let userName = UserDefaults.standard.string(forKey: "UserName") {
             view?.setUserName(to: userName)
+        }
+        
+        if let regDate = UserDefaults.standard.string(forKey: "UserRegDate") {
+            if let days = getDaysWithRewind(regDate: regDate) {
+                view?.setDaysWithRewind(to: days)
+            }
         }
         
         let currentIconName = UIApplication.shared.alternateIconName ?? "AppIconWhite"
@@ -181,7 +175,7 @@ extension AccountPresenter {
     }
     
     private func updateUserImage(withImageData newImageData: Data) {
-        let userId = DataManager.shared.getUserId()
+        let userId = UserDefaults.standard.integer(forKey: "UserId")
         let imageBase64String = newImageData.base64EncodedString()
         NetworkService.updateUserImage(userId: userId, newImage: imageBase64String) { [weak self] response in
             DispatchQueue.global().async {
@@ -195,7 +189,6 @@ extension AccountPresenter {
 extension AccountPresenter {
     private func handleUpdateUserImageResponse(_ response: NetworkResponse, imageData: Data) {
         if response.success {
-            UserDefaults.standard.set(imageData, forKey: "UserImage")
             DispatchQueue.main.async {
                 self.didUpdateImage(to: imageData)
             }
@@ -203,11 +196,25 @@ extension AccountPresenter {
     }
 }
 
-// MARK: - Utility Functions
 extension AccountPresenter {
-    private func imageFromBase64String(base64String: String) -> UIImage? {
-        guard let imageData = Data(base64Encoded: base64String) else { return nil }
-        guard let image = UIImage(data: imageData) else { return nil }
-        return image
+    private func getDaysWithRewind(regDate: String) -> Int? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "ru_RU")
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        
+        guard let date = dateFormatter.date(from: regDate) else {
+            return nil
+        }
+        
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: Date())
+        let givenDate = calendar.startOfDay(for: date)
+        
+        let components = calendar.dateComponents([.day], from: givenDate, to: today)
+        if let days = components.day {
+            return days + 1
+        } else {
+            return nil
+        }
     }
 }

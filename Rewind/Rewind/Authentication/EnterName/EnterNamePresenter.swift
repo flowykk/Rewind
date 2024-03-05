@@ -21,7 +21,6 @@ final class EnterNamePresenter {
     }
     
     func saveName(name: String) {
-        DataManager.shared.setUserName(name)
         registerUser(withName: name)
     }
 }
@@ -33,7 +32,7 @@ extension EnterNamePresenter {
         let password = DataManager.shared.getUserPassword()
         NetworkService.registerUser(withName: name, email: email, password: password) { [weak self] response in
             DispatchQueue.global().async {
-                self?.handleRegisterUserResponse(response, name: name)
+                self?.handleRegisterUserResponse(response)
             }
         }
     }
@@ -41,25 +40,26 @@ extension EnterNamePresenter {
 
 // MARK: - Network Response Handlers
 extension EnterNamePresenter {
-    private func handleRegisterUserResponse(_ response: NetworkResponse, name: String) {
-        if response.success, let message = response.message, let userId = Int(message) {
-            DataManager.shared.setUserId(userId)
-            saveUserDataToUserDefaults(user: DataManager.shared.getUser())
-            DispatchQueue.main.async {
-                self.router.navigateToRewind()
+    private func handleRegisterUserResponse(_ response: NetworkResponse) {
+        if response.success, let json = response.json {
+            if
+                let id = json["id"] as? Int,
+                let name = json["userName"] as? String,
+                let email = json["email"] as? String,
+                let regDateString = json["registrationDateTime"] as? String
+            {
+                UserDefaults.standard.set(id, forKey: "UserId")
+                UserDefaults.standard.set(name, forKey: "UserName")
+                UserDefaults.standard.set(email, forKey: "UserEmail")
+                UserDefaults.standard.set(regDateString, forKey: "UserRegDate")
+                
+                DispatchQueue.main.async {
+                    self.router.navigateToRewind()
+                }
             }
         } else {
             print(response.statusCode as Any)
             print(response.message as Any)
         }
-    }
-}
-
-// MARK: - Private Functions
-extension EnterNamePresenter {
-    private func saveUserDataToUserDefaults(user: User) {
-        UserDefaults.standard.set(user.id, forKey: "UserId")
-        UserDefaults.standard.set(user.name, forKey: "UserName")
-        UserDefaults.standard.set(user.email, forKey: "UserEmail")
     }
 }

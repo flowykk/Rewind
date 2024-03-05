@@ -25,13 +25,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         if isUserIDStored != nil {
             initialViewController = RewindBuilder.build()
-            let userId = UserDefaults.standard.integer(forKey: "UserId")
-            DataManager.shared.setUserId(userId)
         } else {
             initialViewController = WellcomeBuilder.build()
         }
-        
-        initialViewController = SettingsViewController()
         
         window.rootViewController = UINavigationController(rootViewController: initialViewController)
         self.window = window

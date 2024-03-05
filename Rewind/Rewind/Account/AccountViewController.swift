@@ -49,6 +49,10 @@ final class AccountViewController: UIViewController {
         nameLabel.text = name
     }
     
+    func setDaysWithRewind(to days: Int) {
+        daysLabel.text = "You are already \(days) days with Rewind"
+    }
+    
     func showEditImageAlert() {
         let alertController = UIAlertController(
             title: "Load your media",
@@ -277,7 +281,6 @@ extension AccountViewController {
         contentView.addSubview(daysLabel)
         daysLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        daysLabel.text = "You are already N days with Rewind"
         daysLabel.font = UIFont.systemFont(ofSize: 12, weight: .bold)
         daysLabel.textColor = .systemGray4
         

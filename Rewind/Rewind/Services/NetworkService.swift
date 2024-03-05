@@ -37,7 +37,7 @@ final class NetworkService {
     
     
     // MARK: - Send Code To Log In
-    static func sendCodeToLogIn(toEmail email: String, completion: @escaping (NetworkResponse) -> Void) {
+    static func checkEmailToLogin(email: String, completion: @escaping (NetworkResponse) -> Void) {
         guard let url = URL(string: "\(appUrl)/login/check-email/\(email)") else {
             completion(NetworkResponse(success: false, message: "Wrong URL"))
             return
@@ -92,7 +92,7 @@ final class NetworkService {
         }
         
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            let networkResponse = self.processStringResponse(data: data, response: response, error: error)
+            let networkResponse = self.processJSONResponse(data: data, response: response, error: error)
             completion(networkResponse)
         }
         task.resume()
@@ -100,7 +100,7 @@ final class NetworkService {
     
     
     // MARK: - Log In User
-    static func logInUser(withEmail email: String, password: String, completion: @escaping (NetworkResponse) -> Void) {
+    static func loginUser(withEmail email: String, password: String, completion: @escaping (NetworkResponse) -> Void) {
         guard let url = URL(string: appUrl + "/login") else {
             completion(NetworkResponse(success: false, message: "Wrong URL"))
             return
@@ -119,7 +119,7 @@ final class NetworkService {
         }
         
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            let networkResponse = self.processStringResponse(data: data, response: response, error: error)
+            let networkResponse = self.processJSONResponse(data: data, response: response, error: error)
             completion(networkResponse)
         }
         task.resume()
@@ -156,7 +156,7 @@ final class NetworkService {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         do {
-            let parameters: [String : Any] = ["username" : newName]
+            let parameters: [String : Any] = ["name" : newName]
             request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: [])
         } catch {
             completion(NetworkResponse(success: false, message: error.localizedDescription))

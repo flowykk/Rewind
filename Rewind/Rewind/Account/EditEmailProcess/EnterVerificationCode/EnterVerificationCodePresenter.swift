@@ -29,11 +29,11 @@ final class EnterVerificationCodePresenter {
 // MARK: - Private funcs
 extension EnterVerificationCodePresenter {
     private func updateUserEmail(newEmail: String) {
-        let userId = DataManager.shared.getUserId()
+        let userId = UserDefaults.standard.integer(forKey: "UserId")
         NetworkService.updateUserEmail(userId: userId, newEmail: newEmail) { response in
             DispatchQueue.global().async {
                 if response.success {
-                    DataManager.shared.setUserEmail(newEmail)
+                    UserDefaults.standard.set(newEmail, forKey: "UserEmail")
                     DispatchQueue.main.async {
                         self.view?.dismiss(animated: true, completion: {
                             self.view?.editEmailVC?.dismiss(animated: true)

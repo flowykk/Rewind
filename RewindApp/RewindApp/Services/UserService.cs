@@ -1,5 +1,7 @@
 using System.Security.Cryptography;
 using System.Text;
+using RewindApp.Controllers.UserControllers;
+using RewindApp.Entities;
 
 namespace RewindApp.Services;
 

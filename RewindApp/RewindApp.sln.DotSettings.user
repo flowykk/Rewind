@@ -1,0 +1,39 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	
+	
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=2b2be695_002Dbd42_002D4eb1_002D9f88_002D734b7b541e3c/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ItShould_return_user_object_by_Email" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;xUnit::5D77837C-C895-40C6-9CF0-06BFD76A1D95::net6.0::RewindApp.Tests.UserControllersTests&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=3718c87e_002D73f8_002D44a4_002D8f65_002Dde45509939fe/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ItShould_return_user_object_by_Id" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;xUnit::5D77837C-C895-40C6-9CF0-06BFD76A1D95::net6.0::RewindApp.Tests.UserControllersTests.ItShould_return_user_object_by_Id&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	
+	
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=3f5062a5_002De0bf_002D4b2e_002Da38f_002D76b56afcb55d/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Test1" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;xUnit::5D77837C-C895-40C6-9CF0-06BFD76A1D95::net6.0::RewindApp.Tests.UserControllersTests&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=91b3ad4b_002D15d6_002D4a2d_002D9a9c_002D636165d155bd/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ItShould_login_user" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;xUnit::5D77837C-C895-40C6-9CF0-06BFD76A1D95::net6.0::RewindApp.Tests.UserControllersTests&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5D77837C-C895-40C6-9CF0-06BFD76A1D95::net6.0::RewindApp.Tests.RegisterControllerTests&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=9fcf8678_002Dd596_002D4eb4_002D8afd_002D4b1444de2bf4/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ItShould_return_user_object_by_Id #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;xUnit::5D77837C-C895-40C6-9CF0-06BFD76A1D95::net6.0::RewindApp.Tests.UserControllersTests.ItShould_return_user_object_by_Id&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=a09d1b83_002D8151_002D4a8c_002Dae1b_002D280e1483088e/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="UserControllersTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;xUnit::5D77837C-C895-40C6-9CF0-06BFD76A1D95::net6.0::RewindApp.Tests.UserControllersTests&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f78ebb27_002D3696_002D4c32_002D87b0_002D45406d04ccf5/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="UserControllersTests #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;Project Location="/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Tests" Presentation="&amp;lt;RewindApp.Tests&amp;gt;" /&gt;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

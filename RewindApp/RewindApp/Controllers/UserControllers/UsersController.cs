@@ -8,6 +8,7 @@ namespace RewindApp.Controllers.UserControllers;
 
 public interface IUsersController
 {
+    public Task<ActionResult<IEnumerable<User>>> GetUsers();
     public Task<User?> GetUserByEmail(string email);
 
     public Task<User?> GetUserById(int userId);
@@ -19,16 +20,15 @@ public interface IUsersController
 public class UsersController : ControllerBase, IUsersController
 {
     private readonly DataContext _context;
-    private readonly ILogger<UsersController> _logger;
+    //private readonly ILogger<UsersController> _logger;
     private readonly IEmailSender _emailSender;
     private readonly IUserService _userService;
 
-    public UsersController(DataContext context, ILogger<UsersController> logger, IEmailSender emailSender, IUserService userService)
+    public UsersController(DataContext context)
     {
         _context = context;
-        _logger = logger;
-        _emailSender = emailSender;
-        _userService = userService;
+        _emailSender = new EmailSender();
+        _userService = new UserService();
     }
 
     [HttpGet]

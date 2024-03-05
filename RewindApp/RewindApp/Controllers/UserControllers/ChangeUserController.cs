@@ -15,16 +15,15 @@ namespace RewindApp.Controllers.UserControllers;
 public class ChangeUserController : ControllerBase
 {
     private readonly DataContext _context;
-    private readonly ILogger<ChangeUserController> _logger;
+    //private readonly ILogger<ChangeUserController> _logger;
     private readonly IUsersController _usersController;
     private readonly IUserService _userService;
 
-    public ChangeUserController(DataContext context, ILogger<ChangeUserController> logger, IUsersController usersController, IUserService userService)
+    public ChangeUserController(DataContext context)
     {
         _context = context;
-        _logger = logger;
-        _usersController = usersController;
-        _userService = userService;
+        _usersController = new UsersController(context);
+        _userService = new UserService();
     }
 
     [HttpPut("name/{userId}")]

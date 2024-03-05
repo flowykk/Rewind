@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using RewindApp.Data;
 using RewindApp.Requests.UserRequests;
 using RewindApp.Services;
 
@@ -8,15 +9,14 @@ namespace RewindApp.Controllers.UserControllers;
 [Route("[controller]")]
 public class LoginController : ControllerBase
 {
-    private readonly ILogger<LoginController> _logger;
+    //private readonly ILogger<LoginController> _logger;
     private readonly IUsersController _usersController;
     private readonly IUserService _userService;
 
-    public LoginController(ILogger<LoginController> logger, IUsersController usersController, IUserService userService)
+    public LoginController(DataContext context) 
     {
-        _logger = logger;
-        _usersController = usersController;
-        _userService = userService;
+        _usersController = new UsersController(context);
+        _userService = new UserService();
     }
 
     [HttpGet("check-email/{email}")]

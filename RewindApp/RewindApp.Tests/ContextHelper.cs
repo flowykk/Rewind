@@ -14,4 +14,31 @@ public static class ContextHelper
             .With(req => req.Password, "test")
             .Create();
     }
+    
+    public static UserLoginRequest BuildTestLoginRequest() 
+    {
+        return new Fixture()
+            .Build<UserLoginRequest>()
+            .With(req => req.Email, "test@test.test")
+            .With(req => req.Password, "test")
+            .Create();
+    }
+    
+    public static UserLoginRequest BuildInvalidEmailLoginRequest() 
+    {
+        return new Fixture()
+            .Build<UserLoginRequest>()
+            .With(req => req.Email, "no@no.no")
+            .With(req => req.Password, "test")
+            .Create();
+    }
+    
+    public static UserLoginRequest BuildInvalidPasswordLoginRequest() 
+    {
+        return new Fixture()
+            .Build<UserLoginRequest>()
+            .With(req => req.Email, "test@test.test")
+            .With(req => req.Password, "no")
+            .Create();
+    }
 }

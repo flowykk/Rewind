@@ -28,8 +28,15 @@ public class RegisterController : ControllerBase
         var user = await _usersController.GetUserByEmail(email);
         if (user != null) return BadRequest("User is registered");
 
-        var verificationCode = _usersController.SendVerificationCode(email);
-        return Ok(verificationCode);
+        try
+        {
+            var verificationCode = _usersController.SendVerificationCode(email);
+            return Ok(verificationCode);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
     }
 
     [HttpPost]

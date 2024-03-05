@@ -66,7 +66,7 @@ public class ChangeUserController : ControllerBase
     }
     
     [HttpPut("image/{userId}")]
-    public async Task<ActionResult> EditUserProfileImage(MediaRequest mediaRequest, int userId)
+    public async Task<ActionResult> ChangeProfileImage(int userId, MediaRequest mediaRequest)
     {
         var user = await _usersController.GetUserById(userId);
         if (user == null) return BadRequest("User not found");

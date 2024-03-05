@@ -8,7 +8,7 @@ namespace RewindApp.Controllers.UserControllers;
 
 public interface IUsersController
 {
-    public Task<ActionResult<IEnumerable<User>>> GetUsers();
+    public Task<IEnumerable<User>> GetUsers();
     public Task<User?> GetUserByEmail(string email);
 
     public Task<User?> GetUserById(int userId);
@@ -32,7 +32,7 @@ public class UsersController : ControllerBase, IUsersController
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+    public async Task<IEnumerable<User>> GetUsers()
     {
         return await _context.Users.ToListAsync();
     }

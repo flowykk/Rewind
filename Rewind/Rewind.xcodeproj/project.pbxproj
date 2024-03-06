@@ -83,6 +83,7 @@
 		55C652EB2B98515100A8C595 /* AddSearchTagPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C652EA2B98515100A8C595 /* AddSearchTagPresenter.swift */; };
 		55C652ED2B9851BA00A8C595 /* AddSearchTagBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C652EC2B9851BA00A8C595 /* AddSearchTagBuilder.swift */; };
 		55C652EF2B98570C00A8C595 /* SettingsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C652EE2B98570C00A8C595 /* SettingsRouter.swift */; };
+		55C652F42B98994F00A8C595 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C652F32B98994F00A8C595 /* DetailsViewController.swift */; };
 		55EFC5ED2B94B0CD00E82D20 /* UserDefaultsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EFC5EC2B94B0CD00E82D20 /* UserDefaultsExtension.swift */; };
 /* End PBXBuildFile section */
 
@@ -165,6 +166,7 @@
 		55C652EA2B98515100A8C595 /* AddSearchTagPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSearchTagPresenter.swift; sourceTree = "<group>"; };
 		55C652EC2B9851BA00A8C595 /* AddSearchTagBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSearchTagBuilder.swift; sourceTree = "<group>"; };
 		55C652EE2B98570C00A8C595 /* SettingsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRouter.swift; sourceTree = "<group>"; };
+		55C652F32B98994F00A8C595 /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
 		55EFC5EC2B94B0CD00E82D20 /* UserDefaultsExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -427,6 +429,7 @@
 		55AF8C6B2B9381CB00AC7CE0 /* Rewind */ = {
 			isa = PBXGroup;
 			children = (
+				55C652F22B98993500A8C595 /* Details */,
 				55C3E5372B95E27500701BF8 /* Settings */,
 				55AF8C742B93CF0000AC7CE0 /* Views */,
 				55AF8C6C2B9381DC00AC7CE0 /* RewindViewController.swift */,
@@ -486,6 +489,13 @@
 				55C652EC2B9851BA00A8C595 /* AddSearchTagBuilder.swift */,
 			);
 			path = AddSearchTag;
+			sourceTree = "<group>";
+		};
+		55C652F22B98993500A8C595 /* Details */ = {
+			children = (
+				55C652F32B98994F00A8C595 /* DetailsViewController.swift */,
+			);
+			path = Details;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -609,6 +619,7 @@
 				55A3266A2B81F8FC007C9B74 /* SceneDelegate.swift in Sources */,
 				555F07532B85EF5F00E6991E /* AuthConsts.swift in Sources */,
 				551509792B9099A100D162CF /* EditEmailBuilder.swift in Sources */,
+				55C652F42B98994F00A8C595 /* DetailsViewController.swift in Sources */,
 				556167B72B8F5F81001AF383 /* EnterAuthCodeViewController.swift in Sources */,
 				551426FE2B88CBC6000446E9 /* AccountViewController.swift in Sources */,
 				556167AF2B8F58F9001AF383 /* EditNameViewController.swift in Sources */,

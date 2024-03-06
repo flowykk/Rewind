@@ -11,6 +11,7 @@ final class SettingsViewController: UIViewController {
     var presenter: SettingsPresenter?
     
     var tags: [String] = []
+    var tagsCollectionHeightConstraint: NSLayoutConstraint?
     
     private let scrollView: UIScrollView = UIScrollView()
     private let contentView: UIView = UIView()
@@ -30,6 +31,7 @@ final class SettingsViewController: UIViewController {
         super.viewDidLoad()
         tagsCollection.presenter = presenter
         presenter?.tagsCollection = tagsCollection
+        updateCollectionViewHeight()
         configureUI()
     }
     
@@ -54,6 +56,14 @@ final class SettingsViewController: UIViewController {
         } else {
             addTagButton.isHidden = false
         }
+    }
+    
+    func updateCollectionViewHeight() {
+        tagsCollectionHeightConstraint?.isActive = false
+        let contentHeight = tagsCollection.collectionViewLayout.collectionViewContentSize.height
+        tagsCollectionHeightConstraint = tagsCollection.heightAnchor.constraint(equalToConstant: contentHeight)
+        tagsCollectionHeightConstraint?.isActive = true
+        view.layoutIfNeeded()
     }
 }
 
@@ -221,7 +231,7 @@ extension SettingsViewController {
         tagsCollection.delaysContentTouches = false
         tagsCollection.translatesAutoresizingMaskIntoConstraints = false
         
-        tagsCollection.setHeight(250)
+//        tagsCollection.setHeight(250)
         tagsCollection.pinTop(to: tagsLabel.bottomAnchor, 10)
         tagsCollection.pinLeft(to: view.leadingAnchor, 20)
         tagsCollection.pinRight(to: view.trailingAnchor, 20)
@@ -240,7 +250,7 @@ extension SettingsViewController {
         
         continueButton.addTarget(self, action: #selector(continueButtonTapped), for: .touchUpInside)
         
-        continueButton.pinTop(to: tagsCollection.bottomAnchor, 20)
+        continueButton.pinTop(to: tagsCollection.bottomAnchor, 50)
         continueButton.pinCenterX(to: contentView.centerXAnchor)
         continueButton.setHeight(60)
         continueButton.setWidth(200)

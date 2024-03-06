@@ -34,6 +34,7 @@ final class SettingsPresenter {
         view?.updateUI()
         tagsCollection?.tags = view?.tags ?? []
         tagsCollection?.reloadData()
+        view?.updateCollectionViewHeight()
     }
     
     func addTag(_ title: String) {
@@ -41,5 +42,6 @@ final class SettingsPresenter {
         view?.updateUI()
         tagsCollection?.tags = view?.tags ?? []
         tagsCollection?.reloadData()
+        view?.updateCollectionViewHeight()
     }
 }

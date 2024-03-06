@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TagCell: UICollectionViewCell {
+final class TagCell: UICollectionViewCell {
     private let titleLabel: UILabel = UILabel()
     private let deleteButton: UIButton = UIButton(type: .system)
     

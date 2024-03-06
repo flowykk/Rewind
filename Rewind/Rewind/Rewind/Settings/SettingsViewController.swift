@@ -10,7 +10,7 @@ import UIKit
 final class SettingsViewController: UIViewController {
     var presenter: SettingsPresenter?
     
-    var tags: [String] = ["tag1"]
+    var tags: [String] = []
     
     private let scrollView: UIScrollView = UIScrollView()
     private let contentView: UIView = UIView()
@@ -28,7 +28,6 @@ final class SettingsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tagsCollection.tags = tags
         tagsCollection.presenter = presenter
         presenter?.tagsCollection = tagsCollection
         configureUI()

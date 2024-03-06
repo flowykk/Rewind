@@ -10,6 +10,8 @@ import UIKit
 final class RewindViewController: UIViewController {
     var presenter: RewindPresenter?
     
+    var isFavourite: Bool = false
+    
     private let goToGroupButton: UIButton = UIButton(type: .system)
     private let currentGroupView: UIView = UIView()
     private let goToAccountButton: UIButton = UIButton(type: .system)
@@ -39,6 +41,40 @@ final class RewindViewController: UIViewController {
     @objc
     private func settingButtonTapped() {
         presenter?.settingsButtonTapped()
+    }
+    
+    @objc
+    private func downloadButtonTapped() {
+        if let image = imageView.image {
+            presenter?.downloadButtonTapped(currentImage: image)
+        }
+    }
+    
+    @objc
+    private func favouriteButtonTapped() {
+        presenter?.favouriteButtonTapped(favourite: isFavourite)
+    }
+    
+    func setFavouriteButton(imageName: String, tintColor: UIColor) {
+        let font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+        let configuration = UIImage.SymbolConfiguration(font: font)
+        let image = UIImage(systemName: imageName, withConfiguration: configuration)
+        favouriteButton.setImage(image, for: .normal)
+        favouriteButton.tintColor = tintColor
+    }
+    
+    func showSuccessAlert() {
+        let alertController = UIAlertController(title: "Success", message: "The image has been successfully saved to your gallery", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(okAction)
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    func showErrorAlert(message: String) {
+        let alertController = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(okAction)
+        present(alertController, animated: true, completion: nil)
     }
 }
 
@@ -238,6 +274,8 @@ extension RewindViewController {
         
         downloadButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 6, right: 0)
         
+        downloadButton.addTarget(self, action: #selector(downloadButtonTapped), for: .touchUpInside)
+        
         downloadButton.setWidth(45)
         downloadButton.setHeight(45)
         downloadButton.pinRight(to: rewindButton.leadingAnchor, 20)
@@ -284,6 +322,8 @@ extension RewindViewController {
         favouriteButton.layer.cornerRadius = 45 / 2
         
         favouriteButton.imageEdgeInsets = UIEdgeInsets(top: 1, left: 0, bottom: 0, right: 0)
+        
+        favouriteButton.addTarget(self, action: #selector(favouriteButtonTapped), for: .touchUpInside)
         
         favouriteButton.setWidth(45)
         favouriteButton.setHeight(45)

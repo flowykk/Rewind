@@ -39,6 +39,10 @@ final class RewindPresenter {
         }
     }
     
+    func showGroupsMenuButtonTapped() {
+        router.presentGroupsMenu()
+    }
+    
     func downloadButtonTapped(currentImage: UIImage) {
         PHPhotoLibrary.requestAuthorization { status in
             switch status {

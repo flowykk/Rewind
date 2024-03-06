@@ -14,6 +14,7 @@ final class RewindViewController: UIViewController {
     
     private let goToGroupButton: UIButton = UIButton(type: .system)
     private let currentGroupView: UIView = UIView()
+    let showGroupsMenuButton: UIButton = UIButton(type: .system)
     private let goToAccountButton: UIButton = UIButton(type: .system)
     private let imageView: UIImageView = UIImageView()
     private let imageInfoView: ObjectInfoView = ObjectInfoView()
@@ -54,6 +55,11 @@ final class RewindViewController: UIViewController {
     @objc
     private func favouriteButtonTapped() {
         presenter?.favouriteButtonTapped(favourite: isFavourite)
+    }
+    
+    @objc
+    private func showGroupsMenuButtonTapped() {
+        presenter?.showGroupsMenuButtonTapped()
     }
     
     func setFavouriteButton(imageName: String, tintColor: UIColor) {
@@ -147,27 +153,28 @@ extension RewindViewController {
         groupImageView.pinCenterY(to: currentGroupView.centerYAnchor)
         
         
-        let showListButton = UIButton(type: .system)
-        currentGroupView.addSubview(showListButton)
-        showListButton.translatesAutoresizingMaskIntoConstraints = false
+        currentGroupView.addSubview(showGroupsMenuButton)
+        showGroupsMenuButton.translatesAutoresizingMaskIntoConstraints = false
         
-        showListButton.setTitle("curr group", for: .normal)
-        showListButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+        showGroupsMenuButton.setTitle("curr group", for: .normal)
+        showGroupsMenuButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
         
         let font = UIFont.systemFont(ofSize: 11, weight: .bold)
         let configuration = UIImage.SymbolConfiguration(font: font)
         let image = UIImage(systemName: "chevron.down", withConfiguration: configuration)
-        showListButton.setImage(image, for: .normal)
+        showGroupsMenuButton.setImage(image, for: .normal)
         
-        showListButton.tintColor = .darkGray
-        showListButton.semanticContentAttribute = .forceRightToLeft
-        showListButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 0)
-        showListButton.imageEdgeInsets = UIEdgeInsets(top: 1, left: 0, bottom: 0, right: -35)
+        showGroupsMenuButton.tintColor = .darkGray
+        showGroupsMenuButton.semanticContentAttribute = .forceRightToLeft
+        showGroupsMenuButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 0)
+        showGroupsMenuButton.imageEdgeInsets = UIEdgeInsets(top: 1, left: 0, bottom: 0, right: -35)
         
-        showListButton.setHeight(35)
-        showListButton.pinLeft(to: currentGroupView.leadingAnchor, 5)
-        showListButton.pinRight(to: currentGroupView.trailingAnchor, 5)
-        showListButton.pinCenterY(to: currentGroupView.centerYAnchor)
+        showGroupsMenuButton.addTarget(self, action: #selector(showGroupsMenuButtonTapped), for: .touchUpInside)
+        
+        showGroupsMenuButton.setHeight(35)
+        showGroupsMenuButton.pinLeft(to: currentGroupView.leadingAnchor, 5)
+        showGroupsMenuButton.pinRight(to: currentGroupView.trailingAnchor, 5)
+        showGroupsMenuButton.pinCenterY(to: currentGroupView.centerYAnchor)
     }
     
     private func configureGoToAccountButton() {

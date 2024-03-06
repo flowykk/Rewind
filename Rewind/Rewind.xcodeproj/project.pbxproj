@@ -74,6 +74,8 @@
 		55AA39EE2B9902B40099DB8A /* DetailsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AA39ED2B9902B40099DB8A /* DetailsRouter.swift */; };
 		55AA39F02B9902CB0099DB8A /* DetailsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AA39EF2B9902CB0099DB8A /* DetailsBuilder.swift */; };
 		55AA39F22B9905D30099DB8A /* TagsCollectionPresenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AA39F12B9905D30099DB8A /* TagsCollectionPresenterProtocol.swift */; };
+		55AA39FA2B99240E0099DB8A /* GroupsMenuTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AA39F92B99240E0099DB8A /* GroupsMenuTableView.swift */; };
+		55AA39FC2B9927B10099DB8A /* GroupsMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AA39FB2B9927B10099DB8A /* GroupsMenuViewController.swift */; };
 		55AF8C6D2B9381DC00AC7CE0 /* RewindViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AF8C6C2B9381DC00AC7CE0 /* RewindViewController.swift */; };
 		55AF8C6F2B9381F100AC7CE0 /* RewindBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AF8C6E2B9381F100AC7CE0 /* RewindBuilder.swift */; };
 		55AF8C712B93C9F800AC7CE0 /* RewindPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AF8C702B93C9F800AC7CE0 /* RewindPresenter.swift */; };
@@ -162,6 +164,8 @@
 		55AA39ED2B9902B40099DB8A /* DetailsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsRouter.swift; sourceTree = "<group>"; };
 		55AA39EF2B9902CB0099DB8A /* DetailsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsBuilder.swift; sourceTree = "<group>"; };
 		55AA39F12B9905D30099DB8A /* TagsCollectionPresenterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsCollectionPresenterProtocol.swift; sourceTree = "<group>"; };
+		55AA39F92B99240E0099DB8A /* GroupsMenuTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsMenuTableView.swift; sourceTree = "<group>"; };
+		55AA39FB2B9927B10099DB8A /* GroupsMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsMenuViewController.swift; sourceTree = "<group>"; };
 		55AF8C6C2B9381DC00AC7CE0 /* RewindViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewindViewController.swift; sourceTree = "<group>"; };
 		55AF8C6E2B9381F100AC7CE0 /* RewindBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewindBuilder.swift; sourceTree = "<group>"; };
 		55AF8C702B93C9F800AC7CE0 /* RewindPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewindPresenter.swift; sourceTree = "<group>"; };
@@ -444,9 +448,19 @@
 			path = Protocols;
 			sourceTree = "<group>";
 		};
+		55AA39F62B9923400099DB8A /* GroupsMenu */ = {
+			isa = PBXGroup;
+			children = (
+				55AA39F92B99240E0099DB8A /* GroupsMenuTableView.swift */,
+				55AA39FB2B9927B10099DB8A /* GroupsMenuViewController.swift */,
+			);
+			path = GroupsMenu;
+			sourceTree = "<group>";
+		};
 		55AF8C6B2B9381CB00AC7CE0 /* Rewind */ = {
 			isa = PBXGroup;
 			children = (
+				55AA39F62B9923400099DB8A /* GroupsMenu */,
 				55AA39F52B9911CB0099DB8A /* Protocols */,
 				55C652F22B98993500A8C595 /* Details */,
 				55C652E92B98513600A8C595 /* AddTag */,
@@ -650,9 +664,11 @@
 				55C652F42B98994F00A8C595 /* DetailsViewController.swift in Sources */,
 				556167B72B8F5F81001AF383 /* EnterAuthCodeViewController.swift in Sources */,
 				551426FE2B88CBC6000446E9 /* AccountViewController.swift in Sources */,
+				55AA39FA2B99240E0099DB8A /* GroupsMenuTableView.swift in Sources */,
 				556167AF2B8F58F9001AF383 /* EditNameViewController.swift in Sources */,
 				556167B22B8F5CDB001AF383 /* EditNamePresenter.swift in Sources */,
 				55A326C82B8268C1007C9B74 /* EnterNameViewController.swift in Sources */,
+				55AA39FC2B9927B10099DB8A /* GroupsMenuViewController.swift in Sources */,
 				55AA39F02B9902CB0099DB8A /* DetailsBuilder.swift in Sources */,
 				5514270A2B893A95000446E9 /* GeneralTableView.swift in Sources */,
 				55A326AD2B823CF7007C9B74 /* NetworkService.swift in Sources */,

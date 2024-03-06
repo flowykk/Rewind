@@ -28,4 +28,23 @@ final class RewindRouter {
         let vc = DetailsBuilder.build()
         view?.navigationController?.pushViewController(vc, animated: true)
     }
+    
+    func presentGroupsMenu() {
+        let vc = GroupsMenuViewController()
+        
+        vc.modalPresentationStyle = .popover
+        
+        let height = Double((1 + 1) * 40)
+        
+        vc.preferredContentSize = CGSize(width: UIScreen.main.bounds.width / 2, height: height)
+        
+        vc.popoverPresentationController?.delegate = vc
+        vc.popoverPresentationController?.permittedArrowDirections = .up
+        
+        if let rewindView = view as? RewindViewController {
+            vc.popoverPresentationController?.sourceView = rewindView.showGroupsMenuButton
+            vc.popoverPresentationController?.sourceRect = rewindView.showGroupsMenuButton.bounds
+            rewindView.present(vc, animated: true)
+        }
+    }
 }

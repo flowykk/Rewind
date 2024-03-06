@@ -34,7 +34,7 @@ public class MediaController : ControllerBase
     public async Task<ActionResult<Media>> GetMediaById(int id)
     {
         var result = await _context.Media.FirstOrDefaultAsync(media => media.Id == id);
-        if (result == null) return BadRequest("No media with such Id");
+        if (result == null) return BadRequest("Media not found");
         
         return result;
         // return File(result.Photo, "application/png", "result.png");
@@ -76,6 +76,6 @@ public class MediaController : ControllerBase
 
         command.ExecuteNonQuery();
 
-        return Ok("Media added");
+        return Ok("Media loaded");
     }
 }

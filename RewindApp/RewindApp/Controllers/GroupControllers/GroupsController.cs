@@ -34,8 +34,11 @@ public class GroupsController : ControllerBase, IGroupsController
     }
     
     [HttpGet("{userId}")]
-    public async Task<IEnumerable<Group>> GetGroupsByUser(int userId)
+    public async Task<ActionResult<IEnumerable<Group>>> GetGroupsByUser(int userId)
     {
+        if (await _usersController.GetUserById(userId) == null)
+            return BadRequest("User not found");
+        
         var users = await _context.Users
             .Include(user => user.Groups)
             .ToListAsync();
@@ -46,18 +49,12 @@ public class GroupsController : ControllerBase, IGroupsController
             .ToList();
     }
     
-    [HttpGet("image/{groupId}")]
-    public async Task<ActionResult<byte[]>> GetGroupImage(int groupId)
-    {
-        var group = await GetGroupById(groupId);
-        if (group == null) return BadRequest("Group not found");
-
-        return group.Image;
-    }
-    
     [HttpGet("users/{groupId}")]
-    public async Task<IEnumerable<User>> GetUsersByGroup(int groupId)
+    public async Task<ActionResult<IEnumerable<User>>> GetUsersByGroup(int groupId)
     {
+        if (await GetGroupById(groupId) == null)
+            return BadRequest("Group not found");
+        
         var groups = await _context.Groups
             .Include(group => group.Users)
             .ToListAsync();
@@ -66,6 +63,15 @@ public class GroupsController : ControllerBase, IGroupsController
             .Where(group => group.Id == groupId)
             .SelectMany(group => group.Users)
             .ToList();
+    }
+    
+    [HttpGet("image/{groupId}")]
+    public async Task<ActionResult<byte[]>> GetGroupImage(int groupId)
+    {
+        var group = await GetGroupById(groupId);
+        if (group == null) return BadRequest("Group not found");
+
+        return group.Image;
     }
 
     [HttpGet("media/{groupId}")]
@@ -80,10 +86,11 @@ public class GroupsController : ControllerBase, IGroupsController
     [HttpPost("create")]
     public async Task<ActionResult> CreateGroup(CreateGroupRequest request)
     {
+        var owner = _usersController.GetUserById(request.OwnerId).Result;
+        if (owner == null) return BadRequest("User not found");
+        
         if (_context.Groups.Any(group => group.OwnerId == request.OwnerId && group.Name == request.GroupName))
-        {
-            return BadRequest($"Group with this name, created by User {request.OwnerId} already exists!");
-        }
+            return BadRequest($"Group '{request.GroupName}', created by User {request.OwnerId} already exists");
 
         var group = new Group
         {
@@ -91,29 +98,30 @@ public class GroupsController : ControllerBase, IGroupsController
             Name = request.GroupName,
             Image = Array.Empty<byte>()
         };
-
-        var owner = _usersController.GetUserById(request.OwnerId).Result;
-        if (owner == null) return BadRequest($"No user with Id {request.OwnerId}");
-
+        
         group.Users.Add(owner);
         owner.Groups.Add(group);
         _context.Groups.Add(group);
 
         await _context.SaveChangesAsync();
 
-        return Ok("Group was created successfully!");
+        return Ok("Group was created");
     }
 
     [HttpPost("add/{groupId}/{userId}")]
     public async Task<ActionResult> AddUserToGroup(int groupId, int userId)
     {
         var group = await GetGroupById(groupId);
-        if (group == null) return BadRequest($"No group with Id {groupId}");
-        if (GetGroupsByUser(userId).Result.ToList().Contains(group)) 
-            return BadRequest($"Group {groupId} already contains User {userId}");
+        if (group == null) return BadRequest("Group not found");
 
         var user = await _usersController.GetUserById(userId);
-        if (user == null) return BadRequest($"No user with Id {userId}");
+        if (user == null) return BadRequest("User not found");
+        
+        var groups = GetGroupsByUser(userId).Result.Value;
+        if (groups == null) return BadRequest("Error occured");
+        
+        if (groups.ToList().Contains(group)) 
+            return BadRequest($"Group {groupId} already contains User {userId}");
 
         group.Users.Add(user);
         user.Groups.Add(group);
@@ -126,10 +134,13 @@ public class GroupsController : ControllerBase, IGroupsController
     public async Task<ActionResult> DeleteUserFromGroup(int groupId, int userId)
     {
         var group = await GetGroupById(groupId);
-        if (group == null) return BadRequest($"No group with Id {groupId}");
+        if (group == null) return BadRequest("Group not found");
 
         var user = await _usersController.GetUserById(userId);
-        if (user == null) return BadRequest($"No user with Id {userId}");
+        if (user == null) return BadRequest("User not found");
+        
+        var users = GetUsersByGroup(groupId).Result.Value;
+        if (users == null) return BadRequest("Error occured");
         
         /*group.Users.Remove(user);
         _context.Groups.Update(group);
@@ -138,20 +149,23 @@ public class GroupsController : ControllerBase, IGroupsController
         _context.Users.Update(user);
         
         await _context.SaveChangesAsync();*/
-
-        var newUsers = GetUsersByGroup(groupId).Result.ToList();
+        
+        var newUsers = users.ToList();
         newUsers.Remove(user);
         group.Users = newUsers;
         _context.Groups.Update(group);
+
+        var groups = GetGroupsByUser(userId).Result.Value;
+        if (groups == null) return BadRequest("No groups found");
         
-        var newGroups = GetGroupsByUser(userId).Result.ToList();
+        var newGroups = groups.ToList();
         newGroups.Remove(group);
         user.Groups = newGroups;
         _context.Users.Update(user);
         
         await _context.SaveChangesAsync();
 
-        return Ok($"{user.Groups.Count} {group.Users.Count} User {userId} was successfully removed from group {groupId}");
+        return Ok($"User {userId} was successfully removed from group {groupId}");
     }
 
     [HttpDelete("delete/{groupId}")]

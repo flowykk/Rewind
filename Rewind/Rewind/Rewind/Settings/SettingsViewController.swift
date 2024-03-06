@@ -12,6 +12,7 @@ final class SettingsViewController: UIViewController {
     
     var tags: [String] = []
     var tagsCollectionHeightConstraint: NSLayoutConstraint?
+    var contentViewHeightConstraint: NSLayoutConstraint?
     
     private let scrollView: UIScrollView = UIScrollView()
     private let contentView: UIView = UIView()
@@ -31,7 +32,7 @@ final class SettingsViewController: UIViewController {
         super.viewDidLoad()
         tagsCollection.presenter = presenter
         presenter?.tagsCollection = tagsCollection
-        updateCollectionViewHeight()
+        updateViewsHeight()
         configureUI()
     }
     
@@ -58,10 +59,17 @@ final class SettingsViewController: UIViewController {
         }
     }
     
-    func updateCollectionViewHeight() {
+    func updateViewsHeight() {
+        contentViewHeightConstraint?.isActive = false
         tagsCollectionHeightConstraint?.isActive = false
-        let contentHeight = tagsCollection.collectionViewLayout.collectionViewContentSize.height
-        tagsCollectionHeightConstraint = tagsCollection.heightAnchor.constraint(equalToConstant: contentHeight)
+        
+        let tagsCollectionHeight = tagsCollection.collectionViewLayout.collectionViewContentSize.height
+        let contentViewHeight = 20 + 25 + 25 + 210 + 30 + 30 + 30 + 30 + 10 + tagsCollectionHeight + 50 + 60 + 60
+        
+        contentViewHeightConstraint = contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: contentViewHeight)
+        tagsCollectionHeightConstraint = tagsCollection.heightAnchor.constraint(equalToConstant: tagsCollectionHeight)
+        
+        contentViewHeightConstraint?.isActive = true
         tagsCollectionHeightConstraint?.isActive = true
         view.layoutIfNeeded()
     }
@@ -85,9 +93,7 @@ extension SettingsViewController {
         configureToLabel()
         
         configureTagsLabel()
-        if tags.count < 5 {
-            configureAddButton()
-        }
+        if tags.count < 5 { configureAddButton() }
         configureTagsCollection()
         
         configureContinueButton()
@@ -119,7 +125,6 @@ extension SettingsViewController {
         contentView.pinTop(to: scrollView.topAnchor)
         contentView.pinBottom(to: scrollView.bottomAnchor)
         contentView.pinWidth(to: scrollView.widthAnchor)
-        contentView.setHeight(200 + 100 + 30 + 250 + 30 + 60 + 100)
     }
     
     private func configureTitleLabel() {
@@ -231,7 +236,6 @@ extension SettingsViewController {
         tagsCollection.delaysContentTouches = false
         tagsCollection.translatesAutoresizingMaskIntoConstraints = false
         
-//        tagsCollection.setHeight(250)
         tagsCollection.pinTop(to: tagsLabel.bottomAnchor, 10)
         tagsCollection.pinLeft(to: view.leadingAnchor, 20)
         tagsCollection.pinRight(to: view.trailingAnchor, 20)

@@ -492,6 +492,7 @@
 			sourceTree = "<group>";
 		};
 		55C652F22B98993500A8C595 /* Details */ = {
+			isa = PBXGroup;
 			children = (
 				55C652F32B98994F00A8C595 /* DetailsViewController.swift */,
 			);

@@ -15,17 +15,13 @@ final class RewindViewController: UIViewController {
     private let goToGroupButton: UIButton = UIButton(type: .system)
     private let currentGroupView: UIView = UIView()
     private let goToAccountButton: UIButton = UIButton(type: .system)
-    
     private let imageView: UIImageView = UIImageView()
     private let imageInfoView: ImageInfoView = ImageInfoView()
-    
     private let settingsButton: UIButton = UIButton(type: .system)
     private let detailsButton: UIButton = UIButton(type: .system)
-    
     private let downloadButton: UIButton = UIButton(type: .system)
     private let rewindButton: UIButton = UIButton(type: .system)
     private let favouriteButton: UIButton = UIButton(type: .system)
-    
     private let galleryButton: UIButton = UIButton(type: .system)
     
     override func viewDidLoad() {

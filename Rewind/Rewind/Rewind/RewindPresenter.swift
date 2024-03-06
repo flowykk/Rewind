@@ -26,6 +26,10 @@ final class RewindPresenter {
         router.presentSettings()
     }
     
+    func detailsButtonTapped() {
+        router.navigateToDetails()
+    }
+    
     func favouriteButtonTapped(favourite: Bool) {
         view?.isFavourite = !favourite
         if !favourite {

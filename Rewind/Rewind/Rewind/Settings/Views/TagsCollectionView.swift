@@ -8,7 +8,7 @@
 import UIKit
 
 final class TagsCollectionView: UICollectionView {
-    weak var presenter: SettingsPresenter?
+    var presenter: TagsCollectionPresenterProtocol?
     
     var tags: [String] = []
     

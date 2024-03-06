@@ -1,5 +1,5 @@
 //
-//  ImageInfoView.swift
+//  ObjectInfoView.swift
 //  Rewind
 //
 //  Created by Aleksa Khruleva on 03.03.2024.
@@ -7,10 +7,10 @@
 
 import UIKit
 
-final class ImageInfoView: UIView {
+final class ObjectInfoView: UIView {
     private let authorImageView: UIImageView = UIImageView()
     private let authorNameLabel: UILabel = UILabel()
-    private let dateImageAddedLabel: UILabel = UILabel()
+    private let dateObjectAddedLabel: UILabel = UILabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -22,7 +22,7 @@ final class ImageInfoView: UIView {
     }
 }
 
-extension ImageInfoView {
+extension ObjectInfoView {
     private func configureUI() {
         backgroundColor = UIColor(white: 0.7, alpha: 0.9)
         layer.cornerRadius = 35 / 2
@@ -31,7 +31,7 @@ extension ImageInfoView {
         
         configureAuthorImageView()
         configureAuthorNameLabel()
-        configureDateImageAddedLabel()
+        configureDateObjectAddedLabel()
     }
     
     private func configureAuthorImageView() {
@@ -62,16 +62,16 @@ extension ImageInfoView {
         authorNameLabel.pinCenterY(to: centerYAnchor)
     }
     
-    private func configureDateImageAddedLabel() {
-        addSubview(dateImageAddedLabel)
-        dateImageAddedLabel.translatesAutoresizingMaskIntoConstraints = false
+    private func configureDateObjectAddedLabel() {
+        addSubview(dateObjectAddedLabel)
+        dateObjectAddedLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        dateImageAddedLabel.text = "7 Jan"
-        dateImageAddedLabel.textColor = .secondaryLabel
-        dateImageAddedLabel.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
+        dateObjectAddedLabel.text = "7 Jan"
+        dateObjectAddedLabel.textColor = .secondaryLabel
+        dateObjectAddedLabel.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
         
-        dateImageAddedLabel.setWidth(60)
-        dateImageAddedLabel.pinLeft(to: authorNameLabel.trailingAnchor, 5)
-        dateImageAddedLabel.pinCenterY(to: centerYAnchor)
+        dateObjectAddedLabel.setWidth(60)
+        dateObjectAddedLabel.pinLeft(to: authorNameLabel.trailingAnchor, 5)
+        dateObjectAddedLabel.pinCenterY(to: centerYAnchor)
     }
 }

@@ -1,5 +1,5 @@
 //
-//  AddSearchTagViewController.swift
+//  AddTagViewController.swift
 //  Rewind
 //
 //  Created by Aleksa Khruleva on 06.03.2024.
@@ -7,9 +7,10 @@
 
 import UIKit
 
-final class AddSearchTagViewController: UIViewController {
-    var presenter: AddSearchTagPresenter?
-    weak var delegate: SettingsViewController?
+final class AddTagViewController: UIViewController {
+    var presenter: AddTagPresenter?
+    
+    var addTagHandler: ((String) -> Void)?
     
     private let titleLabel: UILabel = UILabel()
     private let tagField: UITextField = UITextField()
@@ -31,7 +32,7 @@ final class AddSearchTagViewController: UIViewController {
     }
 }
 
-extension AddSearchTagViewController {
+extension AddTagViewController {
     private func configureUI() {
         view.backgroundColor = .systemGray5
         configureTitleLabel()
@@ -97,7 +98,7 @@ extension AddSearchTagViewController {
     }
 }
 
-extension AddSearchTagViewController: UITextFieldDelegate {
+extension AddTagViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         view.endEditing(true)
     }

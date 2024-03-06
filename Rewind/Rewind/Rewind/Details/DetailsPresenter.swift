@@ -1,32 +1,43 @@
 //
-//  SettingsPresenter.swift
+//  DetailsPresenter.swift
 //  Rewind
 //
-//  Created by Aleksa Khruleva on 05.03.2024.
+//  Created by Aleksa Khruleva on 06.03.2024.
 //
 
 import Foundation
 
-final class SettingsPresenter: TagsCollectionPresenterProtocol {
-    private weak var view: SettingsViewController?
+final class DetailsPresenter: TagsCollectionPresenterProtocol {
+    private weak var view: DetailsViewController?
     weak var tagsCollection: TagsCollectionView?
-    private var router: SettingsRouter
+    private var router: DetailsRouter
     
-    init(view: SettingsViewController?, router: SettingsRouter) {
+    init(view: DetailsViewController?, router: DetailsRouter) {
         self.view = view
         self.router = router
-    }
-    
-    func continueButtonTapped() {
-        view?.dismiss(animated: true)
     }
     
     func initTagsCollection() {
         tagsCollection?.tags = view?.tags ?? []
     }
     
+    func deleteObject() {
+        router.navigateToRewind()
+    }
+    
+    func backButtonTapped() {
+        router.navigateToRewind()
+    }
+    
     func addTagButtonTapped() {
         router.presentAddTag()
+    }
+    
+    func objectRiskyZoneRowSelected(_ row: ObjectRiskyZoneTableView.ObjectRiskyZoneRow) {
+        switch row {
+        case .deleteObject: showDeleteObjectConfirmationAlert()
+        }
+        
     }
     
     func deleteTag(atIndex index: Int) {
@@ -43,5 +54,9 @@ final class SettingsPresenter: TagsCollectionPresenterProtocol {
         tagsCollection?.tags = view?.tags ?? []
         tagsCollection?.reloadData()
         view?.updateViewsHeight()
+    }
+    
+    func showDeleteObjectConfirmationAlert() {
+        view?.showDeleteObjectConfirmationAlert()
     }
 }

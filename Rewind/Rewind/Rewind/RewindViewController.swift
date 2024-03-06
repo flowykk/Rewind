@@ -16,7 +16,7 @@ final class RewindViewController: UIViewController {
     private let currentGroupView: UIView = UIView()
     private let goToAccountButton: UIButton = UIButton(type: .system)
     private let imageView: UIImageView = UIImageView()
-    private let imageInfoView: ImageInfoView = ImageInfoView()
+    private let imageInfoView: ObjectInfoView = ObjectInfoView()
     private let settingsButton: UIButton = UIButton(type: .system)
     private let detailsButton: UIButton = UIButton(type: .system)
     private let downloadButton: UIButton = UIButton(type: .system)
@@ -37,6 +37,11 @@ final class RewindViewController: UIViewController {
     @objc
     private func settingButtonTapped() {
         presenter?.settingsButtonTapped()
+    }
+    
+    @objc
+    private func detailsButtonTapped() {
+        presenter?.detailsButtonTapped()
     }
     
     @objc
@@ -249,6 +254,8 @@ extension RewindViewController {
         let imageSize = image?.size ?? CGSize.zero
         let titleSize = detailsButton.titleLabel?.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)) ?? CGSize.zero
         
+        detailsButton.addTarget(self, action: #selector(detailsButtonTapped), for: .touchUpInside)
+        
         detailsButton.setWidth((titleSize.width + imageSize.width) * 1.3)
         detailsButton.setHeight(35)
         detailsButton.pinBottom(to: imageView.topAnchor, 10)
@@ -351,7 +358,7 @@ extension RewindViewController {
         
         galleryButton.setWidth(titleSize.width * 2)
         galleryButton.setHeight(UIScreen.main.bounds.height * 0.07)
-        galleryButton.pinBottom(to: view.bottomAnchor, UIScreen.main.bounds.height / 15)
+        galleryButton.pinBottom(to: view.safeAreaLayoutGuide.bottomAnchor, 20)
         galleryButton.pinCenterX(to: view.centerXAnchor)
     }
 }

@@ -8,6 +8,7 @@
 import UIKit
 
 final class DetailsViewController: UIViewController {
+    var presenter: DetailsPresenter?
     
     var tags: [String] = []
     var tagsCollectionHeightConstraint: NSLayoutConstraint?
@@ -15,22 +16,45 @@ final class DetailsViewController: UIViewController {
     
     private let scrollView: UIScrollView = UIScrollView()
     private let contentView: UIView = UIView()
-    private let imageView: UIImageView = UIImageView()
-    private let imageInfoView: ImageInfoView = ImageInfoView()
+    private let objectView: UIImageView = UIImageView()
+    private let objectInfoView: ObjectInfoView = ObjectInfoView()
     private let tagsLabel: UILabel = UILabel()
     private let addTagButton: UIButton = UIButton(type: .system)
     private let tagsCollection: TagsCollectionView = TagsCollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-    private let imageRiskyZoneLabel: UILabel = UILabel()
+    private let objectRiskyZoneLabel: UILabel = UILabel()
+    private let objectRiskyZoneTabel: ObjectRiskyZoneTableView = ObjectRiskyZoneTableView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tagsCollection.presenter = presenter
+        objectRiskyZoneTabel.presenter = presenter
+        presenter?.tagsCollection = tagsCollection
         updateViewsHeight()
         configureUI()
     }
     
     @objc
+    private func backButtonTapped() {
+        presenter?.backButtonTapped()
+    }
+    
+    @objc
     private func addTagButtonTapped() {
-//        presenter?.addTagButtonTapped()
+        presenter?.addTagButtonTapped()
+    }
+    
+    func showDeleteObjectConfirmationAlert() {
+        let alertController = UIAlertController(
+            title: "Confirm Delete",
+            message: "Are you sure you want to delete this object? You will not be able to undo this action in the future",
+            preferredStyle: .alert)
+        let confirmAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
+            self.presenter?.deleteObject()
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        alertController.addAction(confirmAction)
+        alertController.addAction(cancelAction)
+        present(alertController, animated: true)
     }
     
     func updateUI() {
@@ -51,7 +75,7 @@ final class DetailsViewController: UIViewController {
         tagsCollectionHeightConstraint?.isActive = false
         
         let tagsCollectionHeight = tagsCollection.collectionViewLayout.collectionViewContentSize.height
-        let contentViewHeight = 20 + (UIScreen.main.bounds.width - 20) + 30 + 30 + tagsCollectionHeight + 30 + 20
+        let contentViewHeight = 20 + 40 + (UIScreen.main.bounds.width - 20) + 30 + 30 + 10 + tagsCollectionHeight + 30 + 20 + 10 + 50
         
         contentViewHeightConstraint = contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: contentViewHeight)
         tagsCollectionHeightConstraint = tagsCollection.heightAnchor.constraint(equalToConstant: tagsCollectionHeight)
@@ -64,19 +88,31 @@ final class DetailsViewController: UIViewController {
 
 extension DetailsViewController {
     private func configureUI() {
+        navigationItem.hidesBackButton = true
         view.backgroundColor = .systemBackground
+        
+        configureBackButton()
         
         configureScrollView()
         configureContentView()
         
-        configureImageView()
-        configureImageInfoView()
+        configureObjectView()
+        configureObjectInfoView()
         
         configureTagsLabel()
         if tags.count < 5 { configureAddButton() }
         configureTagsCollection()
         
-        configureImageRiskyZoneLabel()
+        configureObjectRiskyZoneLabel()
+        configureObjectRiskyZoneTabel()
+    }
+    
+    private func configureBackButton() {
+        let largeFont = UIFont.systemFont(ofSize: 20, weight: .bold)
+        let configuration = UIImage.SymbolConfiguration(font: largeFont)
+        let image = UIImage(systemName: "chevron.left", withConfiguration: configuration)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(backButtonTapped))
+        navigationItem.leftBarButtonItem?.tintColor = .black
     }
     
     private func configureScrollView() {
@@ -107,27 +143,27 @@ extension DetailsViewController {
         contentView.pinWidth(to: scrollView.widthAnchor)
     }
     
-    private func configureImageView() {
-        view.addSubview(imageView)
-        imageView.translatesAutoresizingMaskIntoConstraints = false
+    private func configureObjectView() {
+        contentView.addSubview(objectView)
+        objectView.translatesAutoresizingMaskIntoConstraints = false
         
-        imageView.image = UIImage(named: "bonic")
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 40
+        objectView.image = UIImage(named: "bonic")
+        objectView.contentMode = .scaleAspectFill
+        objectView.clipsToBounds = true
+        objectView.layer.cornerRadius = 40
         
-        imageView.setWidth(UIScreen.main.bounds.width - 20)
-        imageView.setHeight(UIScreen.main.bounds.width - 20)
-        imageView.pinTop(to: view.safeAreaLayoutGuide.topAnchor)
-        imageView.pinCenterX(to: view.centerXAnchor)
+        objectView.setWidth(UIScreen.main.bounds.width - 20)
+        objectView.setHeight(UIScreen.main.bounds.width - 20)
+        objectView.pinTop(to: contentView.topAnchor)
+        objectView.pinCenterX(to: contentView.centerXAnchor)
     }
     
-    private func configureImageInfoView() {
-        view.addSubview(imageInfoView)
-        imageInfoView.translatesAutoresizingMaskIntoConstraints = false
+    private func configureObjectInfoView() {
+        contentView.addSubview(objectInfoView)
+        objectInfoView.translatesAutoresizingMaskIntoConstraints = false
         
-        imageInfoView.pinCenterX(to: imageView.centerXAnchor)
-        imageInfoView.pinBottom(to: imageView.bottomAnchor, 5)
+        objectInfoView.pinCenterX(to: objectView.centerXAnchor)
+        objectInfoView.pinBottom(to: objectView.bottomAnchor, 5)
     }
     
     private func configureTagsLabel() {
@@ -139,7 +175,7 @@ extension DetailsViewController {
         attributedString.addAttributes([.font: UIFont.systemFont(ofSize: 14, weight: .medium)], range: NSRange(location: 6, length: 3))
         tagsLabel.attributedText = attributedString
         
-        tagsLabel.pinTop(to: imageView.bottomAnchor, 30)
+        tagsLabel.pinTop(to: objectView.bottomAnchor, 30)
         tagsLabel.pinLeft(to: contentView.leadingAnchor, 20)
     }
     
@@ -171,14 +207,23 @@ extension DetailsViewController {
         tagsCollection.pinRight(to: contentView.trailingAnchor, 20)
     }
     
-    private func configureImageRiskyZoneLabel() {
-        contentView.addSubview(imageRiskyZoneLabel)
-        imageRiskyZoneLabel.translatesAutoresizingMaskIntoConstraints = false
+    private func configureObjectRiskyZoneLabel() {
+        contentView.addSubview(objectRiskyZoneLabel)
+        objectRiskyZoneLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        imageRiskyZoneLabel.text = "Risky zone"
-        imageRiskyZoneLabel.font = UIFont.systemFont(ofSize: 20, weight: .medium)
+        objectRiskyZoneLabel.text = "Risky zone"
+        objectRiskyZoneLabel.font = UIFont.systemFont(ofSize: 20, weight: .medium)
         
-        imageRiskyZoneLabel.pinLeft(to: contentView.leadingAnchor, 20)
-        imageRiskyZoneLabel.pinTop(to: tagsCollection.bottomAnchor, 30)
+        objectRiskyZoneLabel.pinLeft(to: contentView.leadingAnchor, 20)
+        objectRiskyZoneLabel.pinTop(to: tagsCollection.bottomAnchor, 30)
+    }
+    
+    private func configureObjectRiskyZoneTabel() {
+        contentView.addSubview(objectRiskyZoneTabel)
+        objectRiskyZoneTabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        objectRiskyZoneTabel.pinTop(to: objectRiskyZoneLabel.bottomAnchor, 10)
+        objectRiskyZoneTabel.pinLeft(to: contentView.leadingAnchor, 20)
+        objectRiskyZoneTabel.pinRight(to: contentView.trailingAnchor, 20)
     }
 }

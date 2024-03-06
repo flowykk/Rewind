@@ -69,19 +69,24 @@
 		55A326CA2B826964007C9B74 /* EnterNamePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A326C92B826964007C9B74 /* EnterNamePresenter.swift */; };
 		55A326CC2B8269F7007C9B74 /* EnterNameRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A326CB2B8269F7007C9B74 /* EnterNameRouter.swift */; };
 		55A326CE2B826A44007C9B74 /* EnterNameBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A326CD2B826A44007C9B74 /* EnterNameBuilder.swift */; };
+		55AA39EA2B98FF090099DB8A /* ObjectRiskyZoneTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AA39E92B98FF090099DB8A /* ObjectRiskyZoneTableView.swift */; };
+		55AA39EC2B9902800099DB8A /* DetailsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AA39EB2B9902800099DB8A /* DetailsPresenter.swift */; };
+		55AA39EE2B9902B40099DB8A /* DetailsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AA39ED2B9902B40099DB8A /* DetailsRouter.swift */; };
+		55AA39F02B9902CB0099DB8A /* DetailsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AA39EF2B9902CB0099DB8A /* DetailsBuilder.swift */; };
+		55AA39F22B9905D30099DB8A /* TagsCollectionPresenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AA39F12B9905D30099DB8A /* TagsCollectionPresenterProtocol.swift */; };
 		55AF8C6D2B9381DC00AC7CE0 /* RewindViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AF8C6C2B9381DC00AC7CE0 /* RewindViewController.swift */; };
 		55AF8C6F2B9381F100AC7CE0 /* RewindBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AF8C6E2B9381F100AC7CE0 /* RewindBuilder.swift */; };
 		55AF8C712B93C9F800AC7CE0 /* RewindPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AF8C702B93C9F800AC7CE0 /* RewindPresenter.swift */; };
 		55AF8C732B93CA1800AC7CE0 /* RewindRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AF8C722B93CA1800AC7CE0 /* RewindRouter.swift */; };
-		55AF8C762B93CF1C00AC7CE0 /* ImageInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AF8C752B93CF1C00AC7CE0 /* ImageInfoView.swift */; };
+		55AF8C762B93CF1C00AC7CE0 /* ObjectInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AF8C752B93CF1C00AC7CE0 /* ObjectInfoView.swift */; };
 		55C121892B8CCA6400520718 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C121882B8CCA6400520718 /* UIViewControllerExtension.swift */; };
 		55C3E5392B95E2A300701BF8 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C3E5382B95E2A300701BF8 /* SettingsViewController.swift */; };
 		55C3E53B2B95E55D00701BF8 /* TypesTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C3E53A2B95E55D00701BF8 /* TypesTableView.swift */; };
 		55C3E53E2B9605ED00701BF8 /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C3E53D2B9605ED00701BF8 /* SettingsCell.swift */; };
 		55C3E5412B96227800701BF8 /* PropertiesTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C3E5402B96227800701BF8 /* PropertiesTableView.swift */; };
-		55C652E82B984FEE00A8C595 /* AddSearchTagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C652E72B984FEE00A8C595 /* AddSearchTagViewController.swift */; };
-		55C652EB2B98515100A8C595 /* AddSearchTagPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C652EA2B98515100A8C595 /* AddSearchTagPresenter.swift */; };
-		55C652ED2B9851BA00A8C595 /* AddSearchTagBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C652EC2B9851BA00A8C595 /* AddSearchTagBuilder.swift */; };
+		55C652E82B984FEE00A8C595 /* AddTagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C652E72B984FEE00A8C595 /* AddTagViewController.swift */; };
+		55C652EB2B98515100A8C595 /* AddTagPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C652EA2B98515100A8C595 /* AddTagPresenter.swift */; };
+		55C652ED2B9851BA00A8C595 /* AddTagBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C652EC2B9851BA00A8C595 /* AddTagBuilder.swift */; };
 		55C652EF2B98570C00A8C595 /* SettingsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C652EE2B98570C00A8C595 /* SettingsRouter.swift */; };
 		55C652F42B98994F00A8C595 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C652F32B98994F00A8C595 /* DetailsViewController.swift */; };
 		55EFC5ED2B94B0CD00E82D20 /* UserDefaultsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EFC5EC2B94B0CD00E82D20 /* UserDefaultsExtension.swift */; };
@@ -152,19 +157,24 @@
 		55A326C92B826964007C9B74 /* EnterNamePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterNamePresenter.swift; sourceTree = "<group>"; };
 		55A326CB2B8269F7007C9B74 /* EnterNameRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterNameRouter.swift; sourceTree = "<group>"; };
 		55A326CD2B826A44007C9B74 /* EnterNameBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterNameBuilder.swift; sourceTree = "<group>"; };
+		55AA39E92B98FF090099DB8A /* ObjectRiskyZoneTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectRiskyZoneTableView.swift; sourceTree = "<group>"; };
+		55AA39EB2B9902800099DB8A /* DetailsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsPresenter.swift; sourceTree = "<group>"; };
+		55AA39ED2B9902B40099DB8A /* DetailsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsRouter.swift; sourceTree = "<group>"; };
+		55AA39EF2B9902CB0099DB8A /* DetailsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsBuilder.swift; sourceTree = "<group>"; };
+		55AA39F12B9905D30099DB8A /* TagsCollectionPresenterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsCollectionPresenterProtocol.swift; sourceTree = "<group>"; };
 		55AF8C6C2B9381DC00AC7CE0 /* RewindViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewindViewController.swift; sourceTree = "<group>"; };
 		55AF8C6E2B9381F100AC7CE0 /* RewindBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewindBuilder.swift; sourceTree = "<group>"; };
 		55AF8C702B93C9F800AC7CE0 /* RewindPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewindPresenter.swift; sourceTree = "<group>"; };
 		55AF8C722B93CA1800AC7CE0 /* RewindRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewindRouter.swift; sourceTree = "<group>"; };
-		55AF8C752B93CF1C00AC7CE0 /* ImageInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageInfoView.swift; sourceTree = "<group>"; };
+		55AF8C752B93CF1C00AC7CE0 /* ObjectInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectInfoView.swift; sourceTree = "<group>"; };
 		55C121882B8CCA6400520718 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
 		55C3E5382B95E2A300701BF8 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		55C3E53A2B95E55D00701BF8 /* TypesTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypesTableView.swift; sourceTree = "<group>"; };
 		55C3E53D2B9605ED00701BF8 /* SettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCell.swift; sourceTree = "<group>"; };
 		55C3E5402B96227800701BF8 /* PropertiesTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertiesTableView.swift; sourceTree = "<group>"; };
-		55C652E72B984FEE00A8C595 /* AddSearchTagViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSearchTagViewController.swift; sourceTree = "<group>"; };
-		55C652EA2B98515100A8C595 /* AddSearchTagPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSearchTagPresenter.swift; sourceTree = "<group>"; };
-		55C652EC2B9851BA00A8C595 /* AddSearchTagBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSearchTagBuilder.swift; sourceTree = "<group>"; };
+		55C652E72B984FEE00A8C595 /* AddTagViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTagViewController.swift; sourceTree = "<group>"; };
+		55C652EA2B98515100A8C595 /* AddTagPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTagPresenter.swift; sourceTree = "<group>"; };
+		55C652EC2B9851BA00A8C595 /* AddTagBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTagBuilder.swift; sourceTree = "<group>"; };
 		55C652EE2B98570C00A8C595 /* SettingsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRouter.swift; sourceTree = "<group>"; };
 		55C652F32B98994F00A8C595 /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
 		55EFC5EC2B94B0CD00E82D20 /* UserDefaultsExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsExtension.swift; sourceTree = "<group>"; };
@@ -426,10 +436,20 @@
 			path = App;
 			sourceTree = "<group>";
 		};
+		55AA39F52B9911CB0099DB8A /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				55AA39F12B9905D30099DB8A /* TagsCollectionPresenterProtocol.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
 		55AF8C6B2B9381CB00AC7CE0 /* Rewind */ = {
 			isa = PBXGroup;
 			children = (
+				55AA39F52B9911CB0099DB8A /* Protocols */,
 				55C652F22B98993500A8C595 /* Details */,
+				55C652E92B98513600A8C595 /* AddTag */,
 				55C3E5372B95E27500701BF8 /* Settings */,
 				55AF8C742B93CF0000AC7CE0 /* Views */,
 				55AF8C6C2B9381DC00AC7CE0 /* RewindViewController.swift */,
@@ -443,7 +463,7 @@
 		55AF8C742B93CF0000AC7CE0 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				55AF8C752B93CF1C00AC7CE0 /* ImageInfoView.swift */,
+				55AF8C752B93CF1C00AC7CE0 /* ObjectInfoView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -451,7 +471,6 @@
 		55C3E5372B95E27500701BF8 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				55C652E92B98513600A8C595 /* AddSearchTag */,
 				55C3E53F2B96224A00701BF8 /* Views */,
 				55C3E53C2B96058E00701BF8 /* Cells */,
 				55C3E5382B95E2A300701BF8 /* SettingsViewController.swift */,
@@ -481,20 +500,24 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		55C652E92B98513600A8C595 /* AddSearchTag */ = {
+		55C652E92B98513600A8C595 /* AddTag */ = {
 			isa = PBXGroup;
 			children = (
-				55C652E72B984FEE00A8C595 /* AddSearchTagViewController.swift */,
-				55C652EA2B98515100A8C595 /* AddSearchTagPresenter.swift */,
-				55C652EC2B9851BA00A8C595 /* AddSearchTagBuilder.swift */,
+				55C652E72B984FEE00A8C595 /* AddTagViewController.swift */,
+				55C652EA2B98515100A8C595 /* AddTagPresenter.swift */,
+				55C652EC2B9851BA00A8C595 /* AddTagBuilder.swift */,
 			);
-			path = AddSearchTag;
+			path = AddTag;
 			sourceTree = "<group>";
 		};
 		55C652F22B98993500A8C595 /* Details */ = {
 			isa = PBXGroup;
 			children = (
+				55AA39E92B98FF090099DB8A /* ObjectRiskyZoneTableView.swift */,
 				55C652F32B98994F00A8C595 /* DetailsViewController.swift */,
+				55AA39EB2B9902800099DB8A /* DetailsPresenter.swift */,
+				55AA39ED2B9902B40099DB8A /* DetailsRouter.swift */,
+				55AA39EF2B9902CB0099DB8A /* DetailsBuilder.swift */,
 			);
 			path = Details;
 			sourceTree = "<group>";
@@ -570,10 +593,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				55A326B52B8259D4007C9B74 /* EnterCodeBuilder.swift in Sources */,
-				55C652EB2B98515100A8C595 /* AddSearchTagPresenter.swift in Sources */,
+				55C652EB2B98515100A8C595 /* AddTagPresenter.swift in Sources */,
 				55A326CE2B826A44007C9B74 /* EnterNameBuilder.swift in Sources */,
 				55A326BF2B8263C0007C9B74 /* EnterPasswordViewController.swift in Sources */,
 				559A50492B97822F00A2BAB4 /* SettingsPresenter.swift in Sources */,
+				55AA39EE2B9902B40099DB8A /* DetailsRouter.swift in Sources */,
 				551509772B90999200D162CF /* EditEmailRouter.swift in Sources */,
 				556167C72B8F6BD0001AF383 /* EditPasswordBuilder.swift in Sources */,
 				5514270C2B893CBF000446E9 /* RiskyZoneTableView.swift in Sources */,
@@ -591,8 +615,10 @@
 				55A326C52B8263D9007C9B74 /* EnterPasswordBuilder.swift in Sources */,
 				556167C02B8F6421001AF383 /* EnterAuthCodeRouter.swift in Sources */,
 				55A326982B820B03007C9B74 /* WellcomePresenter.swift in Sources */,
+				55AA39F22B9905D30099DB8A /* TagsCollectionPresenterProtocol.swift in Sources */,
 				551427082B89375C000446E9 /* AppIconCell.swift in Sources */,
 				556167B42B8F5EA5001AF383 /* EditNameBuilder.swift in Sources */,
+				55AA39EA2B98FF090099DB8A /* ObjectRiskyZoneTableView.swift in Sources */,
 				5515097D2B909CE600D162CF /* EnterVerificationCodeViewController.swift in Sources */,
 				55A049182B91CB3000CD9C46 /* GroupsTableView.swift in Sources */,
 				55A326C12B8263C8007C9B74 /* EnterPasswordPresenter.swift in Sources */,
@@ -603,13 +629,14 @@
 				55AF8C712B93C9F800AC7CE0 /* RewindPresenter.swift in Sources */,
 				55AF8C6F2B9381F100AC7CE0 /* RewindBuilder.swift in Sources */,
 				55A326B02B82535E007C9B74 /* UserModel.swift in Sources */,
+				55AA39EC2B9902800099DB8A /* DetailsPresenter.swift in Sources */,
 				55AF8C732B93CA1800AC7CE0 /* RewindRouter.swift in Sources */,
-				55C652E82B984FEE00A8C595 /* AddSearchTagViewController.swift in Sources */,
+				55C652E82B984FEE00A8C595 /* AddTagViewController.swift in Sources */,
 				55A326B92B8259F1007C9B74 /* EnterCodeRouter.swift in Sources */,
 				55A326B32B825453007C9B74 /* EnterCodeViewController.swift in Sources */,
 				550109852B89E99D0005F1D5 /* CustomTableViewCell.swift in Sources */,
 				5514270E2B894198000446E9 /* AppIconCollectionView.swift in Sources */,
-				55C652ED2B9851BA00A8C595 /* AddSearchTagBuilder.swift in Sources */,
+				55C652ED2B9851BA00A8C595 /* AddTagBuilder.swift in Sources */,
 				559A50512B97844400A2BAB4 /* TagCell.swift in Sources */,
 				55A326B72B8259E1007C9B74 /* EnterCodePresenter.swift in Sources */,
 				551427002B88CBD5000446E9 /* AccountPresenter.swift in Sources */,
@@ -626,10 +653,11 @@
 				556167AF2B8F58F9001AF383 /* EditNameViewController.swift in Sources */,
 				556167B22B8F5CDB001AF383 /* EditNamePresenter.swift in Sources */,
 				55A326C82B8268C1007C9B74 /* EnterNameViewController.swift in Sources */,
+				55AA39F02B9902CB0099DB8A /* DetailsBuilder.swift in Sources */,
 				5514270A2B893A95000446E9 /* GeneralTableView.swift in Sources */,
 				55A326AD2B823CF7007C9B74 /* NetworkService.swift in Sources */,
 				55A326A72B822103007C9B74 /* EnterEmailBuilder.swift in Sources */,
-				55AF8C762B93CF1C00AC7CE0 /* ImageInfoView.swift in Sources */,
+				55AF8C762B93CF1C00AC7CE0 /* ObjectInfoView.swift in Sources */,
 				556167C52B8F6B96001AF383 /* EditPasswordPresenter.swift in Sources */,
 				556167C32B8F659D001AF383 /* EditPasswordViewController.swift in Sources */,
 				55C3E53B2B95E55D00701BF8 /* TypesTableView.swift in Sources */,

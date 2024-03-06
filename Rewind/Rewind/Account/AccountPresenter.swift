@@ -11,7 +11,6 @@ import UIKit
 final class AccountPresenter {
     private weak var view: AccountViewController?
     weak var collectionView: AppIconCollectionView?
-    
     private var router: AccountRouter
     
     init(view: AccountViewController?, router: AccountRouter) {

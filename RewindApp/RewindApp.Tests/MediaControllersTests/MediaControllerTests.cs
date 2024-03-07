@@ -71,7 +71,7 @@ public class MediaControllerTests
         
         // Assert
         Assert.NotEmpty(actionResult);
-        Assert.NotEmpty(_context.Groups);
+        Assert.NotEmpty(_context.Media);
     }
     
     [Fact]
@@ -89,10 +89,9 @@ public class MediaControllerTests
         
         // Act
         var actionResult = await mediaController.GetMediaById(1);
-        var result = actionResult as ObjectResult;
         
         // Assert
-        Assert.Equal("200", result.StatusCode.ToString());
+        Assert.NotNull(actionResult.Value);
     }
     
     [Fact]
@@ -110,7 +109,7 @@ public class MediaControllerTests
         
         // Act
         var actionResult = await mediaController.GetMediaById(2);
-        var result = actionResult as ObjectResult;
+        var result = actionResult.Result as ObjectResult;
         
         // Assert
         Assert.Equal("400", result.StatusCode.ToString());

@@ -19,7 +19,7 @@ public class TagsController : ControllerBase
     }
     
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Tag>>> GetTags()
+    public async Task<IEnumerable<Tag>> GetTags()
     {
         return await _context.Tags.ToListAsync();
     }
@@ -49,6 +49,7 @@ public class TagsController : ControllerBase
         };
 
         _context.Tags.Add(tag);
+        media.Tags.Add(tag);
         await _context.SaveChangesAsync();
 
         return Ok(tag);

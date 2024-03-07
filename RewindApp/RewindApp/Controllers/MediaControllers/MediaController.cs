@@ -30,12 +30,12 @@ public class MediaController : ControllerBase
     
     // may be - public async ActionResult<Media> GetMediaById(int id)
     [HttpGet("{id}")]
-    public async Task<ActionResult> GetMediaById(int mediaId)
+    public async Task<ActionResult<Media>> GetMediaById(int mediaId)
     {
         var result = await _context.Media.FirstOrDefaultAsync(media => media.Id == mediaId);
         if (result == null) return BadRequest("Media not found");
         
-        return Ok(result);
+        return result;
         // return File(result.Photo, "application/png", "result.png");
     }
 

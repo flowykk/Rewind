@@ -1,5 +1,6 @@
 using AutoFixture;
 using RewindApp.Requests;
+using RewindApp.Requests.ChangeRequests;
 using RewindApp.Requests.UserRequests;
 
 namespace RewindApp.Tests;
@@ -74,6 +75,19 @@ public static class ContextHelper
             .Build<MediaRequest>()
             .With(req => req.Media,
                 "VGhlIHF1aWNrIGJyb3duIGZveCBqdW1wcyBvdmVyIDEzIGxhenkgZG9ncy4=")
+            .Create();
+    }
+    
+    public static NameRequest BuildDefaultNameRequest()
+    {
+        return _fixture.Create<NameRequest>();
+    }
+    
+    public static NameRequest BuildNameRequest(string name)
+    {
+        return _fixture
+            .Build<NameRequest>()
+            .With(req => req.Name, name)
             .Create();
     }
 }

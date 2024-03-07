@@ -30,7 +30,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         
 //        initialViewController = RewindBuilder.build()
-        initialViewController = GroupViewController()
+        //initialViewController = GroupViewController()
 //        initialViewController = GroupSettingsViewController()
         
         window.rootViewController = UINavigationController(rootViewController: initialViewController)

@@ -63,14 +63,14 @@ public class GroupsController : ControllerBase, IGroupsController
             .ToList();
     }
     
-    [HttpGet("image/{groupId}")]
+    /*[HttpGet("image/{groupId}")]
     public async Task<ActionResult<byte[]>> GetGroupImage(int groupId)
     {
         var group = await GetGroupById(groupId);
         if (group == null) return BadRequest("Group not found");
 
         return group.Image;
-    }
+    }*/
 
     [HttpGet("media/{groupId}")]
     public async Task<ActionResult<IEnumerable<Media>>> GetMediaByGroupId(int groupId)
@@ -78,7 +78,14 @@ public class GroupsController : ControllerBase, IGroupsController
         var group = await GetGroupById(groupId);
         if (group == null) return BadRequest("Group not found");
         
-        return group.Media.ToList();
+        var groups = await _context.Groups
+            .Include(g => g.Media)
+            .ToListAsync();
+
+        return groups
+            .Where(g => g.Id == groupId)
+            .SelectMany(g => g.Media)
+            .ToList();
     }
     
     [HttpPost("create")]

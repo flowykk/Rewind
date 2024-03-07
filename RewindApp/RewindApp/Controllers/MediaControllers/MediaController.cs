@@ -23,24 +23,24 @@ public class MediaController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Media>>> GetMedia()   
+    public async Task<IEnumerable<Media>> GetMedia()   
     {
         return await _context.Media.ToListAsync();
     }
     
     // may be - public async ActionResult<Media> GetMediaById(int id)
     [HttpGet("{id}")]
-    public async Task<ActionResult<Media>> GetMediaById(int id)
+    public async Task<ActionResult> GetMediaById(int mediaId)
     {
-        var result = await _context.Media.FirstOrDefaultAsync(media => media.Id == id);
+        var result = await _context.Media.FirstOrDefaultAsync(media => media.Id == mediaId);
         if (result == null) return BadRequest("Media not found");
         
-        return result;
+        return Ok(result);
         // return File(result.Photo, "application/png", "result.png");
     }
 
     [HttpPost("load/{groupId}")]
-    public async Task<ActionResult<Media>> LoadMedia(MediaRequest mediaRequest, int groupId)
+    public async Task<ActionResult> LoadMediaToGroup(MediaRequest mediaRequest, int groupId)
     {
         var group = await _groupsController.GetGroupById(groupId);
         if (group == null) return BadRequest("Group not found");
@@ -69,12 +69,22 @@ public class MediaController : ControllerBase
         {
             Value = groupId
         };
+        
         command.Parameters.Add(fileContentParameter);
         command.Parameters.Add(dateParameter);
         command.Parameters.Add(groupIdParameter);
-
         command.ExecuteNonQuery();
 
+        var media = new Media()
+        {
+            Date = date,
+            Photo = rawData
+        };
+        
+        _context.Media.Add(media);
+        group.Media.Add(media);
+        await _context.SaveChangesAsync();
+        
         return Ok("Media loaded");
     }
 }

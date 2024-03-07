@@ -11,17 +11,16 @@ public static class ContextHelper
     {
         return _fixture
             .Build<UserRegisterRequest>()
-            .With(req => req.Id, 1)
             .With(req => req.Email, "test@test.test")
             .With(req => req.Password, "test")
             .Create();
     }
     
-    public static UserRegisterRequest BuildExtraUserRegisterRequest(int extraUserId) 
+    public static UserRegisterRequest BuildExtraUserRegisterRequest()//int extraUserId) 
     {
         return _fixture
             .Build<UserRegisterRequest>()
-            .With(req => req.Id, extraUserId)
+            //.With(req => req.Id, extraUserId)
             .Create();
     }
     
@@ -69,7 +68,7 @@ public static class ContextHelper
             .Create();
     }
 
-    public static MediaRequest BuildTestChangeGroupImageRequest()
+    public static MediaRequest BuildTestImageRequest()
     {
         return _fixture
             .Build<MediaRequest>()

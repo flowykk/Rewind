@@ -47,13 +47,11 @@ public class ChangeUserControllerTests
 
         // Act
         var actionResult = await changeUserController.ChangeName(2, nameRequest);
+        var result = actionResult as ObjectResult;
         
         // Assert
-        var result = actionResult as ObjectResult;
-        var changedUser = _context.Users.FirstOrDefault(u => u.Id == 2);
-            
         Assert.Equal("400", result.StatusCode.ToString());
-        Assert.Null(changedUser);
+        Assert.Equal("User not found", result.Value);
     }
     
     [Fact]
@@ -91,14 +89,11 @@ public class ChangeUserControllerTests
 
         // Act
         var actionResult = await changeUserController.ChangeEmail(2, emailRequest);
+        var result = actionResult as ObjectResult;
         
         // Assert
-        var result = actionResult as ObjectResult;
-        var changedUser = _context.Users.FirstOrDefault(u => u.Id == 2);
-            
         Assert.Equal("400", result.StatusCode.ToString());
-        
-        Assert.Null(changedUser);
+        Assert.Equal("User not found", result.Value);
     }
     
     [Fact]
@@ -138,35 +133,55 @@ public class ChangeUserControllerTests
 
         // Act
         var actionResult = await changeUserController.ChangePassword(2, passwordRequest);
+        var result = actionResult as ObjectResult;
         
         // Assert
-        var result = actionResult as ObjectResult;
-        var changedUser = _context.Users.FirstOrDefault(u => u.Id == 2);
-            
         Assert.Equal("400", result.StatusCode.ToString());
-        
-        Assert.Null(changedUser);
+        Assert.Equal("User not found", result.Value);
     }
     
     [Fact]
-    public async void ItShould_failed_to_change_user_image()
+    public async void ItShould_successfully_to_change_user_image()
     {
         // Arrange
         var registerController = new RegisterController(_context);
         var changeUserController = new ChangeUserController(_context);
         
         await registerController.Register(ContextHelper.BuildTestRegisterRequest());
-        var mediaRequest = new MediaRequest() { Media = "VGhlIHF1aWNrIGJyb3duIGZveCBqdW1wcyBvdmVyIDEzIGxhenkgZG9ncy4=" };
 
         // Act
-        var actionResult = await changeUserController.ChangeProfileImage(2, mediaRequest);
+        var actionResult = await changeUserController.ChangeProfileImage(
+            ContextHelper.BuildTestImageRequest(), 1);
+        
+        var result = actionResult as ObjectResult;
+        var changedUser = _context.Users.FirstOrDefault(u => u.Id == 1);
         
         // Assert
-        var result = actionResult as ObjectResult;
-        var changedUser = _context.Users.FirstOrDefault(u => u.Id == 2);
-            
-        Assert.Equal("400", result.StatusCode.ToString());
+        Assert.Equal("200", result.StatusCode.ToString());
+        Assert.NotNull(changedUser);
+        Assert.Equal(
+            "VGhlIHF1aWNrIGJyb3duIGZveCBqdW1wcyBvdmVyIDEzIGxhenkgZG9ncy4=", 
+            Convert.ToBase64String(changedUser.ProfileImage)
+            );
+    }
+    
+    [Fact]
+    public async void ItShould_fail_to_change_user_image_with_invalid_userId()
+    {
+        // Arrange
+        var registerController = new RegisterController(_context);
+        var changeUserController = new ChangeUserController(_context);
         
-        Assert.Null(changedUser);
+        await registerController.Register(ContextHelper.BuildTestRegisterRequest());
+
+        // Act
+        var actionResult = await changeUserController.ChangeProfileImage(
+            ContextHelper.BuildTestImageRequest(), 2);
+        
+        var result = actionResult as ObjectResult;
+        
+        // Assert
+        Assert.Equal("400", result.StatusCode.ToString());
+        Assert.Equal("User not found", result.Value);
     }
 }

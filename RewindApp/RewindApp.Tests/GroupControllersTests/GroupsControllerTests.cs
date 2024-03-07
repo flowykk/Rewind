@@ -1,6 +1,7 @@
 using MailKit.Security;
 using Microsoft.AspNetCore.Mvc;
 using RewindApp.Controllers.GroupControllers;
+using RewindApp.Controllers.MediaControllers;
 using RewindApp.Controllers.UserControllers;
 using RewindApp.Data;
 
@@ -124,7 +125,7 @@ public class GroupsControllerTests
         // Arrange
         var registerController = new RegisterController(_context);
         await registerController.Register(ContextHelper.BuildTestRegisterRequest());
-        await registerController.Register(ContextHelper.BuildExtraUserRegisterRequest(2));
+        await registerController.Register(ContextHelper.BuildExtraUserRegisterRequest());
         
         var groupsController = new GroupsController(_context);
         await groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
@@ -182,7 +183,7 @@ public class GroupsControllerTests
         // Arrange
         var registerController = new RegisterController(_context);
         await registerController.Register(ContextHelper.BuildTestRegisterRequest());
-        await registerController.Register(ContextHelper.BuildExtraUserRegisterRequest(2));
+        await registerController.Register(ContextHelper.BuildExtraUserRegisterRequest());
         
         var groupsController = new GroupsController(_context);
         await groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
@@ -322,6 +323,51 @@ public class GroupsControllerTests
         
         // Act
         var actionResult = await groupsController.GetUsersByGroup(2);
+        var result = actionResult.Result as ObjectResult;
+
+        // Assert
+        Assert.Equal("400", result.StatusCode.ToString());
+        Assert.Equal("Group not found", result.Value);
+        Assert.Null(actionResult.Value);
+    }
+
+    [Fact]
+    public async void ItShould_successfully_get_group_media_by_groupId()
+    {
+        // Arrange
+        var registerController = new RegisterController(_context);
+        await registerController.Register(ContextHelper.BuildTestRegisterRequest());
+
+        var groupsController = new GroupsController(_context);
+        await groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
+
+        var mediaController = new MediaController(_context);
+        await mediaController.LoadMediaToGroup(ContextHelper.BuildTestImageRequest(), 1);
+
+        // Assert
+        var actionResult = await groupsController.GetMediaByGroupId(1);
+        var group = await groupsController.GetGroupById(1);
+
+        // Act
+        Assert.NotNull(actionResult.Value);
+        Assert.NotEmpty(group.Media);
+    }
+    
+    [Fact]
+    public async void ItShould_fail_to_get_group_media_with_invalid_groupId()
+    {
+        // Arrange
+        var registerController = new RegisterController(_context);
+        await registerController.Register(ContextHelper.BuildTestRegisterRequest());
+
+        var groupsController = new GroupsController(_context);
+        await groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
+
+        var mediaController = new MediaController(_context);
+        await mediaController.LoadMediaToGroup(ContextHelper.BuildTestImageRequest(), 1);
+
+        // Assert
+        var actionResult = await groupsController.GetMediaByGroupId(2);
         var result = actionResult.Result as ObjectResult;
 
         // Assert

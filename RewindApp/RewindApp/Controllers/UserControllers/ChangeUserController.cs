@@ -66,7 +66,7 @@ public class ChangeUserController : ControllerBase
     }
     
     [HttpPut("image/{userId}")]
-    public async Task<ActionResult> ChangeProfileImage(int userId, MediaRequest mediaRequest)
+    public async Task<ActionResult> ChangeProfileImage(MediaRequest mediaRequest, int userId)
     {
         var user = await _usersController.GetUserById(userId);
         if (user == null) return BadRequest("User not found");
@@ -93,8 +93,11 @@ public class ChangeUserController : ControllerBase
         
         command.Parameters.Add(fileContentParameter);
         command.Parameters.Add(userIdParameter);
-
         command.ExecuteNonQuery();
+        
+        user.ProfileImage = rawData;
+        _context.Users.Update(user);
+        await _context.SaveChangesAsync();
 
         return Ok("Image changed");
     }

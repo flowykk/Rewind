@@ -74,8 +74,8 @@ public class ChangeGroupControllerTests
         var changeGroupController = new ChangeGroupController(_context);
 
         // Assert
-        var actionResult = await changeGroupController.
-            ChangeGroupImage(ContextHelper.BuildTestChangeGroupImageRequest(), 1);
+        var actionResult = await changeGroupController.ChangeGroupImage(
+            ContextHelper.BuildTestImageRequest(), 1);
 
         var result = actionResult as ObjectResult;
         var changedGroup = groupsController.GetGroupById(1).Result;
@@ -103,9 +103,7 @@ public class ChangeGroupControllerTests
 
         // Assert
         var actionResult = await changeGroupController.ChangeGroupImage(
-            ContextHelper.BuildTestChangeGroupImageRequest(),
-            2
-            );
+            ContextHelper.BuildTestImageRequest(), 2);
 
         var result = actionResult as ObjectResult;
         

@@ -22,6 +22,7 @@ public class UsersControllerTests
         
         // Assert
         Assert.NotEmpty(actionResult);
+        Assert.NotEmpty(_context.Users);
     }
     
     [Fact]

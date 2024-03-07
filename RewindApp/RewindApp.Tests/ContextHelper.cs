@@ -1,13 +1,15 @@
 using AutoFixture;
+using RewindApp.Requests;
 using RewindApp.Requests.UserRequests;
 
 namespace RewindApp.Tests;
 
 public static class ContextHelper
 {
+    private static Fixture _fixture = new Fixture();
     public static UserRegisterRequest BuildTestRegisterRequest() 
     {
-        return new Fixture()
+        return _fixture
             .Build<UserRegisterRequest>()
             .With(req => req.Id, 1)
             .With(req => req.Email, "test@test.test")
@@ -15,9 +17,17 @@ public static class ContextHelper
             .Create();
     }
     
+    public static UserRegisterRequest BuildExtraUserRegisterRequest(int extraUserId) 
+    {
+        return _fixture
+            .Build<UserRegisterRequest>()
+            .With(req => req.Id, extraUserId)
+            .Create();
+    }
+    
     public static UserLoginRequest BuildTestLoginRequest() 
     {
-        return new Fixture()
+        return _fixture
             .Build<UserLoginRequest>()
             .With(req => req.Email, "test@test.test")
             .With(req => req.Password, "test")
@@ -26,7 +36,7 @@ public static class ContextHelper
     
     public static UserLoginRequest BuildInvalidEmailLoginRequest() 
     {
-        return new Fixture()
+        return _fixture
             .Build<UserLoginRequest>()
             .With(req => req.Email, "no@no.no")
             .With(req => req.Password, "test")
@@ -35,10 +45,27 @@ public static class ContextHelper
     
     public static UserLoginRequest BuildInvalidPasswordLoginRequest() 
     {
-        return new Fixture()
+        return _fixture
             .Build<UserLoginRequest>()
             .With(req => req.Email, "test@test.test")
             .With(req => req.Password, "no")
+            .Create();
+    }
+
+    public static CreateGroupRequest BuildInvalidOwnerIdCreateGroupRequest()
+    {
+        return _fixture
+            .Build<CreateGroupRequest>()
+            .With(req => req.GroupName, "defaultName")
+            .Create();
+    }
+    
+    public static CreateGroupRequest BuildTestCreateGroupRequest()
+    {
+        return _fixture
+            .Build<CreateGroupRequest>()
+            .With(req => req.OwnerId, 1)
+            .With(req => req.GroupName, "defaultName")
             .Create();
     }
 }

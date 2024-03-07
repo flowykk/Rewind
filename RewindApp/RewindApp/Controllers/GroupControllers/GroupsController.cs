@@ -26,7 +26,7 @@ public class GroupsController : ControllerBase, IGroupsController
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Group>>> GetGroups()
+    public async Task<IEnumerable<Group>> GetGroups()
     {
         return await _context.Groups.ToListAsync();
     }
@@ -116,7 +116,7 @@ public class GroupsController : ControllerBase, IGroupsController
         if (user == null) return BadRequest("User not found");
         
         var groups = GetGroupsByUser(userId).Result.Value;
-        if (groups == null) return BadRequest("Error occured");
+        //if (groups == null) return BadRequest("Error occured");
         
         if (groups.ToList().Contains(group)) 
             return BadRequest($"Group {groupId} already contains User {userId}");
@@ -138,7 +138,7 @@ public class GroupsController : ControllerBase, IGroupsController
         if (user == null) return BadRequest("User not found");
         
         var users = GetUsersByGroup(groupId).Result.Value;
-        if (users == null) return BadRequest("Error occured");
+        //if (users == null) return BadRequest("Error occured");
         
         /*group.Users.Remove(user);
         _context.Groups.Update(group);
@@ -154,7 +154,7 @@ public class GroupsController : ControllerBase, IGroupsController
         _context.Groups.Update(group);
 
         var groups = GetGroupsByUser(userId).Result.Value;
-        if (groups == null) return BadRequest("No groups found");
+        //if (groups == null) return BadRequest("No groups found");
         
         var newGroups = groups.ToList();
         newGroups.Remove(group);

@@ -27,7 +27,7 @@ public class ChangeUserControllerTests
         
         // Assert
         var result = actionResult as ObjectResult;
-        var changedUser = _context.Users.FirstOrDefault(u => u.Id == 1);
+        var changedUser = _context.Users.FirstOrDefault(u => u.UserName == "newName");
             
         Assert.Equal("200", result.StatusCode.ToString());
         

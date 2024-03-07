@@ -68,4 +68,13 @@ public static class ContextHelper
             .With(req => req.GroupName, "defaultName")
             .Create();
     }
+
+    public static MediaRequest BuildTestChangeGroupImageRequest()
+    {
+        return _fixture
+            .Build<MediaRequest>()
+            .With(req => req.Media,
+                "VGhlIHF1aWNrIGJyb3duIGZveCBqdW1wcyBvdmVyIDEzIGxhenkgZG9ncy4=")
+            .Create();
+    }
 }

@@ -34,7 +34,7 @@ public class ChangeGroupController : ControllerBase
     }
     
     [HttpPut("image/{groupId}")]
-    public async Task<ActionResult> EditUserProfileImage(MediaRequest mediaRequest, int groupId)
+    public async Task<ActionResult> ChangeGroupImage(MediaRequest mediaRequest, int groupId)
     {
         var group = await _groupsController.GetGroupById(groupId);
         if (group == null) return BadRequest("Group not found");
@@ -61,8 +61,11 @@ public class ChangeGroupController : ControllerBase
         
         command.Parameters.Add(fileContentParameter);
         command.Parameters.Add(groupIdParameter);
-
         command.ExecuteNonQuery();
+        
+        group.Image = rawData;
+        _context.Groups.Update(group);
+        await _context.SaveChangesAsync();
 
         return Ok("Image changed");
     }

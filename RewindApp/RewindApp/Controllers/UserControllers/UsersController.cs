@@ -48,7 +48,7 @@ public class UsersController : ControllerBase, IUsersController
         return Ok(userId);
     }
     
-    [HttpGet("image/{userId}")]
+    /*[HttpGet("image/{userId}")]
     public async Task<ActionResult<byte[]>> GetUserImage(int userId)
     {
         var user = await GetUserById(userId);
@@ -56,7 +56,7 @@ public class UsersController : ControllerBase, IUsersController
 
         return user.ProfileImage;
         //return File(user.ProfileImage, "application/png", "result.png");
-    }
+    }*/
     
     [HttpGet("send-code/{receiverEmail}")]
     public int SendVerificationCode(string receiverEmail)

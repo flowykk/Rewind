@@ -11,12 +11,11 @@ namespace RewindApp.Controllers.TagControllers;
 public class TagsController : ControllerBase
 {
     private readonly DataContext _context;
-    private readonly ILogger<TagsController> _logger;
+ //   private readonly ILogger<TagsController> _logger;
 
-    public TagsController(DataContext context, ILogger<TagsController> logger)
+    public TagsController(DataContext context)//, ILogger<TagsController> logger)
     {
         _context = context;
-        _logger = logger;
     }
     
     [HttpGet]

@@ -13,14 +13,13 @@ namespace RewindApp.Controllers.MediaControllers;
 public class MediaController : ControllerBase
 {
     private readonly DataContext _context;
-    private readonly ILogger<MediaController> _logger;
+    // private readonly ILogger<MediaController> _logger;
     private readonly IGroupsController _groupsController;
 
-    public MediaController(DataContext context, ILogger<MediaController> logger, IGroupsController groupsController)
+    public MediaController(DataContext context) //, ILogger<MediaController> logger, IGroupsController groupsController)
     {
         _context = context;
-        _logger = logger;
-        _groupsController = groupsController;
+        _groupsController = new GroupsController(context);
     }
 
     [HttpGet]

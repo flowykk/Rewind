@@ -17,14 +17,12 @@ public interface IGroupsController
 public class GroupsController : ControllerBase, IGroupsController
 {
     private readonly DataContext _context;
-    private readonly ILogger<GroupsController> _logger;
     private readonly IUsersController _usersController;
 
-    public GroupsController(DataContext context, ILogger<GroupsController> logger, IUsersController usersController)
+    public GroupsController(DataContext context) //, ILogger<GroupsController> logger, IUsersController usersController)
     {
         _context = context;
-        _logger = logger;
-        _usersController = usersController;
+        _usersController = new UsersController(context);
     }
 
     [HttpGet]

@@ -180,10 +180,13 @@ extension AccountViewController {
         
         avatarView.contentMode = .scaleAspectFill
         avatarView.clipsToBounds = true
-        avatarView.layer.cornerRadius = 65
         
-        avatarView.setWidth(130)
-        avatarView.setHeight(130)
+        let width = UIScreen.main.bounds.width / 3
+        
+        avatarView.layer.cornerRadius = width / 2
+        
+        avatarView.setWidth(width)
+        avatarView.setHeight(width)
         avatarView.pinTop(to: contentView.topAnchor)
         avatarView.pinCenterX(to: contentView.centerXAnchor)
     }

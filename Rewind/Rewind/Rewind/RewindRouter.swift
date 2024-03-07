@@ -14,6 +14,11 @@ final class RewindRouter {
         self.view = view
     }
     
+    func navigateToGroup() {
+        let vc = GroupViewController()
+        view?.navigationController?.pushViewController(vc, animated: true)
+    }
+    
     func navigateToAccount() {
         let vc = AccountBuilder.build()
         view?.navigationController?.pushViewController(vc, animated: true)

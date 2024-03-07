@@ -27,9 +27,9 @@ final class CustomTableViewCell: UITableViewCell {
         separatorInset = UIEdgeInsets(top: 0, left: nameLabel.frame.origin.x, bottom: 0, right: 0)
     }
     
-    func configure(withName name: String, iconName: String, tintColor: UIColor, squareColor: UIColor) {
+    func configure(withName name: String, imageName: String, tintColor: UIColor, squareColor: UIColor) {
         nameLabel.text = name
-        iconImageView.image = UIImage(systemName: iconName)
+        iconImageView.image = UIImage(systemName: imageName)
         iconImageView.tintColor = tintColor
         nameLabel.textColor = tintColor
         chevronImageView.tintColor = tintColor

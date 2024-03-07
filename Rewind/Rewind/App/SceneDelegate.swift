@@ -29,7 +29,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             initialViewController = WellcomeBuilder.build()
         }
         
-        initialViewController = RewindBuilder.build()
+//        initialViewController = RewindBuilder.build()
+        initialViewController = GroupViewController()
+//        initialViewController = GroupSettingsViewController()
         
         window.rootViewController = UINavigationController(rootViewController: initialViewController)
         self.window = window

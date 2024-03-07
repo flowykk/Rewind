@@ -62,7 +62,7 @@ extension GeneralTableView: UITableViewDataSource {
         guard let customCell = cell as? CustomTableViewCell else { return cell }
         let name = GeneralRow.allCases[indexPath.row].rawValue
         let iconName = getIconName(fromRow: GeneralRow.allCases[indexPath.row])
-        customCell.configure(withName: name, iconName: iconName, tintColor: .darkGray, squareColor: .systemGray4)
+        customCell.configure(withName: name, imageName: iconName, tintColor: .darkGray, squareColor: .systemGray4)
         return customCell
     }
 }

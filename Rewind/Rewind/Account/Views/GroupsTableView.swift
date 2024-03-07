@@ -54,7 +54,7 @@ extension GroupsTableView: UITableViewDataSource {
         guard let customCell = cell as? CustomTableViewCell else { return cell }
         let name = GroupsRow.allCases[indexPath.row].rawValue
         let iconName = getIconName(fromRow: GroupsRow.allCases[indexPath.row])
-        customCell.configure(withName: name, iconName: iconName, tintColor: .darkGray, squareColor: .systemGray4)
+        customCell.configure(withName: name, imageName: iconName, tintColor: .darkGray, squareColor: .systemGray4)
         return customCell
     }
 }

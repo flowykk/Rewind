@@ -18,6 +18,10 @@ final class RewindPresenter {
         self.router = router
     }
     
+    func goToGroup() {
+        router.navigateToGroup()
+    }
+    
     func goToAccount() {
         router.navigateToAccount()
     }

@@ -31,6 +31,11 @@ final class RewindViewController: UIViewController {
     }
     
     @objc
+    private func goToGroupButtonTapped() {
+        presenter?.goToGroup()
+    }
+    
+    @objc
     private func goToAccountButtonTapped() {
         presenter?.goToAccount()
     }
@@ -127,6 +132,8 @@ extension RewindViewController {
         goToGroupButton.tintColor = .darkGray
         goToGroupButton.backgroundColor = .systemGray6
         goToGroupButton.layer.cornerRadius = 40 / 2
+        
+        goToGroupButton.addTarget(self, action: #selector(goToGroupButtonTapped), for: .touchUpInside)
         
         goToGroupButton.setWidth(40)
         goToGroupButton.setHeight(40)

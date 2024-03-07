@@ -32,9 +32,19 @@ final class RewindRouter {
     func presentGroupsMenu() {
         let vc = GroupsMenuViewController()
         
+        vc.rowSelectionHandler = { [weak self] row in
+            print(row)
+            vc.dismiss(animated: true)
+            if let rewindView = self?.view as? RewindViewController {
+                if row != "All groups" {
+                    rewindView.setCurrentGroup(to: row)
+                }
+            }
+        }
+        
         vc.modalPresentationStyle = .popover
         
-        let height = Double((1 + 1) * 40)
+        let height = Double((1 + 4) * 40)
         
         vc.preferredContentSize = CGSize(width: UIScreen.main.bounds.width / 2, height: height)
         

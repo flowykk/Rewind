@@ -62,6 +62,10 @@ final class RewindViewController: UIViewController {
         presenter?.showGroupsMenuButtonTapped()
     }
     
+    func setCurrentGroup(to group: String) {
+        showGroupsMenuButton.setTitle(group, for: .normal)
+    }
+    
     func setFavouriteButton(imageName: String, tintColor: UIColor) {
         let font = UIFont.systemFont(ofSize: 18, weight: .semibold)
         let configuration = UIImage.SymbolConfiguration(font: font)

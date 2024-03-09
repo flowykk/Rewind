@@ -108,7 +108,7 @@ extension MemberCell {
         let font = UIFont.systemFont(ofSize: 12, weight: .bold)
         let configuration = UIImage.SymbolConfiguration(font: font)
         var image = UIImage(systemName: "xmark", withConfiguration: configuration)
-        image = image?.withTintColor(.black, renderingMode: .alwaysOriginal)
+        image = image?.withTintColor(.systemGray, renderingMode: .alwaysOriginal)
         deleteMemberButton.setImage(image, for: .normal)
         
         let side = self.frame.size.height / 2

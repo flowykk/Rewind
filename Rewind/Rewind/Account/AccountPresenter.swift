@@ -74,7 +74,7 @@ final class AccountPresenter {
     }
     
     // MARK: - GroupsTableView To Presenter
-    func groupsRowSelected(_ row: GroupsTableView.GroupsRow) {
+    func groupsRowSelected(_ row: PrimaryTableView.GroupsRow) {
         switch row {
         case .viewGroups:   print("show all groups")
         }

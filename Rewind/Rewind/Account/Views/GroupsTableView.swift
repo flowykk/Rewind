@@ -2,16 +2,37 @@
 //  GroupsTableView.swift
 //  Rewind
 //
-//  Created by Aleksa Khruleva on 01.03.2024.
+//  Created by Aleksa Khruleva on 09.03.2024.
 //
 
 import UIKit
 
 final class GroupsTableView: UITableView {
-    weak var presenter: AccountPresenter?
     
-    enum GroupsRow: String, CaseIterable {
-        case viewGroups = "View groups"
+    var groups: [String] = [
+        "group",
+        "group",
+        "group",
+        "group",
+        "group",
+        "group",
+        "group",
+        "group",
+        "group",
+        "group",
+        "group",
+        "group",
+    ]
+    
+    enum GroupsButton: String, CaseIterable {
+        case addGroup = "Add group"
+        
+        var imageName: String {
+            switch self {
+            case .addGroup:
+                return "plus"
+            }
+        }
     }
     
     override init(frame: CGRect, style: UITableView.Style) {
@@ -26,45 +47,36 @@ final class GroupsTableView: UITableView {
     private func commonInit() {
         delegate = self
         dataSource = self
-        register(CustomTableViewCell.self, forCellReuseIdentifier: "cell")
+        register(GroupCell.self, forCellReuseIdentifier: "cell")
         isScrollEnabled = false
         layer.cornerRadius = 20
         rowHeight = 50
-        setHeight(Double(50 * (GroupsRow.allCases.count) - 1))
     }
 }
 
-// MARK: - UITableViewDelegate
-extension GroupsTableView: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedRow = GroupsRow.allCases[indexPath.row]
-        presenter?.groupsRowSelected(selectedRow)
-        tableView.deselectRow(at: indexPath, animated: true)
-    }
-}
-
-// MARK: - UITableViewDataSource
 extension GroupsTableView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return GroupsRow.allCases.count
+        return groups.count + GroupsButton.allCases.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        guard let customCell = cell as? CustomTableViewCell else { return cell }
-        let name = GroupsRow.allCases[indexPath.row].rawValue
-        let iconName = getIconName(fromRow: GroupsRow.allCases[indexPath.row])
-        customCell.configure(withName: name, imageName: iconName, tintColor: .darkGray, squareColor: .systemGray4)
+        guard let customCell = cell as? GroupCell else { return cell }
+        
+        if indexPath.row == 0 {
+            customCell.configureButton(.addGroup)
+            return customCell
+        }
+        
+        let name = groups[indexPath.row - 1]
+        customCell.configureGroup(name: name)
+        
         return customCell
     }
 }
 
-// MARK: - Private funcs
-extension GroupsTableView {
-    private func getIconName(fromRow row: GroupsRow) -> String {
-        switch row {
-        case .viewGroups:
-            return "eye.fill"
-        }
+extension GroupsTableView: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }

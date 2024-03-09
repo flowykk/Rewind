@@ -16,7 +16,7 @@ final class AccountViewController: UIViewController {
     private var avatarImage: UIImage? = nil
     private let nameLabel: UILabel = UILabel()
     private let groupsLabel: UILabel = UILabel()
-    private let groupsTabel: GroupsTableView = GroupsTableView()
+    private let groupsTabel: PrimaryTableView = PrimaryTableView()
     private let generalLabel: UILabel = UILabel()
     private let generalTable: GeneralTableView = GeneralTableView()
     private let appIconLabel: UILabel = UILabel()

@@ -9,6 +9,7 @@ import UIKit
 
 final class GroupViewController: UIViewController {
     var contentViewHeightConstraint: NSLayoutConstraint?
+    var membersTableHeightConstraint: NSLayoutConstraint?
     
     private let scrollView: UIScrollView = UIScrollView()
     private let contentView: UIView = UIView()
@@ -41,17 +42,24 @@ final class GroupViewController: UIViewController {
     
     func updateViewsHeight() {
         contentViewHeightConstraint?.isActive = false
+        membersTableHeightConstraint?.isActive = false
         
-        let memberTableHeight = membersTable.contentSize.height
+        var membersTableHeight = membersTable.contentSize.height
         
-        var contentViewHeight = 20 + 40 + groupImageView.frame.height + 10 + 25 + 30 + 20 + 10 + memberTableHeight + 30 + 20 + 10 + groupMediaCollection.frame.height
+        if membersTableHeight > 0 {
+            membersTableHeight -= 1
+        }
         
-        if contentViewHeight < view.frame.size.height {
-            contentViewHeight = view.frame.size.height
+        var contentViewHeight = groupImageView.frame.height + 10 + 25 + 30 + 20 + 10 + membersTableHeight + 30 + 20 + 10 + groupMediaCollection.frame.height + 30
+        
+        if contentViewHeight < view.safeAreaLayoutGuide.layoutFrame.height {
+            contentViewHeight = view.safeAreaLayoutGuide.layoutFrame.height * 1.1
         }
         
         contentViewHeightConstraint = contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: contentViewHeight)
+        membersTableHeightConstraint = membersTable.heightAnchor.constraint(equalToConstant: membersTableHeight)
         
+        membersTableHeightConstraint?.isActive = true
         contentViewHeightConstraint?.isActive = true
         view.layoutIfNeeded()
     }
@@ -160,6 +168,8 @@ extension GroupViewController {
     private func configureMembersTable() {
         contentView.addSubview(membersTable)
         membersTable.translatesAutoresizingMaskIntoConstraints = false
+        
+        membersTable.isLimitedDisplay = true
         
         membersTable.pinTop(to: membersLabel.bottomAnchor, 10)
         membersTable.pinLeft(to: contentView.leadingAnchor, 20)

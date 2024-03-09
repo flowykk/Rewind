@@ -9,7 +9,35 @@ import UIKit
 
 final class MembersTableView: UITableView {
     
-    var members: [(name: String, type: MemberType)] = [("member1", MemberType.user), ("member2", MemberType.owner), ("member3", MemberType.member)]
+    var members: [(name: String, type: MemberType)] = [
+        ("member1", MemberType.user),
+        ("member2", MemberType.owner),
+        ("member3", MemberType.member),
+        ("member3", MemberType.member),
+        ("member3", MemberType.member),
+        ("member3", MemberType.member),
+        ("member3", MemberType.member),
+        ("member3", MemberType.member),
+        ("member3", MemberType.member),
+        ("member3", MemberType.member),
+        ("member3", MemberType.member),
+        ("member3", MemberType.member),
+        ("member3", MemberType.member),
+        ("member3", MemberType.member),
+        ("member3", MemberType.member),
+        ("member3", MemberType.member),
+        ("member3", MemberType.member),
+        ("member3", MemberType.member),
+        ("member3", MemberType.member),
+        ("member3", MemberType.member),
+        ("member3", MemberType.member),
+        ("member3", MemberType.member),
+    ]
+    
+    var isAllMembersButtonShown: Bool = true
+    var isLimitedDisplay: Bool = false
+    
+    private var limitedDisplayRows: Int = 6
     
     enum MemberType {
         case owner
@@ -47,24 +75,34 @@ final class MembersTableView: UITableView {
         isScrollEnabled = false
         layer.cornerRadius = 20
         rowHeight = 50
-        setHeight(Double(Int(rowHeight) * (2 + members.count) - 1))
     }
 }
 
 extension MembersTableView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return members.count + 2
+        let number = members.count + (isAllMembersButtonShown ? 2 : 1)
+        
+        if number > limitedDisplayRows {
+            return limitedDisplayRows
+        }
+        
+        return number
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         guard let customCell = cell as? MemberCell else { return cell }
+        
         if indexPath.row == 0 {
             customCell.configureButton(.addMember)
-            return cell
-        } else if indexPath.row == members.count + 1 {
-            customCell.configureButton(.allMembers)
-            return cell
+            return customCell
+        }
+        
+        if isAllMembersButtonShown {
+            if indexPath.row == members.count + 1 {
+                customCell.configureButton(.allMembers)
+                return customCell
+            }
         }
         
         let name = members[indexPath.row - 1].name

@@ -30,8 +30,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         
 //        initialViewController = RewindBuilder.build()
-        //initialViewController = GroupViewController()
-//        initialViewController = GroupSettingsViewController()
+//        initialViewController = GroupViewController()
+//        initialViewController = AllMembersViewController()
+//        initialViewController = AllGroupsViewController()
+//        initialViewController = EnterGroupNameViewController()
+        initialViewController = LoadGroupImageViewController()
         
         window.rootViewController = UINavigationController(rootViewController: initialViewController)
         self.window = window

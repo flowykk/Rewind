@@ -57,8 +57,10 @@ final class RewindRouter {
         vc.popoverPresentationController?.permittedArrowDirections = .up
         
         if let rewindView = view as? RewindViewController {
-            vc.popoverPresentationController?.sourceView = rewindView.showGroupsMenuButton
-            vc.popoverPresentationController?.sourceRect = rewindView.showGroupsMenuButton.bounds
+            let button = rewindView.showGroupsMenuButton
+            
+            vc.popoverPresentationController?.sourceView = button
+            vc.popoverPresentationController?.sourceRect = CGRect(x: button.bounds.midX, y: button.bounds.maxY + 2, width: 0, height: 0)
             rewindView.present(vc, animated: true)
         }
     }

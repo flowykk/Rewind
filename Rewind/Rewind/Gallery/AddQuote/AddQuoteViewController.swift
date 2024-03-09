@@ -1,28 +1,22 @@
 //
-//  SettingsViewController.swift
+//  AddQuoteViewController.swift
 //  Rewind
 //
-//  Created by Aleksa Khruleva on 04.03.2024.
+//  Created by Aleksa Khruleva on 09.03.2024.
 //
 
 import UIKit
 
-final class SettingsViewController: UIViewController {
-    var presenter: SettingsPresenter?
-    
+final class AddQuoteViewController: UIViewController {
     var tags: [String] = []
     var contentViewHeightConstraint: NSLayoutConstraint?
     var tagsCollectionHeightConstraint: NSLayoutConstraint?
     
     private let scrollView: UIScrollView = UIScrollView()
     private let contentView: UIView = UIView()
-    private let titleLabel: UILabel = UILabel()
-    private let typesTable: TypesTableView = TypesTableView()
-    private let propertiesTable: PropertiesTableView = PropertiesTableView()
-    private let fromLabel: UILabel = UILabel()
-    private let fromDatePicker: UIDatePicker = UIDatePicker()
-    private let toLabel: UILabel = UILabel()
-    private let toDatePicker: UIDatePicker = UIDatePicker()
+    private let viewQuoteSettingsButton: UIButton = UIButton(type: .system)
+    private let colorsLabel: UILabel = UILabel()
+    private let colorsTable: ColorsTableView = ColorsTableView()
     private let tagsLabel: UILabel = UILabel()
     private let addTagButton: UIButton = UIButton(type: .system)
     private let tagsCollection: TagsCollectionView = TagsCollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
@@ -30,20 +24,22 @@ final class SettingsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tagsCollection.presenter = presenter
-        presenter?.tagsCollection = tagsCollection
-        updateViewsHeight()
         configureUI()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        updateViewsHeight()
     }
     
     @objc
     private func addTagButtonTapped() {
-        presenter?.addTagButtonTapped()
+        print("add tag")
     }
     
     @objc
     private func continueButtonTapped() {
-        presenter?.continueButtonTapped()
+        print("save quote")
     }
     
     func updateUI() {
@@ -63,8 +59,13 @@ final class SettingsViewController: UIViewController {
         contentViewHeightConstraint?.isActive = false
         tagsCollectionHeightConstraint?.isActive = false
         
+        let colorsTableHeight = colorsTable.contentSize.height
         let tagsCollectionHeight = tagsCollection.collectionViewLayout.collectionViewContentSize.height
-        let contentViewHeight = 20 + 25 + 25 + 210 + 30 + 30 + 30 + 30 + 10 + tagsCollectionHeight + 50 + 60 + 60
+        var contentViewHeight = UIScreen.main.bounds.width - 40 + 20 + 20 + 10 + colorsTableHeight + 20 + 20 + tagsCollectionHeight + 50 + 60 + 30
+        
+        if contentViewHeight < (view.safeAreaLayoutGuide.layoutFrame.height + 50) {
+            contentViewHeight = view.safeAreaLayoutGuide.layoutFrame.height + 50
+        }
         
         contentViewHeightConstraint = contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: contentViewHeight)
         tagsCollectionHeightConstraint = tagsCollection.heightAnchor.constraint(equalToConstant: tagsCollectionHeight)
@@ -75,28 +76,34 @@ final class SettingsViewController: UIViewController {
     }
 }
 
-extension SettingsViewController {
+extension AddQuoteViewController {
     private func configureUI() {
-        view.backgroundColor = .systemGray5
+        navigationItem.hidesBackButton = true
+        view.backgroundColor = .systemBackground
+        
+        configureBackButton()
         
         configureScrollView()
         configureContentView()
         
-        configureTitleLabel()
-        configureTypesTable()
-        configurePropertiesTable()
+        configureViewQuoteSettings()
         
-        configureFromLabel()
-        configureFromDatePicker()
-        
-        configureToDatePicker()
-        configureToLabel()
+        configureColorsLabel()
+        configureColorsTable()
         
         configureTagsLabel()
         if tags.count < 5 { configureAddButton() }
         configureTagsCollection()
         
         configureContinueButton()
+    }
+    
+    private func configureBackButton() {
+        let font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        let configuration = UIImage.SymbolConfiguration(font: font)
+        let image = UIImage(systemName: "chevron.left", withConfiguration: configuration)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: nil)
+        navigationItem.leftBarButtonItem?.tintColor = .black
     }
     
     private func configureScrollView() {
@@ -106,7 +113,7 @@ extension SettingsViewController {
         scrollView.delaysContentTouches = false
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
-        scrollView.backgroundColor = .systemGray5
+        scrollView.backgroundColor = .systemBackground
         
         scrollView.pinLeft(to: view.leadingAnchor)
         scrollView.pinRight(to: view.trailingAnchor)
@@ -118,7 +125,7 @@ extension SettingsViewController {
         scrollView.addSubview(contentView)
         contentView.translatesAutoresizingMaskIntoConstraints = false
         
-        contentView.backgroundColor = .systemGray5
+        contentView.backgroundColor = .systemBackground
         
         contentView.pinLeft(to: scrollView.leadingAnchor)
         contentView.pinRight(to: scrollView.trailingAnchor)
@@ -127,77 +134,43 @@ extension SettingsViewController {
         contentView.pinWidth(to: scrollView.widthAnchor)
     }
     
-    private func configureTitleLabel() {
-        contentView.addSubview(titleLabel)
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+    private func configureViewQuoteSettings() {
+        contentView.addSubview(viewQuoteSettingsButton)
+        viewQuoteSettingsButton.translatesAutoresizingMaskIntoConstraints = false
         
-        titleLabel.text = "Random object settings"
-        titleLabel.font = UIFont.systemFont(ofSize: 23, weight: .bold)
+        viewQuoteSettingsButton.setTitle("Tap to view quote settings", for: .normal)
+        viewQuoteSettingsButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
+        viewQuoteSettingsButton.tintColor = .systemGray
         
-        titleLabel.pinTop(to: contentView.safeAreaLayoutGuide.topAnchor, 20)
-        titleLabel.pinCenterX(to: contentView.centerXAnchor)
+        viewQuoteSettingsButton.backgroundColor = .systemGray6
+        
+        let width = UIScreen.main.bounds.width - 40
+        viewQuoteSettingsButton.layer.cornerRadius = width / 8
+        
+        viewQuoteSettingsButton.setWidth(width)
+        viewQuoteSettingsButton.setHeight(width)
+        viewQuoteSettingsButton.pinTop(to: contentView.topAnchor, 0)
+        viewQuoteSettingsButton.pinCenterX(to: contentView.centerXAnchor)
     }
     
-    private func configureTypesTable() {
-        contentView.addSubview(typesTable)
-        typesTable.translatesAutoresizingMaskIntoConstraints = false
+    private func configureColorsLabel() {
+        contentView.addSubview(colorsLabel)
+        colorsLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        typesTable.pinTop(to: titleLabel.bottomAnchor, 25)
-        typesTable.pinLeft(to: contentView.leadingAnchor, 20)
-        typesTable.pinRight(to: contentView.trailingAnchor, 20)
+        colorsLabel.text = "Colors"
+        colorsLabel.font = UIFont.systemFont(ofSize: 20, weight: .medium)
+        
+        colorsLabel.pinTop(to: viewQuoteSettingsButton.bottomAnchor, 20)
+        colorsLabel.pinLeft(to: contentView.leadingAnchor, 20)
     }
     
-    private func configurePropertiesTable() {
-        contentView.addSubview(propertiesTable)
-        propertiesTable.translatesAutoresizingMaskIntoConstraints = false
+    private func configureColorsTable() {
+        contentView.addSubview(colorsTable)
+        colorsTable.translatesAutoresizingMaskIntoConstraints = false
         
-        propertiesTable.pinTop(to: typesTable.bottomAnchor, 10)
-        propertiesTable.pinLeft(to: contentView.leadingAnchor, 20)
-        propertiesTable.pinRight(to: contentView.trailingAnchor, 20)
-    }
-    
-    private func configureFromLabel() {
-        contentView.addSubview(fromLabel)
-        fromLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        fromLabel.text = "From"
-        fromLabel.font = UIFont.systemFont(ofSize: 20, weight: .medium)
-        
-        fromLabel.pinTop(to: propertiesTable.bottomAnchor, 30)
-        fromLabel.pinLeft(to: contentView.leadingAnchor, 20)
-    }
-    
-    private func configureFromDatePicker() {
-        contentView.addSubview(fromDatePicker)
-        fromDatePicker.translatesAutoresizingMaskIntoConstraints = false
-        
-        fromDatePicker.datePickerMode = .date
-        fromDatePicker.tintColor = .customPink
-        
-        fromDatePicker.pinCenterY(to: fromLabel.centerYAnchor)
-        fromDatePicker.pinLeft(to: fromLabel.trailingAnchor, 10)
-    }
-    
-    private func configureToLabel() {
-        contentView.addSubview(toLabel)
-        toLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        toLabel.text = "To"
-        toLabel.font = UIFont.systemFont(ofSize: 20, weight: .medium)
-        
-        toLabel.pinTop(to: propertiesTable.bottomAnchor, 30)
-        toLabel.pinRight(to: toDatePicker.leadingAnchor, 20)
-    }
-    
-    private func configureToDatePicker() {
-        contentView.addSubview(toDatePicker)
-        toDatePicker.translatesAutoresizingMaskIntoConstraints = false
-        
-        toDatePicker.datePickerMode = .date
-        toDatePicker.tintColor = .customPink
-        
-        toDatePicker.pinCenterY(to: fromLabel.centerYAnchor)
-        toDatePicker.pinRight(to: contentView.trailingAnchor, 20)
+        colorsTable.pinTop(to: colorsLabel.bottomAnchor, 10)
+        colorsTable.pinLeft(to: contentView.leadingAnchor, 20)
+        colorsTable.pinRight(to: contentView.trailingAnchor, 20)
     }
     
     private func configureTagsLabel() {
@@ -209,7 +182,7 @@ extension SettingsViewController {
         attributedString.addAttributes([.font: UIFont.systemFont(ofSize: 14, weight: .medium)], range: NSRange(location: 6, length: 3))
         tagsLabel.attributedText = attributedString
         
-        tagsLabel.pinTop(to: fromLabel.bottomAnchor, 30)
+        tagsLabel.pinTop(to: colorsTable.bottomAnchor, 20)
         tagsLabel.pinLeft(to: contentView.leadingAnchor, 20)
     }
     

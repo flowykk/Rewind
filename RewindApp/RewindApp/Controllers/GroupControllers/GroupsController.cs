@@ -177,12 +177,12 @@ public class GroupsController : ControllerBase, IGroupsController
     public async Task<ActionResult> DeleteGroup(int groupId)
     {
         var group = await GetGroupById(groupId);
-        if (group == null) return BadRequest($"No group with Id {groupId}");
+        if (group == null) return BadRequest($"Group not found");
 
         _context.Groups.Remove(group);
         await _context.SaveChangesAsync();
 
-        return Ok($"Group was deleted successfully! {group.Users.Count}");
+        return Ok($"Group was deleted successfully");
     }
     
     public Task<Group?> GetGroupById(int groupId)

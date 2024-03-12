@@ -11,24 +11,29 @@ namespace RewindApp.Tests.UserControllersTests;
 public class ChangeUserControllerTests
 {
     private readonly DataContext _context = ContextGenerator.Generate();
+    private readonly RegisterController _registerController;
+    private readonly ChangeUserController _changeUserController;
+    
+    public ChangeUserControllerTests()
+    {
+        _registerController = new RegisterController(_context);
+        _changeUserController =  new ChangeUserController(_context);
+    }
     
     [Fact]
-    public async void ItShould_successfully_change_user_name()
+    public async void ItShould_successfully_change_user_name_with_valid_userId()
     {
         // Arrange
-        var registerController = new RegisterController(_context);
-        var changeUserController = new ChangeUserController(_context);
-        
-        await registerController.Register(ContextHelper.BuildTestRegisterRequest());
+        await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
         var nameRequest = new NameRequest() { Name = "newName" };
 
         // Act
-        var actionResult = await changeUserController.ChangeName(1, nameRequest);
+        var actionResult = await _changeUserController.ChangeName(1, nameRequest);
+        var result = actionResult as ObjectResult;
+        
+        var changedUser = _context.Users.FirstOrDefault(u => u.UserName == "newName");
         
         // Assert
-        var result = actionResult as ObjectResult;
-        var changedUser = _context.Users.FirstOrDefault(u => u.UserName == "newName");
-            
         Assert.Equal("200", result.StatusCode.ToString());
         
         Assert.NotNull(changedUser);
@@ -36,17 +41,14 @@ public class ChangeUserControllerTests
     }
     
     [Fact]
-    public async void ItShould_fail_to_change_user_name()
+    public async void ItShould_fail_to_change_user_name_with_invalid_userId()
     {
         // Arrange
-        var registerController = new RegisterController(_context);
-        var changeUserController = new ChangeUserController(_context);
-        
-        await registerController.Register(ContextHelper.BuildTestRegisterRequest());
+        await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
         var nameRequest = new NameRequest() { Name = "newName" };
 
         // Act
-        var actionResult = await changeUserController.ChangeName(2, nameRequest);
+        var actionResult = await _changeUserController.ChangeName(2, nameRequest);
         var result = actionResult as ObjectResult;
         
         // Assert
@@ -55,22 +57,19 @@ public class ChangeUserControllerTests
     }
     
     [Fact]
-    public async void ItShould_successfully_change_user_email()
+    public async void ItShould_successfully_change_user_email_with_valid_userId()
     {
         // Arrange
-        var registerController = new RegisterController(_context);
-        var changeUserController = new ChangeUserController(_context);
-        
-        await registerController.Register(ContextHelper.BuildTestRegisterRequest());
+        await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
         var emailRequest = new EmailRequest() { Email = "new@new.new" };
 
         // Act
-        var actionResult = await changeUserController.ChangeEmail(1, emailRequest);
+        var actionResult = await _changeUserController.ChangeEmail(1, emailRequest);
+        var result = actionResult as ObjectResult;
+        
+        var changedUser = _context.Users.FirstOrDefault(u => u.Id == 1);
         
         // Assert
-        var result = actionResult as ObjectResult;
-        var changedUser = _context.Users.FirstOrDefault(u => u.Id == 1);
-            
         Assert.Equal("200", result.StatusCode.ToString());
         
         Assert.NotNull(changedUser);
@@ -78,17 +77,14 @@ public class ChangeUserControllerTests
     }
     
     [Fact]
-    public async void ItShould_fail_to_change_user_email()
+    public async void ItShould_fail_to_change_user_email_with_invalid_userId()
     {
         // Arrange
-        var registerController = new RegisterController(_context);
-        var changeUserController = new ChangeUserController(_context);
-        
-        await registerController.Register(ContextHelper.BuildTestRegisterRequest());
+        await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
         var emailRequest = new EmailRequest() { Email = "new@new.new" };
 
         // Act
-        var actionResult = await changeUserController.ChangeEmail(2, emailRequest);
+        var actionResult = await _changeUserController.ChangeEmail(2, emailRequest);
         var result = actionResult as ObjectResult;
         
         // Assert
@@ -97,23 +93,21 @@ public class ChangeUserControllerTests
     }
     
     [Fact]
-    public async void ItShould_successfully_change_user_password()
+    public async void ItShould_successfully_change_user_password_with_valid_userId()
     {
         // Arrange
-        var registerController = new RegisterController(_context);
-        var changeUserController = new ChangeUserController(_context);
-        var userService = new UserService();
-        
-        await registerController.Register(ContextHelper.BuildTestRegisterRequest());
+        await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
         var passwordRequest = new PasswordRequest() { Password = "qwerty" };
+        
+        var userService = new UserService();
 
         // Act
-        var actionResult = await changeUserController.ChangePassword(1, passwordRequest);
+        var actionResult = await _changeUserController.ChangePassword(1, passwordRequest);
+        var result = actionResult as ObjectResult;
+        
+        var changedUser = _context.Users.FirstOrDefault(u => u.Id == 1);
         
         // Assert
-        var result = actionResult as ObjectResult;
-        var changedUser = _context.Users.FirstOrDefault(u => u.Id == 1);
-            
         Assert.Equal("200", result.StatusCode.ToString());
         
         Assert.NotNull(changedUser);
@@ -121,18 +115,14 @@ public class ChangeUserControllerTests
     }
     
     [Fact]
-    public async void ItShould_fail_to_change_user_password()
+    public async void ItShould_fail_to_change_user_password_with_invalid_userId()
     {
         // Arrange
-        var registerController = new RegisterController(_context);
-        var changeUserController = new ChangeUserController(_context);
-        var userService = new UserService();
-        
-        await registerController.Register(ContextHelper.BuildTestRegisterRequest());
+        await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
         var passwordRequest = new PasswordRequest() { Password = "qwerty" };
 
         // Act
-        var actionResult = await changeUserController.ChangePassword(2, passwordRequest);
+        var actionResult = await _changeUserController.ChangePassword(2, passwordRequest);
         var result = actionResult as ObjectResult;
         
         // Assert
@@ -141,19 +131,16 @@ public class ChangeUserControllerTests
     }
     
     [Fact]
-    public async void ItShould_successfully_to_change_user_image()
+    public async void ItShould_successfully_to_change_user_image_with_valid_userId()
     {
         // Arrange
-        var registerController = new RegisterController(_context);
-        var changeUserController = new ChangeUserController(_context);
-        
-        await registerController.Register(ContextHelper.BuildTestRegisterRequest());
+        await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
 
         // Act
-        var actionResult = await changeUserController.ChangeProfileImage(
+        var actionResult = await _changeUserController.ChangeProfileImage(
             ContextHelper.BuildTestImageRequest(), 1);
-        
         var result = actionResult as ObjectResult;
+        
         var changedUser = _context.Users.FirstOrDefault(u => u.Id == 1);
         
         // Assert
@@ -169,15 +156,11 @@ public class ChangeUserControllerTests
     public async void ItShould_fail_to_change_user_image_with_invalid_userId()
     {
         // Arrange
-        var registerController = new RegisterController(_context);
-        var changeUserController = new ChangeUserController(_context);
-        
-        await registerController.Register(ContextHelper.BuildTestRegisterRequest());
+        await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
 
         // Act
-        var actionResult = await changeUserController.ChangeProfileImage(
+        var actionResult = await _changeUserController.ChangeProfileImage(
             ContextHelper.BuildTestImageRequest(), 2);
-        
         var result = actionResult as ObjectResult;
         
         // Assert

@@ -7,89 +7,82 @@ namespace RewindApp.Tests.UserControllersTests;
 public class UsersControllerTests
 {
     private readonly DataContext _context = ContextGenerator.Generate();
+    private readonly UsersController _userController;
+    private readonly RegisterController _registerController;
 
-    [Fact]
-    public async void ItShould_be_under_testing()
+    public UsersControllerTests()
     {
-        // Arrange
-        var userController = new UsersController(_context);
-        var registerController = new RegisterController(_context);
-        
-        await registerController.Register(ContextHelper.BuildTestRegisterRequest());
-        
-        // Act
-        var actionResult = await userController.GetUsers();
-        
-        // Assert
-        Assert.NotEmpty(actionResult);
-        Assert.NotEmpty(_context.Users);
+        _userController = new UsersController(_context);
+        _registerController = new RegisterController(_context);
     }
     
     [Fact]
-    public async void ItShould_return_user_object_by_Id()
+    public async void ItShould_successfully_get_users()
     {
         // Arrange
-        var userController = new UsersController(_context);
-        var registerController = new RegisterController(_context);
+        await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
         
-        await registerController.Register(ContextHelper.BuildTestRegisterRequest());
-
-        // Assert
-        var actionResult = await userController.GetUserById(1);
-    
         // Act
+        var actionResult = await _userController.GetUsers();
+        
+        // Assert
+        Assert.NotEmpty(actionResult);
+    }
+    
+    [Fact]
+    public async void ItShould_successfully_get_user_by_valid_Id()
+    {
+        // Arrange
+        await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
+
+        // Act
+        var actionResult = await _userController.GetUserById(1);
+    
+        // Assert
         Assert.NotNull(actionResult);
     }
     
     [Fact]
-    public async void ItShould_return_user_object_by_Email()
+    public async void ItShould_successfully_get_user_by_valid_email()
     {
         // Arrange
-        var userController = new UsersController(_context);
-        
-        var registerController = new RegisterController(_context);
-        await registerController.Register(ContextHelper.BuildTestRegisterRequest());
+        await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
 
-        // Assert
-        var result = await userController.GetUserByEmail("test@test.test");
-    
         // Act
+        var result = await _userController.GetUserByEmail("test@test.test");
+    
+        // Assert
         Assert.NotNull(result);
     }
 
     [Fact]
-    public async void ItShould_successfully_delete_user()
+    public async void ItShould_successfully_delete_user_by_valid_Id()
     {
         // Arrange
-        var userController = new UsersController(_context);
-        var registerController = new RegisterController(_context);
-        
-        await registerController.Register(ContextHelper.BuildTestRegisterRequest());
-
-        // Assert
-        var actionResult = await userController.DeleteUserAccount(1);
+        await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
 
         // Act
+        var actionResult = await _userController.DeleteUserAccount(1);
         var result = actionResult as ObjectResult;
+
+        // Assert
         Assert.Equal("200", result.StatusCode.ToString());
         Assert.Empty(_context.Users);
     }
     
     [Fact]
-    public async void ItShould_fail_to_delete_user()
+    public async void ItShould_fail_to_delete_user_with_invalid_Id()
     {
         // Arrange
-        var userController = new UsersController(_context);
-        var registerController = new RegisterController(_context);
-        
-        await registerController.Register(ContextHelper.BuildTestRegisterRequest());
-
-        // Assert
-        var actionResult = await userController.DeleteUserAccount(2);
+        await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
 
         // Act
+        var actionResult = await _userController.DeleteUserAccount(2);
         var result = actionResult as ObjectResult;
+
+        // Assert
         Assert.Equal("400", result.StatusCode.ToString());
+        Assert.Equal("User not found", result.Value);
         Assert.NotEmpty(_context.Users);
     }
 }

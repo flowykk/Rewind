@@ -145,16 +145,7 @@
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=c9deed75_002D98b5_002D433b_002Da4f7_002De39b32a90cd4/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="ItShould_fail_to_get_media_with_invalid_mediaId #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;TestAncestor&gt;
-    &lt;TestId&gt;xUnit::5D77837C-C895-40C6-9CF0-06BFD76A1D95::net6.0::RewindApp.Tests.MediaControllersTests.MediaControllerTests&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5D77837C-C895-40C6-9CF0-06BFD76A1D95::net6.0::RewindApp.Tests.TagControllerTests.TagsControllerTests.ItShould_successfully_load_media&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5D77837C-C895-40C6-9CF0-06BFD76A1D95::net6.0::RewindApp.Tests.TagControllerTests.TagsControllerTests.ItShould_fail_to_add_tag_to_media_with_invalid_mediaId&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5D77837C-C895-40C6-9CF0-06BFD76A1D95::net6.0::RewindApp.Tests.TagControllerTests.TagsControllerTests.ItShould_fail_to_add_duplicate_tag_to_media_by_mediaId&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5D77837C-C895-40C6-9CF0-06BFD76A1D95::net6.0::RewindApp.Tests.TagControllerTests.TagsControllerTests.ItShould_successfully_get_tags&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5D77837C-C895-40C6-9CF0-06BFD76A1D95::net6.0::RewindApp.Tests.TagControllerTests.TagsControllerTests.ItShould_test&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5D77837C-C895-40C6-9CF0-06BFD76A1D95::net6.0::RewindApp.Tests.TagControllerTests.TagsControllerTests.ItShould_fail_to_get_media_tags_with_invalid_mediaId&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5D77837C-C895-40C6-9CF0-06BFD76A1D95::net6.0::RewindApp.Tests.TagControllerTests.TagsControllerTests&lt;/TestId&gt;
-  &lt;/TestAncestor&gt;
+  &lt;Project Location="/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Tests" Presentation="&amp;lt;RewindApp.Tests&amp;gt;" /&gt;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=e70c6c33_002D002a_002D47b6_002Dadc9_002D596962b9dadd/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ItShould_successfully_get_group_media_by_groupId #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;

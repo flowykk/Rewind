@@ -1,18 +1,18 @@
 //
-//  DetailsPresenter.swift
+//  AddPhotoPresenter.swift
 //  Rewind
 //
-//  Created by Aleksa Khruleva on 06.03.2024.
+//  Created by Aleksa Khruleva on 12.03.2024.
 //
 
 import Foundation
 
-final class DetailsPresenter: TagsCollectionPresenterProtocol {
-    private weak var view: DetailsViewController?
+final class AddPhotoPresenter: TagsCollectionPresenterProtocol {
+    private weak var view: AddPhotoViewController?
     weak var tagsCollection: TagsCollectionView?
-    private var router: DetailsRouter
+    private let router: AddPhotoRouter
     
-    init(view: DetailsViewController?, router: DetailsRouter) {
+    init(view: AddPhotoViewController?, router: AddPhotoRouter) {
         self.view = view
         self.router = router
     }
@@ -21,22 +21,17 @@ final class DetailsPresenter: TagsCollectionPresenterProtocol {
         tagsCollection?.tags = view?.tags ?? []
     }
     
-    func deleteObject() {
-        router.navigateToRewind()
-    }
-    
     func backButtonTapped() {
-        router.navigateToRewind()
+        router.navigateToGallery()
     }
     
     func addTagButtonTapped() {
         router.presentAddTag()
     }
     
-    func objectRiskyZoneRowSelected(_ row: ObjectRiskyZoneTableView.ObjectRiskyZoneRow) {
-        switch row {
-        case .deleteObject: showDeleteObjectConfirmationAlert()
-        }
+    func continueButtonTapped() {
+        print("add photo")
+        router.navigateToGallery()
     }
     
     func addTag(_ title: String) {
@@ -53,9 +48,5 @@ final class DetailsPresenter: TagsCollectionPresenterProtocol {
         tagsCollection?.tags = view?.tags ?? []
         tagsCollection?.reloadData()
         view?.updateViewsHeight()
-    }
-    
-    func showDeleteObjectConfirmationAlert() {
-        view?.showDeleteObjectConfirmationAlert()
     }
 }

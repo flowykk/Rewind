@@ -1,18 +1,18 @@
 //
-//  DetailsPresenter.swift
+//  AddQuotePresenter.swift
 //  Rewind
 //
-//  Created by Aleksa Khruleva on 06.03.2024.
+//  Created by Aleksa Khruleva on 12.03.2024.
 //
 
 import Foundation
 
-final class DetailsPresenter: TagsCollectionPresenterProtocol {
-    private weak var view: DetailsViewController?
+final class AddQuotePresenter: TagsCollectionPresenterProtocol {
+    private weak var view: AddQuoteViewController?
     weak var tagsCollection: TagsCollectionView?
-    private var router: DetailsRouter
+    private let router: AddQuoteRouter
     
-    init(view: DetailsViewController?, router: DetailsRouter) {
+    init(view: AddQuoteViewController?, router: AddQuoteRouter) {
         self.view = view
         self.router = router
     }
@@ -21,22 +21,21 @@ final class DetailsPresenter: TagsCollectionPresenterProtocol {
         tagsCollection?.tags = view?.tags ?? []
     }
     
-    func deleteObject() {
-        router.navigateToRewind()
+    func backButtonTapped() {
+        router.navigateToGallery()
     }
     
-    func backButtonTapped() {
-        router.navigateToRewind()
+    func quoteSettingsButtonTapped() {
+        router.navigateToQuoteSettings()
     }
     
     func addTagButtonTapped() {
         router.presentAddTag()
     }
     
-    func objectRiskyZoneRowSelected(_ row: ObjectRiskyZoneTableView.ObjectRiskyZoneRow) {
-        switch row {
-        case .deleteObject: showDeleteObjectConfirmationAlert()
-        }
+    func continueButtonTapped() {
+        print("add quote")
+        router.navigateToGallery()
     }
     
     func addTag(_ title: String) {
@@ -53,9 +52,5 @@ final class DetailsPresenter: TagsCollectionPresenterProtocol {
         tagsCollection?.tags = view?.tags ?? []
         tagsCollection?.reloadData()
         view?.updateViewsHeight()
-    }
-    
-    func showDeleteObjectConfirmationAlert() {
-        view?.showDeleteObjectConfirmationAlert()
     }
 }

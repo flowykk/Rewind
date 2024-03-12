@@ -9,8 +9,12 @@ import UIKit
 
 final class ObjectsMenuTableView: UITableView {
     
-    private var objects: [String] = ["New photo", "New quote"]
-    var rowSelected: ((String) -> Void)?
+    enum ObjectRow: String, CaseIterable {
+        case photo = "New photo"
+        case quote = "New quote"
+    }
+    
+    var selectedRow: ((ObjectRow) -> Void)?
     
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
@@ -32,7 +36,7 @@ final class ObjectsMenuTableView: UITableView {
         showsVerticalScrollIndicator = true
         showsHorizontalScrollIndicator = false
         
-        let height = Double((objects.count) * Int(rowHeight))
+        let height = Double((ObjectRow.allCases.count) * Int(rowHeight))
         setHeight(height)
         setWidth(UIScreen.main.bounds.width / 2)
     }
@@ -40,12 +44,12 @@ final class ObjectsMenuTableView: UITableView {
 
 extension ObjectsMenuTableView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return objects.count
+        return ObjectRow.allCases.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = objects[indexPath.row]
+        cell.textLabel?.text = ObjectRow.allCases[indexPath.row].rawValue
         cell.textLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         return cell
     }
@@ -54,6 +58,8 @@ extension ObjectsMenuTableView: UITableViewDataSource {
 
 extension ObjectsMenuTableView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let row = ObjectRow.allCases[indexPath.row]
+        selectedRow?(row)
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }

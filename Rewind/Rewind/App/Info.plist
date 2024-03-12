@@ -19,7 +19,5 @@
 			</array>
 		</dict>
 	</dict>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>We need access to your photo library to save images that you download from the app.</string>
 </dict>
 </plist>

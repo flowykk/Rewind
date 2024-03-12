@@ -29,8 +29,12 @@ final class DetailsViewController: UIViewController {
         tagsCollection.presenter = presenter
         objectRiskyZoneTabel.presenter = presenter
         presenter?.tagsCollection = tagsCollection
-        updateViewsHeight()
         configureUI()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        updateViewsHeight()
     }
     
     @objc

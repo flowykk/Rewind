@@ -8,6 +8,7 @@
 import UIKit
 
 final class GalleryViewController: UIViewController {
+    var presenter: GalleryPresenter?
     
     private let galleryCollection: GalleryCollectionView = GalleryCollectionView()
     
@@ -23,23 +24,7 @@ final class GalleryViewController: UIViewController {
     
     @objc
     private func addButtonTapped() {
-        let vc = ObjectsMenuViewController()
-        
-        vc.modalPresentationStyle = .popover
-        
-        let height = Double(2 * 40)
-        
-        vc.preferredContentSize = CGSize(width: UIScreen.main.bounds.width / 2, height: height)
-        
-        vc.popoverPresentationController?.delegate = vc
-        vc.popoverPresentationController?.permittedArrowDirections = []
-        
-        if let addButton = navigationItem.rightBarButtonItem?.customView as? UIButton {
-            vc.popoverPresentationController?.sourceView = addButton
-            vc.popoverPresentationController?.sourceRect = CGRect(x: addButton.bounds.midX, y: addButton.bounds.maxY, width: 0, height: 0)
-        }
-        
-        present(vc, animated: true)
+        presenter?.addButtonTapped()
     }
 }
 

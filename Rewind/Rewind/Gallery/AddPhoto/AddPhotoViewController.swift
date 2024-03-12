@@ -8,6 +8,8 @@
 import UIKit
 
 final class AddPhotoViewController: UIViewController {
+    var presenter: AddPhotoPresenter?
+    
     var tags: [String] = []
     var contentViewHeightConstraint: NSLayoutConstraint?
     var tagsCollectionHeightConstraint: NSLayoutConstraint?
@@ -22,6 +24,8 @@ final class AddPhotoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tagsCollection.presenter = presenter
+        presenter?.tagsCollection = tagsCollection
         configureUI()
     }
     
@@ -30,14 +34,18 @@ final class AddPhotoViewController: UIViewController {
         updateViewsHeight()
     }
     
+    @objc func backButtonTapped() {
+        presenter?.backButtonTapped()
+    }
+    
     @objc
     private func addTagButtonTapped() {
-        print("add tag")
+        presenter?.addTagButtonTapped()
     }
     
     @objc
     private func continueButtonTapped() {
-        print("save photo")
+        presenter?.continueButtonTapped()
     }
     
     func updateUI() {
@@ -94,7 +102,7 @@ extension AddPhotoViewController {
         let font = UIFont.systemFont(ofSize: 20, weight: .bold)
         let configuration = UIImage.SymbolConfiguration(font: font)
         let image = UIImage(systemName: "chevron.left", withConfiguration: configuration)
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: nil)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(backButtonTapped))
         navigationItem.leftBarButtonItem?.tintColor = .black
     }
     
@@ -206,4 +214,3 @@ extension AddPhotoViewController {
         continueButton.setWidth(200)
     }
 }
-

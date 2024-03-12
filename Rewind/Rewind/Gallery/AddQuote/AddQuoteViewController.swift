@@ -8,13 +8,15 @@
 import UIKit
 
 final class AddQuoteViewController: UIViewController {
+    var presenter: AddQuotePresenter?
+    
     var tags: [String] = []
     var contentViewHeightConstraint: NSLayoutConstraint?
     var tagsCollectionHeightConstraint: NSLayoutConstraint?
     
     private let scrollView: UIScrollView = UIScrollView()
     private let contentView: UIView = UIView()
-    private let viewQuoteSettingsButton: UIButton = UIButton(type: .system)
+    private let quoteSettingsButton: UIButton = UIButton(type: .system)
     private let colorsLabel: UILabel = UILabel()
     private let colorsTable: ColorsTableView = ColorsTableView()
     private let tagsLabel: UILabel = UILabel()
@@ -24,6 +26,8 @@ final class AddQuoteViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tagsCollection.presenter = presenter
+        presenter?.tagsCollection = tagsCollection
         configureUI()
     }
     
@@ -33,13 +37,23 @@ final class AddQuoteViewController: UIViewController {
     }
     
     @objc
+    private func backButtonTapped() {
+        presenter?.backButtonTapped()
+    }
+    
+    @objc
+    private func quoteSettingsButtonTapped() {
+        presenter?.quoteSettingsButtonTapped()
+    }
+    
+    @objc
     private func addTagButtonTapped() {
-        print("add tag")
+        presenter?.addTagButtonTapped()
     }
     
     @objc
     private func continueButtonTapped() {
-        print("save quote")
+        presenter?.continueButtonTapped()
     }
     
     func updateUI() {
@@ -86,7 +100,7 @@ extension AddQuoteViewController {
         configureScrollView()
         configureContentView()
         
-        configureViewQuoteSettings()
+        configureQuoteSettingsButton()
         
         configureColorsLabel()
         configureColorsTable()
@@ -102,7 +116,7 @@ extension AddQuoteViewController {
         let font = UIFont.systemFont(ofSize: 20, weight: .bold)
         let configuration = UIImage.SymbolConfiguration(font: font)
         let image = UIImage(systemName: "chevron.left", withConfiguration: configuration)
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: nil)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(backButtonTapped))
         navigationItem.leftBarButtonItem?.tintColor = .black
     }
     
@@ -134,23 +148,25 @@ extension AddQuoteViewController {
         contentView.pinWidth(to: scrollView.widthAnchor)
     }
     
-    private func configureViewQuoteSettings() {
-        contentView.addSubview(viewQuoteSettingsButton)
-        viewQuoteSettingsButton.translatesAutoresizingMaskIntoConstraints = false
+    private func configureQuoteSettingsButton() {
+        contentView.addSubview(quoteSettingsButton)
+        quoteSettingsButton.translatesAutoresizingMaskIntoConstraints = false
         
-        viewQuoteSettingsButton.setTitle("Tap to view quote settings", for: .normal)
-        viewQuoteSettingsButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
-        viewQuoteSettingsButton.tintColor = .systemGray
+        quoteSettingsButton.setTitle("Tap to view quote settings", for: .normal)
+        quoteSettingsButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
+        quoteSettingsButton.tintColor = .systemGray
         
-        viewQuoteSettingsButton.backgroundColor = .systemGray6
+        quoteSettingsButton.backgroundColor = .systemGray6
         
         let width = UIScreen.main.bounds.width - 40
-        viewQuoteSettingsButton.layer.cornerRadius = width / 8
+        quoteSettingsButton.layer.cornerRadius = width / 8
         
-        viewQuoteSettingsButton.setWidth(width)
-        viewQuoteSettingsButton.setHeight(width)
-        viewQuoteSettingsButton.pinTop(to: contentView.topAnchor, 0)
-        viewQuoteSettingsButton.pinCenterX(to: contentView.centerXAnchor)
+        quoteSettingsButton.addTarget(self, action: #selector(quoteSettingsButtonTapped), for: .touchUpInside)
+        
+        quoteSettingsButton.setWidth(width)
+        quoteSettingsButton.setHeight(width)
+        quoteSettingsButton.pinTop(to: contentView.topAnchor, 0)
+        quoteSettingsButton.pinCenterX(to: contentView.centerXAnchor)
     }
     
     private func configureColorsLabel() {
@@ -160,7 +176,7 @@ extension AddQuoteViewController {
         colorsLabel.text = "Colors"
         colorsLabel.font = UIFont.systemFont(ofSize: 20, weight: .medium)
         
-        colorsLabel.pinTop(to: viewQuoteSettingsButton.bottomAnchor, 20)
+        colorsLabel.pinTop(to: quoteSettingsButton.bottomAnchor, 20)
         colorsLabel.pinLeft(to: contentView.leadingAnchor, 20)
     }
     

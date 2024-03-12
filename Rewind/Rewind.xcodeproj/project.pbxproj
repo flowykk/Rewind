@@ -37,6 +37,17 @@
 		5515097D2B909CE600D162CF /* EnterVerificationCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5515097C2B909CE600D162CF /* EnterVerificationCodeViewController.swift */; };
 		5515097F2B909D0C00D162CF /* EnterVerificationCodePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5515097E2B909D0C00D162CF /* EnterVerificationCodePresenter.swift */; };
 		551509812B909D1500D162CF /* EnterVerificationCodeBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551509802B909D1500D162CF /* EnterVerificationCodeBuilder.swift */; };
+		553FB28F2BA099ED00C3E6FB /* GalleryPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553FB28E2BA099ED00C3E6FB /* GalleryPresenter.swift */; };
+		553FB2912BA09EC700C3E6FB /* GalleryRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553FB2902BA09EC600C3E6FB /* GalleryRouter.swift */; };
+		553FB2932BA09EDB00C3E6FB /* GalleryBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553FB2922BA09EDB00C3E6FB /* GalleryBuilder.swift */; };
+		553FB2952BA0A55700C3E6FB /* AddPhotoPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553FB2942BA0A55700C3E6FB /* AddPhotoPresenter.swift */; };
+		553FB2972BA0A56F00C3E6FB /* AddPhotoBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553FB2962BA0A56F00C3E6FB /* AddPhotoBuilder.swift */; };
+		553FB2992BA0A57D00C3E6FB /* AddPhotoRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553FB2982BA0A57C00C3E6FB /* AddPhotoRouter.swift */; };
+		553FB29C2BA0A86300C3E6FB /* AddQuotePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553FB29B2BA0A86300C3E6FB /* AddQuotePresenter.swift */; };
+		553FB29E2BA0A86F00C3E6FB /* AddQuoteRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553FB29D2BA0A86F00C3E6FB /* AddQuoteRouter.swift */; };
+		553FB2A02BA0A87900C3E6FB /* AddQuoteBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553FB29F2BA0A87900C3E6FB /* AddQuoteBuilder.swift */; };
+		553FB2A32BA0AAD800C3E6FB /* QuoteSettingsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553FB2A22BA0AAD800C3E6FB /* QuoteSettingsPresenter.swift */; };
+		553FB2A52BA0AAEA00C3E6FB /* QuoteSettingsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553FB2A42BA0AAEA00C3E6FB /* QuoteSettingsBuilder.swift */; };
 		554D35322B9D011E00F0772B /* QuoteSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554D35312B9D011E00F0772B /* QuoteSettingsViewController.swift */; };
 		555F07532B85EF5F00E6991E /* AuthConsts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555F07522B85EF5F00E6991E /* AuthConsts.swift */; };
 		556167AF2B8F58F9001AF383 /* EditNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 556167AE2B8F58F9001AF383 /* EditNameViewController.swift */; };
@@ -148,6 +159,17 @@
 		5515097C2B909CE600D162CF /* EnterVerificationCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterVerificationCodeViewController.swift; sourceTree = "<group>"; };
 		5515097E2B909D0C00D162CF /* EnterVerificationCodePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterVerificationCodePresenter.swift; sourceTree = "<group>"; };
 		551509802B909D1500D162CF /* EnterVerificationCodeBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterVerificationCodeBuilder.swift; sourceTree = "<group>"; };
+		553FB28E2BA099ED00C3E6FB /* GalleryPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryPresenter.swift; sourceTree = "<group>"; };
+		553FB2902BA09EC600C3E6FB /* GalleryRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryRouter.swift; sourceTree = "<group>"; };
+		553FB2922BA09EDB00C3E6FB /* GalleryBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryBuilder.swift; sourceTree = "<group>"; };
+		553FB2942BA0A55700C3E6FB /* AddPhotoPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPhotoPresenter.swift; sourceTree = "<group>"; };
+		553FB2962BA0A56F00C3E6FB /* AddPhotoBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPhotoBuilder.swift; sourceTree = "<group>"; };
+		553FB2982BA0A57C00C3E6FB /* AddPhotoRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPhotoRouter.swift; sourceTree = "<group>"; };
+		553FB29B2BA0A86300C3E6FB /* AddQuotePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddQuotePresenter.swift; sourceTree = "<group>"; };
+		553FB29D2BA0A86F00C3E6FB /* AddQuoteRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddQuoteRouter.swift; sourceTree = "<group>"; };
+		553FB29F2BA0A87900C3E6FB /* AddQuoteBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddQuoteBuilder.swift; sourceTree = "<group>"; };
+		553FB2A22BA0AAD800C3E6FB /* QuoteSettingsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoteSettingsPresenter.swift; sourceTree = "<group>"; };
+		553FB2A42BA0AAEA00C3E6FB /* QuoteSettingsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoteSettingsBuilder.swift; sourceTree = "<group>"; };
 		554D35312B9D011E00F0772B /* QuoteSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoteSettingsViewController.swift; sourceTree = "<group>"; };
 		555F07522B85EF5F00E6991E /* AuthConsts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthConsts.swift; sourceTree = "<group>"; };
 		556167AE2B8F58F9001AF383 /* EditNameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditNameViewController.swift; sourceTree = "<group>"; };
@@ -261,12 +283,14 @@
 		550A63692B9CCA5C00CE3597 /* Gallery */ = {
 			isa = PBXGroup;
 			children = (
-				550A63752B9CF1C500CE3597 /* AddQuote */,
+				553FB28D2BA099CF00C3E6FB /* Views */,
 				550A63722B9CE25A00CE3597 /* AddPhoto */,
+				550A63752B9CF1C500CE3597 /* AddQuote */,
 				550A636A2B9CCA8200CE3597 /* GalleryViewController.swift */,
-				550A636C2B9CCCD700CE3597 /* GalleryCollectionView.swift */,
+				553FB28E2BA099ED00C3E6FB /* GalleryPresenter.swift */,
+				553FB2902BA09EC600C3E6FB /* GalleryRouter.swift */,
+				553FB2922BA09EDB00C3E6FB /* GalleryBuilder.swift */,
 				550A636E2B9CD93000CE3597 /* ObjectsMenuViewController.swift */,
-				550A63702B9CD97000CE3597 /* ObjectsMenuTableView.swift */,
 			);
 			path = Gallery;
 			sourceTree = "<group>";
@@ -275,6 +299,9 @@
 			isa = PBXGroup;
 			children = (
 				550A63732B9CE27100CE3597 /* AddPhotoViewController.swift */,
+				553FB2942BA0A55700C3E6FB /* AddPhotoPresenter.swift */,
+				553FB2982BA0A57C00C3E6FB /* AddPhotoRouter.swift */,
+				553FB2962BA0A56F00C3E6FB /* AddPhotoBuilder.swift */,
 			);
 			path = AddPhoto;
 			sourceTree = "<group>";
@@ -282,10 +309,12 @@
 		550A63752B9CF1C500CE3597 /* AddQuote */ = {
 			isa = PBXGroup;
 			children = (
+				553FB2A12BA0AA7D00C3E6FB /* QuoteSettings */,
+				553FB29A2BA0A83300C3E6FB /* Views */,
 				550A63762B9CF1E100CE3597 /* AddQuoteViewController.swift */,
-				550A63782B9CF3C300CE3597 /* ColorsTableView.swift */,
-				550A637A2B9CF4AD00CE3597 /* ColorCell.swift */,
-				554D35312B9D011E00F0772B /* QuoteSettingsViewController.swift */,
+				553FB29B2BA0A86300C3E6FB /* AddQuotePresenter.swift */,
+				553FB29D2BA0A86F00C3E6FB /* AddQuoteRouter.swift */,
+				553FB29F2BA0A87900C3E6FB /* AddQuoteBuilder.swift */,
 			);
 			path = AddQuote;
 			sourceTree = "<group>";
@@ -385,6 +414,34 @@
 				551509802B909D1500D162CF /* EnterVerificationCodeBuilder.swift */,
 			);
 			path = EnterVerificationCode;
+			sourceTree = "<group>";
+		};
+		553FB28D2BA099CF00C3E6FB /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				550A636C2B9CCCD700CE3597 /* GalleryCollectionView.swift */,
+				550A63702B9CD97000CE3597 /* ObjectsMenuTableView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		553FB29A2BA0A83300C3E6FB /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				550A637A2B9CF4AD00CE3597 /* ColorCell.swift */,
+				550A63782B9CF3C300CE3597 /* ColorsTableView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		553FB2A12BA0AA7D00C3E6FB /* QuoteSettings */ = {
+			isa = PBXGroup;
+			children = (
+				554D35312B9D011E00F0772B /* QuoteSettingsViewController.swift */,
+				553FB2A22BA0AAD800C3E6FB /* QuoteSettingsPresenter.swift */,
+				553FB2A42BA0AAEA00C3E6FB /* QuoteSettingsBuilder.swift */,
+			);
+			path = QuoteSettings;
 			sourceTree = "<group>";
 		};
 		556167B02B8F5900001AF383 /* EditName */ = {
@@ -734,17 +791,24 @@
 				55A326B52B8259D4007C9B74 /* EnterCodeBuilder.swift in Sources */,
 				55C652EB2B98515100A8C595 /* AddTagPresenter.swift in Sources */,
 				55A326CE2B826A44007C9B74 /* EnterNameBuilder.swift in Sources */,
+				553FB2912BA09EC700C3E6FB /* GalleryRouter.swift in Sources */,
 				55A326BF2B8263C0007C9B74 /* EnterPasswordViewController.swift in Sources */,
 				559A50492B97822F00A2BAB4 /* SettingsPresenter.swift in Sources */,
 				55AA39EE2B9902B40099DB8A /* DetailsRouter.swift in Sources */,
 				551509772B90999200D162CF /* EditEmailRouter.swift in Sources */,
 				556167C72B8F6BD0001AF383 /* EditPasswordBuilder.swift in Sources */,
 				5514270C2B893CBF000446E9 /* RiskyZoneTableView.swift in Sources */,
+				553FB2A32BA0AAD800C3E6FB /* QuoteSettingsPresenter.swift in Sources */,
 				551427042B88CBF4000446E9 /* AccountBuilder.swift in Sources */,
+				553FB2A02BA0A87900C3E6FB /* AddQuoteBuilder.swift in Sources */,
+				553FB28F2BA099ED00C3E6FB /* GalleryPresenter.swift in Sources */,
 				55C3E5392B95E2A300701BF8 /* SettingsViewController.swift in Sources */,
 				557A07902B99D835002FFF40 /* MemberCell.swift in Sources */,
+				553FB2932BA09EDB00C3E6FB /* GalleryBuilder.swift in Sources */,
 				551509752B90993E00D162CF /* EditEmailPresenter.swift in Sources */,
 				55A326CC2B8269F7007C9B74 /* EnterNameRouter.swift in Sources */,
+				553FB29C2BA0A86300C3E6FB /* AddQuotePresenter.swift in Sources */,
+				553FB2972BA0A56F00C3E6FB /* AddPhotoBuilder.swift in Sources */,
 				55A326A52B822092007C9B74 /* EnterEmailRouter.swift in Sources */,
 				55A326942B820701007C9B74 /* UIViewPin.swift in Sources */,
 				55A3269C2B820FFA007C9B74 /* WellcomeRouter.swift in Sources */,
@@ -762,6 +826,7 @@
 				556167B42B8F5EA5001AF383 /* EditNameBuilder.swift in Sources */,
 				55AA39EA2B98FF090099DB8A /* ObjectRiskyZoneTableView.swift in Sources */,
 				5515097D2B909CE600D162CF /* EnterVerificationCodeViewController.swift in Sources */,
+				553FB2992BA0A57D00C3E6FB /* AddPhotoRouter.swift in Sources */,
 				550A636D2B9CCCD700CE3597 /* GalleryCollectionView.swift in Sources */,
 				55A049182B91CB3000CD9C46 /* PrimaryTableView.swift in Sources */,
 				55A326C12B8263C8007C9B74 /* EnterPasswordPresenter.swift in Sources */,
@@ -773,6 +838,7 @@
 				557A07932B99ED67002FFF40 /* GroupSettingsViewController.swift in Sources */,
 				55AF8C6F2B9381F100AC7CE0 /* RewindBuilder.swift in Sources */,
 				55A326B02B82535E007C9B74 /* UserModel.swift in Sources */,
+				553FB2A52BA0AAEA00C3E6FB /* QuoteSettingsBuilder.swift in Sources */,
 				55AA39EC2B9902800099DB8A /* DetailsPresenter.swift in Sources */,
 				550A63662B9CB62200CE3597 /* EnterGroupNameViewController.swift in Sources */,
 				550A63632B9CB05C00CE3597 /* GroupCell.swift in Sources */,
@@ -812,6 +878,7 @@
 				550A635F2B9CAEA200CE3597 /* AllGroupsViewController.swift in Sources */,
 				556167AF2B8F58F9001AF383 /* EditNameViewController.swift in Sources */,
 				556167B22B8F5CDB001AF383 /* EditNamePresenter.swift in Sources */,
+				553FB29E2BA0A86F00C3E6FB /* AddQuoteRouter.swift in Sources */,
 				55A326C82B8268C1007C9B74 /* EnterNameViewController.swift in Sources */,
 				55AA39FC2B9927B10099DB8A /* GroupsMenuViewController.swift in Sources */,
 				55AA39F02B9902CB0099DB8A /* DetailsBuilder.swift in Sources */,
@@ -819,6 +886,7 @@
 				55A326AD2B823CF7007C9B74 /* NetworkService.swift in Sources */,
 				55A326A72B822103007C9B74 /* EnterEmailBuilder.swift in Sources */,
 				55AF8C762B93CF1C00AC7CE0 /* ObjectInfoView.swift in Sources */,
+				553FB2952BA0A55700C3E6FB /* AddPhotoPresenter.swift in Sources */,
 				550A63742B9CE27100CE3597 /* AddPhotoViewController.swift in Sources */,
 				556167C52B8F6B96001AF383 /* EditPasswordPresenter.swift in Sources */,
 				550A63772B9CF1E100CE3597 /* AddQuoteViewController.swift in Sources */,
@@ -984,10 +1052,11 @@
 				DEVELOPMENT_TEAM = 8FRM8M93L5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Rewind/App/Info.plist;
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your photo library to save images that you download from the app.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1013,10 +1082,11 @@
 				DEVELOPMENT_TEAM = 8FRM8M93L5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Rewind/App/Info.plist;
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your photo library to save images that you download from the app.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

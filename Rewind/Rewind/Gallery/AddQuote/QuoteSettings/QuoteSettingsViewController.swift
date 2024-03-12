@@ -8,6 +8,8 @@
 import UIKit
 
 final class QuoteSettingsViewController: UIViewController {
+    var presenter: QuoteSettingsPresenter?
+    
     private let quoteLabel: UILabel = UILabel()
     private let quoteField: UITextView = UITextView()
     private let authorLabel: UILabel = UILabel()
@@ -22,7 +24,7 @@ final class QuoteSettingsViewController: UIViewController {
     
     @objc
     private func continueButtonTapped() {
-        print("save settings")
+        presenter?.continueButtonTapped()
     }
 }
 

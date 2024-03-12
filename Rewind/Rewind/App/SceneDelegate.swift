@@ -35,7 +35,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //        initialViewController = AllGroupsViewController()
 //        initialViewController = EnterGroupNameViewController()
 //        initialViewController = LoadGroupImageViewController()
-        initialViewController = GalleryViewController()
+        initialViewController = GalleryBuilder.build()
 //        initialViewController = AddPhotoViewController()
 //        initialViewController = AddQuoteViewController()
 //        initialViewController = QuoteSettingsViewController()

@@ -28,9 +28,15 @@ public class GroupsController : ControllerBase, IGroupsController
     }
 
     [HttpGet]
-    public async Task<IEnumerable<Group>> GetGroups()
+    public async Task<IEnumerable<Group>> GetGroups(string? suffix)
     {
-        return await _context.Groups.ToListAsync();
+        IQueryable<Group> groups = _context.Groups;
+
+        if (!string.IsNullOrWhiteSpace(suffix))
+            groups = groups.Where(g => g.Name.Contains(suffix));
+
+        return await groups.ToListAsync();
+        //return await _context.Groups.ToListAsync();
     }
     
     [HttpGet("{userId}")]
@@ -97,12 +103,12 @@ public class GroupsController : ControllerBase, IGroupsController
             //.OrderByDescending(selector)
             .ToListAsync();
 
-        //var pageCount = Math.Ceiling((double)groupMedia.Count / pageSize);
-
+        var pageCount = Math.Ceiling((double)groupMedia.Count / pageSize);
         var resultResponse = new MediaResponse()
         {
             PageNumber = pageNumber,
             PageSize = pageSize,
+            PageCount = (int)pageCount,
             Media = groupMedia
         };
         

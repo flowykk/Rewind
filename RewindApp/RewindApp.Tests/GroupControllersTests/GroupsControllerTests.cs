@@ -76,7 +76,7 @@ public class GroupsControllerTests
         await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
         
         // Act
-        var actionResult = await _groupsController.GetGroups();
+        var actionResult = await _groupsController.GetGroups("");
         
         // Assert
         Assert.NotEmpty(actionResult);

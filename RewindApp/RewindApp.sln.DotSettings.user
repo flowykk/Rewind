@@ -90,14 +90,7 @@
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=7ac6dc07_002Dcb53_002D4a9b_002Dbabd_002D909702b534e1/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="ItShould_successfully_get_group_media_by_groupId #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;Or&gt;
-    &lt;TestAncestor&gt;
-      &lt;TestId&gt;xUnit::5D77837C-C895-40C6-9CF0-06BFD76A1D95::net6.0::RewindApp.Tests.GroupControllersTests.GroupsControllerTests&lt;/TestId&gt;
-      &lt;TestId&gt;xUnit::5D77837C-C895-40C6-9CF0-06BFD76A1D95::net6.0::RewindApp.Tests.MediaControllersTests.MediaControllerTests.ItShould_fail_to_get_media_with_invalid_mediaId&lt;/TestId&gt;
-    &lt;/TestAncestor&gt;
-    &lt;ProjectFolder&gt;5D77837C-C895-40C6-9CF0-06BFD76A1D95/d:TagControllerTests&lt;/ProjectFolder&gt;
-    &lt;ProjectFolder&gt;5D77837C-C895-40C6-9CF0-06BFD76A1D95/d:UserControllersTests&lt;/ProjectFolder&gt;
-  &lt;/Or&gt;
+  &lt;Project Location="/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Tests" Presentation="&amp;lt;RewindApp.Tests&amp;gt;" /&gt;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=91b3ad4b_002D15d6_002D4a2d_002D9a9c_002D636165d155bd/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ItShould_login_user" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;

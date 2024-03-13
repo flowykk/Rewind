@@ -1,4 +1,3 @@
-using MailKit.Security;
 using Microsoft.AspNetCore.Mvc;
 using RewindApp.Controllers.GroupControllers;
 using RewindApp.Controllers.MediaControllers;
@@ -32,7 +31,7 @@ public class GroupsControllerTests
         var result = actionResult as ObjectResult;
         
         // Assert
-        Assert.Equal("200", result.StatusCode.ToString());
+        Assert.Equal("200", result?.StatusCode.ToString());
         Assert.NotEmpty(_context.Groups);
     }
     
@@ -46,8 +45,8 @@ public class GroupsControllerTests
         var result = actionResult as ObjectResult;
         
         // Assert
-        Assert.Equal("400", result.StatusCode.ToString());
-        Assert.Equal("User not found", result.Value);
+        Assert.Equal("400", result?.StatusCode.ToString());
+        Assert.Equal("User not found", result?.Value);
         Assert.Empty(_context.Groups);
     }
     
@@ -63,8 +62,8 @@ public class GroupsControllerTests
         var result = actionResult as ObjectResult;
         
         // Assert
-        Assert.Equal("400", result.StatusCode.ToString());
-        Assert.Equal("Group 'defaultName', created by User 1 already exists", result.Value);
+        Assert.Equal("400", result?.StatusCode.ToString());
+        Assert.Equal("Group 'defaultName', created by User 1 already exists", result?.Value);
         Assert.Single(_context.Groups);
     }
     
@@ -109,8 +108,8 @@ public class GroupsControllerTests
         var result = actionResult.Result as ObjectResult;
 
         // Assert
-        Assert.Equal("400", result.StatusCode.ToString());
-        Assert.Equal("User not found", result.Value);
+        Assert.Equal("400", result?.StatusCode.ToString());
+        Assert.Equal("User not found", result?.Value);
         Assert.Null(actionResult.Value);
     }
     
@@ -127,7 +126,7 @@ public class GroupsControllerTests
         var result = actionResult as ObjectResult;
 
         // Assert
-        Assert.Equal("200", result.StatusCode.ToString());
+        Assert.Equal("200", result?.StatusCode.ToString());
         Assert.NotNull(_groupsController.GetGroupsByUser(2).Result.Value);
     }
     
@@ -143,9 +142,9 @@ public class GroupsControllerTests
         var result = actionResult as ObjectResult;
 
         // Assert
-        Assert.Equal("400", result.StatusCode.ToString());
-        Assert.Equal("Group 1 already contains User 1", result.Value);
-        Assert.Single(_groupsController.GetUsersByGroup(1).Result.Value);
+        Assert.Equal("400", result?.StatusCode.ToString());
+        Assert.Equal("Group 1 already contains User 1", result?.Value);
+        Assert.Single(_groupsController.GetUsersByGroup(1).Result.Value!);
     }
     
     [Fact]
@@ -160,9 +159,9 @@ public class GroupsControllerTests
         var result = actionResult as ObjectResult;
 
         // Assert
-        Assert.Equal("400", result.StatusCode.ToString());
-        Assert.Equal("User not found", result.Value);
-        Assert.Single(_groupsController.GetUsersByGroup(1).Result.Value);
+        Assert.Equal("400", result?.StatusCode.ToString());
+        Assert.Equal("User not found", result?.Value);
+        Assert.Single(_groupsController.GetUsersByGroup(1).Result.Value!);
     }
     
     [Fact]
@@ -177,8 +176,8 @@ public class GroupsControllerTests
         var result = actionResult as ObjectResult;
 
         // Assert
-        Assert.Equal("400", result.StatusCode.ToString());
-        Assert.Equal("Group not found", result.Value);
+        Assert.Equal("400", result?.StatusCode.ToString());
+        Assert.Equal("Group not found", result?.Value);
     }
 
     [Fact]
@@ -193,8 +192,8 @@ public class GroupsControllerTests
         var result = actionResult as ObjectResult;
         
         // Assert
-        Assert.Equal("200", result.StatusCode.ToString());
-        Assert.Empty(_groupsController.GetGroupsByUser(1).Result.Value);
+        Assert.Equal("200", result?.StatusCode.ToString());
+        Assert.Empty(_groupsController.GetGroupsByUser(1).Result.Value!);
         Assert.Empty(_context.Groups);
     }
     
@@ -210,8 +209,8 @@ public class GroupsControllerTests
         var result = actionResult as ObjectResult;
         
         // Assert
-        Assert.Equal("400", result.StatusCode.ToString());
-        Assert.Equal("Group not found", result.Value);
+        Assert.Equal("400", result?.StatusCode.ToString());
+        Assert.Equal("Group not found", result?.Value);
         Assert.NotEmpty(_context.Groups);
     }
 
@@ -227,8 +226,8 @@ public class GroupsControllerTests
         var result = actionResult as ObjectResult;
         
         // Assert
-        Assert.Equal("200", result.StatusCode.ToString());
-        Assert.Empty(_groupsController.GetGroupsByUser(1).Result.Value);
+        Assert.Equal("200", result?.StatusCode.ToString());
+        Assert.Empty(_groupsController.GetGroupsByUser(1).Result.Value!);
     }
     
     [Fact]
@@ -243,8 +242,8 @@ public class GroupsControllerTests
         var result = actionResult as ObjectResult;
         
         // Assert
-        Assert.Equal("400", result.StatusCode.ToString());
-        Assert.Equal("Group not found", result.Value);
+        Assert.Equal("400", result?.StatusCode.ToString());
+        Assert.Equal("Group not found", result?.Value);
     }
     
     [Fact]
@@ -259,8 +258,8 @@ public class GroupsControllerTests
         var result = actionResult as ObjectResult;
         
         // Assert
-        Assert.Equal("400", result.StatusCode.ToString());
-        Assert.Equal("User not found", result.Value);
+        Assert.Equal("400", result?.StatusCode.ToString());
+        Assert.Equal("User not found", result?.Value);
     }
     
     [Fact]
@@ -290,8 +289,8 @@ public class GroupsControllerTests
         var result = actionResult.Result as ObjectResult;
 
         // Assert
-        Assert.Equal("400", result.StatusCode.ToString());
-        Assert.Equal("Group not found", result.Value);
+        Assert.Equal("400", result?.StatusCode.ToString());
+        Assert.Equal("Group not found", result?.Value);
         Assert.Null(actionResult.Value);
     }
 
@@ -309,7 +308,7 @@ public class GroupsControllerTests
 
         // Assert
         Assert.NotNull(actionResult.Value);
-        Assert.NotEmpty(group.Media);
+        Assert.NotEmpty(group!.Media);
     }
     
     [Fact]
@@ -325,8 +324,8 @@ public class GroupsControllerTests
         var result = actionResult.Result as ObjectResult;
 
         // Assert
-        Assert.Equal("400", result.StatusCode.ToString());
-        Assert.Equal("Group not found", result.Value);
+        Assert.Equal("400", result?.StatusCode.ToString());
+        Assert.Equal("Group not found", result?.Value);
         Assert.Null(actionResult.Value);
     }
 }

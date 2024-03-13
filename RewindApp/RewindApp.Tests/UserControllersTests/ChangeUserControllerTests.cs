@@ -34,10 +34,10 @@ public class ChangeUserControllerTests
         var changedUser = _context.Users.FirstOrDefault(u => u.UserName == "newName");
         
         // Assert
-        Assert.Equal("200", result.StatusCode.ToString());
+        Assert.Equal("200", result?.StatusCode.ToString());
         
         Assert.NotNull(changedUser);
-        Assert.Equal("newName", changedUser.UserName);
+        Assert.Equal("newName", changedUser?.UserName);
     }
     
     [Fact]
@@ -52,8 +52,8 @@ public class ChangeUserControllerTests
         var result = actionResult as ObjectResult;
         
         // Assert
-        Assert.Equal("400", result.StatusCode.ToString());
-        Assert.Equal("User not found", result.Value);
+        Assert.Equal("400", result?.StatusCode.ToString());
+        Assert.Equal("User not found", result?.Value);
     }
     
     [Fact]
@@ -70,10 +70,10 @@ public class ChangeUserControllerTests
         var changedUser = _context.Users.FirstOrDefault(u => u.Id == 1);
         
         // Assert
-        Assert.Equal("200", result.StatusCode.ToString());
+        Assert.Equal("200", result?.StatusCode.ToString());
         
         Assert.NotNull(changedUser);
-        Assert.Equal("new@new.new", changedUser.Email);
+        Assert.Equal("new@new.new", changedUser?.Email);
     }
     
     [Fact]
@@ -88,8 +88,8 @@ public class ChangeUserControllerTests
         var result = actionResult as ObjectResult;
         
         // Assert
-        Assert.Equal("400", result.StatusCode.ToString());
-        Assert.Equal("User not found", result.Value);
+        Assert.Equal("400", result?.StatusCode.ToString());
+        Assert.Equal("User not found", result?.Value);
     }
     
     [Fact]
@@ -108,10 +108,10 @@ public class ChangeUserControllerTests
         var changedUser = _context.Users.FirstOrDefault(u => u.Id == 1);
         
         // Assert
-        Assert.Equal("200", result.StatusCode.ToString());
+        Assert.Equal("200", result?.StatusCode.ToString());
         
         Assert.NotNull(changedUser);
-        Assert.Equal(userService.ComputeHash("qwerty"), changedUser.Password);
+        Assert.Equal(userService.ComputeHash("qwerty"), changedUser?.Password);
     }
     
     [Fact]
@@ -126,8 +126,8 @@ public class ChangeUserControllerTests
         var result = actionResult as ObjectResult;
         
         // Assert
-        Assert.Equal("400", result.StatusCode.ToString());
-        Assert.Equal("User not found", result.Value);
+        Assert.Equal("400", result?.StatusCode.ToString());
+        Assert.Equal("User not found", result?.Value);
     }
     
     [Fact]
@@ -144,11 +144,11 @@ public class ChangeUserControllerTests
         var changedUser = _context.Users.FirstOrDefault(u => u.Id == 1);
         
         // Assert
-        Assert.Equal("200", result.StatusCode.ToString());
+        Assert.Equal("200", result?.StatusCode.ToString());
         Assert.NotNull(changedUser);
         Assert.Equal(
             "VGhlIHF1aWNrIGJyb3duIGZveCBqdW1wcyBvdmVyIDEzIGxhenkgZG9ncy4=", 
-            Convert.ToBase64String(changedUser.ProfileImage)
+            Convert.ToBase64String(changedUser!.ProfileImage)
             );
     }
     

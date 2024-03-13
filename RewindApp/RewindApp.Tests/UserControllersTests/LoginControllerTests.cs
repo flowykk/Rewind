@@ -27,7 +27,7 @@ public class LoginControllerTests
         var result = actionResult as ObjectResult;
         
         // Assert
-        Assert.Equal("200", result.StatusCode.ToString());
+        Assert.Equal("200", result?.StatusCode.ToString());
     }
     
     [Fact]
@@ -41,7 +41,7 @@ public class LoginControllerTests
         var result = actionResult as ObjectResult;
         
         // Assert
-        Assert.Equal("400", result.StatusCode.ToString());
+        Assert.Equal("400", result?.StatusCode.ToString());
     }
     
     [Fact]
@@ -55,7 +55,7 @@ public class LoginControllerTests
         var result = actionResult as ObjectResult;
         
         // Assert
-        Assert.Equal("400", result.StatusCode.ToString());
+        Assert.Equal("400", result?.StatusCode.ToString());
     }
     
     [Fact]
@@ -69,7 +69,7 @@ public class LoginControllerTests
         var result = actionResult as ObjectResult;
         
         // Act
-        Assert.Equal("400", result.StatusCode.ToString());
+        Assert.Equal("400", result?.StatusCode.ToString());
     }
 
     [Fact]
@@ -83,6 +83,6 @@ public class LoginControllerTests
         var result = actionResult as ObjectResult;
         
         // Act
-        Assert.Equal("200", result.StatusCode.ToString());
+        Assert.Equal("200", result?.StatusCode.ToString());
     }
 }

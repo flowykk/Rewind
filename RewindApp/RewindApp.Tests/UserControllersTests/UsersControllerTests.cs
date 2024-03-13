@@ -66,7 +66,7 @@ public class UsersControllerTests
         var result = actionResult as ObjectResult;
 
         // Assert
-        Assert.Equal("200", result.StatusCode.ToString());
+        Assert.Equal("200", result?.StatusCode.ToString());
         Assert.Empty(_context.Users);
     }
     
@@ -81,8 +81,8 @@ public class UsersControllerTests
         var result = actionResult as ObjectResult;
 
         // Assert
-        Assert.Equal("400", result.StatusCode.ToString());
-        Assert.Equal("User not found", result.Value);
+        Assert.Equal("400", result?.StatusCode.ToString());
+        Assert.Equal("User not found", result?.Value);
         Assert.NotEmpty(_context.Users);
     }
 }

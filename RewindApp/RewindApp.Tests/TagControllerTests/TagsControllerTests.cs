@@ -37,9 +37,9 @@ public class TagsControllerTests
         var media = await _mediaController.GetMediaById(1);
         
         // Act
-        Assert.Equal("200", result.StatusCode.ToString());
+        Assert.Equal("200", result?.StatusCode.ToString());
         Assert.NotEmpty(_context.Tags);
-        Assert.NotEmpty(media.Value.Tags);
+        Assert.NotEmpty(media.Value!.Tags);
     }
     
     [Fact]
@@ -55,8 +55,8 @@ public class TagsControllerTests
         var result = actionResult as ObjectResult;
         
         // Act
-        Assert.Equal("400", result.StatusCode.ToString());
-        Assert.Equal("Media not found", result.Value);
+        Assert.Equal("400", result?.StatusCode.ToString());
+        Assert.Equal("Media not found", result?.Value);
     }
     
     [Fact]
@@ -73,8 +73,8 @@ public class TagsControllerTests
         var result = actionResult as ObjectResult;
         
         // Act
-        Assert.Equal("400", result.StatusCode.ToString());
-        Assert.Equal("Media already has such Tag", result.Value);
+        Assert.Equal("400", result?.StatusCode.ToString());
+        Assert.Equal("Media already has such Tag", result?.Value);
     }
     
     [Fact]
@@ -109,7 +109,7 @@ public class TagsControllerTests
 
         // Act
         Assert.NotNull(actionResult.Value);
-        Assert.NotEmpty(media.Value.Tags);
+        Assert.NotEmpty(media.Value!.Tags);
     }
 
     [Fact] public async void ItShould_fail_to_get_media_tags_with_invalid_mediaId()
@@ -125,7 +125,7 @@ public class TagsControllerTests
         var result = actionResult.Result as ObjectResult;
         
         // Act
-        Assert.Equal("400", result.StatusCode.ToString());
-        Assert.Equal("Media not found", result.Value);
+        Assert.Equal("400", result?.StatusCode.ToString());
+        Assert.Equal("Media not found", result?.Value);
     }
 }

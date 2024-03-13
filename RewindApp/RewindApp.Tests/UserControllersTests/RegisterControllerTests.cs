@@ -24,7 +24,7 @@ public class RegisterControllerTests
         var result = actionResult as ObjectResult;
         
         // Assert
-        Assert.Equal("200", result.StatusCode.ToString());
+        Assert.Equal("200", result?.StatusCode.ToString());
         Assert.NotEmpty(_context.Users);
     }
     
@@ -39,8 +39,8 @@ public class RegisterControllerTests
         var result = actionResult as ObjectResult;
         
         // Assert
-        Assert.Equal("400", result.StatusCode.ToString());
-        Assert.Equal("User with this email already exists!", result.Value);
+        Assert.Equal("400", result?.StatusCode.ToString());
+        Assert.Equal("User with this email already exists!", result?.Value);
     }
     
     [Fact]
@@ -54,7 +54,7 @@ public class RegisterControllerTests
         var result = actionResult as ObjectResult;
 
         // Act
-        Assert.Equal("200", result.StatusCode.ToString());
+        Assert.Equal("200", result?.StatusCode.ToString());
     }
     
     [Fact]
@@ -68,7 +68,7 @@ public class RegisterControllerTests
         var result = actionResult as ObjectResult;
         
         // Act
-        Assert.Equal("400", result.StatusCode.ToString());
+        Assert.Equal("400", result?.StatusCode.ToString());
     }
     
     [Fact]
@@ -82,7 +82,7 @@ public class RegisterControllerTests
         var result = actionResult as ObjectResult;
 
         // Act
-        Assert.Equal("400", result.StatusCode.ToString());
-        Assert.Equal("User is registered", result.Value);
+        Assert.Equal("400", result?.StatusCode.ToString());
+        Assert.Equal("User is registered", result?.Value);
     }
 }

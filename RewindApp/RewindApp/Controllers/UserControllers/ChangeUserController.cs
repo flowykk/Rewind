@@ -4,8 +4,6 @@ using RewindApp.Requests.ChangeRequests;
 using RewindApp.Requests;
 using RewindApp.Services;
 using MySql.Data.MySqlClient;
-using RewindApp.Entities;
-using System.Data.Common;
 
 
 namespace RewindApp.Controllers.UserControllers;

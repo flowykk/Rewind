@@ -35,10 +35,10 @@ public class ChangeGroupControllerTests
         var changedGroup = _context.Groups.FirstOrDefault(g => g.Name == "newName");
         
         // Assert
-        Assert.Equal("200", result.StatusCode.ToString());
+        Assert.Equal("200", result?.StatusCode.ToString());
         
         Assert.NotNull(changedGroup);
-        Assert.Equal("newName", changedGroup.Name);
+        Assert.Equal("newName", changedGroup?.Name);
     }
     
     [Fact]
@@ -54,8 +54,8 @@ public class ChangeGroupControllerTests
         var result = actionResult as ObjectResult;
         
         // Assert
-        Assert.Equal("400", result.StatusCode.ToString());
-        Assert.Equal("Group not found", result.Value);
+        Assert.Equal("400", result?.StatusCode.ToString());
+        Assert.Equal("Group not found", result?.Value);
     }
     
     [Fact]
@@ -73,12 +73,12 @@ public class ChangeGroupControllerTests
         var changedGroup = _groupsController.GetGroupById(1).Result;
         
         // Assert
-        Assert.Equal("200", result.StatusCode.ToString());
+        Assert.Equal("200", result?.StatusCode.ToString());
         
         Assert.NotNull(changedGroup);
         Assert.Equal(
             "VGhlIHF1aWNrIGJyb3duIGZveCBqdW1wcyBvdmVyIDEzIGxhenkgZG9ncy4=", 
-            Convert.ToBase64String(changedGroup.Image)
+            Convert.ToBase64String(changedGroup!.Image)
             );
     }
     
@@ -95,7 +95,7 @@ public class ChangeGroupControllerTests
         var result = actionResult as ObjectResult;
         
         // Assert
-        Assert.Equal("400", result.StatusCode.ToString());
-        Assert.Equal("Group not found", result.Value);
+        Assert.Equal("400", result?.StatusCode.ToString());
+        Assert.Equal("Group not found", result?.Value);
     }
 }

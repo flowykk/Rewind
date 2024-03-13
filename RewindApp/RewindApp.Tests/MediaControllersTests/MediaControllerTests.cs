@@ -32,7 +32,7 @@ public class MediaControllerTests
         var result = actionResult as ObjectResult;
 
         // Assert
-        Assert.Equal("200", result.StatusCode.ToString());
+        Assert.Equal("200", result?.StatusCode.ToString());
         Assert.NotEmpty(_context.Media);
     }
 
@@ -48,8 +48,8 @@ public class MediaControllerTests
         var result = actionResult as ObjectResult;
 
         // Assert
-        Assert.Equal("400", result.StatusCode.ToString());
-        Assert.Equal("Group not found", result.Value);
+        Assert.Equal("400", result?.StatusCode.ToString());
+        Assert.Equal("Group not found", result?.Value);
         Assert.Empty(_context.Media);
     }
 
@@ -96,8 +96,8 @@ public class MediaControllerTests
         var result = actionResult.Result as ObjectResult;
         
         // Assert
-        Assert.Equal("400", result.StatusCode.ToString());
-        Assert.Equal("Media not found", result.Value);
+        Assert.Equal("400", result?.StatusCode.ToString());
+        Assert.Equal("Media not found", result?.Value);
         Assert.Null(actionResult.Value);
     }
 }

@@ -1,9 +1,11 @@
+using System.Linq.Expressions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RewindApp.Controllers.UserControllers;
 using RewindApp.Data;
 using RewindApp.Entities;
 using RewindApp.Requests;
+using RewindApp.Responses;
 
 namespace RewindApp.Controllers.GroupControllers;
 
@@ -71,21 +73,55 @@ public class GroupsController : ControllerBase, IGroupsController
 
         return group.Image;
     }*/
-
+    
     [HttpGet("media/{groupId}")]
+    public async Task<ActionResult<IEnumerable<Media>>> GetPagesMediaByGroupId(int groupId, string? sortColumn, int pageSize = 30, int pageNumber = 1)
+    {
+        var group = await GetGroupById(groupId);
+        if (group == null) return BadRequest("Group not found");
+
+        IQueryable<Group> groupQuery = _context.Groups;
+
+        /*Expression<Func<Media, object>> selector = sortColumn?.ToLower() switch
+        {
+            "date" => media => media.Date,
+            _ => media => media.Id
+        };*/
+        
+        var groupMedia = await groupQuery
+            .Include(g => g.Media)
+            .Where(g => g.Id == groupId)
+            .SelectMany(g => g.Media)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            //.OrderByDescending(selector)
+            .ToListAsync();
+
+        //var pageCount = Math.Ceiling((double)groupMedia.Count / pageSize);
+
+        var resultResponse = new MediaResponse()
+        {
+            PageNumber = pageNumber,
+            PageSize = pageSize,
+            Media = groupMedia
+        };
+        
+        return Ok(resultResponse);
+    }
+
+    [HttpGet("media")]
     public async Task<ActionResult<IEnumerable<Media>>> GetMediaByGroupId(int groupId)
     {
         var group = await GetGroupById(groupId);
         if (group == null) return BadRequest("Group not found");
         
-        var groups = await _context.Groups
+        var groupMedia = await _context.Groups
             .Include(g => g.Media)
-            .ToListAsync();
-
-        return groups
             .Where(g => g.Id == groupId)
             .SelectMany(g => g.Media)
-            .ToList();
+            .ToListAsync();
+
+        return groupMedia;
     }
     
     [HttpPost("create")]

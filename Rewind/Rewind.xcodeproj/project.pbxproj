@@ -125,6 +125,10 @@
 		55C652ED2B9851BA00A8C595 /* AddTagBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C652EC2B9851BA00A8C595 /* AddTagBuilder.swift */; };
 		55C652EF2B98570C00A8C595 /* SettingsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C652EE2B98570C00A8C595 /* SettingsRouter.swift */; };
 		55C652F42B98994F00A8C595 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C652F32B98994F00A8C595 /* DetailsViewController.swift */; };
+		55DFB5FA2BAB0D9900527800 /* PreviewObjectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55DFB5F92BAB0D9900527800 /* PreviewObjectViewController.swift */; };
+		55DFB5FC2BAB1A2300527800 /* GalleryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55DFB5FB2BAB1A2300527800 /* GalleryCell.swift */; };
+		55DFB5FF2BAB28C000527800 /* PreviewObjectPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55DFB5FE2BAB28C000527800 /* PreviewObjectPresenter.swift */; };
+		55DFB6012BAB291000527800 /* PreviewObjectBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55DFB6002BAB291000527800 /* PreviewObjectBuilder.swift */; };
 		55EFC5ED2B94B0CD00E82D20 /* UserDefaultsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EFC5EC2B94B0CD00E82D20 /* UserDefaultsExtension.swift */; };
 /* End PBXBuildFile section */
 
@@ -249,6 +253,10 @@
 		55C652EC2B9851BA00A8C595 /* AddTagBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTagBuilder.swift; sourceTree = "<group>"; };
 		55C652EE2B98570C00A8C595 /* SettingsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRouter.swift; sourceTree = "<group>"; };
 		55C652F32B98994F00A8C595 /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
+		55DFB5F92BAB0D9900527800 /* PreviewObjectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewObjectViewController.swift; sourceTree = "<group>"; };
+		55DFB5FB2BAB1A2300527800 /* GalleryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryCell.swift; sourceTree = "<group>"; };
+		55DFB5FE2BAB28C000527800 /* PreviewObjectPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewObjectPresenter.swift; sourceTree = "<group>"; };
+		55DFB6002BAB291000527800 /* PreviewObjectBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewObjectBuilder.swift; sourceTree = "<group>"; };
 		55EFC5EC2B94B0CD00E82D20 /* UserDefaultsExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -283,6 +291,7 @@
 		550A63692B9CCA5C00CE3597 /* Gallery */ = {
 			isa = PBXGroup;
 			children = (
+				55DFB5FD2BAB28A600527800 /* PreviewObject */,
 				553FB28D2BA099CF00C3E6FB /* Views */,
 				550A63722B9CE25A00CE3597 /* AddPhoto */,
 				550A63752B9CF1C500CE3597 /* AddQuote */,
@@ -421,6 +430,7 @@
 			children = (
 				550A636C2B9CCCD700CE3597 /* GalleryCollectionView.swift */,
 				550A63702B9CD97000CE3597 /* ObjectsMenuTableView.swift */,
+				55DFB5FB2BAB1A2300527800 /* GalleryCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -718,6 +728,16 @@
 			path = Details;
 			sourceTree = "<group>";
 		};
+		55DFB5FD2BAB28A600527800 /* PreviewObject */ = {
+			isa = PBXGroup;
+			children = (
+				55DFB5F92BAB0D9900527800 /* PreviewObjectViewController.swift */,
+				55DFB5FE2BAB28C000527800 /* PreviewObjectPresenter.swift */,
+				55DFB6002BAB291000527800 /* PreviewObjectBuilder.swift */,
+			);
+			path = PreviewObject;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -792,6 +812,7 @@
 				55C652EB2B98515100A8C595 /* AddTagPresenter.swift in Sources */,
 				55A326CE2B826A44007C9B74 /* EnterNameBuilder.swift in Sources */,
 				553FB2912BA09EC700C3E6FB /* GalleryRouter.swift in Sources */,
+				55DFB6012BAB291000527800 /* PreviewObjectBuilder.swift in Sources */,
 				55A326BF2B8263C0007C9B74 /* EnterPasswordViewController.swift in Sources */,
 				559A50492B97822F00A2BAB4 /* SettingsPresenter.swift in Sources */,
 				55AA39EE2B9902B40099DB8A /* DetailsRouter.swift in Sources */,
@@ -818,7 +839,9 @@
 				55C3E5412B96227800701BF8 /* PropertiesTableView.swift in Sources */,
 				557A2DCD2B97C37900ACA400 /* TagsCollectionView.swift in Sources */,
 				55A326C52B8263D9007C9B74 /* EnterPasswordBuilder.swift in Sources */,
+				55DFB5FA2BAB0D9900527800 /* PreviewObjectViewController.swift in Sources */,
 				550A637B2B9CF4AD00CE3597 /* ColorCell.swift in Sources */,
+				55DFB5FF2BAB28C000527800 /* PreviewObjectPresenter.swift in Sources */,
 				556167C02B8F6421001AF383 /* EnterAuthCodeRouter.swift in Sources */,
 				55A326982B820B03007C9B74 /* WellcomePresenter.swift in Sources */,
 				55AA39F22B9905D30099DB8A /* TagsCollectionPresenterProtocol.swift in Sources */,
@@ -851,6 +874,7 @@
 				5514270E2B894198000446E9 /* AppIconCollectionView.swift in Sources */,
 				55C652ED2B9851BA00A8C595 /* AddTagBuilder.swift in Sources */,
 				557A07972B99F2A7002FFF40 /* GroupRiskyZoneTableView.swift in Sources */,
+				55DFB5FC2BAB1A2300527800 /* GalleryCell.swift in Sources */,
 				554D35322B9D011E00F0772B /* QuoteSettingsViewController.swift in Sources */,
 				559A50512B97844400A2BAB4 /* TagCell.swift in Sources */,
 				55A326B72B8259E1007C9B74 /* EnterCodePresenter.swift in Sources */,

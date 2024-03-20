@@ -22,7 +22,7 @@ final class RewindViewController: UIViewController {
     private let detailsButton: UIButton = UIButton(type: .system)
     private let downloadButton: UIButton = UIButton(type: .system)
     private let rewindButton: UIButton = UIButton(type: .system)
-    private let favouriteButton: UIButton = UIButton(type: .system)
+    private let favoriteButton: UIButton = UIButton(type: .system)
     private let galleryButton: UIButton = UIButton(type: .system)
     
     override func viewDidLoad() {
@@ -75,8 +75,8 @@ final class RewindViewController: UIViewController {
         let font = UIFont.systemFont(ofSize: 18, weight: .semibold)
         let configuration = UIImage.SymbolConfiguration(font: font)
         let image = UIImage(systemName: imageName, withConfiguration: configuration)
-        favouriteButton.setImage(image, for: .normal)
-        favouriteButton.tintColor = tintColor
+        favoriteButton.setImage(image, for: .normal)
+        favoriteButton.tintColor = tintColor
     }
     
     func showSuccessAlert() {
@@ -110,7 +110,7 @@ extension RewindViewController {
         
         configureRewindButton()
         configureDownloadButton()
-        configureFavouriteButton()
+        configureFavoriteButton()
         
         configureGalleryButton()
         
@@ -329,27 +329,26 @@ extension RewindViewController {
         rewindButton.pinCenterX(to: view.centerXAnchor)
     }
     
-    private func configureFavouriteButton() {
-        view.addSubview(favouriteButton)
-        favouriteButton.translatesAutoresizingMaskIntoConstraints = false
+    private func configureFavoriteButton() {
+        view.addSubview(favoriteButton)
+        favoriteButton.translatesAutoresizingMaskIntoConstraints = false
         
         let font = UIFont.systemFont(ofSize: 18, weight: .semibold)
         let configuration = UIImage.SymbolConfiguration(font: font)
         let image = UIImage(systemName: "heart", withConfiguration: configuration)
-        favouriteButton.setImage(image, for: .normal)
+        favoriteButton.setImage(image, for: .normal)
         
-        favouriteButton.tintColor = .systemGray2
-        favouriteButton.backgroundColor = .systemGray6
-        favouriteButton.layer.cornerRadius = 45 / 2
+        favoriteButton.tintColor = .systemGray2
+        favoriteButton.backgroundColor = .systemGray6
+        favoriteButton.layer.cornerRadius = 45 / 2
+        favoriteButton.imageEdgeInsets = UIEdgeInsets(top: 1, left: 0, bottom: 0, right: 0)
         
-        favouriteButton.imageEdgeInsets = UIEdgeInsets(top: 1, left: 0, bottom: 0, right: 0)
+        favoriteButton.addTarget(self, action: #selector(favouriteButtonTapped), for: .touchUpInside)
         
-        favouriteButton.addTarget(self, action: #selector(favouriteButtonTapped), for: .touchUpInside)
-        
-        favouriteButton.setWidth(45)
-        favouriteButton.setHeight(45)
-        favouriteButton.pinLeft(to: rewindButton.trailingAnchor, 20)
-        favouriteButton.pinCenterY(to: rewindButton.centerYAnchor)
+        favoriteButton.setWidth(45)
+        favoriteButton.setHeight(45)
+        favoriteButton.pinLeft(to: rewindButton.trailingAnchor, 20)
+        favoriteButton.pinCenterY(to: rewindButton.centerYAnchor)
     }
     
     private func configureGalleryButton() {

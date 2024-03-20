@@ -24,7 +24,7 @@ final class ObjectInfoView: UIView {
 
 extension ObjectInfoView {
     private func configureUI() {
-        backgroundColor = UIColor(white: 0.7, alpha: 0.9)
+        backgroundColor = UIColor(white: 1, alpha: 0.75)
         layer.cornerRadius = 35 / 2
         setWidth(160)
         setHeight(35)

@@ -269,7 +269,65 @@ final class NetworkService {
         task.resume()
     }
     
+    // MARK: - Greate Group
+    static func createGroup(ownerId: Int, groupName: String, completion: @escaping (NetworkResponse) -> Void) {
+        guard let url = URL(string: appUrl + "/groups/create") else {
+            completion(NetworkResponse(success: false, message: "Wrong URL"))
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        do {
+            let parameters: [String : Any] = ["OwnerId": ownerId, "GroupName": groupName]
+            request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: [])
+        } catch {
+            completion(NetworkResponse(success: false, message: error.localizedDescription))
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            let networkResponse = self.processStringResponse(data: data, response: response, error: error)
+            completion(networkResponse)
+        }
+        task.resume()
+    }
     
+    // MARK: - Get User Groups
+    static func getUserGroups(userId: Int, completion: @escaping (NetworkResponse) -> Void) {
+        guard let url = URL(string: appUrl + "/groups/\(userId)") else {
+            completion(NetworkResponse(success: false, message: "Wrong URL"))
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            let networkResponse = self.processStringResponse(data: data, response: response, error: error)
+            completion(networkResponse)
+        }
+        task.resume()
+    }
+    
+    // MARK: - Delete Group
+    static func deleteGroup(withId groupId: Int, completion: @escaping (NetworkResponse) -> Void) {
+        guard let url = URL(string: appUrl + "/groups/delete/\(groupId)") else {
+            completion(NetworkResponse(success: false, message: "Wrong URL"))
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "DELETE"
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            let networkResponse = self.processStringResponse(data: data, response: response, error: error)
+            completion(networkResponse)
+        }
+        task.resume()
+    }
 }
 
 // MARK: - Private funcs

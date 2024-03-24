@@ -71,7 +71,9 @@ final class AccountViewController: UIViewController {
         let imagePickerController = UIImagePickerController()
         imagePickerController.sourceType = .photoLibrary
         imagePickerController.delegate = self
-        present(imagePickerController, animated: true, completion: nil)
+        present(imagePickerController, animated: true) {
+            LoadingView.hide(from: self)
+        }
     }
     
     func showHelpAlert() {

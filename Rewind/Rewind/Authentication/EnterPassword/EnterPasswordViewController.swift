@@ -38,25 +38,7 @@ final class EnterPasswordViewController: UIViewController {
         presenter?.continueButtonTapped(password: password)
     }
     
-    // MARK: - Presenter To View
-    func showLoadingView() {
-        let loadingView = UIView(frame: view.bounds)
-        loadingView.backgroundColor = UIColor(white: 0, alpha: 0.3)
-        let activityIndicator = UIActivityIndicatorView(style: .large)
-        activityIndicator.color = .white
-        activityIndicator.center = loadingView.center
-        loadingView.addSubview(activityIndicator)
-        activityIndicator.startAnimating()
-        view.addSubview(loadingView)
-        loadingView.isUserInteractionEnabled = true
-        view.isUserInteractionEnabled = false
-    }
-    
-    func hideLoadingView() {
-        view.subviews.first(where: { $0.backgroundColor == UIColor(white: 0, alpha: 0.3) })?.removeFromSuperview()
-        view.isUserInteractionEnabled = true
-    }
-    
+    // MARK: - Presenter To View    
     func configureLabel(withText text: String) {
         passwordLabel.text = text
     }

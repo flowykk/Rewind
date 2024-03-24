@@ -8,6 +8,10 @@
 import UIKit
 
 final class EnterGroupNameViewController: UIViewController {
+    var presenter: EnterGroupNamePresenter?
+    
+    var allGroupsVCDelegate: AllGroupsViewController?
+    
     private let groupNameLabel: UILabel = UILabel()
     private let groupNameField: UITextField = UITextField()
     private let continueButton: UIButton = UIButton(type: .system)
@@ -20,7 +24,8 @@ final class EnterGroupNameViewController: UIViewController {
     
     @objc
     private func continueButtonTapped() {
-        print("next screen")
+        guard let groupName = groupNameField.text else { return }
+        presenter?.continueButtonTapped(groupName: groupName)
     }
 }
 

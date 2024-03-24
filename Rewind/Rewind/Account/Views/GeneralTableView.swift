@@ -17,7 +17,6 @@ final class GeneralTableView: UITableView {
         case editName = "Edit name"
         case editEmail = "Edit email"
         case editPassword = "Edit password"
-//        case addWidget = "Add a widget"
         case getHelp = "Get help"
         case share = "Share with friends"
     }

@@ -34,9 +34,9 @@ extension EnterVerificationCodePresenter {
             DispatchQueue.global().async {
                 if response.success {
                     UserDefaults.standard.set(newEmail, forKey: "UserEmail")
-                    DispatchQueue.main.async {
-                        self.view?.dismiss(animated: true, completion: {
-                            self.view?.editEmailVC?.dismiss(animated: true)
+                    DispatchQueue.main.async { [weak self] in
+                        self?.view?.dismiss(animated: true, completion: {
+                            self?.view?.editEmailVC?.dismiss(animated: true)
                         })
                     }
                 } else {

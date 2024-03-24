@@ -22,7 +22,7 @@ final class EnterEmailPresenter {
     }
     
     func continueButtonTapped(email: String) {
-        view?.showLoadingView()
+        LoadingView.show(in: view)
         let process = DataManager.shared.getUserProcess()
         switch process {
         case .registration:
@@ -68,8 +68,8 @@ extension EnterEmailPresenter {
             print(response.statusCode as Any)
             print(response.message as Any)
         }
-        DispatchQueue.main.async {
-            self.view?.hideLoadingView()
+        DispatchQueue.main.async { [weak self] in
+            LoadingView.hide(from: self?.view)
         }
     }
     
@@ -83,8 +83,8 @@ extension EnterEmailPresenter {
             print(response.message as Any)
             print(response.statusCode as Any)
         }
-        DispatchQueue.main.async {
-            self.view?.hideLoadingView()
+        DispatchQueue.main.async { [weak self] in
+            LoadingView.hide(from: self?.view)
         }
     }
 }

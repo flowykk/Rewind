@@ -14,6 +14,11 @@ final class AccountRouter {
         self.view = view
     }
     
+    func navigateToAllGroups() {
+        let vc = AllGroupsBuilder.build()
+        view?.navigationController?.pushViewController(vc, animated: true)
+    }
+    
     func navigateToWellcome() {
         let vc = WellcomeBuilder.build()
         view?.navigationController?.pushViewController(vc, animated: true)
@@ -57,6 +62,8 @@ final class AccountRouter {
         let vc = UIActivityViewController(activityItems: [appURL], applicationActivities: nil)
         vc.excludedActivityTypes = [.addToReadingList, .assignToContact, .print,]
         
-        view?.present(vc, animated: true)
+        view?.present(vc, animated: true) { [weak self] in
+            LoadingView.hide(from: self?.view)
+        }
     }
 }

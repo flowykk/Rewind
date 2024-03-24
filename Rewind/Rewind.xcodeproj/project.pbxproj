@@ -71,6 +71,18 @@
 		557A07992B9A15BF002FFF40 /* AllMembersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557A07982B9A15BE002FFF40 /* AllMembersViewController.swift */; };
 		557A2DCD2B97C37900ACA400 /* TagsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557A2DCC2B97C37900ACA400 /* TagsCollectionView.swift */; };
 		558D63462BB027D700B75AA6 /* CustomTransitioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558D63452BB027D700B75AA6 /* CustomTransitioning.swift */; };
+		558D63502BB099AA00B75AA6 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558D634F2BB099AA00B75AA6 /* UIImageExtension.swift */; };
+		558D63522BB09C3800B75AA6 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558D63512BB09C3800B75AA6 /* LoadingView.swift */; };
+		558D63542BB0B29E00B75AA6 /* AllGroupsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558D63532BB0B29E00B75AA6 /* AllGroupsPresenter.swift */; };
+		558D63562BB0B2BE00B75AA6 /* AllGroupsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558D63552BB0B2BE00B75AA6 /* AllGroupsBuilder.swift */; };
+		558D63582BB0B3F800B75AA6 /* AllGroupsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558D63572BB0B3F800B75AA6 /* AllGroupsRouter.swift */; };
+		558D635B2BB0B73800B75AA6 /* EnterGroupNamePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558D635A2BB0B73800B75AA6 /* EnterGroupNamePresenter.swift */; };
+		558D635F2BB0B76800B75AA6 /* EnterGroupNameRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558D635E2BB0B76800B75AA6 /* EnterGroupNameRouter.swift */; };
+		558D63612BB0B77400B75AA6 /* EnterGroupNameBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558D63602BB0B77400B75AA6 /* EnterGroupNameBuilder.swift */; };
+		558D63652BB0BF5B00B75AA6 /* LoadGroupImagePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558D63642BB0BF5B00B75AA6 /* LoadGroupImagePresenter.swift */; };
+		558D63672BB0BFA900B75AA6 /* LoadGroupImageBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558D63662BB0BFA900B75AA6 /* LoadGroupImageBuilder.swift */; };
+		558D63692BB0DDEC00B75AA6 /* AddGroupTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558D63682BB0DDEC00B75AA6 /* AddGroupTableView.swift */; };
+		558D636B2BB0E2B500B75AA6 /* GroupModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558D636A2BB0E2B500B75AA6 /* GroupModel.swift */; };
 		559A50492B97822F00A2BAB4 /* SettingsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559A50482B97822F00A2BAB4 /* SettingsPresenter.swift */; };
 		559A504B2B97825400A2BAB4 /* SettingsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559A504A2B97825400A2BAB4 /* SettingsBuilder.swift */; };
 		559A50512B97844400A2BAB4 /* TagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559A50502B97844400A2BAB4 /* TagCell.swift */; };
@@ -198,6 +210,18 @@
 		557A07982B9A15BE002FFF40 /* AllMembersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllMembersViewController.swift; sourceTree = "<group>"; };
 		557A2DCC2B97C37900ACA400 /* TagsCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsCollectionView.swift; sourceTree = "<group>"; };
 		558D63452BB027D700B75AA6 /* CustomTransitioning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTransitioning.swift; sourceTree = "<group>"; };
+		558D634F2BB099AA00B75AA6 /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
+		558D63512BB09C3800B75AA6 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		558D63532BB0B29E00B75AA6 /* AllGroupsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllGroupsPresenter.swift; sourceTree = "<group>"; };
+		558D63552BB0B2BE00B75AA6 /* AllGroupsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllGroupsBuilder.swift; sourceTree = "<group>"; };
+		558D63572BB0B3F800B75AA6 /* AllGroupsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllGroupsRouter.swift; sourceTree = "<group>"; };
+		558D635A2BB0B73800B75AA6 /* EnterGroupNamePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterGroupNamePresenter.swift; sourceTree = "<group>"; };
+		558D635E2BB0B76800B75AA6 /* EnterGroupNameRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterGroupNameRouter.swift; sourceTree = "<group>"; };
+		558D63602BB0B77400B75AA6 /* EnterGroupNameBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterGroupNameBuilder.swift; sourceTree = "<group>"; };
+		558D63642BB0BF5B00B75AA6 /* LoadGroupImagePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadGroupImagePresenter.swift; sourceTree = "<group>"; };
+		558D63662BB0BFA900B75AA6 /* LoadGroupImageBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadGroupImageBuilder.swift; sourceTree = "<group>"; };
+		558D63682BB0DDEC00B75AA6 /* AddGroupTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGroupTableView.swift; sourceTree = "<group>"; };
+		558D636A2BB0E2B500B75AA6 /* GroupModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupModel.swift; sourceTree = "<group>"; };
 		559A50482B97822F00A2BAB4 /* SettingsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPresenter.swift; sourceTree = "<group>"; };
 		559A504A2B97825400A2BAB4 /* SettingsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsBuilder.swift; sourceTree = "<group>"; };
 		559A50502B97844400A2BAB4 /* TagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCell.swift; sourceTree = "<group>"; };
@@ -276,7 +300,12 @@
 		550A635D2B9CAE8A00CE3597 /* AllGroups */ = {
 			isa = PBXGroup;
 			children = (
+				558D63592BB0B4C600B75AA6 /* Views */,
 				550A635E2B9CAEA200CE3597 /* AllGroupsViewController.swift */,
+				558D63532BB0B29E00B75AA6 /* AllGroupsPresenter.swift */,
+				558D63572BB0B3F800B75AA6 /* AllGroupsRouter.swift */,
+				558D63552BB0B2BE00B75AA6 /* AllGroupsBuilder.swift */,
+				558D636A2BB0E2B500B75AA6 /* GroupModel.swift */,
 			);
 			path = AllGroups;
 			sourceTree = "<group>";
@@ -284,8 +313,8 @@
 		550A63642B9CB57C00CE3597 /* AddGroup */ = {
 			isa = PBXGroup;
 			children = (
-				550A63652B9CB62200CE3597 /* EnterGroupNameViewController.swift */,
-				550A63672B9CB86700CE3597 /* LoadGroupImageViewController.swift */,
+				558D635C2BB0B74200B75AA6 /* EnterGroupName */,
+				558D635D2BB0B74D00B75AA6 /* LoadGroupImage */,
 			);
 			path = AddGroup;
 			sourceTree = "<group>";
@@ -372,7 +401,6 @@
 				551427092B893A95000446E9 /* GeneralTableView.swift */,
 				5514270D2B894198000446E9 /* AppIconCollectionView.swift */,
 				5514270B2B893CBF000446E9 /* RiskyZoneTableView.swift */,
-				550A63602B9CAF6E00CE3597 /* GroupsTableView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -390,10 +418,12 @@
 		551427112B8944A1000446E9 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				558D63512BB09C3800B75AA6 /* LoadingView.swift */,
 				558D63452BB027D700B75AA6 /* CustomTransitioning.swift */,
 				55A326932B820701007C9B74 /* UIViewPin.swift */,
 				55C121882B8CCA6400520718 /* UIViewControllerExtension.swift */,
 				55EFC5EC2B94B0CD00E82D20 /* UserDefaultsExtension.swift */,
+				558D634F2BB099AA00B75AA6 /* UIImageExtension.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -584,6 +614,36 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		558D63592BB0B4C600B75AA6 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				550A63602B9CAF6E00CE3597 /* GroupsTableView.swift */,
+				558D63682BB0DDEC00B75AA6 /* AddGroupTableView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		558D635C2BB0B74200B75AA6 /* EnterGroupName */ = {
+			isa = PBXGroup;
+			children = (
+				550A63652B9CB62200CE3597 /* EnterGroupNameViewController.swift */,
+				558D635A2BB0B73800B75AA6 /* EnterGroupNamePresenter.swift */,
+				558D635E2BB0B76800B75AA6 /* EnterGroupNameRouter.swift */,
+				558D63602BB0B77400B75AA6 /* EnterGroupNameBuilder.swift */,
+			);
+			path = EnterGroupName;
+			sourceTree = "<group>";
+		};
+		558D635D2BB0B74D00B75AA6 /* LoadGroupImage */ = {
+			isa = PBXGroup;
+			children = (
+				550A63672B9CB86700CE3597 /* LoadGroupImageViewController.swift */,
+				558D63642BB0BF5B00B75AA6 /* LoadGroupImagePresenter.swift */,
+				558D63662BB0BFA900B75AA6 /* LoadGroupImageBuilder.swift */,
+			);
+			path = LoadGroupImage;
+			sourceTree = "<group>";
+		};
 		55A3265B2B81F8FC007C9B74 = {
 			isa = PBXGroup;
 			children = (
@@ -603,12 +663,13 @@
 		55A326662B81F8FC007C9B74 /* Rewind */ = {
 			isa = PBXGroup;
 			children = (
-				550A63692B9CCA5C00CE3597 /* Gallery */,
+				55A326AE2B825274007C9B74 /* Wellcome */,
 				55A3267B2B81FB7F007C9B74 /* Authentication */,
 				55AF8C6B2B9381CB00AC7CE0 /* Rewind */,
-				551426FC2B88CB45000446E9 /* Account */,
-				557A07832B99BAF8002FFF40 /* Group */,
 				550A63642B9CB57C00CE3597 /* AddGroup */,
+				551426FC2B88CB45000446E9 /* Account */,
+				550A63692B9CCA5C00CE3597 /* Gallery */,
+				557A07832B99BAF8002FFF40 /* Group */,
 				557A07912B99ED31002FFF40 /* GroupSettings */,
 				55A3266B2B81F8FC007C9B74 /* ViewController.swift */,
 				55A326722B81F8FE007C9B74 /* LaunchScreen.storyboard */,
@@ -623,7 +684,6 @@
 		55A3267B2B81FB7F007C9B74 /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
-				55A326AE2B825274007C9B74 /* Wellcome */,
 				55A3269F2B821DF3007C9B74 /* EnterEmail */,
 				55A326B12B825425007C9B74 /* EnterCode */,
 				55A326BD2B8263A5007C9B74 /* EnterPassword */,
@@ -886,6 +946,7 @@
 				551509772B90999200D162CF /* EditEmailRouter.swift in Sources */,
 				556167C72B8F6BD0001AF383 /* EditPasswordBuilder.swift in Sources */,
 				5514270C2B893CBF000446E9 /* RiskyZoneTableView.swift in Sources */,
+				558D636B2BB0E2B500B75AA6 /* GroupModel.swift in Sources */,
 				553FB2A32BA0AAD800C3E6FB /* QuoteSettingsPresenter.swift in Sources */,
 				551427042B88CBF4000446E9 /* AccountBuilder.swift in Sources */,
 				553FB2A02BA0A87900C3E6FB /* AddQuoteBuilder.swift in Sources */,
@@ -902,9 +963,12 @@
 				55A3269C2B820FFA007C9B74 /* WellcomeRouter.swift in Sources */,
 				551427022B88CBEA000446E9 /* AccountRouter.swift in Sources */,
 				550A63682B9CB86700CE3597 /* LoadGroupImageViewController.swift in Sources */,
+				558D63672BB0BFA900B75AA6 /* LoadGroupImageBuilder.swift in Sources */,
 				55A3266C2B81F8FC007C9B74 /* ViewController.swift in Sources */,
 				55C3E5412B96227800701BF8 /* PropertiesTableView.swift in Sources */,
+				558D63522BB09C3800B75AA6 /* LoadingView.swift in Sources */,
 				557A2DCD2B97C37900ACA400 /* TagsCollectionView.swift in Sources */,
+				558D63562BB0B2BE00B75AA6 /* AllGroupsBuilder.swift in Sources */,
 				55A326C52B8263D9007C9B74 /* EnterPasswordBuilder.swift in Sources */,
 				55DFB5FA2BAB0D9900527800 /* PreviewObjectViewController.swift in Sources */,
 				550A637B2B9CF4AD00CE3597 /* ColorCell.swift in Sources */,
@@ -924,6 +988,7 @@
 				550109892B8A36FE0005F1D5 /* AppIconModel.swift in Sources */,
 				55C3E53E2B9605ED00701BF8 /* SettingsCell.swift in Sources */,
 				556167BC2B8F61D2001AF383 /* EnterAuthCodePresenter.swift in Sources */,
+				558D63612BB0B77400B75AA6 /* EnterGroupNameBuilder.swift in Sources */,
 				55AF8C712B93C9F800AC7CE0 /* RewindPresenter.swift in Sources */,
 				557A07932B99ED67002FFF40 /* GroupSettingsViewController.swift in Sources */,
 				55AF8C6F2B9381F100AC7CE0 /* RewindBuilder.swift in Sources */,
@@ -933,10 +998,12 @@
 				550A63662B9CB62200CE3597 /* EnterGroupNameViewController.swift in Sources */,
 				550A63632B9CB05C00CE3597 /* GroupCell.swift in Sources */,
 				55AF8C732B93CA1800AC7CE0 /* RewindRouter.swift in Sources */,
+				558D635B2BB0B73800B75AA6 /* EnterGroupNamePresenter.swift in Sources */,
 				55C652E82B984FEE00A8C595 /* AddTagViewController.swift in Sources */,
 				55A326B92B8259F1007C9B74 /* EnterCodeRouter.swift in Sources */,
 				55A326B32B825453007C9B74 /* EnterCodeViewController.swift in Sources */,
 				557A07952B99F010002FFF40 /* GroupGeneralTableView.swift in Sources */,
+				558D63542BB0B29E00B75AA6 /* AllGroupsPresenter.swift in Sources */,
 				558D63462BB027D700B75AA6 /* CustomTransitioning.swift in Sources */,
 				550109852B89E99D0005F1D5 /* CustomTableViewCell.swift in Sources */,
 				5514270E2B894198000446E9 /* AppIconCollectionView.swift in Sources */,
@@ -957,11 +1024,15 @@
 				5515097F2B909D0C00D162CF /* EnterVerificationCodePresenter.swift in Sources */,
 				551509812B909D1500D162CF /* EnterVerificationCodeBuilder.swift in Sources */,
 				55A326682B81F8FC007C9B74 /* AppDelegate.swift in Sources */,
+				558D635F2BB0B76800B75AA6 /* EnterGroupNameRouter.swift in Sources */,
+				558D63582BB0B3F800B75AA6 /* AllGroupsRouter.swift in Sources */,
 				55A326962B820A2D007C9B74 /* WellcomeViewController.swift in Sources */,
 				55A3266A2B81F8FC007C9B74 /* SceneDelegate.swift in Sources */,
 				555F07532B85EF5F00E6991E /* AuthConsts.swift in Sources */,
 				551509792B9099A100D162CF /* EditEmailBuilder.swift in Sources */,
+				558D63502BB099AA00B75AA6 /* UIImageExtension.swift in Sources */,
 				550A63712B9CD97000CE3597 /* ObjectsMenuTableView.swift in Sources */,
+				558D63652BB0BF5B00B75AA6 /* LoadGroupImagePresenter.swift in Sources */,
 				55C652F42B98994F00A8C595 /* DetailsViewController.swift in Sources */,
 				556167B72B8F5F81001AF383 /* EnterAuthCodeViewController.swift in Sources */,
 				550A63612B9CAF6E00CE3597 /* GroupsTableView.swift in Sources */,
@@ -985,6 +1056,7 @@
 				556167C32B8F659D001AF383 /* EditPasswordViewController.swift in Sources */,
 				55C3E53B2B95E55D00701BF8 /* TypesTableView.swift in Sources */,
 				55A326A12B821E18007C9B74 /* EnterEmailViewController.swift in Sources */,
+				558D63692BB0DDEC00B75AA6 /* AddGroupTableView.swift in Sources */,
 				559A504B2B97825400A2BAB4 /* SettingsBuilder.swift in Sources */,
 				55A326BB2B82612B007C9B74 /* DataManager.swift in Sources */,
 				55C121892B8CCA6400520718 /* UIViewControllerExtension.swift in Sources */,

@@ -8,6 +8,8 @@
 import UIKit
 
 final class AllGroupsViewController: UIViewController {
+    var presenter: AllGroupsPresenter?
+    
     var contentViewHeightConstraint: NSLayoutConstraint?
     var groupsTableHeightConstraint: NSLayoutConstraint?
     
@@ -19,7 +21,10 @@ final class AllGroupsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.hideKeyboardWhenTappedAround()
+        groupsTable.presenter = presenter
+        presenter?.tableView = groupsTable
         configureUI()
+        presenter?.getUserGroups()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -29,7 +34,7 @@ final class AllGroupsViewController: UIViewController {
     
     @objc
     private func backButtonTapped() {
-        print("go back")
+        presenter?.backButtonTapped()
     }
     
     func updateViewsHeight() {

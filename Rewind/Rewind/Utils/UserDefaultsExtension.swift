@@ -8,20 +8,20 @@
 import UIKit
 
 extension UserDefaults {
-    func setImage(_ image: UIImage?, forKey key: String) {
-        guard let image = image else {
+    func setImage(_ imageData: Data?, forKey key: String) {
+        guard let data = imageData else {
             removeObject(forKey: key)
             return
         }
-        if let data = image.jpegData(compressionQuality: 1.0) {
-            set(data, forKey: key)
-        }
+        
+        set(data, forKey: key)
     }
     
     func image(forKey key: String) -> UIImage? {
         guard let data = data(forKey: key) else {
             return nil
         }
+        
         return UIImage(data: data)
     }
 }

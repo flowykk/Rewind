@@ -9,12 +9,12 @@ import Foundation
 import UIKit
 
 final class AccountPresenter {
-    private weak var view: AccountViewController?
+    private weak var viewController: AccountViewController?
     weak var collectionView: AppIconCollectionView?
     private var router: AccountRouter
     
-    init(view: AccountViewController?, router: AccountRouter) {
-        self.view = view
+    init(viewController: AccountViewController?, router: AccountRouter) {
+        self.viewController = viewController
         self.router = router
     }
     
@@ -24,7 +24,12 @@ final class AccountPresenter {
     }
     
     func newImageSelected(image: UIImage) {
-        if let imageData = image.jpegData(compressionQuality: 0.8) {
+        LoadingView.show(in: viewController)
+        
+        let resizedImage = image.resize(toDimension: 600)
+        let imageData = resizedImage.jpegData(compressionQuality: 1)
+        
+        if let imageData {
             updateUserImage(withImageData: imageData)
         }
     }
@@ -36,6 +41,7 @@ final class AccountPresenter {
     func logOut() {
         UserDefaults.standard.removeObject(forKey: "UserId")
         UserDefaults.standard.removeObject(forKey: "UserName")
+        UserDefaults.standard.removeObject(forKey: "UserImage")
         UserDefaults.standard.removeObject(forKey: "UserEmail")
         UserDefaults.standard.removeObject(forKey: "UserRegDate")
         router.navigateToWellcome()
@@ -48,6 +54,7 @@ final class AccountPresenter {
                 if response.success {
                     UserDefaults.standard.removeObject(forKey: "UserId")
                     UserDefaults.standard.removeObject(forKey: "UserName")
+                    UserDefaults.standard.removeObject(forKey: "UserImage")
                     UserDefaults.standard.removeObject(forKey: "UserEmail")
                     UserDefaults.standard.removeObject(forKey: "UserRegDate")
                     self.router.navigateToWellcome()
@@ -60,7 +67,7 @@ final class AccountPresenter {
     }
     
     func didUpdateName(to newName: String) {
-        view?.setUserName(to: newName)
+        viewController?.setUserName(to: newName)
     }
     
     // MARK: - CollectionView To Presenter
@@ -76,7 +83,8 @@ final class AccountPresenter {
     // MARK: - GroupsTableView To Presenter
     func groupsRowSelected(_ row: PrimaryTableView.GroupsRow) {
         switch row {
-        case .viewGroups:   print("show all groups")
+        case .viewGroups:
+            router.navigateToAllGroups()
         }
     }
     
@@ -91,7 +99,9 @@ final class AccountPresenter {
             sendAuthenticationCode(toEmail: userEmail)
             router.presentEnterAuthCode()
         case .getHelp:      openHelpAlert()
-        case .share:        router.presentShareVC()
+        case .share:
+            LoadingView.show(in: viewController)
+            router.presentShareVC()
         }
     }
     
@@ -105,13 +115,25 @@ final class AccountPresenter {
     
     // MARK: - Presenter To View
     func viewDidLoad() {
-        if let userName = UserDefaults.standard.string(forKey: "UserName") {
-            view?.setUserName(to: userName)
+        var userImage = UIImage(named: "userImage") ?? UIImage()
+        
+        if let image = UserDefaults.standard.image(forKey: "UserImage") {
+            userImage = image
         }
+        
+        viewController?.setUserImage(to: userImage)
+        
+        var userName = "Anonymous"
+        
+        if let name = UserDefaults.standard.string(forKey: "UserName") {
+            userName = name
+        }
+        
+        viewController?.setUserName(to: userName)
         
         if let regDate = UserDefaults.standard.string(forKey: "UserRegDate") {
             if let days = getDaysWithRewind(regDate: regDate) {
-                view?.setDaysWithRewind(to: days)
+                viewController?.setDaysWithRewind(to: days)
             }
         }
         
@@ -124,28 +146,29 @@ final class AccountPresenter {
     
     func didUpdateImage(to imageData: Data) {
         if let image = UIImage(data: imageData) {
-            view?.setUserImage(to: image)
+            viewController?.setUserImage(to: image)
         }
     }
     
     func openEditImageAlert() {
-        view?.showEditImageAlert()
+        viewController?.showEditImageAlert()
     }
     
     func openHelpAlert() {
-        view?.showHelpAlert()
+        viewController?.showHelpAlert()
     }
     
     func openLogOutConfirmationAlert() {
-        view?.showLogOutConfirmationAlert()
+        viewController?.showLogOutConfirmationAlert()
     }
     
     func openDeleteAccountConfirmationAlert() {
-        view?.showDeleteAccountConfirmationAlert()
+        viewController?.showDeleteAccountConfirmationAlert()
     }
     
     func openPhotoGallery() {
-        view?.showImagePicker()
+        LoadingView.show(in: viewController)
+        viewController?.showImagePicker()
     }
     
     // MARK: - Presenter to CollectionView
@@ -188,9 +211,17 @@ extension AccountPresenter {
 extension AccountPresenter {
     private func handleUpdateUserImageResponse(_ response: NetworkResponse, imageData: Data) {
         if response.success {
-            DispatchQueue.main.async {
-                self.didUpdateImage(to: imageData)
+            UserDefaults.standard.setImage(imageData, forKey: "UserImage")
+            DispatchQueue.main.async { [weak self] in
+                self?.didUpdateImage(to: imageData)
+                LoadingView.hide(from: self?.viewController)
             }
+        } else {
+            print(response.statusCode as Any)
+            print("something went wrong")
+        }
+        DispatchQueue.main.async { [weak self] in
+            LoadingView.hide(from: self?.viewController)
         }
     }
 }

@@ -64,12 +64,4 @@ final class DataManager {
     func getAvatarBase64String() -> String {
         return user.imageBase64String
     }
-    
-    func getUserId() -> Int {
-        return user.id
-    }
-    
-    func getUserName() -> String {
-        return user.name
-    }
 }

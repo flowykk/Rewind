@@ -29,7 +29,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             initialViewController = WellcomeBuilder.build()
         }
         
-        initialViewController = RewindBuilder.build()
+//        initialViewController = RewindBuilder.build()
 //        initialViewController = GroupViewController()
 //        initialViewController = AllMembersViewController()
 //        initialViewController = AllGroupsViewController()

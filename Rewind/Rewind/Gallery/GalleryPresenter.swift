@@ -16,6 +16,10 @@ final class GalleryPresenter {
         self.router = router
     }
     
+    func backButtonTapped() {
+        router.navigateBack()
+    }
+    
     func addButtonTapped() {
         router.presentObjectsMenu()
     }

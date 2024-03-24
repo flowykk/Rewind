@@ -22,6 +22,10 @@ final class RewindPresenter {
         router.navigateToGroup()
     }
     
+    func showGroupsMenuButtonTapped() {
+        router.presentGroupsMenu()
+    }
+    
     func goToAccount() {
         router.navigateToAccount()
     }
@@ -32,19 +36,6 @@ final class RewindPresenter {
     
     func detailsButtonTapped() {
         router.navigateToDetails()
-    }
-    
-    func favouriteButtonTapped(favourite: Bool) {
-        view?.isFavourite = !favourite
-        if !favourite {
-            view?.setFavouriteButton(imageName: "heart.fill", tintColor: .customPink)
-        } else {
-            view?.setFavouriteButton(imageName: "heart", tintColor: .systemGray2)
-        }
-    }
-    
-    func showGroupsMenuButtonTapped() {
-        router.presentGroupsMenu()
     }
     
     func downloadButtonTapped(currentImage: UIImage) {
@@ -78,5 +69,18 @@ final class RewindPresenter {
                 }
             }
         }
+    }
+    
+    func favouriteButtonTapped(favourite: Bool) {
+        view?.isFavourite = !favourite
+        if !favourite {
+            view?.setFavouriteButton(imageName: "heart.fill", tintColor: .customPink)
+        } else {
+            view?.setFavouriteButton(imageName: "heart", tintColor: .systemGray2)
+        }
+    }
+    
+    func galleryButtonTapped() {
+        router.navigateToGallery()
     }
 }

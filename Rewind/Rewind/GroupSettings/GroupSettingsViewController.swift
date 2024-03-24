@@ -21,17 +21,20 @@ final class GroupSettingsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.delegate = self
         configureUI()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        navigationController?.delegate = self
         updateViewsHeight()
     }
     
     @objc
     private func backButtonTapped() {
         print("go back")
+        navigationController?.popViewController(animated: true)
     }
     
     func updateViewsHeight() {
@@ -46,8 +49,24 @@ final class GroupSettingsViewController: UIViewController {
     }
 }
 
+extension GroupSettingsViewController: UINavigationControllerDelegate {
+    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        switch operation {
+        case .pop:
+            if toVC is GroupViewController {
+                return PopTransitioning()
+            }
+        default:
+            return nil
+        }
+        return nil
+    }
+}
+
+// MARK: - UI Configuration
 extension GroupSettingsViewController {
     private func configureUI() {
+        navigationItem.hidesBackButton = true
         view.backgroundColor = .systemBackground
         configureBackButton()
         configureScrollView()

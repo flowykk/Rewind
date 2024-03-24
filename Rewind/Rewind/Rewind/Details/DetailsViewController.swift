@@ -20,6 +20,7 @@ final class DetailsViewController: UIViewController {
     private let objectInfoView: ObjectInfoView = ObjectInfoView()
     private let tagsLabel: UILabel = UILabel()
     private let addTagButton: UIButton = UIButton(type: .system)
+    private let generateTagsButton: UIButton = UIButton(type: .system)
     private let tagsCollection: TagsCollectionView = TagsCollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     private let objectRiskyZoneLabel: UILabel = UILabel()
     private let objectRiskyZoneTabel: ObjectRiskyZoneTableView = ObjectRiskyZoneTableView()
@@ -105,6 +106,7 @@ extension DetailsViewController {
         
         configureTagsLabel()
         if tags.count < 5 { configureAddButton() }
+        configureGenerateTagsButton()
         configureTagsCollection()
         
         configureObjectRiskyZoneLabel()
@@ -198,6 +200,19 @@ extension DetailsViewController {
         
         addTagButton.pinLeft(to: tagsLabel.trailingAnchor, 10)
         addTagButton.pinCenterY(to: tagsLabel.centerYAnchor)
+    }
+    
+    private func configureGenerateTagsButton() {
+        contentView.addSubview(generateTagsButton)
+        generateTagsButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        generateTagsButton.setTitle("autogenerate", for: .normal)
+        generateTagsButton.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
+        generateTagsButton.tintColor = .customPink
+        generateTagsButton.contentEdgeInsets = UIEdgeInsets(top: 5, left: 0, bottom: 0, right: 0)
+        
+        generateTagsButton.pinBottom(to: tagsLabel.bottomAnchor)
+        generateTagsButton.pinRight(to: contentView.trailingAnchor, 20)
     }
     
     private func configureTagsCollection() {

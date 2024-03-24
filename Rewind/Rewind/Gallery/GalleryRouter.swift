@@ -14,6 +14,10 @@ final class GalleryRouter {
         self.view = view
     }
     
+    func navigateBack() {
+        view?.navigationController?.popViewController(animated: true)
+    }
+    
     func presentObjectsMenu() {
         let vc = ObjectsMenuViewController()
         

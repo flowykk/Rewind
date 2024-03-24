@@ -19,6 +19,37 @@ final class RewindRouter {
         view?.navigationController?.pushViewController(vc, animated: true)
     }
     
+    func presentGroupsMenu() {
+        let vc = GroupsMenuViewController()
+        
+        vc.rowSelectionHandler = { [weak self] row in
+            print(row)
+            vc.dismiss(animated: true)
+            if let rewindView = self?.view as? RewindViewController {
+                if row != GroupsMenuTableView.GroupsMenuButton.allGroups.rawValue && row != GroupsMenuTableView.GroupsMenuButton.addGroup.rawValue {
+                    rewindView.setCurrentGroup(to: row)
+                }
+            }
+        }
+        
+        vc.modalPresentationStyle = .popover
+        
+        let height = Double((2 + 3) * 40)
+        
+        vc.preferredContentSize = CGSize(width: UIScreen.main.bounds.width / 2, height: height)
+        
+        vc.popoverPresentationController?.delegate = vc
+        vc.popoverPresentationController?.permittedArrowDirections = .up
+        
+        if let rewindView = view as? RewindViewController {
+            let button = rewindView.showGroupsMenuButton
+            
+            vc.popoverPresentationController?.sourceView = button
+            vc.popoverPresentationController?.sourceRect = CGRect(x: button.bounds.midX, y: button.bounds.maxY + 2, width: 0, height: 0)
+            rewindView.present(vc, animated: true)
+        }
+    }
+    
     func navigateToAccount() {
         let vc = AccountBuilder.build()
         view?.navigationController?.pushViewController(vc, animated: true)
@@ -34,34 +65,8 @@ final class RewindRouter {
         view?.navigationController?.pushViewController(vc, animated: true)
     }
     
-    func presentGroupsMenu() {
-        let vc = GroupsMenuViewController()
-        
-        vc.rowSelectionHandler = { [weak self] row in
-            print(row)
-            vc.dismiss(animated: true)
-            if let rewindView = self?.view as? RewindViewController {
-                if row != "All groups" {
-                    rewindView.setCurrentGroup(to: row)
-                }
-            }
-        }
-        
-        vc.modalPresentationStyle = .popover
-        
-        let height = Double((1 + 4) * 40)
-        
-        vc.preferredContentSize = CGSize(width: UIScreen.main.bounds.width / 2, height: height)
-        
-        vc.popoverPresentationController?.delegate = vc
-        vc.popoverPresentationController?.permittedArrowDirections = .up
-        
-        if let rewindView = view as? RewindViewController {
-            let button = rewindView.showGroupsMenuButton
-            
-            vc.popoverPresentationController?.sourceView = button
-            vc.popoverPresentationController?.sourceRect = CGRect(x: button.bounds.midX, y: button.bounds.maxY + 2, width: 0, height: 0)
-            rewindView.present(vc, animated: true)
-        }
+    func navigateToGallery() {
+        let vc = GalleryBuilder.build()
+        view?.navigationController?.pushViewController(vc, animated: true)
     }
 }

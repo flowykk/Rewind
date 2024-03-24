@@ -29,13 +29,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             initialViewController = WellcomeBuilder.build()
         }
         
-//        initialViewController = RewindBuilder.build()
+        initialViewController = RewindBuilder.build()
 //        initialViewController = GroupViewController()
 //        initialViewController = AllMembersViewController()
 //        initialViewController = AllGroupsViewController()
 //        initialViewController = EnterGroupNameViewController()
 //        initialViewController = LoadGroupImageViewController()
-        initialViewController = GalleryBuilder.build()
+//        initialViewController = GalleryBuilder.build()
 //        initialViewController = AddPhotoViewController()
 //        initialViewController = AddQuoteViewController()
 //        initialViewController = QuoteSettingsViewController()

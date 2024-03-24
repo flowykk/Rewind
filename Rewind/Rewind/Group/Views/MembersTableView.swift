@@ -13,25 +13,25 @@ final class MembersTableView: UITableView {
         ("member1", MemberType.user),
         ("member2", MemberType.owner),
         ("member3", MemberType.member),
+        ("member4", MemberType.member),
+        ("member5", MemberType.member),
+        ("member6", MemberType.member),
+        ("member7", MemberType.member),
+        ("member8", MemberType.member),
+        ("member9", MemberType.member),
+        ("member0", MemberType.member),
+        ("member1", MemberType.member),
+        ("member2", MemberType.member),
         ("member3", MemberType.member),
-        ("member3", MemberType.member),
-        ("member3", MemberType.member),
-        ("member3", MemberType.member),
-        ("member3", MemberType.member),
-        ("member3", MemberType.member),
-        ("member3", MemberType.member),
-        ("member3", MemberType.member),
-        ("member3", MemberType.member),
-        ("member3", MemberType.member),
-        ("member3", MemberType.member),
-        ("member3", MemberType.member),
-        ("member3", MemberType.member),
-        ("member3", MemberType.member),
-        ("member3", MemberType.member),
-        ("member3", MemberType.member),
-        ("member3", MemberType.member),
-        ("member3", MemberType.member),
-        ("member3", MemberType.member),
+        ("member4", MemberType.member),
+        ("member5", MemberType.member),
+        ("member6", MemberType.member),
+        ("member7", MemberType.member),
+        ("member8", MemberType.member),
+        ("member9", MemberType.member),
+        ("member0", MemberType.member),
+        ("member1", MemberType.member),
+        ("member2", MemberType.member),
     ]
     
     var isAllMembersButtonShown: Bool = true
@@ -82,8 +82,8 @@ extension MembersTableView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let number = members.count + (isAllMembersButtonShown ? 2 : 1)
         
-        if number > limitedDisplayRows {
-            return limitedDisplayRows
+        if isLimitedDisplay {
+            return number < limitedDisplayRows ? number : limitedDisplayRows
         }
         
         return number
@@ -99,7 +99,7 @@ extension MembersTableView: UITableViewDataSource {
         }
         
         if isAllMembersButtonShown {
-            if indexPath.row == members.count + 1 {
+            if indexPath.row == tableView.numberOfRows(inSection: 0) - 1 {
                 customCell.configureButton(.allMembers)
                 return customCell
             }

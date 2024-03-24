@@ -186,9 +186,9 @@ extension AddPhotoViewController {
     
     private func configureTagsCollection() {
         contentView.addSubview(tagsCollection)
+        tagsCollection.translatesAutoresizingMaskIntoConstraints = false
         
         tagsCollection.delaysContentTouches = false
-        tagsCollection.translatesAutoresizingMaskIntoConstraints = false
         
         tagsCollection.pinTop(to: tagsLabel.bottomAnchor, 10)
         tagsCollection.pinLeft(to: contentView.leadingAnchor, 20)

@@ -22,22 +22,33 @@ final class GroupViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.delegate = self
         configureUI()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        navigationController?.delegate = self
         updateViewsHeight()
-    }
-    
-    @objc
-    private func groupSettingsButtonTapped() {
-        print("go to settings")
     }
     
     @objc
     private func backButtonTapped() {
         print("go back")
+        navigationController?.popViewController(animated: true)
+    }
+    
+    @objc
+    private func groupSettingsButtonTapped() {
+        print("go to settings")
+        let vc = GroupSettingsViewController()
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @objc
+    private func groupMediaButtonTapped() {
+        let vc = GalleryBuilder.build()
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     func updateViewsHeight() {
@@ -65,6 +76,25 @@ final class GroupViewController: UIViewController {
     }
 }
 
+extension GroupViewController: UINavigationControllerDelegate {
+    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        switch operation {
+        case .push:
+            if toVC is GroupSettingsViewController {
+                return PushTransitioning()
+            }
+        case .pop:
+            if toVC is RewindViewController {
+                return PopTransitioning()
+            }
+        default:
+            return nil
+        }
+        return nil
+    }
+}
+
+// MARK: - UI Configuration
 extension GroupViewController {
     private func configureUI() {
         view.backgroundColor = .systemBackground
@@ -191,6 +221,8 @@ extension GroupViewController {
         groupMediaButton.tintColor = .black
         
         groupMediaButton.semanticContentAttribute = .forceRightToLeft
+        
+        groupMediaButton.addTarget(self, action: #selector(groupMediaButtonTapped), for: .touchUpInside)
         
         groupMediaButton.pinTop(to: membersTable.bottomAnchor, 25)
         groupMediaButton.pinLeft(to: contentView.leadingAnchor, 20)

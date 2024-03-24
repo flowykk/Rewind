@@ -9,7 +9,13 @@ import UIKit
 
 final class GroupsMenuTableView: UITableView {
     
-    private var groups: [String] = ["group1", "group2", "group3", "group4"]
+    private var groups: [String] = ["group1", "group2", "group3"]
+    
+    enum GroupsMenuButton: String, CaseIterable {
+        case allGroups = "All groups"
+        case addGroup = "Add group"
+    }
+    
     var rowSelected: ((String) -> Void)?
     
     override init(frame: CGRect, style: UITableView.Style) {
@@ -32,7 +38,7 @@ final class GroupsMenuTableView: UITableView {
         showsVerticalScrollIndicator = true
         showsHorizontalScrollIndicator = false
         
-        let height = Double((1 + groups.count) * Int(rowHeight))
+        let height = Double((GroupsMenuButton.allCases.count + groups.count) * Int(rowHeight))
         setHeight(height)
         setWidth(UIScreen.main.bounds.width / 2)
     }
@@ -40,18 +46,19 @@ final class GroupsMenuTableView: UITableView {
 
 extension GroupsMenuTableView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return groups.count + 1
+        return groups.count + GroupsMenuButton.allCases.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         if indexPath.row == 0 {
-            cell.textLabel?.text = "All groups"
+            cell.textLabel?.text = GroupsMenuButton.allGroups.rawValue
+        } else if indexPath.row == tableView.numberOfRows(inSection: 0) - 1 {
+            cell.textLabel?.text = GroupsMenuButton.addGroup.rawValue
         } else {
             cell.textLabel?.text = groups[indexPath.row - 1]
         }
         cell.textLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-        cell.textLabel?.textColor = .darkGray
         return cell
     }
 }

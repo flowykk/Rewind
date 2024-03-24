@@ -27,12 +27,23 @@ final class RewindViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.delegate = self
         configureUI()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        navigationController?.delegate = self
     }
     
     @objc
     private func goToGroupButtonTapped() {
         presenter?.goToGroup()
+    }
+    
+    @objc
+    private func showGroupsMenuButtonTapped() {
+        presenter?.showGroupsMenuButtonTapped()
     }
     
     @objc
@@ -58,13 +69,18 @@ final class RewindViewController: UIViewController {
     }
     
     @objc
+    private func rewindButtonTapped() {
+        print("rewind")
+    }
+    
+    @objc
     private func favouriteButtonTapped() {
         presenter?.favouriteButtonTapped(favourite: isFavourite)
     }
     
     @objc
-    private func showGroupsMenuButtonTapped() {
-        presenter?.showGroupsMenuButtonTapped()
+    private func galleryButtonTapped() {
+        presenter?.galleryButtonTapped()
     }
     
     func setCurrentGroup(to group: String) {
@@ -91,6 +107,20 @@ final class RewindViewController: UIViewController {
         let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
         alertController.addAction(okAction)
         present(alertController, animated: true, completion: nil)
+    }
+}
+
+// MARK: - UINavigationControllerDelegate
+extension RewindViewController: UINavigationControllerDelegate {
+    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        if operation == .push {
+            if toVC is GroupViewController {
+                return PushTransitioning()
+            } else if toVC is GalleryViewController {
+                return PushFromBottomTransitioning()
+            }
+        }
+        return nil
     }
 }
 
@@ -372,6 +402,8 @@ extension RewindViewController {
         
         galleryButton.titleEdgeInsets = UIEdgeInsets(top: -30, left: imageSize.width, bottom: 0, right: 0)
         galleryButton.imageEdgeInsets = UIEdgeInsets(top: 10, left: -titleSize.width, bottom: -15, right: 0)
+        
+        galleryButton.addTarget(self, action: #selector(galleryButtonTapped), for: .touchUpInside)
         
         galleryButton.setWidth(titleSize.width * 2)
         galleryButton.setHeight(UIScreen.main.bounds.height * 0.07)

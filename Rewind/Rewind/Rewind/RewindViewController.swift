@@ -29,6 +29,7 @@ final class RewindViewController: UIViewController {
         super.viewDidLoad()
         navigationController?.delegate = self
         configureUI()
+        configureData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -107,6 +108,12 @@ final class RewindViewController: UIViewController {
         let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
         alertController.addAction(okAction)
         present(alertController, animated: true, completion: nil)
+    }
+    
+    func configureData() {
+        if let currentGroup = DataManager.shared.getCurrentGroup() {
+            showGroupsMenuButton.setTitle(currentGroup.name, for: .normal)
+        }
     }
 }
 
@@ -197,7 +204,6 @@ extension RewindViewController {
         currentGroupView.addSubview(showGroupsMenuButton)
         showGroupsMenuButton.translatesAutoresizingMaskIntoConstraints = false
         
-        showGroupsMenuButton.setTitle("curr group", for: .normal)
         showGroupsMenuButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
         
         let font = UIFont.systemFont(ofSize: 11, weight: .bold)

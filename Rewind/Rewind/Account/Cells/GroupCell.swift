@@ -37,8 +37,9 @@ final class GroupCell: UITableViewCell {
         configureButtonLabel()
     }
     
-    func configureGroup(name: String) {
-        groupNameLabel.text = name
+    func configureGroup(_ group: Group) {
+        groupNameLabel.text = group.name
+        groupImageView.image = group.image
         configureGroupImageView()
         configureGroupNameLabel()
         configureChevronImageView()
@@ -53,8 +54,6 @@ extension GroupCell {
     private func configureGroupImageView() {
         addSubview(groupImageView)
         groupImageView.translatesAutoresizingMaskIntoConstraints = false
-        
-        groupImageView.image = UIImage(named: "groupImage")
         
         groupImageView.contentMode = .scaleAspectFill
         groupImageView.clipsToBounds = true

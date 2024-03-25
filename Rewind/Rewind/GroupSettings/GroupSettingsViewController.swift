@@ -8,6 +8,8 @@
 import UIKit
 
 final class GroupSettingsViewController: UIViewController {
+    var presenter: GroupSettingsPresenter?
+    
     var contentViewHeightConstraint: NSLayoutConstraint?
     
     private let scrollView: UIScrollView = UIScrollView()
@@ -23,6 +25,7 @@ final class GroupSettingsViewController: UIViewController {
         super.viewDidLoad()
         navigationController?.delegate = self
         configureUI()
+        configureData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -46,6 +49,12 @@ final class GroupSettingsViewController: UIViewController {
         
         contentViewHeightConstraint?.isActive = true
         view.layoutIfNeeded()
+    }
+    
+    func configureData() {
+        let currentGroup = DataManager.shared.getCurrentGroup()
+        groupImageView.image = currentGroup?.image
+        groupNameLabel.text = currentGroup?.name
     }
 }
 
@@ -119,8 +128,6 @@ extension GroupSettingsViewController {
         contentView.addSubview(groupImageView)
         groupImageView.translatesAutoresizingMaskIntoConstraints = false
         
-        groupImageView.image = UIImage(named: "groupImage")
-        
         groupImageView.contentMode = .scaleAspectFill
         groupImageView.clipsToBounds = true
         
@@ -138,7 +145,6 @@ extension GroupSettingsViewController {
         contentView.addSubview(groupNameLabel)
         groupNameLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        groupNameLabel.text = "Group name"
         groupNameLabel.font = UIFont.systemFont(ofSize: 24, weight: .bold)
         
         groupNameLabel.pinTop(to: groupImageView.bottomAnchor, 10)

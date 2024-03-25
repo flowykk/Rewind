@@ -19,7 +19,6 @@ struct User {
     var verificationCode: String = ""
     var password: String = ""
     var name: String = ""
-    var id: Int = -1
     
-    var imageBase64String: String = ""
+    var currentGroup: Group? = nil
 }

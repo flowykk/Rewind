@@ -81,8 +81,13 @@
 		558D63612BB0B77400B75AA6 /* EnterGroupNameBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558D63602BB0B77400B75AA6 /* EnterGroupNameBuilder.swift */; };
 		558D63652BB0BF5B00B75AA6 /* LoadGroupImagePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558D63642BB0BF5B00B75AA6 /* LoadGroupImagePresenter.swift */; };
 		558D63672BB0BFA900B75AA6 /* LoadGroupImageBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558D63662BB0BFA900B75AA6 /* LoadGroupImageBuilder.swift */; };
-		558D63692BB0DDEC00B75AA6 /* AddGroupTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558D63682BB0DDEC00B75AA6 /* AddGroupTableView.swift */; };
 		558D636B2BB0E2B500B75AA6 /* GroupModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558D636A2BB0E2B500B75AA6 /* GroupModel.swift */; };
+		558D636D2BB0F07A00B75AA6 /* GroupPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558D636C2BB0F07A00B75AA6 /* GroupPresenter.swift */; };
+		558D636F2BB0F09900B75AA6 /* GroupRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558D636E2BB0F09900B75AA6 /* GroupRouter.swift */; };
+		558D63712BB0F0A300B75AA6 /* GroupBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558D63702BB0F0A300B75AA6 /* GroupBuilder.swift */; };
+		558D63732BB0F42B00B75AA6 /* GroupSettingsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558D63722BB0F42B00B75AA6 /* GroupSettingsPresenter.swift */; };
+		558D63752BB0F45800B75AA6 /* GroupSettingsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558D63742BB0F45800B75AA6 /* GroupSettingsRouter.swift */; };
+		558D63772BB0F48900B75AA6 /* GroupSettingsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558D63762BB0F48900B75AA6 /* GroupSettingsBuilder.swift */; };
 		559A50492B97822F00A2BAB4 /* SettingsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559A50482B97822F00A2BAB4 /* SettingsPresenter.swift */; };
 		559A504B2B97825400A2BAB4 /* SettingsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559A504A2B97825400A2BAB4 /* SettingsBuilder.swift */; };
 		559A50512B97844400A2BAB4 /* TagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559A50502B97844400A2BAB4 /* TagCell.swift */; };
@@ -220,8 +225,13 @@
 		558D63602BB0B77400B75AA6 /* EnterGroupNameBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterGroupNameBuilder.swift; sourceTree = "<group>"; };
 		558D63642BB0BF5B00B75AA6 /* LoadGroupImagePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadGroupImagePresenter.swift; sourceTree = "<group>"; };
 		558D63662BB0BFA900B75AA6 /* LoadGroupImageBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadGroupImageBuilder.swift; sourceTree = "<group>"; };
-		558D63682BB0DDEC00B75AA6 /* AddGroupTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGroupTableView.swift; sourceTree = "<group>"; };
 		558D636A2BB0E2B500B75AA6 /* GroupModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupModel.swift; sourceTree = "<group>"; };
+		558D636C2BB0F07A00B75AA6 /* GroupPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupPresenter.swift; sourceTree = "<group>"; };
+		558D636E2BB0F09900B75AA6 /* GroupRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupRouter.swift; sourceTree = "<group>"; };
+		558D63702BB0F0A300B75AA6 /* GroupBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupBuilder.swift; sourceTree = "<group>"; };
+		558D63722BB0F42B00B75AA6 /* GroupSettingsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupSettingsPresenter.swift; sourceTree = "<group>"; };
+		558D63742BB0F45800B75AA6 /* GroupSettingsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupSettingsRouter.swift; sourceTree = "<group>"; };
+		558D63762BB0F48900B75AA6 /* GroupSettingsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupSettingsBuilder.swift; sourceTree = "<group>"; };
 		559A50482B97822F00A2BAB4 /* SettingsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPresenter.swift; sourceTree = "<group>"; };
 		559A504A2B97825400A2BAB4 /* SettingsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsBuilder.swift; sourceTree = "<group>"; };
 		559A50502B97844400A2BAB4 /* TagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCell.swift; sourceTree = "<group>"; };
@@ -533,6 +543,9 @@
 				558D634D2BB0547D00B75AA6 /* AllMembers */,
 				558D63472BB02E1000B75AA6 /* Views */,
 				557A07842B99BB08002FFF40 /* GroupViewController.swift */,
+				558D636C2BB0F07A00B75AA6 /* GroupPresenter.swift */,
+				558D636E2BB0F09900B75AA6 /* GroupRouter.swift */,
+				558D63702BB0F0A300B75AA6 /* GroupBuilder.swift */,
 			);
 			path = Group;
 			sourceTree = "<group>";
@@ -542,6 +555,9 @@
 			children = (
 				558D634E2BB0549000B75AA6 /* Views */,
 				557A07922B99ED67002FFF40 /* GroupSettingsViewController.swift */,
+				558D63722BB0F42B00B75AA6 /* GroupSettingsPresenter.swift */,
+				558D63742BB0F45800B75AA6 /* GroupSettingsRouter.swift */,
+				558D63762BB0F48900B75AA6 /* GroupSettingsBuilder.swift */,
 			);
 			path = GroupSettings;
 			sourceTree = "<group>";
@@ -618,7 +634,6 @@
 			isa = PBXGroup;
 			children = (
 				550A63602B9CAF6E00CE3597 /* GroupsTableView.swift */,
-				558D63682BB0DDEC00B75AA6 /* AddGroupTableView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1016,6 +1031,8 @@
 				557A07872B99C92E002FFF40 /* MembersTableView.swift in Sources */,
 				557A07992B9A15BF002FFF40 /* AllMembersViewController.swift in Sources */,
 				557A078E2B99CF8B002FFF40 /* GroupMediaCell.swift in Sources */,
+				558D63752BB0F45800B75AA6 /* GroupSettingsRouter.swift in Sources */,
+				558D63712BB0F0A300B75AA6 /* GroupBuilder.swift in Sources */,
 				550A636B2B9CCA8200CE3597 /* GalleryViewController.swift in Sources */,
 				550A63792B9CF3C300CE3597 /* ColorsTableView.swift in Sources */,
 				551427002B88CBD5000446E9 /* AccountPresenter.swift in Sources */,
@@ -1033,12 +1050,15 @@
 				558D63502BB099AA00B75AA6 /* UIImageExtension.swift in Sources */,
 				550A63712B9CD97000CE3597 /* ObjectsMenuTableView.swift in Sources */,
 				558D63652BB0BF5B00B75AA6 /* LoadGroupImagePresenter.swift in Sources */,
+				558D63772BB0F48900B75AA6 /* GroupSettingsBuilder.swift in Sources */,
 				55C652F42B98994F00A8C595 /* DetailsViewController.swift in Sources */,
+				558D636F2BB0F09900B75AA6 /* GroupRouter.swift in Sources */,
 				556167B72B8F5F81001AF383 /* EnterAuthCodeViewController.swift in Sources */,
 				550A63612B9CAF6E00CE3597 /* GroupsTableView.swift in Sources */,
 				551426FE2B88CBC6000446E9 /* AccountViewController.swift in Sources */,
 				55AA39FA2B99240E0099DB8A /* GroupsMenuTableView.swift in Sources */,
 				550A635F2B9CAEA200CE3597 /* AllGroupsViewController.swift in Sources */,
+				558D636D2BB0F07A00B75AA6 /* GroupPresenter.swift in Sources */,
 				556167AF2B8F58F9001AF383 /* EditNameViewController.swift in Sources */,
 				556167B22B8F5CDB001AF383 /* EditNamePresenter.swift in Sources */,
 				553FB29E2BA0A86F00C3E6FB /* AddQuoteRouter.swift in Sources */,
@@ -1055,8 +1075,8 @@
 				550A63772B9CF1E100CE3597 /* AddQuoteViewController.swift in Sources */,
 				556167C32B8F659D001AF383 /* EditPasswordViewController.swift in Sources */,
 				55C3E53B2B95E55D00701BF8 /* TypesTableView.swift in Sources */,
+				558D63732BB0F42B00B75AA6 /* GroupSettingsPresenter.swift in Sources */,
 				55A326A12B821E18007C9B74 /* EnterEmailViewController.swift in Sources */,
-				558D63692BB0DDEC00B75AA6 /* AddGroupTableView.swift in Sources */,
 				559A504B2B97825400A2BAB4 /* SettingsBuilder.swift in Sources */,
 				55A326BB2B82612B007C9B74 /* DataManager.swift in Sources */,
 				55C121892B8CCA6400520718 /* UIViewControllerExtension.swift in Sources */,

@@ -32,12 +32,8 @@ final class DataManager {
         user.name = name
     }
     
-    func setUserId(_ id: Int) {
-        user.id = id
-    }
-    
-    func setUserImageBase64String(_ imageBase64String: String) {
-        user.imageBase64String = imageBase64String
+    func setCurrentGroup(_ group: Group) {
+        user.currentGroup = group
     }
     
     // MARK: - GET methods
@@ -61,7 +57,7 @@ final class DataManager {
         return user.verificationCode
     }
     
-    func getAvatarBase64String() -> String {
-        return user.imageBase64String
+    func getCurrentGroup() -> Group? {
+        return user.currentGroup
     }
 }

@@ -8,6 +8,8 @@
 import UIKit
 
 final class GroupViewController: UIViewController {
+    var presenter: GroupPresenter?
+    
     var contentViewHeightConstraint: NSLayoutConstraint?
     var membersTableHeightConstraint: NSLayoutConstraint?
     
@@ -24,6 +26,7 @@ final class GroupViewController: UIViewController {
         super.viewDidLoad()
         navigationController?.delegate = self
         configureUI()
+        configureData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -34,21 +37,17 @@ final class GroupViewController: UIViewController {
     
     @objc
     private func backButtonTapped() {
-        print("go back")
-        navigationController?.popViewController(animated: true)
+        presenter?.backButtonTapped()
     }
     
     @objc
     private func groupSettingsButtonTapped() {
-        print("go to settings")
-        let vc = GroupSettingsViewController()
-        navigationController?.pushViewController(vc, animated: true)
+        presenter?.groupSettingsButtonTapped()
     }
     
     @objc
     private func groupMediaButtonTapped() {
-        let vc = GalleryBuilder.build()
-        navigationController?.pushViewController(vc, animated: true)
+        presenter?.groupMediaButtonTapped()
     }
     
     func updateViewsHeight() {
@@ -73,6 +72,12 @@ final class GroupViewController: UIViewController {
         membersTableHeightConstraint?.isActive = true
         contentViewHeightConstraint?.isActive = true
         view.layoutIfNeeded()
+    }
+    
+    func configureData() {
+        let currentGroup = DataManager.shared.getCurrentGroup()
+        groupImageView.image = currentGroup?.image
+        groupNameLabel.text = currentGroup?.name
     }
 }
 
@@ -158,8 +163,6 @@ extension GroupViewController {
         contentView.addSubview(groupImageView)
         groupImageView.translatesAutoresizingMaskIntoConstraints = false
         
-        groupImageView.image = UIImage(named: "groupImage")
-        
         groupImageView.contentMode = .scaleAspectFill
         groupImageView.clipsToBounds = true
         
@@ -177,7 +180,6 @@ extension GroupViewController {
         contentView.addSubview(groupNameLabel)
         groupNameLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        groupNameLabel.text = "Group name"
         groupNameLabel.font = UIFont.systemFont(ofSize: 24, weight: .bold)
         
         groupNameLabel.pinTop(to: groupImageView.bottomAnchor, 10)

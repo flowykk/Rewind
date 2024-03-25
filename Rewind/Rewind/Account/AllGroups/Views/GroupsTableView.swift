@@ -66,8 +66,8 @@ extension GroupsTableView: UITableViewDataSource {
                 cell = GroupCell(style: .default, reuseIdentifier: "groupCell")
             }
             
-            let name = groups[indexPath.row - 1].name
-            cell.configureGroup(name: name)
+            let group = groups[indexPath.row - 1]
+            cell.configureGroup(group)
         }
         
         return cell
@@ -79,6 +79,9 @@ extension GroupsTableView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
             presenter?.addGroupButtonSelected()
+        } else {
+            let group = groups[indexPath.row - 1]
+            presenter?.groupSelected(group)
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }

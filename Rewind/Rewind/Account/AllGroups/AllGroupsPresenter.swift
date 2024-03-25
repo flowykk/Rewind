@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 final class AllGroupsPresenter {
     private weak var view: AllGroupsViewController?
@@ -31,9 +32,14 @@ final class AllGroupsPresenter {
     }
     
     func addGroup(groupName: String) {
-        tableView?.groups.append(Group(id: -1, name: groupName))
+        tableView?.groups.append(Group(id: -1, name: groupName, image: UIImage(named: "groupImage") ?? UIImage()))
         tableView?.reloadData()
         view?.updateViewsHeight()
+    }
+    
+    func groupSelected(_ group: Group) {
+        DataManager.shared.setCurrentGroup(group)
+        router.navigateToRewind()
     }
 }
 
@@ -60,7 +66,8 @@ extension AllGroupsPresenter {
             
             for el in groupsArray {
                 if let id = el["id"] as? Int, let name = el["name"] as? String {
-                    groups.append(Group(id: id, name: name))
+                    let groupImage = UIImage(named: "groupImage") ?? UIImage()
+                    groups.append(Group(id: id, name: name, image: groupImage))
                 }
             }
             

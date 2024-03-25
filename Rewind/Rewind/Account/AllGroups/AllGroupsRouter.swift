@@ -23,5 +23,10 @@ final class AllGroupsRouter {
         vc.allGroupsVCDelegate = view as? AllGroupsViewController
         view?.present(vc, animated: true)
     }
+    
+    func navigateToRewind() {
+        let vc = RewindBuilder.build()
+        view?.navigationController?.pushViewController(vc, animated: true)
+    }
 }
        

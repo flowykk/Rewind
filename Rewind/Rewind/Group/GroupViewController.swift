@@ -85,7 +85,7 @@ final class GroupViewController: UIViewController {
     
     func configureData() {
         let currentGroup = DataManager.shared.getCurrentGroup()
-        groupImageView.image = currentGroup?.image
+        groupImageView.image = currentGroup?.bigImage
         groupNameLabel.text = currentGroup?.name
     }
     

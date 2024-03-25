@@ -12,7 +12,9 @@ struct Group {
     var name: String
     var ownerId: Int
     
-    var image: UIImage?
+    var bigImage: UIImage?
+    var miniImage: UIImage?
+    
     var owner: GroupMember?
     var members: [GroupMember]?
 }

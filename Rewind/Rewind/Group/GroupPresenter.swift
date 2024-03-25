@@ -90,7 +90,7 @@ extension GroupPresenter {
                     }
                 }
                 
-                let currentGroup = Group(id: groupId, name: groupName, ownerId: owner.id, image: groupImage, owner: owner, members: members)
+                let currentGroup = Group(id: groupId, name: groupName, ownerId: owner.id, bigImage: groupImage, owner: owner, members: members)
                 DataManager.shared.setCurrentGroup(currentGroup)
                 
                 DispatchQueue.main.async { [weak self] in

@@ -31,20 +31,19 @@ extension EditGroupNamePresenter {
         guard let groupId = DataManager.shared.getCurrentGroup()?.id else { return }
         NetworkService.updateGroupName(groupId: groupId, newName: newName) { [weak self] response in
             DispatchQueue.global().async {
-                self?.handleUpdateGroupNameResponse(response, newName: newName)
+                self?.handleUpdateGroupNameResponse(response, groupId: groupId, newName: newName)
             }
         }
     }
 }
 
 extension EditGroupNamePresenter {
-    private func handleUpdateGroupNameResponse(_ response: NetworkResponse, newName: String) {
+    private func handleUpdateGroupNameResponse(_ response: NetworkResponse, groupId: Int, newName: String) {
         if response.success {
             DataManager.shared.setCurrentGroupName(newName)
-            guard let groupId = DataManager.shared.getCurrentGroup()?.id else { return }
             DataManager.shared.updateGroupWithName(newName, forGroupWithId: groupId)
             DispatchQueue.main.async { [weak self] in
-                self?.view?.groupSettingPresenter?.updateName(to: newName)
+                self?.view?.groupSettingVC?.setGroupName(newName)
                 self?.view?.dismiss(animated: true) {
                     LoadingView.hide(from: self?.view)
                 }

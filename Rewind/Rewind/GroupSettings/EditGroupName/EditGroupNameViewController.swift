@@ -9,7 +9,7 @@ import UIKit
 
 final class EditGroupNameViewController: UIViewController {
     var presenter: EditGroupNamePresenter?
-    weak var groupSettingPresenter: GroupSettingsPresenter?
+    weak var groupSettingVC: GroupSettingsViewController?
     
     private let nameLabel: UILabel = UILabel()
     private let nameField: UITextField = UITextField()

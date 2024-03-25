@@ -64,15 +64,20 @@ final class GroupSettingsViewController: UIViewController {
     
     func configureData() {
         let currentGroup = DataManager.shared.getCurrentGroup()
-        groupImageView.image = currentGroup?.image
+        groupImageView.image = currentGroup?.bigImage
         groupNameLabel.text = currentGroup?.name
     }
     
     func setGroupName(_ name: String) {
         groupNameLabel.text = name
     }
+    
+    func setGroupImage(to imageData: Data) {
+        groupImageView.image = UIImage(data: imageData)
+    }
 }
 
+// MARK: - UINavigationControllerDelegate
 extension GroupSettingsViewController: UINavigationControllerDelegate {
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         switch operation {
@@ -84,6 +89,16 @@ extension GroupSettingsViewController: UINavigationControllerDelegate {
             return nil
         }
         return nil
+    }
+}
+
+// MARK: - UIImagePickerControllerDelegate
+extension GroupSettingsViewController: UIImagePickerControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let selectedImage = info[.originalImage] as? UIImage {
+            presenter?.newImageSelected(originalImage: selectedImage)
+        }
+        dismiss(animated: true)
     }
 }
 

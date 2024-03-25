@@ -371,6 +371,32 @@ final class NetworkService {
         }
         task.resume()
     }
+    
+    // MARK: - Update Group Image
+    static func updateGroupImage(groupId: Int, bigImageB64String: String, miniImageB64String: String, completion: @escaping (NetworkResponse) -> Void) {
+        guard let url = URL(string: appUrl + "/change-group/image/\(groupId)") else {
+            completion(NetworkResponse(success: false, message: "Wrong URL"))
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "PUT"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        do {
+            let parameters: [String : Any] = ["object" : bigImageB64String, "tinyobject" : miniImageB64String]
+            request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: [])
+        } catch {
+            completion(NetworkResponse(success: false, message: error.localizedDescription))
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            let networkResponse = self.processStringResponse(data: data, response: response, error: error)
+            completion(networkResponse)
+        }
+        task.resume()
+    }
 }
 
 // MARK: - Private funcs

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 final class DataManager {
     static let shared = DataManager()
@@ -40,6 +41,14 @@ final class DataManager {
         user.currentGroup?.name = name
     }
     
+    func setCurrentGroupBigImage(_ imageData: Data) {
+        user.currentGroup?.bigImage = UIImage(data: imageData)
+    }
+    
+    func setCurrentGroupMiniImage(_ imageData: Data) {
+        user.currentGroup?.miniImage = UIImage(data: imageData)
+    }
+    
     func setUserGroups(_ groups: [Group]) {
         user.groups = groups
     }
@@ -48,6 +57,16 @@ final class DataManager {
         for index in user.groups.indices {
             if user.groups[index].id == groupId {
                 user.groups[index].name = groupName
+                return
+            }
+        }
+    }
+    
+    func updateGroupWithImage(bigImageData: Data, miniImageData: Data, forGroupWithId groupId: Int) {
+        for index in user.groups.indices {
+            if user.groups[index].id == groupId {
+                user.groups[index].bigImage = UIImage(data: bigImageData)
+                user.groups[index].miniImage = UIImage(data: miniImageData)
                 return
             }
         }

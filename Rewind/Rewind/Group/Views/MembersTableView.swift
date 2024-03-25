@@ -8,41 +8,17 @@
 import UIKit
 
 final class MembersTableView: UITableView {
-    
-    var members: [(name: String, type: MemberType)] = [
-        ("member1", MemberType.user),
-        ("member2", MemberType.owner),
-        ("member3", MemberType.member),
-        ("member4", MemberType.member),
-        ("member5", MemberType.member),
-        ("member6", MemberType.member),
-        ("member7", MemberType.member),
-        ("member8", MemberType.member),
-        ("member9", MemberType.member),
-        ("member0", MemberType.member),
-        ("member1", MemberType.member),
-        ("member2", MemberType.member),
-        ("member3", MemberType.member),
-        ("member4", MemberType.member),
-        ("member5", MemberType.member),
-        ("member6", MemberType.member),
-        ("member7", MemberType.member),
-        ("member8", MemberType.member),
-        ("member9", MemberType.member),
-        ("member0", MemberType.member),
-        ("member1", MemberType.member),
-        ("member2", MemberType.member),
-    ]
+    var members: [GroupMember] = []
     
     var isAllMembersButtonShown: Bool = true
     var isLimitedDisplay: Bool = false
     
-    private var limitedDisplayRows: Int = 6
+    private var limitedDisplayRows: Int = 10
     
-    enum MemberType {
-        case owner
-        case user
-        case member
+    enum CellType {
+        case addButton
+        case member(GroupMember)
+        case allMembersButton
     }
     
     enum MembersButton: String, CaseIterable {
@@ -71,47 +47,58 @@ final class MembersTableView: UITableView {
     private func commonInit() {
         delegate = self
         dataSource = self
-        register(MemberCell.self, forCellReuseIdentifier: "cell")
+        register(AddButtonCell.self, forCellReuseIdentifier: "AddButtonCell")
+        register(MemberCell.self, forCellReuseIdentifier: "MemberCell")
+        register(AllMembersButtonCell.self, forCellReuseIdentifier: "AllMembersButtonCell")
         isScrollEnabled = false
         layer.cornerRadius = 20
         rowHeight = 50
+    }
+    
+    func configureData(members: [GroupMember]) {
+        self.members = members
+        reloadData()
     }
 }
 
 // MARK: - UITableViewDataSource
 extension MembersTableView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let number = members.count + (isAllMembersButtonShown ? 2 : 1)
+        return members.count + MembersButton.allCases.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cellType = determineCellType(tableView, for: indexPath)
         
-        if isLimitedDisplay {
-            return number < limitedDisplayRows ? number : limitedDisplayRows
+        switch cellType {
+        case .addButton:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "AddButtonCell", for: indexPath)
+            guard let addButtonCell = cell as? AddButtonCell else { return cell }
+            return addButtonCell
+        case .allMembersButton:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "AllMembersButtonCell", for: indexPath)
+            guard let addButtonCell = cell as? AllMembersButtonCell else { return cell }
+            return addButtonCell
+        case .member(let member):
+            let cell = tableView.dequeueReusableCell(withIdentifier: "MemberCell", for: indexPath)
+            guard let memberCell = cell as? MemberCell else { return cell }
+            memberCell.configureMember(member)
+            return memberCell
+//        default:
+//            print("undefined")
         }
         
-        return number
+//        return UITableViewCell()
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        guard let customCell = cell as? MemberCell else { return cell }
-        
+    private func determineCellType(_ tableView: UITableView, for indexPath: IndexPath) -> CellType {
         if indexPath.row == 0 {
-            customCell.configureButton(.addMember)
-            return customCell
+            return .addButton
+        } else if indexPath.row == tableView.numberOfRows(inSection: 0) - 1 {
+            return .allMembersButton
+        } else {
+            return .member(members[indexPath.row - 1])
         }
-        
-        if isAllMembersButtonShown {
-            if indexPath.row == tableView.numberOfRows(inSection: 0) - 1 {
-                customCell.configureButton(.allMembers)
-                return customCell
-            }
-        }
-        
-        let name = members[indexPath.row - 1].name
-        let type = members[indexPath.row - 1].type
-        
-        customCell.configureMember(name: name, type: type)
-        
-        return customCell
     }
 }
 

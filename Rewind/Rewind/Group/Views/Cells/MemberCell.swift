@@ -8,17 +8,12 @@
 import UIKit
 
 final class MemberCell: UITableViewCell {
-    
-    private let buttonImageView: UIImageView = UIImageView()
-    private let buttonLabel: UILabel = UILabel()
-    
     private let memberImageView: UIImageView = UIImageView()
     private let memberNameLabel: UILabel = UILabel()
     
     private let ownerSignImageView: UIImageView = UIImageView()
     
     private let deleteMemberButton: UIButton = UIButton(type: .system)
-    
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -35,19 +30,31 @@ final class MemberCell: UITableViewCell {
         separatorInset = UIEdgeInsets(top: .zero, left: left, bottom: .zero, right: .zero)
     }
     
-    func configureButton(_ button: MembersTableView.MembersButton) {
-        buttonLabel.text = button.rawValue
-        configureButtonImageView(imageName: button.imageName)
-        configureButtonLabel()
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        memberImageView.image = nil
+        memberNameLabel.text = nil
+        
+        ownerSignImageView.image = nil
+        deleteMemberButton.setImage(nil, for: .normal)
     }
     
-    func configureMember(name: String, type: MembersTableView.MemberType) {
-        memberNameLabel.text = name
+    func configureMember(_ member: GroupMember) {
+        memberNameLabel.text = member.name
+        
+        if let memberImage = member.miniImage {
+            memberImageView.image = member.miniImage
+        } else {
+            guard let defaultImage = UIImage(named: "userImage") else { return }
+            memberImageView.image = defaultImage
+        }
+        
         configureMemberImageView()
         configureMemberNameLabel()
-        if type == .owner {
+        
+        if member.role == .owner {
             configureOwnerSign()
-        } else if type == .member {
+        } else if member.role == .member {
             configureDeleteMemberButton()
         }
     }
@@ -56,19 +63,17 @@ final class MemberCell: UITableViewCell {
 extension MemberCell {
     private func configureUI() {
         backgroundColor = .systemGray6
+        configureMemberImageView()
+        configureMemberNameLabel()
     }
     
     private func configureMemberImageView() {
         addSubview(memberImageView)
         memberImageView.translatesAutoresizingMaskIntoConstraints = false
         
-        memberImageView.image = UIImage(named: "member")
-        
         memberImageView.contentMode = .scaleAspectFill
         memberImageView.clipsToBounds = true
-        
         let width = UIScreen.main.bounds.width * 0.09
-        
         memberImageView.layer.cornerRadius = width / 2
         
         memberImageView.setWidth(width)
@@ -111,41 +116,7 @@ extension MemberCell {
         image = image?.withTintColor(.systemGray, renderingMode: .alwaysOriginal)
         deleteMemberButton.setImage(image, for: .normal)
         
-        let side = self.frame.size.height / 2
-        deleteMemberButton.setWidth(side)
-        deleteMemberButton.setHeight(side)
-        deleteMemberButton.pinRight(to: trailingAnchor, 12)
+        deleteMemberButton.pinRight(to: trailingAnchor, 14)
         deleteMemberButton.pinCenterY(to: centerYAnchor)
-    }
-    
-    private func configureButtonImageView(imageName: String) {
-        addSubview(buttonImageView)
-        buttonImageView.translatesAutoresizingMaskIntoConstraints = false
-        
-        buttonImageView.contentMode = .center
-        
-        let font = UIFont.systemFont(ofSize: 20, weight: .bold)
-        let configuration = UIImage.SymbolConfiguration(font: font)
-        var image = UIImage(systemName: imageName, withConfiguration: configuration)
-        image = image?.withTintColor(.black, renderingMode: .alwaysOriginal)
-        buttonImageView.image = image
-        
-        let width = UIScreen.main.bounds.width * 0.09
-        
-        buttonImageView.layer.cornerRadius = width / 2
-        
-        buttonImageView.setWidth(width)
-        buttonImageView.pinLeft(to: leadingAnchor, 12)
-        buttonImageView.pinCenterY(to: centerYAnchor)
-    }
-    
-    private func configureButtonLabel() {
-        addSubview(buttonLabel)
-        buttonLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        buttonLabel.font = UIFont.systemFont(ofSize: 18, weight: .medium)
-        
-        buttonLabel.pinLeft(to: buttonImageView.trailingAnchor, 12)
-        buttonLabel.pinCenterY(to: centerYAnchor)
     }
 }

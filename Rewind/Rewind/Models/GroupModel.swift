@@ -9,7 +9,10 @@ import UIKit
 
 struct Group {
     var id: Int
-    var ownerId: Int
     var name: String
-    var image: UIImage
+    var ownerId: Int
+    
+    var image: UIImage?
+    var owner: GroupMember?
+    var members: [GroupMember]?
 }

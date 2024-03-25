@@ -24,9 +24,19 @@ final class GroupViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        presenter?.membersTable = membersTable
         navigationController?.delegate = self
         configureUI()
-        configureData()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        presenter?.getGroupBasicData()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        print(membersTable.contentSize)
     }
     
     override func viewDidAppear(_ animated: Bool) {

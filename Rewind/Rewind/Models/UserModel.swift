@@ -20,5 +20,6 @@ struct User {
     var password: String = ""
     var name: String = ""
     
+    var groups: [Group] = []
     var currentGroup: Group? = nil
 }

@@ -70,6 +70,9 @@
 		557A07972B99F2A7002FFF40 /* GroupRiskyZoneTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557A07962B99F2A7002FFF40 /* GroupRiskyZoneTableView.swift */; };
 		557A07992B9A15BF002FFF40 /* AllMembersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557A07982B9A15BE002FFF40 /* AllMembersViewController.swift */; };
 		557A2DCD2B97C37900ACA400 /* TagsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557A2DCC2B97C37900ACA400 /* TagsCollectionView.swift */; };
+		5582783C2BB1A9BC0072424F /* GroupMemberModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5582783B2BB1A9BC0072424F /* GroupMemberModel.swift */; };
+		5582783E2BB1C4360072424F /* AddButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5582783D2BB1C4360072424F /* AddButtonCell.swift */; };
+		558278402BB1C4AA0072424F /* AllMembersButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5582783F2BB1C4AA0072424F /* AllMembersButtonCell.swift */; };
 		558D63462BB027D700B75AA6 /* CustomTransitioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558D63452BB027D700B75AA6 /* CustomTransitioning.swift */; };
 		558D63502BB099AA00B75AA6 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558D634F2BB099AA00B75AA6 /* UIImageExtension.swift */; };
 		558D63522BB09C3800B75AA6 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558D63512BB09C3800B75AA6 /* LoadingView.swift */; };
@@ -214,6 +217,9 @@
 		557A07962B99F2A7002FFF40 /* GroupRiskyZoneTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupRiskyZoneTableView.swift; sourceTree = "<group>"; };
 		557A07982B9A15BE002FFF40 /* AllMembersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllMembersViewController.swift; sourceTree = "<group>"; };
 		557A2DCC2B97C37900ACA400 /* TagsCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsCollectionView.swift; sourceTree = "<group>"; };
+		5582783B2BB1A9BC0072424F /* GroupMemberModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupMemberModel.swift; sourceTree = "<group>"; };
+		5582783D2BB1C4360072424F /* AddButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddButtonCell.swift; sourceTree = "<group>"; };
+		5582783F2BB1C4AA0072424F /* AllMembersButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllMembersButtonCell.swift; sourceTree = "<group>"; };
 		558D63452BB027D700B75AA6 /* CustomTransitioning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTransitioning.swift; sourceTree = "<group>"; };
 		558D634F2BB099AA00B75AA6 /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		558D63512BB09C3800B75AA6 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
@@ -315,7 +321,6 @@
 				558D63532BB0B29E00B75AA6 /* AllGroupsPresenter.swift */,
 				558D63572BB0B3F800B75AA6 /* AllGroupsRouter.swift */,
 				558D63552BB0B2BE00B75AA6 /* AllGroupsBuilder.swift */,
-				558D636A2BB0E2B500B75AA6 /* GroupModel.swift */,
 			);
 			path = AllGroups;
 			sourceTree = "<group>";
@@ -372,6 +377,8 @@
 		551426FA2B88CAAB000446E9 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				558D636A2BB0E2B500B75AA6 /* GroupModel.swift */,
+				5582783B2BB1A9BC0072424F /* GroupMemberModel.swift */,
 				55A326AF2B82535E007C9B74 /* UserModel.swift */,
 				550109882B8A36FE0005F1D5 /* AppIconModel.swift */,
 			);
@@ -390,7 +397,6 @@
 		551426FC2B88CB45000446E9 /* Account */ = {
 			isa = PBXGroup;
 			children = (
-				550A635D2B9CAE8A00CE3597 /* AllGroups */,
 				556167B02B8F5900001AF383 /* EditName */,
 				551509712B90981D00D162CF /* EditEmailProcess */,
 				556167B52B8F5F59001AF383 /* EditPasswordProcess */,
@@ -577,6 +583,8 @@
 			children = (
 				557A078F2B99D835002FFF40 /* MemberCell.swift */,
 				557A078D2B99CF8B002FFF40 /* GroupMediaCell.swift */,
+				5582783D2BB1C4360072424F /* AddButtonCell.swift */,
+				5582783F2BB1C4AA0072424F /* AllMembersButtonCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -682,6 +690,7 @@
 				55A3267B2B81FB7F007C9B74 /* Authentication */,
 				55AF8C6B2B9381CB00AC7CE0 /* Rewind */,
 				550A63642B9CB57C00CE3597 /* AddGroup */,
+				550A635D2B9CAE8A00CE3597 /* AllGroups */,
 				551426FC2B88CB45000446E9 /* Account */,
 				550A63692B9CCA5C00CE3597 /* Gallery */,
 				557A07832B99BAF8002FFF40 /* Group */,
@@ -1025,6 +1034,7 @@
 				55C652ED2B9851BA00A8C595 /* AddTagBuilder.swift in Sources */,
 				557A07972B99F2A7002FFF40 /* GroupRiskyZoneTableView.swift in Sources */,
 				55DFB5FC2BAB1A2300527800 /* GalleryCell.swift in Sources */,
+				5582783E2BB1C4360072424F /* AddButtonCell.swift in Sources */,
 				554D35322B9D011E00F0772B /* QuoteSettingsViewController.swift in Sources */,
 				559A50512B97844400A2BAB4 /* TagCell.swift in Sources */,
 				55A326B72B8259E1007C9B74 /* EnterCodePresenter.swift in Sources */,
@@ -1052,11 +1062,13 @@
 				558D63652BB0BF5B00B75AA6 /* LoadGroupImagePresenter.swift in Sources */,
 				558D63772BB0F48900B75AA6 /* GroupSettingsBuilder.swift in Sources */,
 				55C652F42B98994F00A8C595 /* DetailsViewController.swift in Sources */,
+				558278402BB1C4AA0072424F /* AllMembersButtonCell.swift in Sources */,
 				558D636F2BB0F09900B75AA6 /* GroupRouter.swift in Sources */,
 				556167B72B8F5F81001AF383 /* EnterAuthCodeViewController.swift in Sources */,
 				550A63612B9CAF6E00CE3597 /* GroupsTableView.swift in Sources */,
 				551426FE2B88CBC6000446E9 /* AccountViewController.swift in Sources */,
 				55AA39FA2B99240E0099DB8A /* GroupsMenuTableView.swift in Sources */,
+				5582783C2BB1A9BC0072424F /* GroupMemberModel.swift in Sources */,
 				550A635F2B9CAEA200CE3597 /* AllGroupsViewController.swift in Sources */,
 				558D636D2BB0F07A00B75AA6 /* GroupPresenter.swift in Sources */,
 				556167AF2B8F58F9001AF383 /* EditNameViewController.swift in Sources */,

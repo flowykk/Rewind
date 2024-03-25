@@ -84,8 +84,14 @@ final class RewindViewController: UIViewController {
         presenter?.galleryButtonTapped()
     }
     
-    func setCurrentGroup(to group: String) {
-        showGroupsMenuButton.setTitle(group, for: .normal)
+    func configureData() {
+        if let currentGroup = DataManager.shared.getCurrentGroup() {
+            showGroupsMenuButton.setTitle(currentGroup.name, for: .normal)
+        }
+    }
+    
+    func setCurrentGroup(to group: Group) {
+        showGroupsMenuButton.setTitle(group.name, for: .normal)
     }
     
     func setFavouriteButton(imageName: String, tintColor: UIColor) {
@@ -108,12 +114,6 @@ final class RewindViewController: UIViewController {
         let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
         alertController.addAction(okAction)
         present(alertController, animated: true, completion: nil)
-    }
-    
-    func configureData() {
-        if let currentGroup = DataManager.shared.getCurrentGroup() {
-            showGroupsMenuButton.setTitle(currentGroup.name, for: .normal)
-        }
     }
 }
 

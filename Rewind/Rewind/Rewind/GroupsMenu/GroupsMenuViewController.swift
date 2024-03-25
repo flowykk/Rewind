@@ -8,9 +8,9 @@
 import UIKit
 
 final class GroupsMenuViewController: UIViewController, UIPopoverPresentationControllerDelegate {
-    private let groupsMenuTable: GroupsMenuTableView = GroupsMenuTableView()
+    weak var presenter: RewindPresenter?
     
-    var rowSelectionHandler: ((String) -> Void)?
+    private let groupsMenuTable: GroupsMenuTableView = GroupsMenuTableView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,7 +18,15 @@ final class GroupsMenuViewController: UIViewController, UIPopoverPresentationCon
         view.backgroundColor = .systemBackground
         view.addSubview(groupsMenuTable)
         
-        groupsMenuTable.rowSelected = rowSelectionHandler
+        groupsMenuTable.buttonSelected = { [weak self] button in
+            self?.presenter?.buttonSelected(button)
+            self?.dismiss(animated: true)
+        }
+        
+        groupsMenuTable.groupSelected = { [weak self] group in
+            self?.presenter?.groupSelected(group)
+            self?.dismiss(animated: true)
+        }
         
         groupsMenuTable.translatesAutoresizingMaskIntoConstraints = false
         groupsMenuTable.pinTop(to: view.safeAreaLayoutGuide.topAnchor)

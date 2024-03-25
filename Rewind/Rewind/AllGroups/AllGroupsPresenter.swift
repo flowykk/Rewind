@@ -33,7 +33,7 @@ final class AllGroupsPresenter {
     
     func addGroup(groupName: String) {
         let userId = UserDefaults.standard.integer(forKey: "UserId")
-        tableView?.groups.append(Group(id: -1, ownerId: userId, name: groupName, image: UIImage(named: "groupImage") ?? UIImage()))
+        tableView?.groups.append(Group(id: -1, name: groupName, ownerId: userId))
         tableView?.reloadData()
         view?.updateViewsHeight()
     }
@@ -59,24 +59,22 @@ extension AllGroupsPresenter {
 // MARK: - Network Response Handlers
 extension AllGroupsPresenter {
     private func handleGetUserGroupsResponse(_ response: NetworkResponse) {
-        if response.success, let message = response.message {
-            guard let jsonData = message.data(using: .utf8) else { return }
-            guard let groupsArray = try? JSONSerialization.jsonObject(with: jsonData, options: []) as? [[String: Any]] else { return }
-            
+        if response.success, let jsonArray = response.jsonArray {
             var groups: [Group] = []
             
-            for el in groupsArray {
+            for el in jsonArray {
                 if let id = el["id"] as? Int, let ownerId = el["ownerId"] as? Int, let name = el["name"] as? String {
-                    let groupImage = UIImage(named: "groupImage") ?? UIImage()
-                    groups.append(Group(id: id, ownerId: ownerId, name: name, image: groupImage))
+                    // TODO: get image
+                    groups.append(Group(id: id, name: name, ownerId: ownerId))
                 }
             }
             
             tableView?.groups = groups
+            DataManager.shared.setUserGroups(groups)
             
             DispatchQueue.main.async { [weak self] in
-                LoadingView.hide(from: self?.view)
                 self?.tableView?.reloadData()
+                LoadingView.hide(from: self?.view)
             }
         } else {
             print(response.statusCode as Any)
@@ -87,4 +85,3 @@ extension AllGroupsPresenter {
         }
     }
 }
-    

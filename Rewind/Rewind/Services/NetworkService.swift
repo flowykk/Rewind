@@ -12,6 +12,7 @@ struct NetworkResponse {
     var statusCode: Int?
     var message: String?
     var json: [String : Any]?
+    var jsonArray: [[String : Any]]?
 }
 
 final class NetworkService {
@@ -306,7 +307,7 @@ final class NetworkService {
         request.httpMethod = "GET"
         
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            let networkResponse = self.processStringResponse(data: data, response: response, error: error)
+            let networkResponse = self.processJSONAarrayResponse(data: data, response: response, error: error)
             completion(networkResponse)
         }
         task.resume()
@@ -324,6 +325,22 @@ final class NetworkService {
         
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             let networkResponse = self.processStringResponse(data: data, response: response, error: error)
+            completion(networkResponse)
+        }
+        task.resume()
+    }
+    
+    static func getGroupBasicData(groupId: Int, membersQuantity: Int, mediaQuantity: Int, completion: @escaping (NetworkResponse) -> Void) {
+        guard let url = URL(string: appUrl + "/groups/\(groupId)/\(membersQuantity)") else {
+            completion(NetworkResponse(success: false, message: "Wrong URL"))
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            let networkResponse = self.processJSONResponse(data: data, response: response, error: error)
             completion(networkResponse)
         }
         task.resume()
@@ -377,5 +394,32 @@ extension NetworkService {
         }
         
         return NetworkResponse(success: success, statusCode: statusCode, json: json)
+    }
+    
+    static private func processJSONAarrayResponse(data: Data?, response: URLResponse?, error: Error?) -> NetworkResponse {
+        if let error = error {
+            return NetworkResponse(success: false, message: error.localizedDescription)
+        }
+        
+        guard let httpResponse = response as? HTTPURLResponse else {
+            return NetworkResponse(success: false, message: "Unexpected response format")
+        }
+        
+        let success = httpResponse.statusCode == 200
+        let statusCode = httpResponse.statusCode
+        var jsonArray: [[String: Any]]? = nil
+        
+        if let data = data {
+            do {
+                let jsonObject = try JSONSerialization.jsonObject(with: data, options: [])
+                if let jsonDictionary = jsonObject as? [[String: Any]] {
+                    jsonArray = jsonDictionary
+                }
+            } catch {
+                return NetworkResponse(success: false, statusCode: statusCode, message: "Error decoding JSON")
+            }
+        }
+        
+        return NetworkResponse(success: success, statusCode: statusCode, jsonArray: jsonArray)
     }
 }

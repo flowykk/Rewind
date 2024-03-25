@@ -8,18 +8,19 @@
 import UIKit
 
 final class GroupsMenuTableView: UITableView {
-    
-    private var groups: [String] = ["group1", "group2", "group3"]
+    private var groups: [Group] = []
     
     enum GroupsMenuButton: String, CaseIterable {
         case allGroups = "All groups"
         case addGroup = "Add group"
     }
     
-    var rowSelected: ((String) -> Void)?
+    var groupSelected: ((Group) -> Void)?
+    var buttonSelected: ((GroupsMenuButton) -> Void)?
     
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
+        configureData()
         commonInit()
     }
     
@@ -42,6 +43,10 @@ final class GroupsMenuTableView: UITableView {
         setHeight(height)
         setWidth(UIScreen.main.bounds.width / 2)
     }
+    
+    private func configureData() {
+        groups = DataManager.shared.getUserGroups()
+    }
 }
 
 extension GroupsMenuTableView: UITableViewDataSource {
@@ -56,7 +61,7 @@ extension GroupsMenuTableView: UITableViewDataSource {
         } else if indexPath.row == tableView.numberOfRows(inSection: 0) - 1 {
             cell.textLabel?.text = GroupsMenuButton.addGroup.rawValue
         } else {
-            cell.textLabel?.text = groups[indexPath.row - 1]
+            cell.textLabel?.text = groups[indexPath.row - 1].name
         }
         cell.textLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         return cell
@@ -66,9 +71,12 @@ extension GroupsMenuTableView: UITableViewDataSource {
 
 extension GroupsMenuTableView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let cell = tableView.cellForRow(at: indexPath) {
-            guard let text = cell.textLabel?.text else { return }
-            rowSelected?(text)
+        if indexPath.row == 0 {
+            buttonSelected?(GroupsMenuButton.allGroups)
+        } else if indexPath.row == tableView.numberOfRows(inSection: 0) - 1 {
+            buttonSelected?(GroupsMenuButton.addGroup)
+        } else {
+            groupSelected?(groups[indexPath.row - 1])
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }

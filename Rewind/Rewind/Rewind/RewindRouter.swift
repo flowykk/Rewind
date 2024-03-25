@@ -21,21 +21,14 @@ final class RewindRouter {
     
     func presentGroupsMenu() {
         let vc = GroupsMenuViewController()
-        
-        vc.rowSelectionHandler = { [weak self] row in
-            print(row)
-            vc.dismiss(animated: true)
-            if let rewindView = self?.view as? RewindViewController {
-                if row != GroupsMenuTableView.GroupsMenuButton.allGroups.rawValue && row != GroupsMenuTableView.GroupsMenuButton.addGroup.rawValue {
-                    rewindView.setCurrentGroup(to: row)
-                }
-            }
-        }
+        guard let rewindView = view as? RewindViewController else { return }
+        vc.presenter = rewindView.presenter
         
         vc.modalPresentationStyle = .popover
         
-        let height = Double((2 + 3) * 40)
-        
+        let groupsQuantity = DataManager.shared.getUserGroups().count
+        let buttonsQuantity = GroupsMenuTableView.GroupsMenuButton.allCases.count
+        let height = Double((buttonsQuantity + groupsQuantity) * 40)
         vc.preferredContentSize = CGSize(width: UIScreen.main.bounds.width / 2, height: height)
         
         vc.popoverPresentationController?.delegate = vc
@@ -43,11 +36,15 @@ final class RewindRouter {
         
         if let rewindView = view as? RewindViewController {
             let button = rewindView.showGroupsMenuButton
-            
             vc.popoverPresentationController?.sourceView = button
             vc.popoverPresentationController?.sourceRect = CGRect(x: button.bounds.midX, y: button.bounds.maxY + 2, width: 0, height: 0)
             rewindView.present(vc, animated: true)
         }
+    }
+    
+    func navigateToAllGroups() {
+        let vc = AllGroupsBuilder.build()
+        view?.navigationController?.pushViewController(vc, animated: true)
     }
     
     func navigateToAccount() {

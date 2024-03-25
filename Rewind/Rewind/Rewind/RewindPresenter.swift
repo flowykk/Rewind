@@ -83,4 +83,24 @@ final class RewindPresenter {
     func galleryButtonTapped() {
         router.navigateToGallery()
     }
+    
+    func buttonSelected(_ button: GroupsMenuTableView.GroupsMenuButton) {
+        switch button {
+        case .allGroups:
+            router.navigateToAllGroups()
+        case .addGroup:
+            print("add group")
+//        default:
+//            print("undefined")
+        }
+    }
+    
+    func groupSelected(_ group: Group) {
+        DataManager.shared.setCurrentGroup(group)
+        view?.setCurrentGroup(to: group)
+    }
+}
+
+extension RewindPresenter {
+    
 }

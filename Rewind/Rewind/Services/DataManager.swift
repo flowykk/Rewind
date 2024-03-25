@@ -36,7 +36,15 @@ final class DataManager {
         user.currentGroup = group
     }
     
+    func setUserGroups(_ groups: [Group]) {
+        user.groups = groups
+    }
+    
     // MARK: - GET methods
+    func getUserGroups() -> [Group] {
+        return user.groups
+    }
+    
     func getUser() -> User {
         return user
     }

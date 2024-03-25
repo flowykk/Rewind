@@ -8,19 +8,20 @@
 import UIKit
 
 class LoadingView {
-    static func show(in viewController: UIViewController?) {
+    static func show(in viewController: UIViewController?, backgroundColor: UIColor = UIColor(white: 0, alpha: 0.3)) {
         guard let viewController = viewController else { return }
         
         let loadingView = UIView(frame: viewController.view.bounds)
-        loadingView.backgroundColor = UIColor(white: 0, alpha: 0.3)
+        loadingView.backgroundColor = backgroundColor
         
         let activityIndicator = UIActivityIndicatorView(style: .large)
-        activityIndicator.color = .white
+        activityIndicator.color = .black
         activityIndicator.center = loadingView.center
         loadingView.addSubview(activityIndicator)
         activityIndicator.startAnimating()
         
         viewController.view.addSubview(loadingView)
+        loadingView.tag = 777
         loadingView.isUserInteractionEnabled = true
         viewController.view.isUserInteractionEnabled = false
     }
@@ -28,7 +29,11 @@ class LoadingView {
     static func hide(from viewController: UIViewController?) {
         guard let viewController = viewController else { return }
         
-        viewController.view.subviews.first(where: { $0.backgroundColor == UIColor(white: 0, alpha: 0.3) })?.removeFromSuperview()
+        viewController.view.subviews.forEach { subview in
+            if subview.tag == 777 {
+                subview.removeFromSuperview()
+            }
+        }
         viewController.view.isUserInteractionEnabled = true
     }
 }

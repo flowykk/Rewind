@@ -99,8 +99,11 @@ extension EnterPasswordPresenter {
                     self.router.navigateToRewind()
                 }
             } else {
+                print("something went wrong")
+                print("--------------------")
                 print(response.statusCode as Any)
                 print(response.message as Any)
+                print("--------------------")
             }
             DispatchQueue.main.async { [weak self] in
                 LoadingView.hide(from: self?.view)

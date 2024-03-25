@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 final class EnterGroupNamePresenter {
     private weak var view: EnterGroupNameViewController?
@@ -40,8 +41,10 @@ extension EnterGroupNamePresenter {
         if response.success {
             DispatchQueue.main.async { [weak self] in
                 self?.view?.allGroupsVCDelegate?.presenter?.addGroup(groupName: groupName)
+                let userId = UserDefaults.standard.integer(forKey: "UserId")
+                DataManager.shared.setCurrentGroup(Group(id: -1, name: groupName, ownerId: userId))
                 LoadingView.hide(from: self?.view)
-                self?.view?.dismiss(animated: true)
+                self?.router.navigateToGroup()
             }
         } else {
             print(response.statusCode as Any)
@@ -49,6 +52,7 @@ extension EnterGroupNamePresenter {
         }
         DispatchQueue.main.async { [weak self] in
             LoadingView.hide(from: self?.view)
+            self?.view?.dismiss(animated: true)
         }
     }
 }

@@ -9,6 +9,12 @@ import AVFoundation
 import UIKit
 
 extension UIImage {
+    convenience init?(base64String: String) {
+        guard let imageData = Data(base64Encoded: base64String) else {
+            return nil
+        }
+        self.init(data: imageData)
+    }
     func resize(toDimension dimension: Int) -> UIImage {
         var targetSize = CGSize(width: dimension, height: dimension)
         

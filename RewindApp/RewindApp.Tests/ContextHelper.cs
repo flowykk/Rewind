@@ -73,8 +73,8 @@ public static class ContextHelper
     {
         return _fixture
             .Build<MediaRequest>()
-            .With(req => req.Media,
-                "VGhlIHF1aWNrIGJyb3duIGZveCBqdW1wcyBvdmVyIDEzIGxhenkgZG9ncy4=")
+            .With(req => req.Object, "VGhlIHF1aWNrIGJyb3duIGZveCBqdW1wcyBvdmVyIDEzIGxhenkgZG9ncy4=")
+            .With(req => req.TinyObject, "VGhlIHF1aWNrIGJyb3duIGZveCBqdW1wcyBvdmVyIDEzIGxhenkgZG9ncy4=")
             .Create();
     }
     

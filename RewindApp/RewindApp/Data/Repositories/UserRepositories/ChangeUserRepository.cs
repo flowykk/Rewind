@@ -48,7 +48,7 @@ public class ChangeUserRepository : IChangeUserRepository
 
     public async Task<User> ChangeProfileImage(User user, int userId, MediaRequest mediaRequest)
     {
-        var rawData = Convert.FromBase64String(mediaRequest.Media);
+        var rawData = Convert.FromBase64String(mediaRequest.Object);
 
         var connectionString = DataContext.GetDbConnection();
         var connection = new MySqlConnection(connectionString);

@@ -31,11 +31,40 @@ public class GroupsController : ControllerBase, IGroupsController
     {
         IQueryable<Group> groups = _context.Groups;
 
-        if (!string.IsNullOrWhiteSpace(suffix))
-            groups = groups.Where(g => g.Name.Contains(suffix));
+       /* if (!string.IsNullOrWhiteSpace(suffix))
+            groups = groups.Where(g => g.Name.Contains(suffix));*/
 
         return await groups.ToListAsync();
         //return await _context.Groups.ToListAsync();
+    }
+    
+    [HttpGet("{groupId}/{dataSize}")]
+    public async Task<ActionResult<IEnumerable<Group>>> GetGroupInfoById(int groupId, int dataSize)
+    {
+        var group = await GetGroupById(groupId);
+        if (group == null) return BadRequest("Group not found");
+
+        var owner = await _usersController.GetUserById(group.OwnerId);
+        if (owner == null) return BadRequest("Owner not found");
+        
+        var groupMembers = await GetUsersByGroup(groupId);
+        var firstMembers = groupMembers.Value!.Take(dataSize).ToList();
+        
+        var groupMedia = await GetMediaByGroupId(groupId);
+        var firstMedia = groupMedia.Value!.Take(dataSize).ToList(); 
+        
+        var resultResponse = new GroupInfoResponse()
+        {
+            Id = group.Id,
+            DataSize = dataSize,
+            Name = group.Name,
+            Image = group.Image,
+            owner = owner,
+            FirstMedia = firstMedia,
+            FirstMembers = firstMembers
+        };
+        
+        return Ok(resultResponse);
     }
     
     [HttpGet("{userId}")]
@@ -79,7 +108,7 @@ public class GroupsController : ControllerBase, IGroupsController
         return group.Image;
     }*/
     
-    [HttpGet("media/{groupId}")]
+    /*[HttpGet("media/{groupId}")]
     public async Task<ActionResult<IEnumerable<Media>>> GetPagesMediaByGroupId(int groupId, string? sortColumn, int pageSize = 30, int pageNumber = 1)
     {
         var group = await GetGroupById(groupId);
@@ -91,7 +120,7 @@ public class GroupsController : ControllerBase, IGroupsController
         {
             "date" => media => media.Date,
             _ => media => media.Id
-        };*/
+        };
         
         var groupMedia = await groupQuery
             .Include(g => g.Media)
@@ -112,7 +141,7 @@ public class GroupsController : ControllerBase, IGroupsController
         };
         
         return Ok(resultResponse);
-    }
+    }*/
 
     [HttpGet("media")]
     public async Task<ActionResult<IEnumerable<Media>>> GetMediaByGroupId(int groupId)
@@ -151,7 +180,7 @@ public class GroupsController : ControllerBase, IGroupsController
 
         await _context.SaveChangesAsync();
 
-        return Ok("Group was created");
+        return Ok(group.Id);
     }
 
     [HttpPost("add/{groupId}/{userId}")]

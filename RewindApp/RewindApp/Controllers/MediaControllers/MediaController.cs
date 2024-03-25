@@ -45,7 +45,8 @@ public class MediaController : ControllerBase
         var group = await _groupsController.GetGroupById(groupId);
         if (group == null) return BadRequest("Group not found");
         
-        var rawData = Convert.FromBase64String(mediaRequest.Media);
+        var rawData = Convert.FromBase64String(mediaRequest.Object);
+        var tinyData = Convert.FromBase64String(mediaRequest.TinyObject);
         var date = DateTime.Now;
 
         var connectionString = DataContext.GetDbConnection();
@@ -55,11 +56,15 @@ public class MediaController : ControllerBase
         var command = new MySqlCommand()
         {
             Connection = connection,
-            CommandText = "INSERT INTO Media (Date, Photo, GroupId) VALUES (?date, ?rawData, ?groupId);"
+            CommandText = "INSERT INTO Media (Date, Object, TinyObject, GroupId) VALUES (?date, ?rawData, ?tinyData, ?groupId);"
         };
-        var fileContentParameter = new MySqlParameter("?rawData", MySqlDbType.Blob, rawData.Length)
+        var imageParameter = new MySqlParameter("?rawData", MySqlDbType.Blob, rawData.Length)
         {
             Value = rawData
+        };
+        var tinyImageParameter = new MySqlParameter("?tinyData", MySqlDbType.TinyBlob, tinyData.Length)
+        {
+            Value = tinyData
         };
         var dateParameter = new MySqlParameter("?date", MySqlDbType.DateTime)
         {
@@ -69,21 +74,22 @@ public class MediaController : ControllerBase
         {
             Value = groupId
         };
-        
-        command.Parameters.Add(fileContentParameter);
-        command.Parameters.Add(dateParameter);
-        command.Parameters.Add(groupIdParameter);
-        command.ExecuteNonQuery();
 
         var media = new Media()
         {
             Date = date,
-            Photo = rawData
+            Object = rawData
         };
         
         _context.Media.Add(media);
         group.Media.Add(media);
         await _context.SaveChangesAsync();
+        
+        command.Parameters.Add(imageParameter);
+        command.Parameters.Add(tinyImageParameter);
+        command.Parameters.Add(dateParameter);
+        command.Parameters.Add(groupIdParameter);
+        command.ExecuteNonQuery();
         
         return Ok("Media loaded");
     }

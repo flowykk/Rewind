@@ -66,8 +66,7 @@ public class ChangeGroupControllerTests
         await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
         
         // Act
-        var actionResult = await _changeGroupController.ChangeGroupImage(
-            ContextHelper.BuildTestImageRequest(), 1);
+        var actionResult = await _changeGroupController.ChangeGroupImage(ContextHelper.BuildTestImageRequest(), 1);
         var result = actionResult as ObjectResult;
         
         var changedGroup = _groupsController.GetGroupById(1).Result;

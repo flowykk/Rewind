@@ -11,6 +11,8 @@ public class User
     [Required, MaxLength(128), IgnoreDataMember] public string Password { get; set; } = string.Empty;
     [Required] public DateTime RegistrationDateTime { get; set; } = DateTime.Now;
     [Required] public byte[] ProfileImage { get; set; } = Array.Empty<byte>();
+    [Required] public byte[] TinyProfileImage { get; set; } = Array.Empty<byte>();
+    [MaxLength(128)] public string AppIcon { get; set; } = "AppIconWhite";
 
     [IgnoreDataMember] public ICollection<Group> Groups { get; set; } = new List<Group>();
 }

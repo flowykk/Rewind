@@ -60,7 +60,20 @@ public class ChangeUserController : ControllerBase
         _context.Users.Update(user);
         await _context.SaveChangesAsync();
         
-        return Ok($"Password changed");
+        return Ok("Password changed");
+    }
+
+    [HttpPut("icon/{userId}")]
+    public async Task<ActionResult> ChangeAppIcon(int userId, string newIcon)
+    {
+        var user = await _usersController.GetUserById(userId);
+        if (user == null) return BadRequest("User not found");
+
+        user.AppIcon = newIcon;
+        _context.Users.Update(user);
+        await _context.SaveChangesAsync();
+        
+        return Ok("AppIcon changed");
     }
     
     [HttpPut("image/{userId}")]
@@ -69,7 +82,8 @@ public class ChangeUserController : ControllerBase
         var user = await _usersController.GetUserById(userId);
         if (user == null) return BadRequest("User not found");
 
-        var rawData = Convert.FromBase64String(mediaRequest.Media);
+        var rawData = Convert.FromBase64String(mediaRequest.Object);
+        var tinyData = Convert.FromBase64String(mediaRequest.TinyObject);
 
         var connectionString = DataContext.GetDbConnection();
         var connection = new MySqlConnection(connectionString);
@@ -78,24 +92,29 @@ public class ChangeUserController : ControllerBase
         var command = new MySqlCommand()
         {
             Connection = connection,
-            CommandText = "UPDATE Users SET ProfileImage = @rawData WHERE Id = @userId;"
+            CommandText = "UPDATE Users SET ProfileImage = @rawData, TinyProfileImage = @tinyData WHERE Id = @userId;"
         };
-        var fileContentParameter = new MySqlParameter("?rawData", MySqlDbType.Blob, rawData.Length)
+        var imageParameter = new MySqlParameter("?rawData", MySqlDbType.Blob, rawData.Length)
         {
             Value = rawData
+        };
+        var tinyImageParameter = new MySqlParameter("?tinyData", MySqlDbType.TinyBlob, tinyData.Length)
+        {
+            Value = tinyData
         };
         var userIdParameter = new MySqlParameter("?userId", MySqlDbType.Int64)
         {
             Value = userId
         };
         
-        command.Parameters.Add(fileContentParameter);
-        command.Parameters.Add(userIdParameter);
-        command.ExecuteNonQuery();
-        
         user.ProfileImage = rawData;
         _context.Users.Update(user);
         await _context.SaveChangesAsync();
+        
+        command.Parameters.Add(imageParameter);
+        command.Parameters.Add(tinyImageParameter);
+        command.Parameters.Add(userIdParameter);
+        command.ExecuteNonQuery();
 
         return Ok("Image changed");
     }

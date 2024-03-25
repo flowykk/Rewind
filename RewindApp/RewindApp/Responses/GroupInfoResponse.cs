@@ -9,7 +9,7 @@ public class GroupInfoResponse
     public string Name { get; set; }
     public byte[] Image { get; set; }
     public User Owner { get; set; }
-    public List<User> FirstMembers { get; set; }
+    public List<User>? FirstMembers { get; set; }
     public int GallerySize { get; set; }
-    public List<Media> FirstMedia { get; set; }
+    public List<Media>? FirstMedia { get; set; }
 }

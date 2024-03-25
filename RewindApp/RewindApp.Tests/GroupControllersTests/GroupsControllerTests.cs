@@ -124,8 +124,8 @@ public class GroupsControllerTests
         await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
         
         // Act
-        var actionResult = await _groupsController.AddUserToGroup(1,2);
-        var result = actionResult as ObjectResult;
+        var actionResult = await _groupsController.AddUserToGroup(1,2, 5);
+        var result = actionResult.Result as ObjectResult;
 
         // Assert
         Assert.Equal("200", result?.StatusCode.ToString());
@@ -140,8 +140,8 @@ public class GroupsControllerTests
         await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
         
         // Act
-        var actionResult = await _groupsController.AddUserToGroup(1,1);
-        var result = actionResult as ObjectResult;
+        var actionResult = await _groupsController.AddUserToGroup(1,1, 5);
+        var result = actionResult.Result as ObjectResult;
 
         // Assert
         Assert.Equal("400", result?.StatusCode.ToString());
@@ -157,8 +157,8 @@ public class GroupsControllerTests
         await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
         
         // Act
-        var actionResult = await _groupsController.AddUserToGroup(1,3);
-        var result = actionResult as ObjectResult;
+        var actionResult = await _groupsController.AddUserToGroup(1,3, 5);
+        var result = actionResult.Result as ObjectResult;
 
         // Assert
         Assert.Equal("400", result?.StatusCode.ToString());
@@ -174,8 +174,8 @@ public class GroupsControllerTests
         await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
         
         // Act
-        var actionResult = await _groupsController.AddUserToGroup(2,1);
-        var result = actionResult as ObjectResult;
+        var actionResult = await _groupsController.AddUserToGroup(2,1, 5);
+        var result = actionResult.Result as ObjectResult;
 
         // Assert
         Assert.Equal("400", result?.StatusCode.ToString());
@@ -306,10 +306,12 @@ public class GroupsControllerTests
 
         // Act
         var actionResult = await _groupsController.GetMediaByGroupId(1);
+        var result = actionResult.Result as ObjectResult;
+        
         var group = await _groupsController.GetGroupById(1);
 
         // Assert
-        Assert.NotNull(actionResult.Value);
+        Assert.NotNull(result);
         Assert.NotEmpty(group!.Media);
     }
     
@@ -340,12 +342,12 @@ public class GroupsControllerTests
         await _mediaController.LoadMediaToGroup(ContextHelper.BuildTestImageRequest(), 1);
         
         // Act
-        var actionResult = await _groupsController.GetGroupInfoById(1, 5);
+        var actionResult = await _groupsController.GetGroupInfoById(1, 1,5);
         var result = actionResult.Result as ObjectResult;
 
         // Assert
         Assert.Equal("200", result?.StatusCode.ToString());
-        Assert.NotNull(result?.Value);
+        Assert.NotNull(result);
     }
     
     [Fact]
@@ -357,7 +359,7 @@ public class GroupsControllerTests
         await _mediaController.LoadMediaToGroup(ContextHelper.BuildTestImageRequest(), 1);
         
         // Act
-        var actionResult = await _groupsController.GetGroupInfoById(2, 5);
+        var actionResult = await _groupsController.GetGroupInfoById(2, 2,5);
         var result = actionResult.Result as ObjectResult;
 
         // Assert
@@ -376,7 +378,7 @@ public class GroupsControllerTests
         await _usersController.DeleteUserAccount(1);
         
         // Act
-        var actionResult = await _groupsController.GetGroupInfoById(1, 5);
+        var actionResult = await _groupsController.GetGroupInfoById(1, 1,5);
         var result = actionResult.Result as ObjectResult;
 
         // Assert

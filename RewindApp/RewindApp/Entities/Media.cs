@@ -11,5 +11,6 @@ public class Media
     [Required] public byte[] TinyObject { get; set; } = Array.Empty<byte>();
     
     [IgnoreDataMember] public ICollection<Tag> Tags { get; set; } = new List<Tag>();
+    [IgnoreDataMember] public ICollection<User> Users { get; set; } = new List<User>();
     [IgnoreDataMember] public Group Group { get; set; }
 }

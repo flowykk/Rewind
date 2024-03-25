@@ -43,7 +43,10 @@ public class GroupsController : ControllerBase, IGroupsController
         if (owner == null) return BadRequest("Owner not found");
         
         var groupMembers = await GetUsersByGroup(groupId);
-        var firstMembers = groupMembers.Value!.Take(dataSize).ToList();
+        var firstMembers = groupMembers.Value!
+            .Take(dataSize)
+            .Where(u => u.Id != owner.Id)
+            .ToList();
         
         var groupMedia = await GetMediaByGroupId(groupId);
         var firstMedia = groupMedia.Value!.Take(dataSize).ToList(); 
@@ -210,7 +213,6 @@ public class GroupsController : ControllerBase, IGroupsController
         var user = await _usersController.GetUserById(userId);
         if (user == null) return BadRequest("User not found");
         
-        var users = GetUsersByGroup(groupId).Result.Value;
         //if (users == null) return BadRequest("Error occured");
         
         /*group.Users.Remove(user);
@@ -221,13 +223,14 @@ public class GroupsController : ControllerBase, IGroupsController
         
         await _context.SaveChangesAsync();*/
         
+        var users = GetUsersByGroup(groupId).Result.Value;
+        
         var newUsers = users.ToList();
         newUsers.Remove(user);
         group.Users = newUsers;
         _context.Groups.Update(group);
 
         var groups = GetGroupsByUser(userId).Result.Value;
-        //if (groups == null) return BadRequest("No groups found");
         
         var newGroups = groups.ToList();
         newGroups.Remove(group);

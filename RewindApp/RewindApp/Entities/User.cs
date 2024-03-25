@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
 
 namespace RewindApp.Entities;
@@ -15,4 +16,6 @@ public class User
     [MaxLength(128)] public string AppIcon { get; set; } = "AppIconWhite";
 
     [IgnoreDataMember] public ICollection<Group> Groups { get; set; } = new List<Group>();
+    
+    [IgnoreDataMember] public ICollection<Media> Media { get; set; } = new List<Media>();
 }

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MySql.Data.MySqlClient;
 using RewindApp.Controllers.GroupControllers;
+using RewindApp.Controllers.UserControllers;
 using RewindApp.Data;
 using RewindApp.Entities;
 using RewindApp.Requests;
@@ -13,13 +14,14 @@ namespace RewindApp.Controllers.MediaControllers;
 public class MediaController : ControllerBase
 {
     private readonly DataContext _context;
-    // private readonly ILogger<MediaController> _logger;
     private readonly IGroupsController _groupsController;
+    private readonly IUsersController _usersController;
 
-    public MediaController(DataContext context) //, ILogger<MediaController> logger, IGroupsController groupsController)
+    public MediaController(DataContext context) 
     {
         _context = context;
         _groupsController = new GroupsController(context);
+        _usersController = new UsersController(context);
     }
 
     [HttpGet]
@@ -28,15 +30,57 @@ public class MediaController : ControllerBase
         return await _context.Media.ToListAsync();
     }
     
-    // may be - public async ActionResult<Media> GetMediaById(int id)
-    [HttpGet("{id}")]
+    [HttpGet("{mediaId}")]
     public async Task<ActionResult<Media>> GetMediaById(int mediaId)
     {
         var result = await _context.Media.FirstOrDefaultAsync(media => media.Id == mediaId);
         if (result == null) return BadRequest("Media not found");
         
         return result;
-        // return File(result.Photo, "application/png", "result.png");
+    }
+
+    [HttpPost("like/{userId}/{mediaId}")]
+    public async Task<ActionResult<Media>> LikeMedia(int userId, int mediaId)
+    {
+        var user = await _usersController.GetUserById(userId);
+        if (user == null) return BadRequest("User not found");
+        
+        var media = await GetMediaById(mediaId);
+        if (media.Value == null) return BadRequest("Media not found");
+
+        user.Media.Add(media.Value);
+        media.Value.Users.Add(user);
+        await _context.SaveChangesAsync();
+        
+        return Ok("ok");
+    }
+    
+    [HttpDelete("unlike/{userId}/{mediaId}")]
+    public async Task<ActionResult<Media>> UnlikeMedia(int userId, int mediaId)
+    {
+        var user = await _usersController.GetUserById(userId);
+        if (user == null) return BadRequest("User not found");
+        
+        var media = GetMediaById(mediaId).Result.Value;
+        if (media == null) return BadRequest("Media not found");
+        
+        var users = media.Users;
+        
+        var newUsers = users.ToList();
+        newUsers.Remove(user);
+        media.Users = newUsers;
+        _context.Media.Update(media);
+
+        var medias = user.Media;
+        
+        var newMedia = medias.ToList();
+        newMedia.Remove(media);
+        user.Media = newMedia;
+        _context.Users.Update(user);
+        
+        await _context.SaveChangesAsync();
+        
+        return Ok("ok");
     }
 
     [HttpPost("load/{groupId}")]

@@ -10,7 +10,7 @@ import UIKit
 final class GroupsMenuViewController: UIViewController, UIPopoverPresentationControllerDelegate {
     weak var presenter: RewindPresenter?
     
-    private let groupsMenuTable: GroupsMenuTableView = GroupsMenuTableView()
+    let groupsMenuTable: GroupsMenuTableView = GroupsMenuTableView()
     
     override func viewDidLoad() {
         super.viewDidLoad()

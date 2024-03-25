@@ -32,19 +32,21 @@ final class GroupPresenter {
     
     func getGroupBasicData() {
         LoadingView.show(in: view, backgroundColor: .systemBackground)
+        view?.disableSettingsButton()
         guard let groupId = DataManager.shared.getCurrentGroup()?.id else {
             print("group not selected")
             LoadingView.hide(from: view)
             return
         }
-        fetchGroupBasicData(groupId: groupId, membersQuantity: 4, mediaQuantity: 4)
+        let userId = UserDefaults.standard.integer(forKey: "UserId")
+        fetchGroupBasicData(groupId: groupId, userId: userId, membersQuantity: 4, mediaQuantity: 4)
     }
 }
 
 // MARK: - Network Request Funcs
 extension GroupPresenter {
-    private func fetchGroupBasicData(groupId: Int, membersQuantity: Int, mediaQuantity: Int) {
-        NetworkService.getGroupBasicData(groupId: groupId, membersQuantity: membersQuantity, mediaQuantity: mediaQuantity) { [weak self] response in
+    private func fetchGroupBasicData(groupId: Int, userId: Int, membersQuantity: Int, mediaQuantity: Int) {
+        NetworkService.getGroupBasicData(groupId: groupId, userId: userId, membersQuantity: membersQuantity, mediaQuantity: mediaQuantity) { [weak self] response in
             DispatchQueue.global().async {
                 self?.handleGetGroupBasicDataResponse(response)
             }
@@ -70,7 +72,11 @@ extension GroupPresenter {
                 let user = GroupMember(id: UserDefaults.standard.integer(forKey: "UserId"), name: UserDefaults.standard.string(forKey: "UserName") ?? "Anonymous", role: .user)
                 guard let owner = GroupMember(json: ownerJson, role: .owner) else { return }
                 
-                var members: [GroupMember] = []
+                var members: [GroupMember] = [owner]
+                
+                if user.id != owner.id {
+                    members.insert(user, at: 0)
+                }
                 
                 for memberJson in membersJsonArray {
                     if var member = GroupMember(json: memberJson, role: .member) {
@@ -84,9 +90,6 @@ extension GroupPresenter {
                     }
                 }
                 
-                print(members)
-                print("---------------------")
-                
                 let currentGroup = Group(id: groupId, name: groupName, ownerId: owner.id, image: groupImage, owner: owner, members: members)
                 DataManager.shared.setCurrentGroup(currentGroup)
                 
@@ -94,6 +97,7 @@ extension GroupPresenter {
                     self?.view?.configureData()
                     self?.membersTable?.configureData(members: members)
                     self?.view?.updateViewsHeight()
+                    self?.view?.enableSettingsButton()
                     LoadingView.hide(from: self?.view)
                 }
             } else {
@@ -104,6 +108,7 @@ extension GroupPresenter {
             print("--------------------")
             print(response.statusCode as Any)
             print(response.message as Any)
+            print(response)
             print("--------------------")
         }
         DispatchQueue.main.async { [weak self] in

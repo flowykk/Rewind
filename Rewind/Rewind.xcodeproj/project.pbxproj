@@ -73,6 +73,9 @@
 		5582783C2BB1A9BC0072424F /* GroupMemberModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5582783B2BB1A9BC0072424F /* GroupMemberModel.swift */; };
 		5582783E2BB1C4360072424F /* AddButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5582783D2BB1C4360072424F /* AddButtonCell.swift */; };
 		558278402BB1C4AA0072424F /* AllMembersButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5582783F2BB1C4AA0072424F /* AllMembersButtonCell.swift */; };
+		558278422BB1F69F0072424F /* EditGroupNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558278412BB1F69F0072424F /* EditGroupNameViewController.swift */; };
+		558278472BB1F9EC0072424F /* EditGroupNamePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558278462BB1F9EC0072424F /* EditGroupNamePresenter.swift */; };
+		558278492BB1F9F50072424F /* EditGroupNameBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558278482BB1F9F50072424F /* EditGroupNameBuilder.swift */; };
 		558D63462BB027D700B75AA6 /* CustomTransitioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558D63452BB027D700B75AA6 /* CustomTransitioning.swift */; };
 		558D63502BB099AA00B75AA6 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558D634F2BB099AA00B75AA6 /* UIImageExtension.swift */; };
 		558D63522BB09C3800B75AA6 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558D63512BB09C3800B75AA6 /* LoadingView.swift */; };
@@ -220,6 +223,9 @@
 		5582783B2BB1A9BC0072424F /* GroupMemberModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupMemberModel.swift; sourceTree = "<group>"; };
 		5582783D2BB1C4360072424F /* AddButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddButtonCell.swift; sourceTree = "<group>"; };
 		5582783F2BB1C4AA0072424F /* AllMembersButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllMembersButtonCell.swift; sourceTree = "<group>"; };
+		558278412BB1F69F0072424F /* EditGroupNameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditGroupNameViewController.swift; sourceTree = "<group>"; };
+		558278462BB1F9EC0072424F /* EditGroupNamePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditGroupNamePresenter.swift; sourceTree = "<group>"; };
+		558278482BB1F9F50072424F /* EditGroupNameBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditGroupNameBuilder.swift; sourceTree = "<group>"; };
 		558D63452BB027D700B75AA6 /* CustomTransitioning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTransitioning.swift; sourceTree = "<group>"; };
 		558D634F2BB099AA00B75AA6 /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		558D63512BB09C3800B75AA6 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
@@ -559,6 +565,7 @@
 		557A07912B99ED31002FFF40 /* GroupSettings */ = {
 			isa = PBXGroup;
 			children = (
+				558278452BB1F9D70072424F /* EditGroupName */,
 				558D634E2BB0549000B75AA6 /* Views */,
 				557A07922B99ED67002FFF40 /* GroupSettingsViewController.swift */,
 				558D63722BB0F42B00B75AA6 /* GroupSettingsPresenter.swift */,
@@ -566,6 +573,16 @@
 				558D63762BB0F48900B75AA6 /* GroupSettingsBuilder.swift */,
 			);
 			path = GroupSettings;
+			sourceTree = "<group>";
+		};
+		558278452BB1F9D70072424F /* EditGroupName */ = {
+			isa = PBXGroup;
+			children = (
+				558278412BB1F69F0072424F /* EditGroupNameViewController.swift */,
+				558278462BB1F9EC0072424F /* EditGroupNamePresenter.swift */,
+				558278482BB1F9F50072424F /* EditGroupNameBuilder.swift */,
+			);
+			path = EditGroupName;
 			sourceTree = "<group>";
 		};
 		558D63472BB02E1000B75AA6 /* Views */ = {
@@ -794,8 +811,8 @@
 		55AA39F62B9923400099DB8A /* GroupsMenu */ = {
 			isa = PBXGroup;
 			children = (
-				55AA39F92B99240E0099DB8A /* GroupsMenuTableView.swift */,
 				55AA39FB2B9927B10099DB8A /* GroupsMenuViewController.swift */,
+				55AA39F92B99240E0099DB8A /* GroupsMenuTableView.swift */,
 			);
 			path = GroupsMenu;
 			sourceTree = "<group>";
@@ -970,6 +987,7 @@
 				551509772B90999200D162CF /* EditEmailRouter.swift in Sources */,
 				556167C72B8F6BD0001AF383 /* EditPasswordBuilder.swift in Sources */,
 				5514270C2B893CBF000446E9 /* RiskyZoneTableView.swift in Sources */,
+				558278422BB1F69F0072424F /* EditGroupNameViewController.swift in Sources */,
 				558D636B2BB0E2B500B75AA6 /* GroupModel.swift in Sources */,
 				553FB2A32BA0AAD800C3E6FB /* QuoteSettingsPresenter.swift in Sources */,
 				551427042B88CBF4000446E9 /* AccountBuilder.swift in Sources */,
@@ -1005,12 +1023,14 @@
 				55AA39EA2B98FF090099DB8A /* ObjectRiskyZoneTableView.swift in Sources */,
 				5515097D2B909CE600D162CF /* EnterVerificationCodeViewController.swift in Sources */,
 				553FB2992BA0A57D00C3E6FB /* AddPhotoRouter.swift in Sources */,
+				558278492BB1F9F50072424F /* EditGroupNameBuilder.swift in Sources */,
 				550A636D2B9CCCD700CE3597 /* GalleryCollectionView.swift in Sources */,
 				55A049182B91CB3000CD9C46 /* PrimaryTableView.swift in Sources */,
 				55A326C12B8263C8007C9B74 /* EnterPasswordPresenter.swift in Sources */,
 				55A326A32B82204E007C9B74 /* EnterEmailPresenter.swift in Sources */,
 				550109892B8A36FE0005F1D5 /* AppIconModel.swift in Sources */,
 				55C3E53E2B9605ED00701BF8 /* SettingsCell.swift in Sources */,
+				558278472BB1F9EC0072424F /* EditGroupNamePresenter.swift in Sources */,
 				556167BC2B8F61D2001AF383 /* EnterAuthCodePresenter.swift in Sources */,
 				558D63612BB0B77400B75AA6 /* EnterGroupNameBuilder.swift in Sources */,
 				55AF8C712B93C9F800AC7CE0 /* RewindPresenter.swift in Sources */,
@@ -1245,7 +1265,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = MV84AF3V6Q;
+				DEVELOPMENT_TEAM = 8FRM8M93L5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Rewind/App/Info.plist;
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your photo library to save images that you download from the app.";
@@ -1275,7 +1295,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = MV84AF3V6Q;
+				DEVELOPMENT_TEAM = 8FRM8M93L5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Rewind/App/Info.plist;
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your photo library to save images that you download from the app.";

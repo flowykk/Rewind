@@ -67,6 +67,10 @@ final class GroupSettingsViewController: UIViewController {
         groupImageView.image = currentGroup?.image
         groupNameLabel.text = currentGroup?.name
     }
+    
+    func setGroupName(_ name: String) {
+        groupNameLabel.text = name
+    }
 }
 
 extension GroupSettingsViewController: UINavigationControllerDelegate {

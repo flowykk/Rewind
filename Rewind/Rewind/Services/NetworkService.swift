@@ -330,8 +330,8 @@ final class NetworkService {
         task.resume()
     }
     
-    static func getGroupBasicData(groupId: Int, membersQuantity: Int, mediaQuantity: Int, completion: @escaping (NetworkResponse) -> Void) {
-        guard let url = URL(string: appUrl + "/groups/\(groupId)/\(membersQuantity)") else {
+    static func getGroupBasicData(groupId: Int, userId: Int, membersQuantity: Int, mediaQuantity: Int, completion: @escaping (NetworkResponse) -> Void) {
+        guard let url = URL(string: appUrl + "/groups/\(groupId)/\(userId)/\(membersQuantity)") else {
             completion(NetworkResponse(success: false, message: "Wrong URL"))
             return
         }
@@ -341,6 +341,32 @@ final class NetworkService {
         
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             let networkResponse = self.processJSONResponse(data: data, response: response, error: error)
+            completion(networkResponse)
+        }
+        task.resume()
+    }
+    
+    // MARK: - Update Group Name
+    static func updateGroupName(groupId: Int, newName: String, completion: @escaping (NetworkResponse) -> Void) {
+        guard let url = URL(string: appUrl + "/change-group/name/\(groupId)") else {
+            completion(NetworkResponse(success: false, message: "Wrong URL"))
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "PUT"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        do {
+            let parameters: [String : Any] = ["name" : newName]
+            request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: [])
+        } catch {
+            completion(NetworkResponse(success: false, message: error.localizedDescription))
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            let networkResponse = self.processStringResponse(data: data, response: response, error: error)
             completion(networkResponse)
         }
         task.resume()

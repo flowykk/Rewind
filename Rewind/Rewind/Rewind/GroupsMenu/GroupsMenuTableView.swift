@@ -10,6 +10,8 @@ import UIKit
 final class GroupsMenuTableView: UITableView {
     private var groups: [Group] = []
     
+    static let rowsLimit: Int = 4
+    
     enum GroupsMenuButton: String, CaseIterable {
         case allGroups = "All groups"
         case addGroup = "Add group"
@@ -39,7 +41,8 @@ final class GroupsMenuTableView: UITableView {
         showsVerticalScrollIndicator = true
         showsHorizontalScrollIndicator = false
         
-        let height = Double((GroupsMenuButton.allCases.count + groups.count) * Int(rowHeight))
+        let rows = min(GroupsMenuTableView.rowsLimit, groups.count + GroupsMenuButton.allCases.count)
+        let height = Double((rows) * Int(rowHeight))
         setHeight(height)
         setWidth(UIScreen.main.bounds.width / 2)
     }
@@ -51,7 +54,7 @@ final class GroupsMenuTableView: UITableView {
 
 extension GroupsMenuTableView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return groups.count + GroupsMenuButton.allCases.count
+        return min(GroupsMenuTableView.rowsLimit, groups.count + GroupsMenuButton.allCases.count)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

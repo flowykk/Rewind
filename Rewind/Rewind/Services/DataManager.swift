@@ -36,8 +36,21 @@ final class DataManager {
         user.currentGroup = group
     }
     
+    func setCurrentGroupName(_ name: String) {
+        user.currentGroup?.name = name
+    }
+    
     func setUserGroups(_ groups: [Group]) {
         user.groups = groups
+    }
+    
+    func updateGroupWithName(_ groupName: String, forGroupWithId groupId: Int) {
+        for index in user.groups.indices {
+            if user.groups[index].id == groupId {
+                user.groups[index].name = groupName
+                return
+            }
+        }
     }
     
     // MARK: - GET methods

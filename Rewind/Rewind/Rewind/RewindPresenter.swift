@@ -11,6 +11,7 @@ import UIKit
 
 final class RewindPresenter {
     private weak var view: RewindViewController?
+    weak var groupsMenuTable: GroupsMenuTableView?
     private var router: RewindRouter
     
     init(view: RewindViewController?, router: RewindRouter) {

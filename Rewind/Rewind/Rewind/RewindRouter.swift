@@ -26,9 +26,11 @@ final class RewindRouter {
         
         vc.modalPresentationStyle = .popover
         
-        let groupsQuantity = DataManager.shared.getUserGroups().count
         let buttonsQuantity = GroupsMenuTableView.GroupsMenuButton.allCases.count
-        let height = Double((buttonsQuantity + groupsQuantity) * 40)
+        let groupsQuantity = DataManager.shared.getUserGroups().count
+        let totalRows = min(GroupsMenuTableView.rowsLimit, buttonsQuantity + groupsQuantity)
+        
+        let height = Double((totalRows) * 40)
         vc.preferredContentSize = CGSize(width: UIScreen.main.bounds.width / 2, height: height)
         
         vc.popoverPresentationController?.delegate = vc

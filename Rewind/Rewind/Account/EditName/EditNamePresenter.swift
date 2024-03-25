@@ -16,14 +16,15 @@ final class EditNamePresenter {
     }
     
     func updateName(with name: String) {
+        LoadingView.show(in: view)
         let userId = UserDefaults.standard.integer(forKey: "UserId")
         NetworkService.updateUserName(userId: userId, newName: name) { response in
             DispatchQueue.main.async {
                 if response.success {
-                    if response.message != nil {
-                        self.view?.delegate?.presenter?.didUpdateName(to: name)
-                        UserDefaults.standard.set(name, forKey: "UserName")
-                        self.view?.dismiss(animated: true)
+                    self.view?.delegate?.presenter?.didUpdateName(to: name)
+                    UserDefaults.standard.set(name, forKey: "UserName")
+                    self.view?.dismiss(animated: true) {
+                        LoadingView.hide(from: self.view)
                     }
                 } else {
                     print(response.message as Any)

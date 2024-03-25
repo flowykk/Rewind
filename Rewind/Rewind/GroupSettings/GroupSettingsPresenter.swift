@@ -20,15 +20,16 @@ final class GroupSettingsPresenter {
         router.navigateToGroup()
     }
     
+    func updateName(to name: String) {
+        view?.setGroupName(name)
+    }
+    
     func generalRowSelected(_ row: GroupGeneralTableView.GroupGeneralRow) {
         switch row {
         case .editGroupImage:
             print("edit image")
         case .editGroupName:
-            print("edit name")
-            //        default:
-            //            print("undefined")
-            //        }
+            router.presentEditGroupName()
         }
     }
     

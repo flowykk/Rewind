@@ -32,6 +32,11 @@ final class RewindViewController: UIViewController {
         configureData()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateCurrentGroupTitle()
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         navigationController?.delegate = self
@@ -85,6 +90,12 @@ final class RewindViewController: UIViewController {
     }
     
     func configureData() {
+        if let currentGroup = DataManager.shared.getCurrentGroup() {
+            showGroupsMenuButton.setTitle(currentGroup.name, for: .normal)
+        }
+    }
+    
+    func updateCurrentGroupTitle() {
         if let currentGroup = DataManager.shared.getCurrentGroup() {
             showGroupsMenuButton.setTitle(currentGroup.name, for: .normal)
         }

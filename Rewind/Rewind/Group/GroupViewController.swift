@@ -36,7 +36,6 @@ final class GroupViewController: UIViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        print(membersTable.contentSize)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -89,6 +88,14 @@ final class GroupViewController: UIViewController {
         groupImageView.image = currentGroup?.image
         groupNameLabel.text = currentGroup?.name
     }
+    
+    func disableSettingsButton() {
+        navigationItem.leftBarButtonItem?.isEnabled = false
+    }
+    
+    func enableSettingsButton() {
+        navigationItem.leftBarButtonItem?.isEnabled = true
+    }
 }
 
 extension GroupViewController: UINavigationControllerDelegate {
@@ -129,8 +136,14 @@ extension GroupViewController {
         let font = UIFont.systemFont(ofSize: 20, weight: .bold)
         let configuration = UIImage.SymbolConfiguration(font: font)
         let image = UIImage(systemName: "gearshape.fill", withConfiguration: configuration)
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(groupSettingsButtonTapped))
-        navigationItem.leftBarButtonItem?.tintColor = .black
+        
+        let barButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(groupSettingsButtonTapped))
+        barButtonItem.tintColor = .black
+        
+        let disabledAttributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.gray]
+        barButtonItem.setTitleTextAttributes(disabledAttributes, for: .disabled)
+        
+        navigationItem.leftBarButtonItem = barButtonItem
     }
     
     private func configureBackButton() {

@@ -90,10 +90,7 @@ extension EnterPasswordPresenter {
                 
                 if let image = json["profileImage"] as? String {
                     print(image.count)
-                    print("LALALAL")
                 }
-                
-                print(json)
                 
                 DispatchQueue.main.async {
                     self.router.navigateToRewind()

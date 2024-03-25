@@ -47,6 +47,9 @@
     &lt;TestId&gt;xUnit::5D77837C-C895-40C6-9CF0-06BFD76A1D95::net6.0::RewindApp.Tests.GroupControllersTests.ChangeGroupControllerTests.ItShould_successfully_change_group_image&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=442d1a5c_002D7adb_002D4c7d_002D957d_002Df8bc4845ac1c/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="ItShould_successfully_get_group_info_by_groupId #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;Project Location="/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Tests" Presentation="&amp;lt;RewindApp.Tests&amp;gt;" /&gt;
+&lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=4680bd9b_002D3df1_002D4bef_002Db7d8_002Da1da81e5c995/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="GroupsControllerTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;Project Location="/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Tests" Presentation="&amp;lt;RewindApp.Tests&amp;gt;" /&gt;
 &lt;/SessionState&gt;</s:String>
@@ -149,6 +152,11 @@
     &lt;TestId&gt;xUnit::5D77837C-C895-40C6-9CF0-06BFD76A1D95::net6.0::RewindApp.Tests.GroupControllersTests.GroupsControllerTests.ItShould_successfully_get_group_media_by_groupId&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=ee6e9963_002D0b25_002D4099_002Dbe8b_002D20e11290b8ae/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ItShould_successfully_get_group_info_by_groupId" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;xUnit::5D77837C-C895-40C6-9CF0-06BFD76A1D95::net6.0::RewindApp.Tests.GroupControllersTests.GroupsControllerTests.ItShould_successfully_get_group_info_by_groupId&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f09876a9_002D7a1f_002D4cc0_002Da5f8_002D3686442c7ccf/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ItShould_test" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;
     &lt;TestId&gt;xUnit::5D77837C-C895-40C6-9CF0-06BFD76A1D95::net6.0::RewindApp.Tests.MediaControllersTests.MediaControllerTests.ItShould_test&lt;/TestId&gt;
@@ -157,7 +165,7 @@
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f78ebb27_002D3696_002D4c32_002D87b0_002D45406d04ccf5/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="UserControllersTests #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;Project Location="/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Tests" Presentation="&amp;lt;RewindApp.Tests&amp;gt;" /&gt;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f88b731e_002De4cc_002D484e_002D9c8e_002D36f9dec27f2b/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="ItShould_successfully_load_media" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f88b731e_002De4cc_002D484e_002D9c8e_002D36f9dec27f2b/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ItShould_successfully_load_media" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;Solution /&gt;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=fb372f40_002D36e6_002D4269_002Dbfd9_002D16f8c940bf88/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="GroupsControllerTests #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;

@@ -27,19 +27,14 @@ public class GroupsController : ControllerBase, IGroupsController
     }
 
     [HttpGet]
-    public async Task<IEnumerable<Group>> GetGroups(string? suffix)
+    public async Task<IEnumerable<Group>> GetGroups()
     {
         IQueryable<Group> groups = _context.Groups;
-
-       /* if (!string.IsNullOrWhiteSpace(suffix))
-            groups = groups.Where(g => g.Name.Contains(suffix));*/
-
         return await groups.ToListAsync();
-        //return await _context.Groups.ToListAsync();
     }
     
     [HttpGet("{groupId}/{dataSize}")]
-    public async Task<ActionResult<IEnumerable<Group>>> GetGroupInfoById(int groupId, int dataSize)
+    public async Task<ActionResult<GroupInfoResponse>> GetGroupInfoById(int groupId, int dataSize)
     {
         var group = await GetGroupById(groupId);
         if (group == null) return BadRequest("Group not found");
@@ -59,8 +54,9 @@ public class GroupsController : ControllerBase, IGroupsController
             DataSize = dataSize,
             Name = group.Name,
             Image = group.Image,
-            owner = owner,
+            Owner = owner,
             FirstMedia = firstMedia,
+            GallerySize = groupMedia.Value!.Count(),
             FirstMembers = firstMembers
         };
         

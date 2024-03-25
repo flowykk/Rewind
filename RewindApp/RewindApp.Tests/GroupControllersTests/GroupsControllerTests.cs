@@ -9,12 +9,14 @@ namespace RewindApp.Tests.GroupControllersTests;
 public class GroupsControllerTests
 {
     private readonly DataContext _context = ContextGenerator.Generate();
+    private readonly UsersController _usersController;
     private readonly GroupsController _groupsController;
     private readonly RegisterController _registerController;
     private readonly MediaController _mediaController;
     
     public GroupsControllerTests()
     {
+        _usersController = new UsersController(_context);
         _groupsController = new GroupsController(_context);
         _registerController = new RegisterController(_context);
         _mediaController = new MediaController(_context);
@@ -75,7 +77,7 @@ public class GroupsControllerTests
         await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
         
         // Act
-        var actionResult = await _groupsController.GetGroups("");
+        var actionResult = await _groupsController.GetGroups();
         
         // Assert
         Assert.NotEmpty(actionResult);
@@ -326,6 +328,60 @@ public class GroupsControllerTests
         // Assert
         Assert.Equal("400", result?.StatusCode.ToString());
         Assert.Equal("Group not found", result?.Value);
+        Assert.Null(actionResult.Value);
+    }
+
+    [Fact]
+    public async void ItShould_successfully_get_group_info_by_groupId()
+    {
+        // Arrange
+        await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
+        await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
+        await _mediaController.LoadMediaToGroup(ContextHelper.BuildTestImageRequest(), 1);
+        
+        // Act
+        var actionResult = await _groupsController.GetGroupInfoById(1, 5);
+        var result = actionResult.Result as ObjectResult;
+
+        // Assert
+        Assert.Equal("200", result?.StatusCode.ToString());
+        Assert.NotNull(result?.Value);
+    }
+    
+    [Fact]
+    public async void ItShould_fail_to_get_group_info_with_invalid_groupId()
+    {
+        // Arrange
+        await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
+        await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
+        await _mediaController.LoadMediaToGroup(ContextHelper.BuildTestImageRequest(), 1);
+        
+        // Act
+        var actionResult = await _groupsController.GetGroupInfoById(2, 5);
+        var result = actionResult.Result as ObjectResult;
+
+        // Assert
+        Assert.Equal("400", result?.StatusCode.ToString());
+        Assert.Equal("Group not found", result?.Value);
+        Assert.Null(actionResult.Value);
+    }
+    
+    [Fact]
+    public async void ItShould_fail_to_get_group_info_with_invalid_ownerId()
+    {
+        // Arrange
+        await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
+        await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
+        await _mediaController.LoadMediaToGroup(ContextHelper.BuildTestImageRequest(), 1);
+        await _usersController.DeleteUserAccount(1);
+        
+        // Act
+        var actionResult = await _groupsController.GetGroupInfoById(1, 5);
+        var result = actionResult.Result as ObjectResult;
+
+        // Assert
+        Assert.Equal("400", result?.StatusCode.ToString());
+        Assert.Equal("Owner not found", result?.Value);
         Assert.Null(actionResult.Value);
     }
 }

@@ -163,7 +163,41 @@ public class ChangeUserControllerTests
         var result = actionResult as ObjectResult;
         
         // Assert
-        Assert.Equal("400", result.StatusCode.ToString());
-        Assert.Equal("User not found", result.Value);
+        Assert.Equal("400", result?.StatusCode.ToString());
+        Assert.Equal("User not found", result?.Value);
+    }
+    
+    [Fact]
+    public async void ItShould_successfully_change_user_appIcon_email_with_valid_userId()
+    {
+        // Arrange
+        await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
+
+        // Act
+        var actionResult = await _changeUserController.ChangeAppIcon(1, "AppIconPink");
+        var result = actionResult as ObjectResult;
+        
+        var changedUser = _context.Users.FirstOrDefault(u => u.Id == 1);
+        
+        // Assert
+        Assert.Equal("200", result?.StatusCode.ToString());
+        
+        Assert.NotNull(changedUser);
+        Assert.Equal("AppIconPink", changedUser?.AppIcon);
+    }
+    
+    [Fact]
+    public async void ItShould_fail_to_change_user_appIcon_with_invalid_userId()
+    {
+        // Arrange
+        await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
+
+        // Act
+        var actionResult = await _changeUserController.ChangeAppIcon(2, "AppIconPink");
+        var result = actionResult as ObjectResult;
+        
+        // Assert
+        Assert.Equal("400", result?.StatusCode.ToString());
+        Assert.Equal("User not found", result?.Value);
     }
 }

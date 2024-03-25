@@ -8,6 +8,7 @@
 import UIKit
 
 final class GroupGeneralTableView: UITableView {
+    weak var presenter: GroupSettingsPresenter?
     
     enum GroupGeneralRow: String, CaseIterable {
         case editGroupImage = "Edit group's image"
@@ -60,6 +61,8 @@ extension GroupGeneralTableView: UITableViewDataSource {
 
 extension GroupGeneralTableView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedRow = GroupGeneralRow.allCases[indexPath.row]
+        presenter?.generalRowSelected(selectedRow)
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }

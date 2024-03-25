@@ -11,6 +11,7 @@ final class GroupSettingsViewController: UIViewController {
     var presenter: GroupSettingsPresenter?
     
     var contentViewHeightConstraint: NSLayoutConstraint?
+    var groupRiskyZoneTableHeightConstraint: NSLayoutConstraint?
     
     private let scrollView: UIScrollView = UIScrollView()
     private let contentView: UIView = UIView()
@@ -24,8 +25,10 @@ final class GroupSettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.delegate = self
-        configureUI()
+        groupGeneralTable.presenter = presenter
+        groupRiskyZoneTable.presenter = presenter
         configureData()
+        configureUI()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -36,17 +39,25 @@ final class GroupSettingsViewController: UIViewController {
     
     @objc
     private func backButtonTapped() {
-        print("go back")
-        navigationController?.popViewController(animated: true)
+        presenter?.backButtonTapped()
     }
     
     func updateViewsHeight() {
         contentViewHeightConstraint?.isActive = false
+        groupRiskyZoneTableHeightConstraint?.isActive = false
+        
+        var groupRiskyZoneTableHeight = groupRiskyZoneTable.contentSize.height
+        
+        if groupRiskyZoneTableHeight > 0 {
+            groupRiskyZoneTableHeight -= 1
+        }
         
         let contentViewHeight = view.frame.height
         
+        groupRiskyZoneTableHeightConstraint = groupRiskyZoneTable.heightAnchor.constraint(greaterThanOrEqualToConstant: groupRiskyZoneTableHeight)
         contentViewHeightConstraint = contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: contentViewHeight)
         
+        groupRiskyZoneTableHeightConstraint?.isActive = true
         contentViewHeightConstraint?.isActive = true
         view.layoutIfNeeded()
     }

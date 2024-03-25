@@ -13,4 +13,8 @@ final class GroupSettingsRouter {
     init(view: UIViewController?) {
         self.view = view
     }
+    
+    func navigateToGroup() {
+        view?.navigationController?.popViewController(animated: true)
+    }
 }

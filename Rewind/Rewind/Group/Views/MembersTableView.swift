@@ -78,6 +78,7 @@ final class MembersTableView: UITableView {
     }
 }
 
+// MARK: - UITableViewDataSource
 extension MembersTableView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let number = members.count + (isAllMembersButtonShown ? 2 : 1)
@@ -114,6 +115,7 @@ extension MembersTableView: UITableViewDataSource {
     }
 }
 
+// MARK: - UITableViewDelegate
 extension MembersTableView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)

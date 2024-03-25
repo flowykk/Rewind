@@ -32,7 +32,8 @@ final class AllGroupsPresenter {
     }
     
     func addGroup(groupName: String) {
-        tableView?.groups.append(Group(id: -1, name: groupName, image: UIImage(named: "groupImage") ?? UIImage()))
+        let userId = UserDefaults.standard.integer(forKey: "UserId")
+        tableView?.groups.append(Group(id: -1, ownerId: userId, name: groupName, image: UIImage(named: "groupImage") ?? UIImage()))
         tableView?.reloadData()
         view?.updateViewsHeight()
     }
@@ -65,9 +66,9 @@ extension AllGroupsPresenter {
             var groups: [Group] = []
             
             for el in groupsArray {
-                if let id = el["id"] as? Int, let name = el["name"] as? String {
+                if let id = el["id"] as? Int, let ownerId = el["ownerId"] as? Int, let name = el["name"] as? String {
                     let groupImage = UIImage(named: "groupImage") ?? UIImage()
-                    groups.append(Group(id: id, name: name, image: groupImage))
+                    groups.append(Group(id: id, ownerId: ownerId, name: name, image: groupImage))
                 }
             }
             

@@ -8,6 +8,9 @@
 import UIKit
 
 final class GroupRiskyZoneTableView: UITableView {
+    weak var presenter: GroupSettingsPresenter?
+    
+    private var isDeleteButtonShown: Bool = false
     
     enum GroupRiskyZoneRow: String, CaseIterable {
         case leaveGroup = "Leave group"
@@ -33,19 +36,34 @@ final class GroupRiskyZoneTableView: UITableView {
     }
     
     private func commonInit() {
-        dataSource = self
         delegate = self
+        dataSource = self
         register(CustomTableViewCell.self, forCellReuseIdentifier: "cell")
         isScrollEnabled = false
         layer.cornerRadius = 20
         rowHeight = 50
-        setHeight(Double(Int(rowHeight) * (GroupRiskyZoneRow.allCases.count) - 1))
+        let dop = DataManager.shared.getCurrentGroup()
+        let userId = UserDefaults.standard.integer(forKey: "UserId")
+        if let ownerId = dop?.ownerId {
+            if userId == ownerId {
+                setHeight(Double(Int(rowHeight) * (2) - 1))
+                isDeleteButtonShown = true
+            } else {
+                setHeight(Double(Int(rowHeight) * (1) - 1))
+            }
+        } else {
+            setHeight(Double(Int(rowHeight) * (1) - 1))
+        }
     }
 }
 
+// MARK: - UITableViewDataSource
 extension GroupRiskyZoneTableView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return GroupRiskyZoneRow.allCases.count
+        if isDeleteButtonShown {
+            return GroupRiskyZoneRow.allCases.count
+        }
+        return GroupRiskyZoneRow.allCases.count - 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -58,8 +76,11 @@ extension GroupRiskyZoneTableView: UITableViewDataSource {
     }
 }
 
+// MARK: - UITableViewDelegate
 extension GroupRiskyZoneTableView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedRow = GroupRiskyZoneRow.allCases[indexPath.row]
+        presenter?.riskyZoneRowSelected(selectedRow)
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }

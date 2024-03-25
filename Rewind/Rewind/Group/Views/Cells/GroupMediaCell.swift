@@ -33,7 +33,7 @@ extension GroupMediaCell {
         addSubview(groupMediaView)
         groupMediaView.translatesAutoresizingMaskIntoConstraints = false
         
-        groupMediaView.contentMode = .scaleAspectFill
+        groupMediaView.contentMode = .scaleAspectFit
         groupMediaView.clipsToBounds = true
         groupMediaView.layer.cornerRadius = 15
         

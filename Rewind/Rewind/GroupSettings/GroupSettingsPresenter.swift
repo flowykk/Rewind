@@ -34,7 +34,7 @@ final class GroupSettingsPresenter {
         LoadingView.show(in: view)
         
         let bigImage = originalImage.resize(toDimension: 600)
-        let miniImage = originalImage.resize(toDimension: 250)
+        let miniImage = originalImage.resize(toDimension: 256)
         
         let bigImageData = bigImage.jpegData(compressionQuality: 1)
         let miniImageData = miniImage.jpegData(compressionQuality: 1)

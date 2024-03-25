@@ -8,12 +8,8 @@
 import UIKit
 
 final class GroupCell: UITableViewCell {
-    private let buttonImageView: UIImageView = UIImageView()
-    private let buttonLabel: UILabel = UILabel()
-    
     private let groupImageView: UIImageView = UIImageView()
     private let groupNameLabel: UILabel = UILabel()
-    
     private let chevronImageView: UIImageView = UIImageView()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -31,24 +27,30 @@ final class GroupCell: UITableViewCell {
         separatorInset = UIEdgeInsets(top: .zero, left: left, bottom: .zero, right: .zero)
     }
     
-    func configureButton(_ button: GroupsTableView.GroupsButton) {
-        buttonLabel.text = button.rawValue
-        configureButtonImageView(imageName: button.imageName)
-        configureButtonLabel()
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        groupImageView.image = nil
+        groupNameLabel.text = nil
     }
     
     func configureGroup(_ group: Group) {
         groupNameLabel.text = group.name
-        groupImageView.image = group.image
-        configureGroupImageView()
-        configureGroupNameLabel()
-        configureChevronImageView()
+        
+        if let groupImage = group.miniImage {
+            groupImageView.image = groupImage
+        } else {
+            guard let defaultImage = UIImage(named: "groupImage") else { return }
+            groupImageView.image = defaultImage
+        }
     }
 }
 
 extension GroupCell {
     private func configureUI() {
         backgroundColor = .systemGray6
+        configureGroupImageView()
+        configureGroupNameLabel()
+        configureChevronImageView()
     }
     
     private func configureGroupImageView() {
@@ -91,36 +93,5 @@ extension GroupCell {
         
         chevronImageView.pinRight(to: trailingAnchor, 12)
         chevronImageView.pinCenterY(to: centerYAnchor)
-    }
-    
-    private func configureButtonImageView(imageName: String) {
-        addSubview(buttonImageView)
-        buttonImageView.translatesAutoresizingMaskIntoConstraints = false
-        
-        buttonImageView.contentMode = .center
-        
-        let font = UIFont.systemFont(ofSize: 20, weight: .bold)
-        let configuration = UIImage.SymbolConfiguration(font: font)
-        var image = UIImage(systemName: imageName, withConfiguration: configuration)
-        image = image?.withTintColor(.black, renderingMode: .alwaysOriginal)
-        buttonImageView.image = image
-        
-        let width = UIScreen.main.bounds.width * 0.09
-        
-        buttonImageView.layer.cornerRadius = width / 2
-        
-        buttonImageView.setWidth(width)
-        buttonImageView.pinLeft(to: leadingAnchor, 12)
-        buttonImageView.pinCenterY(to: centerYAnchor)
-    }
-    
-    private func configureButtonLabel() {
-        addSubview(buttonLabel)
-        buttonLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        buttonLabel.font = UIFont.systemFont(ofSize: 18, weight: .medium)
-        
-        buttonLabel.pinLeft(to: buttonImageView.trailingAnchor, 12)
-        buttonLabel.pinCenterY(to: centerYAnchor)
     }
 }

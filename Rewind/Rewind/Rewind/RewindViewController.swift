@@ -90,8 +90,6 @@ final class RewindViewController: UIViewController {
     }
     
     func configureData() {
-        // TODO: - delete line below
-        DataManager.shared.setCurrentGroup(Group(id: 46, name: "тестГруппа", ownerId: 76))
         if let currentGroup = DataManager.shared.getCurrentGroup() {
             showGroupsMenuButton.setTitle(currentGroup.name, for: .normal)
         }

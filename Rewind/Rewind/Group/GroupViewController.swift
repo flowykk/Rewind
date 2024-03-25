@@ -25,6 +25,7 @@ final class GroupViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         presenter?.membersTable = membersTable
+        presenter?.groupMediaCollection = groupMediaCollection
         navigationController?.delegate = self
         configureUI()
     }
@@ -85,7 +86,14 @@ final class GroupViewController: UIViewController {
     
     func configureData() {
         let currentGroup = DataManager.shared.getCurrentGroup()
-        groupImageView.image = currentGroup?.bigImage
+        
+        if let bigImage = currentGroup?.bigImage {
+            groupImageView.image = bigImage
+        } else {
+            guard let defaultImage = UIImage(named: "groupImage") else { return }
+            groupImageView.image = defaultImage
+        }
+        
         groupNameLabel.text = currentGroup?.name
     }
     

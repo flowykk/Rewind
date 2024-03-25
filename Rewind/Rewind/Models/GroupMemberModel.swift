@@ -27,7 +27,7 @@ struct GroupMember {
         self.miniImage = miniImage
     }
     
-    init?(json: [String: Any], role: MemberRole) {
+    init?(json: [String : Any], role: MemberRole) {
         guard let id = json["id"] as? Int, let name = json["userName"] as? String else {
             return nil
         }

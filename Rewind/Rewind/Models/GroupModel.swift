@@ -17,4 +17,6 @@ struct Group {
     
     var owner: GroupMember?
     var members: [GroupMember]?
+    
+    var medias: [Media]?
 }

@@ -12,6 +12,11 @@ final class GroupsTableView: UITableView {
     
     var groups: [Group] = []
     
+    enum CellType {
+        case addButton
+        case group(Group)
+    }
+    
     enum GroupsButton: String, CaseIterable {
         case addGroup = "Add group"
         
@@ -35,7 +40,8 @@ final class GroupsTableView: UITableView {
     private func commonInit() {
         delegate = self
         dataSource = self
-        register(GroupCell.self, forCellReuseIdentifier: "cell")
+        register(AddGroupButtonCell.self, forCellReuseIdentifier: "AddGroupButtonCell")
+        register(GroupCell.self, forCellReuseIdentifier: "GroupCell")
         isScrollEnabled = false
         layer.cornerRadius = 20
         rowHeight = 50
@@ -49,28 +55,27 @@ extension GroupsTableView: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: GroupCell
+        let cellType = determineCellType(tableView, for: indexPath)
         
-        if indexPath.row == 0 {
-            if let buttonCell = tableView.dequeueReusableCell(withIdentifier: "cell") as? GroupCell {
-                cell = buttonCell
-            } else {
-                cell = GroupCell(style: .default, reuseIdentifier: "cell")
-            }
-            
-            cell.configureButton(.addGroup)
-        } else {
-            if let groupCell = tableView.dequeueReusableCell(withIdentifier: "groupCell") as? GroupCell {
-                cell = groupCell
-            } else {
-                cell = GroupCell(style: .default, reuseIdentifier: "groupCell")
-            }
-            
-            let group = groups[indexPath.row - 1]
-            cell.configureGroup(group)
+        switch cellType {
+        case .addButton:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "AddGroupButtonCell", for: indexPath)
+            guard let addGroupButtonCell = cell as? AddGroupButtonCell else { return cell }
+            return addGroupButtonCell
+        case .group(let group):
+            let cell = tableView.dequeueReusableCell(withIdentifier: "GroupCell", for: indexPath)
+            guard let groupCell = cell as? GroupCell else { return cell }
+            groupCell.configureGroup(group)
+            return groupCell
         }
-        
-        return cell
+    }
+    
+    private func determineCellType(_ tableView: UITableView, for indexPath: IndexPath) -> CellType {
+        if indexPath.row == 0 {
+            return .addButton
+        } else {
+            return .group(groups[indexPath.row - 1])
+        }
     }
 }
 

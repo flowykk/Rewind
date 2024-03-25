@@ -34,7 +34,6 @@ final class MemberCell: UITableViewCell {
         super.prepareForReuse()
         memberImageView.image = nil
         memberNameLabel.text = nil
-        
         ownerSignImageView.image = nil
         deleteMemberButton.setImage(nil, for: .normal)
     }
@@ -43,14 +42,11 @@ final class MemberCell: UITableViewCell {
         memberNameLabel.text = member.name
         
         if let memberImage = member.miniImage {
-            memberImageView.image = member.miniImage
+            memberImageView.image = memberImage
         } else {
             guard let defaultImage = UIImage(named: "userImage") else { return }
             memberImageView.image = defaultImage
         }
-        
-        configureMemberImageView()
-        configureMemberNameLabel()
         
         if member.role == .owner {
             configureOwnerSign()

@@ -11,6 +11,7 @@ import UIKit
 final class GroupPresenter {
     private weak var view: GroupViewController?
     weak var membersTable: MembersTableView?
+    weak var groupMediaCollection: GroupMediaCollectionView?
     private var router: GroupRouter
     
     init(view: GroupViewController?, router: GroupRouter) {
@@ -61,10 +62,10 @@ extension GroupPresenter {
             if let groupId = json["id"] as? Int,
                let groupName = json["name"] as? String,
                let ownerJson = json["owner"] as? [String: Any],
-               let membersJsonArray = json["firstMembers"] as? [[String: Any]]
+               let membersJsonArray = json["firstMembers"] as? [[String : Any]],
+               let mediaJsonArray = json["firstMedia"] as? [[String : Any]]
             {
                 var groupImage: UIImage? = nil
-                
                 if let base64String = json["image"] as? String {
                     groupImage = UIImage(base64String: base64String)
                 }
@@ -73,7 +74,6 @@ extension GroupPresenter {
                 guard let owner = GroupMember(json: ownerJson, role: .owner) else { return }
                 
                 var members: [GroupMember] = [owner]
-                
                 if user.id != owner.id {
                     members.insert(user, at: 0)
                 }
@@ -90,15 +90,24 @@ extension GroupPresenter {
                     }
                 }
                 
-                let currentGroup = Group(id: groupId, name: groupName, ownerId: owner.id, bigImage: groupImage, owner: owner, members: members)
+                var medias: [Media] = []
+                
+                for mediaJson in mediaJsonArray {
+                    if var media = Media(json: mediaJson) {
+                        medias.append(media)
+                    }
+                }
+                
+                let currentGroup = Group(id: groupId, name: groupName, ownerId: owner.id, bigImage: groupImage, owner: owner, members: members, medias: medias)
                 DataManager.shared.setCurrentGroup(currentGroup)
                 
                 DispatchQueue.main.async { [weak self] in
                     self?.view?.configureData()
                     self?.membersTable?.configureData(members: members)
+                    self?.groupMediaCollection?.configureData(medias: medias)
                     self?.view?.updateViewsHeight()
-                    self?.view?.enableSettingsButton()
                     LoadingView.hide(from: self?.view)
+                    self?.view?.enableSettingsButton()
                 }
             } else {
                 

@@ -84,11 +84,7 @@ extension MembersTableView: UITableViewDataSource {
             guard let memberCell = cell as? MemberCell else { return cell }
             memberCell.configureMember(member)
             return memberCell
-//        default:
-//            print("undefined")
         }
-        
-//        return UITableViewCell()
     }
     
     private func determineCellType(_ tableView: UITableView, for indexPath: IndexPath) -> CellType {

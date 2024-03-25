@@ -64,8 +64,11 @@ extension AllGroupsPresenter {
             
             for el in jsonArray {
                 if let id = el["id"] as? Int, let ownerId = el["ownerId"] as? Int, let name = el["name"] as? String {
-                    // TODO: get image
-                    groups.append(Group(id: id, name: name, ownerId: ownerId))
+                    var miniImage: UIImage? = nil
+                    if let imageString = el["tinyImage"] as? String {
+                        miniImage = UIImage(base64String: imageString)
+                    }
+                    groups.append(Group(id: id, name: name, ownerId: ownerId, miniImage: miniImage))
                 }
             }
             

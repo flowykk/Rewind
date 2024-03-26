@@ -12,7 +12,6 @@ final class DataManager {
     static let shared = DataManager()
     private var user = User()
     
-    // MARK: - SET methods
     func setUserProcess(_ process: User.Process) {
         user.proccess = process
     }
@@ -35,6 +34,10 @@ final class DataManager {
     
     func setCurrentGroup(_ group: Group) {
         user.currentGroup = group
+    }
+    
+    func resetCurrentGroup() {
+        user.currentGroup = nil
     }
     
     func setCurrentGroupName(_ name: String) {
@@ -72,7 +75,15 @@ final class DataManager {
         }
     }
     
-    // MARK: - GET methods
+    func removeGroupFromGroups(groupId: Int) {
+        for index in user.groups.indices {
+            if user.groups[index].id == groupId {
+                user.groups.remove(at: index)
+                return
+            }
+        }
+    }
+    
     func getUserGroups() -> [Group] {
         return user.groups
     }

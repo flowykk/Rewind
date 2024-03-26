@@ -18,6 +18,38 @@
             endingLineNumber = "25"
             landmarkName = "validateCode(_:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "505BF7FB-59EE-4EE5-9870-A34BECFE4734 - b4bd0db5459a77f9"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Rewind.EnterVerificationCodePresenter.validateCode(Swift.String) -&gt; ()"
+                  moduleName = "Rewind"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/aleksa/Rewind/Rewind/Rewind/Account/EditEmailProcess/EnterVerificationCode/EnterVerificationCodePresenter.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "25"
+                  endingLineNumber = "25"
+                  offsetFromSymbolStart = "623">
+               </Location>
+               <Location
+                  uuid = "505BF7FB-59EE-4EE5-9870-A34BECFE4734 - b4bd0db5459a77f9"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Rewind.EnterVerificationCodePresenter.validateCode(Swift.String) -&gt; ()"
+                  moduleName = "Rewind"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/aleksa/Rewind/Rewind/Rewind/Account/EditEmailProcess/EnterVerificationCode/EnterVerificationCodePresenter.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "25"
+                  endingLineNumber = "25"
+                  offsetFromSymbolStart = "500">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

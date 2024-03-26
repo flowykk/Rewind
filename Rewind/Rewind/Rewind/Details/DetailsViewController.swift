@@ -50,7 +50,7 @@ final class DetailsViewController: UIViewController {
     
     func showDeleteObjectConfirmationAlert() {
         let alertController = UIAlertController(
-            title: "Confirm Delete",
+            title: "Confirm Object Deletion",
             message: "Are you sure you want to delete this object? You will not be able to undo this action in the future",
             preferredStyle: .alert)
         let confirmAction = UIAlertAction(title: "Delete", style: .destructive) { _ in

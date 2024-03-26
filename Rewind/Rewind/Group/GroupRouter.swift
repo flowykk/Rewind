@@ -23,7 +23,7 @@ final class GroupRouter {
         view?.navigationController?.pushViewController(vc, animated: true)
     }
     
-    func navigateAllMembers() {
+    func navigateToAllMembers() {
         let vc = AllMembersBuilder.build()
         view?.navigationController?.pushViewController(vc, animated: true)
     }
@@ -31,5 +31,36 @@ final class GroupRouter {
     func navigateToGallery() {
         let vc = GalleryBuilder.build()
         view?.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func presentShareLinkViewController() {
+        print("present share link vc")
+        LoadingView.hide(from: view)
+        //        if let groupId = DataManager.shared.getCurrectGroupId() {
+        //            guard let joinLink = JoinLinkGenerator.createJoinLink(groupId: groupId, key: "777") else { return }
+        //
+        //            let vc = UIActivityViewController(activityItems: [joinLink], applicationActivities: nil)
+        //            vc.excludedActivityTypes = [.addToReadingList, .assignToContact, .print]
+        //
+        //            view?.present(vc, animated: true) { [weak self] in
+        //                LoadingView.hide(from: self?.view)
+        //            }
+        //        }
+    }
+    
+    func presentDeleteMemberConfirmationAlert(memberId: Int) {
+        let alertController = UIAlertController(
+            title: "Confirm Member Deletion",
+            message: "Are you sure you want to delete this member from group? You will not be able to undo this action in the future",
+            preferredStyle: .alert)
+        let confirmAction = UIAlertAction(title: "Delete", style: .destructive) { [weak self] _ in
+            if let groupVC = self?.view as? GroupViewController {
+                groupVC.presenter?.removeMemberFromGroup(memberId: memberId)
+            }
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        alertController.addAction(confirmAction)
+        alertController.addAction(cancelAction)
+        view?.present(alertController, animated: true)
     }
 }

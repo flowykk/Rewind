@@ -20,7 +20,7 @@ final class AllMembersRouter {
     
     func presentDeleteMemberConfirmationAlert(memberId: Int) {
         let alertController = UIAlertController(
-            title: "Confirm Delete",
+            title: "Confirm Member Deletion",
             message: "Are you sure you want to delete this member from group? You will not be able to undo this action in the future",
             preferredStyle: .alert)
         let confirmAction = UIAlertAction(title: "Delete", style: .destructive) { [weak self] _ in

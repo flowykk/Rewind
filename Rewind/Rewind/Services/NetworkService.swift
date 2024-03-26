@@ -313,26 +313,9 @@ final class NetworkService {
         task.resume()
     }
     
-    // MARK: - Delete Group
-    static func deleteGroup(withId groupId: Int, completion: @escaping (NetworkResponse) -> Void) {
-        guard let url = URL(string: appUrl + "/groups/delete/\(groupId)") else {
-            completion(NetworkResponse(success: false, message: "Wrong URL"))
-            return
-        }
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "DELETE"
-        
-        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            let networkResponse = self.processStringResponse(data: data, response: response, error: error)
-            completion(networkResponse)
-        }
-        task.resume()
-    }
-    
     // MARK: - Get Group Basic Data
     static func getGroupBasicData(groupId: Int, userId: Int, membersQuantity: Int, mediaQuantity: Int, completion: @escaping (NetworkResponse) -> Void) {
-        guard let url = URL(string: appUrl + "/groups/\(groupId)/\(userId)/\(membersQuantity)") else {
+        guard let url = URL(string: appUrl + "/groups/\(groupId)/\(userId)?dataSize=\(membersQuantity)") else {
             completion(NetworkResponse(success: false, message: "Wrong URL"))
             return
         }
@@ -341,7 +324,6 @@ final class NetworkService {
         request.httpMethod = "GET"
         
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            print(data?.count)
             let networkResponse = self.processJSONResponse(data: data, response: response, error: error)
             completion(networkResponse)
         }
@@ -402,7 +384,7 @@ final class NetworkService {
     
     // MARK: - Get Group Users
     static func getGroupMembers(groupId: Int, completion: @escaping (NetworkResponse) -> Void) {
-        guard let url = URL(string: appUrl + "/groups/users/\(groupId)") else {
+        guard let url = URL(string: appUrl + "/groups/users?groupId=\(groupId)") else {
             completion(NetworkResponse(success: false, message: "Wrong URL"))
             return
         }
@@ -412,6 +394,40 @@ final class NetworkService {
         
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             let networkResponse = self.processJSONArrayResponse(data: data, response: response, error: error)
+            completion(networkResponse)
+        }
+        task.resume()
+    }
+    
+    // MARK: - Remove Member From Group
+    static func removeMemberFromGroup(groupId: Int, memberId: Int, completion: @escaping (NetworkResponse) -> Void) {
+        guard let url = URL(string: appUrl + "/groups/delete/\(groupId)/\(memberId)") else {
+            completion(NetworkResponse(success: false, message: "Wrong URL"))
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "DELETE"
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            let networkResponse = self.processStringResponse(data: data, response: response, error: error)
+            completion(networkResponse)
+        }
+        task.resume()
+    }
+    
+    // MARK: - Delete Group
+    static func deleteGroup(groupId: Int, completion: @escaping (NetworkResponse) -> Void) {
+        guard let url = URL(string: appUrl + "/groups/delete/\(groupId)") else {
+            completion(NetworkResponse(success: false, message: "Wrong URL"))
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "DELETE"
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            let networkResponse = self.processStringResponse(data: data, response: response, error: error)
             completion(networkResponse)
         }
         task.resume()

@@ -91,8 +91,6 @@ final class RewindPresenter {
             router.navigateToAllGroups()
         case .addGroup:
             print("add group")
-//        default:
-//            print("undefined")
         }
     }
     
@@ -100,8 +98,4 @@ final class RewindPresenter {
         DataManager.shared.setCurrentGroup(group)
         view?.setCurrentGroup(to: group)
     }
-}
-
-extension RewindPresenter {
-    
 }

@@ -145,6 +145,9 @@
 		55AF8C712B93C9F800AC7CE0 /* RewindPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AF8C702B93C9F800AC7CE0 /* RewindPresenter.swift */; };
 		55AF8C732B93CA1800AC7CE0 /* RewindRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AF8C722B93CA1800AC7CE0 /* RewindRouter.swift */; };
 		55AF8C762B93CF1C00AC7CE0 /* ObjectInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AF8C752B93CF1C00AC7CE0 /* ObjectInfoView.swift */; };
+		55BAA87F2BB35DB3001839C6 /* MenuAddButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BAA87E2BB35DB3001839C6 /* MenuAddButtonCell.swift */; };
+		55BAA8812BB35DBD001839C6 /* MenuGroupCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BAA8802BB35DBD001839C6 /* MenuGroupCell.swift */; };
+		55BAA8832BB35DD6001839C6 /* MenuAllGroupsButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BAA8822BB35DD6001839C6 /* MenuAllGroupsButtonCell.swift */; };
 		55C121892B8CCA6400520718 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C121882B8CCA6400520718 /* UIViewControllerExtension.swift */; };
 		55C3E5392B95E2A300701BF8 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C3E5382B95E2A300701BF8 /* SettingsViewController.swift */; };
 		55C3E53B2B95E55D00701BF8 /* TypesTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C3E53A2B95E55D00701BF8 /* TypesTableView.swift */; };
@@ -303,6 +306,9 @@
 		55AF8C702B93C9F800AC7CE0 /* RewindPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewindPresenter.swift; sourceTree = "<group>"; };
 		55AF8C722B93CA1800AC7CE0 /* RewindRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewindRouter.swift; sourceTree = "<group>"; };
 		55AF8C752B93CF1C00AC7CE0 /* ObjectInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectInfoView.swift; sourceTree = "<group>"; };
+		55BAA87E2BB35DB3001839C6 /* MenuAddButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuAddButtonCell.swift; sourceTree = "<group>"; };
+		55BAA8802BB35DBD001839C6 /* MenuGroupCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuGroupCell.swift; sourceTree = "<group>"; };
+		55BAA8822BB35DD6001839C6 /* MenuAllGroupsButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuAllGroupsButtonCell.swift; sourceTree = "<group>"; };
 		55C121882B8CCA6400520718 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
 		55C3E5382B95E2A300701BF8 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		55C3E53A2B95E55D00701BF8 /* TypesTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypesTableView.swift; sourceTree = "<group>"; };
@@ -452,7 +458,6 @@
 		551427112B8944A1000446E9 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				558D63512BB09C3800B75AA6 /* LoadingView.swift */,
 				558D63452BB027D700B75AA6 /* CustomTransitioning.swift */,
 				55A326932B820701007C9B74 /* UIViewPin.swift */,
 				55C121882B8CCA6400520718 /* UIViewControllerExtension.swift */,
@@ -619,10 +624,10 @@
 		558D63482BB02E2F00B75AA6 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				557A078F2B99D835002FFF40 /* MemberCell.swift */,
-				557A078D2B99CF8B002FFF40 /* GroupMediaCell.swift */,
 				5582783D2BB1C4360072424F /* AddButtonCell.swift */,
+				557A078F2B99D835002FFF40 /* MemberCell.swift */,
 				5582783F2BB1C4AA0072424F /* AllMembersButtonCell.swift */,
+				557A078D2B99CF8B002FFF40 /* GroupMediaCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -740,6 +745,7 @@
 				55A3266B2B81F8FC007C9B74 /* ViewController.swift */,
 				55A326722B81F8FE007C9B74 /* LaunchScreen.storyboard */,
 				551426FA2B88CAAB000446E9 /* Models */,
+				55BAA87D2BB340F7001839C6 /* CommonViews */,
 				551427112B8944A1000446E9 /* Utils */,
 				55AA39F52B9911CB0099DB8A /* Protocols */,
 				551426FB2B88CAD5000446E9 /* Services */,
@@ -838,6 +844,7 @@
 		55AA39F62B9923400099DB8A /* GroupsMenu */ = {
 			isa = PBXGroup;
 			children = (
+				55BAA8842BB35DFD001839C6 /* Cells */,
 				55AA39FB2B9927B10099DB8A /* GroupsMenuViewController.swift */,
 				55AA39F92B99240E0099DB8A /* GroupsMenuTableView.swift */,
 			);
@@ -866,6 +873,24 @@
 				55AF8C752B93CF1C00AC7CE0 /* ObjectInfoView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		55BAA87D2BB340F7001839C6 /* CommonViews */ = {
+			isa = PBXGroup;
+			children = (
+				558D63512BB09C3800B75AA6 /* LoadingView.swift */,
+			);
+			path = CommonViews;
+			sourceTree = "<group>";
+		};
+		55BAA8842BB35DFD001839C6 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				55BAA87E2BB35DB3001839C6 /* MenuAddButtonCell.swift */,
+				55BAA8802BB35DBD001839C6 /* MenuGroupCell.swift */,
+				55BAA8822BB35DD6001839C6 /* MenuAllGroupsButtonCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		55C3E5372B95E27500701BF8 /* Settings */ = {
@@ -1038,6 +1063,7 @@
 				55C3E5412B96227800701BF8 /* PropertiesTableView.swift in Sources */,
 				558D63522BB09C3800B75AA6 /* LoadingView.swift in Sources */,
 				557A2DCD2B97C37900ACA400 /* TagsCollectionView.swift in Sources */,
+				55BAA87F2BB35DB3001839C6 /* MenuAddButtonCell.swift in Sources */,
 				558D63562BB0B2BE00B75AA6 /* AllGroupsBuilder.swift in Sources */,
 				55A326C52B8263D9007C9B74 /* EnterPasswordBuilder.swift in Sources */,
 				55DFB5FA2BAB0D9900527800 /* PreviewObjectViewController.swift in Sources */,
@@ -1059,6 +1085,7 @@
 				55967FE62BB27CCE0054D1BB /* AllMembersPresenter.swift in Sources */,
 				550109892B8A36FE0005F1D5 /* AppIconModel.swift in Sources */,
 				55C3E53E2B9605ED00701BF8 /* SettingsCell.swift in Sources */,
+				55BAA8832BB35DD6001839C6 /* MenuAllGroupsButtonCell.swift in Sources */,
 				558278472BB1F9EC0072424F /* EditGroupNamePresenter.swift in Sources */,
 				556167BC2B8F61D2001AF383 /* EnterAuthCodePresenter.swift in Sources */,
 				558D63612BB0B77400B75AA6 /* EnterGroupNameBuilder.swift in Sources */,
@@ -1153,6 +1180,7 @@
 				55EFC5ED2B94B0CD00E82D20 /* UserDefaultsExtension.swift in Sources */,
 				55967FE82BB27CF00054D1BB /* AllMembersBuilder.swift in Sources */,
 				551509732B90984100D162CF /* EditEmailViewController.swift in Sources */,
+				55BAA8812BB35DBD001839C6 /* MenuGroupCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1297,7 +1325,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = MV84AF3V6Q;
+				DEVELOPMENT_TEAM = 8FRM8M93L5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Rewind/App/Info.plist;
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your photo library to save images that you download from the app.";
@@ -1311,7 +1339,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "site.aleksa-.Rewind";
+				PRODUCT_BUNDLE_IDENTIFIER = site.aleksa.Rewind;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1327,7 +1355,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = MV84AF3V6Q;
+				DEVELOPMENT_TEAM = 8FRM8M93L5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Rewind/App/Info.plist;
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your photo library to save images that you download from the app.";
@@ -1341,7 +1369,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "site.aleksa-.Rewind";
+				PRODUCT_BUNDLE_IDENTIFIER = site.aleksa.Rewind;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

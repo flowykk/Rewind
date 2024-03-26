@@ -18,6 +18,17 @@ final class GalleryRouter {
         view?.navigationController?.popViewController(animated: true)
     }
     
+    func navigateToRewind() {
+        if let navigationController = view?.navigationController {
+            for viewController in navigationController.viewControllers {
+                if viewController is RewindViewController {
+                    navigationController.popToViewController(viewController, animated: true)
+                    break
+                }
+            }
+        }
+    }
+    
     func presentObjectsMenu() {
         let vc = ObjectsMenuViewController()
         

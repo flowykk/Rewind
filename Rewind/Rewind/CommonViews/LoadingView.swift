@@ -7,7 +7,7 @@
 
 import UIKit
 
-class LoadingView {
+final class LoadingView {
     static func show(in viewController: UIViewController?, backgroundColor: UIColor = UIColor(white: 0, alpha: 0.3)) {
         guard let viewController = viewController else { return }
         
@@ -24,6 +24,9 @@ class LoadingView {
         loadingView.tag = 777
         loadingView.isUserInteractionEnabled = true
         viewController.view.isUserInteractionEnabled = false
+        
+        viewController.navigationItem.leftBarButtonItem?.isEnabled = false
+        viewController.navigationItem.rightBarButtonItem?.isEnabled = false
     }
     
     static func hide(from viewController: UIViewController?) {
@@ -34,6 +37,10 @@ class LoadingView {
                 subview.removeFromSuperview()
             }
         }
+        
         viewController.view.isUserInteractionEnabled = true
+        
+        viewController.navigationItem.leftBarButtonItem?.isEnabled = true
+        viewController.navigationItem.rightBarButtonItem?.isEnabled = true
     }
 }

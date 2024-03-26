@@ -20,6 +20,10 @@ final class GalleryPresenter {
         router.navigateBack()
     }
     
+    func galleryBackButtonTapped() {
+        router.navigateToRewind()
+    }
+    
     func addButtonTapped() {
         router.presentObjectsMenu()
     }

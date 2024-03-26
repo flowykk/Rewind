@@ -25,7 +25,26 @@ final class GroupSettingsPresenter {
         view?.setGroupName(name)
     }
     
+    func generalRowSelected(_ row: GroupGeneralTableView.GroupGeneralRow) {
+        switch row {
+        case .editGroupImage:
+            router.presentEditImageAlert()
+        case .editGroupName:
+            router.presentEditGroupName()
+        }
+    }
+    
+    func riskyZoneRowSelected(_ row: GroupRiskyZoneTableView.GroupRiskyZoneRow) {
+        switch row {
+        case .leaveGroup:
+            router.presentLeaveGroupConfirmationAlert()
+        case .deleteGroup:
+            router.presentDeleteGroupConfirmationAlert()
+        }
+    }
+    
     func openPhotoLibraryButtonTapped() {
+        LoadingView.show(in: view)
         router.presentImagePicker()
     }
     
@@ -43,22 +62,15 @@ final class GroupSettingsPresenter {
         }
     }
     
-    func generalRowSelected(_ row: GroupGeneralTableView.GroupGeneralRow) {
-        switch row {
-        case .editGroupImage:
-            router.presentEditImageAlert()
-        case .editGroupName:
-            router.presentEditGroupName()
-        }
+    func removeUserFromGroup() {
+        LoadingView.show(in: view)
+        let userId = UserDefaults.standard.integer(forKey: "UserId")
+        requestRemoveUserFromGroup(userId: userId)
     }
     
-    func riskyZoneRowSelected(_ row: GroupRiskyZoneTableView.GroupRiskyZoneRow) {
-        switch row {
-        case .leaveGroup:
-            print("leave group")
-        case .deleteGroup:
-            print("delete group")
-        }
+    func deleteGroup() {
+        LoadingView.show(in: view)
+        requestDeleteGroup()
     }
 }
 
@@ -75,6 +87,22 @@ extension GroupSettingsPresenter {
             }
         }
     }
+    
+    private func requestRemoveUserFromGroup(userId: Int) {
+        guard let groupId = DataManager.shared.getCurrentGroup()?.id else { return }
+        NetworkService.removeMemberFromGroup(groupId: groupId, memberId: userId) { [weak self] response in
+            DispatchQueue.main.async {
+                self?.handleRemoveMemberFromGroupResponse(response, groupId: groupId)
+            }
+        }
+    }
+    
+    private func requestDeleteGroup() {
+        guard let groupId = DataManager.shared.getCurrectGroupId() else { return }
+        NetworkService.deleteGroup(groupId: groupId) { [weak self] response in
+            self?.handleDeleteGroupResponse(response, groupId: groupId)
+        }
+    }
 }
 
 // MARK: - Network Response Handlers
@@ -86,6 +114,40 @@ extension GroupSettingsPresenter {
             DataManager.shared.updateGroupWithImage(bigImageData: bigImageData, miniImageData: miniImageData, forGroupWithId: groupId)
             DispatchQueue.main.async { [weak self] in
                 self?.view?.setGroupImage(to: bigImageData)
+                LoadingView.hide(from: self?.view)
+            }
+        } else {
+            print("something went wrong")
+            print(response)
+        }
+        DispatchQueue.main.async { [weak self] in
+            LoadingView.hide(from: self?.view)
+        }
+    }
+    
+    private func handleRemoveMemberFromGroupResponse(_ response: NetworkResponse, groupId: Int) {
+        if response.success {
+            DataManager.shared.removeGroupFromGroups(groupId: groupId)
+            DataManager.shared.resetCurrentGroup()
+            DispatchQueue.main.async { [weak self] in
+                self?.router.navigateToRewind()
+                LoadingView.hide(from: self?.view)
+            }
+        } else {
+            print("something went wrong")
+            print(response)
+        }
+        DispatchQueue.main.async { [weak self] in
+            LoadingView.hide(from: self?.view)
+        }
+    }
+    
+    private func handleDeleteGroupResponse(_ response: NetworkResponse, groupId: Int) {
+        if response.success {
+            DataManager.shared.removeGroupFromGroups(groupId: groupId)
+            DataManager.shared.resetCurrentGroup()
+            DispatchQueue.main.async { [weak self] in
+                self?.router.navigateToRewind()
                 LoadingView.hide(from: self?.view)
             }
         } else {

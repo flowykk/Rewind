@@ -106,7 +106,7 @@ final class AccountViewController: UIViewController {
     
     func showDeleteAccountConfirmationAlert() {
         let alertController = UIAlertController(
-            title: "Confirm Delete",
+            title: "Confirm Account Deletion",
             message: "Are you sure you want to delete your account? You will not be able to undo this action in the future",
             preferredStyle: .alert)
         let confirmAction = UIAlertAction(title: "Delete", style: .destructive) { _ in

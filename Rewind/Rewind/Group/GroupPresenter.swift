@@ -34,23 +34,33 @@ final class GroupPresenter: AllMembersTablePresenterProtocol {
     func rowSelected(_ row: MembersTableView.CellType) {
         switch row {
         case .addButton:
-            print("add user")
+            LoadingView.show(in: view)
+            router.presentShareLinkViewController()
         case .allMembersButton:
-            router.navigateAllMembers()
+            router.navigateToAllMembers()
         default:
             print("member selected")
         }
     }
     
     func deleteMemberButtonTapped(memberId: Int) {
-        print("delete user with id: \(memberId)")
+        router.presentDeleteMemberConfirmationAlert(memberId: memberId)
+    }
+    
+    func removeMemberFromGroup(memberId: Int) {
+        LoadingView.show(in: view, backgroundColor: view?.view.backgroundColor ?? .systemBackground)
+        if let groupId = DataManager.shared.getCurrectGroupId() {
+            requestRemoveMemberFromGroup(groupId: groupId, memberId: memberId)
+        } else {
+            LoadingView.hide(from: view)
+        }
     }
     
     func getGroupBasicData() {
         LoadingView.show(in: view, backgroundColor: .systemBackground)
         view?.disableSettingsButton()
         guard let groupId = DataManager.shared.getCurrentGroup()?.id else {
-            print("group not selected")
+            router.navigateToRewind()
             LoadingView.hide(from: view)
             return
         }
@@ -68,6 +78,14 @@ extension GroupPresenter {
             }
         }
     }
+    
+    private func requestRemoveMemberFromGroup(groupId: Int, memberId: Int) {
+        NetworkService.removeMemberFromGroup(groupId: groupId, memberId: memberId) { [weak self] response in
+            DispatchQueue.global().async {
+                self?.handleDeleteMemberFromGroupResponse(response, memberId: memberId)
+            }
+        }
+    }
 }
 
 // MARK: - Network Response Handlers
@@ -76,7 +94,7 @@ extension GroupPresenter {
         if response.success, let json = response.json {
             if let groupId = json["id"] as? Int,
                let groupName = json["name"] as? String,
-               let ownerJson = json["owner"] as? [String: Any],
+               let ownerJson = json["owner"] as? [String : Any],
                let membersJsonArray = json["firstMembers"] as? [[String : Any]],
                let mediaJsonArray = json["firstMedia"] as? [[String : Any]]
             {
@@ -85,7 +103,11 @@ extension GroupPresenter {
                     groupImage = UIImage(base64String: base64String)
                 }
                 
-                let user = GroupMember(id: UserDefaults.standard.integer(forKey: "UserId"), name: UserDefaults.standard.string(forKey: "UserName") ?? "Anonymous", role: .user)
+                let userId = UserDefaults.standard.integer(forKey: "UserId")
+                let userName = UserDefaults.standard.string(forKey: "UserName") ?? "Anonymous"
+                let userImage = UserDefaults.standard.image(forKey: "UserImage")
+                
+                let user = GroupMember(id: userId, name: userName, role: .user, miniImage: userImage)
                 guard let owner = GroupMember(json: ownerJson, role: .owner) else { return }
                 
                 var members: [GroupMember] = [owner]
@@ -131,11 +153,24 @@ extension GroupPresenter {
             }
         } else {
             print("something went wrong")
-            print("--------------------")
-            print(response.statusCode as Any)
-            print(response.message as Any)
             print(response)
-            print("--------------------")
+        }
+        DispatchQueue.main.async { [weak self] in
+            LoadingView.hide(from: self?.view)
+        }
+    }
+    
+    private func handleDeleteMemberFromGroupResponse(_ response: NetworkResponse, memberId: Int) {
+        if response.success {
+            membersTable?.members.removeAll { $0.id == memberId }
+            DispatchQueue.main.async { [weak self] in
+                self?.membersTable?.reloadData()
+                self?.view?.updateViewsHeight()
+                LoadingView.hide(from: self?.view)
+            }
+        } else {
+            print("something went wrong")
+            print(response)
         }
         DispatchQueue.main.async { [weak self] in
             LoadingView.hide(from: self?.view)

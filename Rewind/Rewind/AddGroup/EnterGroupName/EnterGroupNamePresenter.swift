@@ -47,8 +47,8 @@ extension EnterGroupNamePresenter {
                 self?.router.navigateToGroup()
             }
         } else {
-            print(response.statusCode as Any)
-            print(response.message as Any)
+            print("Error:   handleCreateGroupResponse")
+            print(response)
         }
         DispatchQueue.main.async { [weak self] in
             LoadingView.hide(from: self?.view)

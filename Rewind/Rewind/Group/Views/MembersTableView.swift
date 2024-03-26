@@ -26,15 +26,6 @@ final class MembersTableView: UITableView {
     enum MembersButton: String, CaseIterable {
         case addMember = "Add member"
         case allMembers = "All members"
-        
-        var imageName: String {
-            switch self {
-            case .addMember:
-                return "person.fill.badge.plus"
-            case .allMembers:
-                return "eye.fill"
-            }
-        }
     }
     
     override init(frame: CGRect, style: UITableView.Style) {
@@ -70,7 +61,7 @@ extension MembersTableView: UITableViewDataSource {
         rows -= isAllMembersButtonShown ? 0 : 1
         return rows
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellType = determineCellType(tableView, for: indexPath)
         

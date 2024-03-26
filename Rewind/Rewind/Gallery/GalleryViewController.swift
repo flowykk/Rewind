@@ -31,6 +31,11 @@ final class GalleryViewController: UIViewController {
     }
     
     @objc
+    private func galleryBackButtonTapped() {
+        presenter?.galleryBackButtonTapped()
+    }
+    
+    @objc
     private func addButtonTapped() {
         presenter?.addButtonTapped()
     }
@@ -98,19 +103,19 @@ extension GalleryViewController {
         view.addSubview(galleryBackButton)
         galleryBackButton.translatesAutoresizingMaskIntoConstraints = false
         
-        let font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        let font = UIFont.systemFont(ofSize: 18, weight: .bold)
         let configuration = UIImage.SymbolConfiguration(font: font)
         let image = UIImage(systemName: "forward.fill", withConfiguration: configuration)
         galleryBackButton.setImage(image, for: .normal)
         
         galleryBackButton.tintColor = .customPink
         galleryBackButton.backgroundColor = .systemBackground
-        galleryBackButton.layer.cornerRadius = UIScreen.main.bounds.width / 6 / 2
+        galleryBackButton.layer.cornerRadius = UIScreen.main.bounds.width / 7 / 2
         
-        galleryBackButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+        galleryBackButton.addTarget(self, action: #selector(galleryBackButtonTapped), for: .touchUpInside)
         
-        galleryBackButton.setWidth(UIScreen.main.bounds.width / 6)
-        galleryBackButton.setHeight(UIScreen.main.bounds.width / 6)
+        galleryBackButton.setWidth(UIScreen.main.bounds.width / 7)
+        galleryBackButton.setHeight(UIScreen.main.bounds.width / 7)
         galleryBackButton.pinBottom(to: view.bottomAnchor, 50)
         galleryBackButton.pinCenterX(to: view.centerXAnchor)
     }

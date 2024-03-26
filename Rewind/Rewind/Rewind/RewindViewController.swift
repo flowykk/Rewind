@@ -30,7 +30,6 @@ final class RewindViewController: UIViewController {
         super.viewDidLoad()
         navigationController?.delegate = self
         configureUI()
-        configureUIForCurrentGroup()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -102,6 +101,8 @@ final class RewindViewController: UIViewController {
             }
         } else {
             goToGroupButton.isEnabled = false
+            showGroupsMenuButton.setTitle(nil, for: .normal)
+            groupImageView.image = nil
         }
     }
     

@@ -3,16 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>rewindapp</string>
-			</array>
-		</dict>
-	</array>
+	<array/>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

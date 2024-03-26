@@ -20,7 +20,7 @@ final class AllGroupsPresenter {
     
     func getUserGroups() {
         LoadingView.show(in: view)
-        fetchUserGroups()
+        requestUserGroups()
     }
     
     func backButtonTapped() {
@@ -46,7 +46,7 @@ final class AllGroupsPresenter {
 
 // MARK: - Network Request Funcs
 extension AllGroupsPresenter {
-    private func fetchUserGroups() {
+    private func requestUserGroups() {
         let userId = UserDefaults.standard.integer(forKey: "UserId")
         NetworkService.getUserGroups(userId: userId) { [weak self] response in
             DispatchQueue.global().async {

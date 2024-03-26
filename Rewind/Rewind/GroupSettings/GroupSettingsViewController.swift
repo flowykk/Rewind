@@ -91,6 +91,8 @@ extension GroupSettingsViewController: UINavigationControllerDelegate {
         case .pop:
             if toVC is GroupViewController {
                 return PopTransitioning()
+            } else if toVC is RewindViewController {
+                return PopTransitioning()
             }
         default:
             return nil

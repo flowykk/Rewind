@@ -22,7 +22,7 @@ final class AllMembersPresenter: AllMembersTablePresenterProtocol {
     }
     
     func rowSelected(_ row: MembersTableView.CellType) {
-//        if row == .addButton
+        //        if row == .addButton
     }
     
     func deleteMemberButtonTapped(memberId: Int) {
@@ -31,10 +31,11 @@ final class AllMembersPresenter: AllMembersTablePresenterProtocol {
     
     func deleteMember(withId memberId: Int) {
         LoadingView.show(in: view, backgroundColor: view?.view.backgroundColor ?? .systemBackground)
-        
-//        membersTable?.members.removeAll { $0.id == userId }
-//        membersTable?.reloadData()
-//        view?.updateViewsHeight()
+        if let groupId = DataManager.shared.getCurrectGroupId() {
+            requestDeleteMember(groupId: groupId, memberId: memberId)
+        } else {
+            LoadingView.hide(from: view)
+        }
     }
     
     func getGroupMembers() {
@@ -57,8 +58,12 @@ extension AllMembersPresenter {
         }
     }
     
-    private func requestDeleteMember(memberId: Int) {
-        
+    private func requestDeleteMember(groupId: Int, memberId: Int) {
+        NetworkService.removeMemberFromGroup(groupId: groupId, memberId: memberId) { [weak self] response in
+            DispatchQueue.global().async {
+                self?.handleDeleteMemberFromGroupResponse(response, memberId: memberId)
+            }
+        }
     }
 }
 
@@ -66,17 +71,17 @@ extension AllMembersPresenter {
 extension AllMembersPresenter {
     private func handleGetGroupMembersResponse(_ response: NetworkResponse) {
         if response.success, let jsonArray = response.jsonArray {
-            let user = GroupMember(id: UserDefaults.standard.integer(forKey: "UserId"), name: UserDefaults.standard.string(forKey: "UserName") ?? "Anonymous", role: .user)
-            guard let owner = DataManager.shared.getCurrentGroup()?.owner else { return }
+            let userId = UserDefaults.standard.integer(forKey: "UserId")
+            guard let ownerId = DataManager.shared.getCurrentGroup()?.owner?.id else { return }
             
             var members: [GroupMember] = []
             
             for memberJson in jsonArray {
                 if var member = GroupMember(json: memberJson, role: .member) {
-                    if member.id == user.id {
+                    if member.id == userId {
                         member.role = .user
                     }
-                    if member.id == owner.id {
+                    if member.id == ownerId {
                         member.role = .owner
                     }
                     members.append(member)
@@ -99,6 +104,23 @@ extension AllMembersPresenter {
                 LoadingView.hide(from: self?.view)
             }
         } else {
+            print(response)
+        }
+        DispatchQueue.main.async { [weak self] in
+            LoadingView.hide(from: self?.view)
+        }
+    }
+    
+    private func handleDeleteMemberFromGroupResponse(_ response: NetworkResponse, memberId: Int) {
+        if response.success {
+            membersTable?.members.removeAll { $0.id == memberId }
+            DispatchQueue.main.async { [weak self] in
+                self?.membersTable?.reloadData()
+                self?.view?.updateViewsHeight()
+                LoadingView.hide(from: self?.view)
+            }
+        } else {
+            print("something went wrong")
             print(response)
         }
         DispatchQueue.main.async { [weak self] in

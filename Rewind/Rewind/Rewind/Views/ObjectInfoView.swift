@@ -20,6 +20,16 @@ final class ObjectInfoView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    func configureUIForCurrentGroup() {
+        if let currentGroup = DataManager.shared.getCurrentGroup() {
+            print(currentGroup)
+        } else {
+            authorImageView.image = nil
+            authorNameLabel.text = nil
+            dateObjectAddedLabel.text = nil
+        }
+    }
 }
 
 extension ObjectInfoView {

@@ -128,7 +128,7 @@ extension MemberCell {
         
         deleteMemberButton.addTarget(self, action: #selector(deleteMemberButtonTapped), for: .touchUpInside)
         
-        deleteMemberButton.pinRight(to: trailingAnchor, 14)
+        deleteMemberButton.pinRight(to: trailingAnchor, 14.75)
         deleteMemberButton.pinCenterY(to: centerYAnchor)
     }
 }

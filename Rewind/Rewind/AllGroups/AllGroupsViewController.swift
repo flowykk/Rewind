@@ -25,6 +25,12 @@ final class AllGroupsViewController: UIViewController {
         presenter?.tableView = groupsTable
         configureUI()
         presenter?.getUserGroups()
+        print("AllGroupsVC Did Load")
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        print("AllGroupsVC Will Appear")
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -155,4 +161,3 @@ extension AllGroupsViewController {
         groupsTable.pinRight(to: contentView.trailingAnchor, 20)
     }
 }
-

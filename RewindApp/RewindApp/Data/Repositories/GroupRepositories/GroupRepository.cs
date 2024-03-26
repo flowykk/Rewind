@@ -1,17 +1,23 @@
 using Microsoft.EntityFrameworkCore;
+using RewindApp.Controllers.GroupControllers;
+using RewindApp.Controllers.UserControllers;
 using RewindApp.Entities;
 using RewindApp.Interfaces.GroupInterfaces;
 using RewindApp.Requests;
+using RewindApp.Responses;
+using RewindApp.Views;
 
 namespace RewindApp.Data.Repositories.GroupRepositories;
 
 public class GroupRepository : IGroupRepository
 {
     private readonly DataContext _context;
+    private readonly GroupsController _groupsController;
 
     public GroupRepository(DataContext context)
     {
         _context = context;
+        _groupsController = new GroupsController(context);
     }
     
     public async Task<IEnumerable<Group>> GetGroupsAsync()

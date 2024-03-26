@@ -2,6 +2,7 @@ using System.Data.Common;
 using Microsoft.EntityFrameworkCore;
 using MySql.Data.MySqlClient;
 using RewindApp.Entities;
+using RewindApp.Views;
 
 namespace RewindApp.Data;
 
@@ -24,5 +25,7 @@ public class DataContext : DbContext
     public DbSet<User> Users => Set<User>();
     public DbSet<Group> Groups => Set<Group>(); 
     public DbSet<Media> Media => Set<Media>();
+    public DbSet<MediaView> MediaViews => Set<MediaView>();
+    public DbSet<UserView> UserViews => Set<UserView>();
     public DbSet<Tag> Tags => Set<Tag>();
 }

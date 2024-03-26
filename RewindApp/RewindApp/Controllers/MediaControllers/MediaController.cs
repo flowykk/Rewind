@@ -39,8 +39,8 @@ public class MediaController : ControllerBase
         return result;
     }
 
-    [HttpPost("like/{userId}/{mediaId}")]
-    public async Task<ActionResult<Media>> LikeMedia(int userId, int mediaId)
+   // [HttpPost("like/{userId}/{mediaId}")]
+    /*public async Task<ActionResult<Media>> LikeMedia(int userId, int mediaId)
     {
         var user = await _usersController.GetUserById(userId);
         if (user == null) return BadRequest("User not found");
@@ -53,35 +53,7 @@ public class MediaController : ControllerBase
         await _context.SaveChangesAsync();
         
         return Ok("ok");
-    }
-    
-    [HttpDelete("unlike/{userId}/{mediaId}")]
-    public async Task<ActionResult<Media>> UnlikeMedia(int userId, int mediaId)
-    {
-        var user = await _usersController.GetUserById(userId);
-        if (user == null) return BadRequest("User not found");
-        
-        var media = GetMediaById(mediaId).Result.Value;
-        if (media == null) return BadRequest("Media not found");
-        
-        var users = media.Users;
-        
-        var newUsers = users.ToList();
-        newUsers.Remove(user);
-        media.Users = newUsers;
-        _context.Media.Update(media);
-
-        var medias = user.Media;
-        
-        var newMedia = medias.ToList();
-        newMedia.Remove(media);
-        user.Media = newMedia;
-        _context.Users.Update(user);
-        
-        await _context.SaveChangesAsync();
-        
-        return Ok("ok");
-    }
+    }*/
 
     [HttpPost("load/{groupId}")]
     public async Task<ActionResult> LoadMediaToGroup(MediaRequest mediaRequest, int groupId)

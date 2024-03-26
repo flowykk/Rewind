@@ -3,8 +3,10 @@ using RewindApp.Controllers.GroupControllers;
 using RewindApp.Controllers.UserControllers;
 using RewindApp.Data;
 using RewindApp.Data.Repositories;
+using RewindApp.Data.Repositories.GroupRepositories;
 using RewindApp.Data.Repositories.UserRepositories;
 using RewindApp.Interfaces;
+using RewindApp.Interfaces.GroupInterfaces;
 using RewindApp.Interfaces.UserInterfaces;
 using RewindApp.Services;
 
@@ -18,6 +20,7 @@ builder.Services.AddTransient<IUsersController, UsersController>();
 builder.Services.AddTransient<IGroupsController, GroupsController>();
 builder.Services.AddTransient<IUserService, UserService>();
 
+builder.Services.AddTransient<IGroupRepository, GroupRepository>();
 builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<IRegisterRepository, RegisterRepository>();
 builder.Services.AddTransient<IChangeUserRepository, ChangeUserRepository>();

@@ -11,10 +11,9 @@ namespace RewindApp.Controllers.GroupControllers;
 public class ChangeGroupController : ControllerBase
 {
     private readonly DataContext _context;
-   // private readonly ILogger<ChangeGroupController> _logger;
     private readonly IGroupsController _groupsController;
 
-    public ChangeGroupController(DataContext context) //, ILogger<ChangeGroupController> logger, IGroupsController groupsController)
+    public ChangeGroupController(DataContext context)
     {
         _context = context;
         _groupsController = new GroupsController(context);

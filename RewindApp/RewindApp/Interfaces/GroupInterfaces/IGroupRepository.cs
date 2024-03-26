@@ -1,5 +1,6 @@
 using RewindApp.Entities;
 using RewindApp.Requests;
+using RewindApp.Responses;
 
 namespace RewindApp.Interfaces.GroupInterfaces;
 

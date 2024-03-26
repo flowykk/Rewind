@@ -61,6 +61,9 @@ public class MediaController : ControllerBase
         var group = await _groupsController.GetGroupById(groupId);
         if (group == null) return BadRequest("Group not found");
         
+        var author = await _usersController.GetUserById(authorId);
+        if (author == null) return BadRequest("Author not found");
+        
         var rawData = Convert.FromBase64String(mediaRequest.Object);
         var tinyData = Convert.FromBase64String(mediaRequest.TinyObject);
         var date = DateTime.Now;
@@ -72,7 +75,7 @@ public class MediaController : ControllerBase
         var command = new MySqlCommand()
         {
             Connection = connection,
-            CommandText = "INSERT INTO Media (Date, Object, TinyObject, GroupId, UserId) VALUES (?date, ?rawData, ?tinyData, ?groupId, ?authorId);"
+            CommandText = "INSERT INTO Media (Date, Object, TinyObject, GroupId, AuthorId) VALUES (?date, ?rawData, ?tinyData, ?groupId, ?authorId);"
         };
         var imageParameter = new MySqlParameter("?rawData", MySqlDbType.Blob, rawData.Length)
         {
@@ -94,19 +97,19 @@ public class MediaController : ControllerBase
         {
             Value = authorId
         };
-
-        /*var media = new Media()
+        
+        var media = new Media()
         {
             Date = date,
             Object = rawData,
             TinyObject = tinyData,
             Group = group,
-            User = await _usersController.GetUserById(authorId) ?? new User()
+            Author = author
         };
         
         _context.Media.Add(media);
         group.Media.Add(media);
-        await _context.SaveChangesAsync();*/
+        await _context.SaveChangesAsync();
         
         command.Parameters.Add(imageParameter);
         command.Parameters.Add(tinyImageParameter);

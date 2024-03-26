@@ -51,7 +51,7 @@ public class GroupsController : ControllerBase, IGroupsController
     }
     
     [HttpGet("{groupId}/{userId}")]
-    public async Task<ActionResult<IEnumerable<Group>>> GetGroupInfoById(int groupId, int userId, int dataSize)
+    public async Task<ActionResult<GroupInfoResponse>> GetGroupInfoById(int groupId, int userId, int dataSize)
     {
         var group = await GetGroupById(groupId);
         if (group == null) return BadRequest("Group not found");
@@ -306,7 +306,7 @@ public class GroupsController : ControllerBase, IGroupsController
         if (owner == null) return null;
         
         var groupMembers = await GetUsersByGroup(groupId);
-        var firstMembers = groupMembers.Value!
+        var firstMembers = groupMembers.Value?
             .Select(u => new UserView {
                 Id = u.Id,
                 UserName = u.UserName,
@@ -317,7 +317,7 @@ public class GroupsController : ControllerBase, IGroupsController
         //.ToList();
         
         var groupMedia = await GetMediaByGroupId(groupId);
-        var firstMedia = groupMedia.Value!
+        var firstMedia = groupMedia.Value?
             .Select(m => new MediaView {
                 Id = m.Id,
                 TinyObject = m.TinyObject

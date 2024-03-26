@@ -227,7 +227,7 @@ final class NetworkService {
     
     
     // MARK: - Update User Image
-    static func updateUserImage(userId: Int, newImage: String, completion: @escaping (NetworkResponse) -> Void) {
+    static func updateUserImage(userId: Int, bigImageB64String: String, miniImageB64String: String, completion: @escaping (NetworkResponse) -> Void) {
         guard let url = URL(string: appUrl + "/change-user/image/\(userId)") else {
             completion(NetworkResponse(success: false, message: "Wrong URL"))
             return
@@ -238,7 +238,7 @@ final class NetworkService {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         do {
-            let parameters: [String : Any] = ["media" : newImage]
+            let parameters: [String : Any] = ["object" : bigImageB64String, "tinyObject": miniImageB64String]
             request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: [])
         } catch {
             completion(NetworkResponse(success: false, message: error.localizedDescription))
@@ -307,7 +307,7 @@ final class NetworkService {
         request.httpMethod = "GET"
         
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            let networkResponse = self.processJSONAarrayResponse(data: data, response: response, error: error)
+            let networkResponse = self.processJSONArrayResponse(data: data, response: response, error: error)
             completion(networkResponse)
         }
         task.resume()
@@ -330,6 +330,7 @@ final class NetworkService {
         task.resume()
     }
     
+    // MARK: - Get Group Basic Data
     static func getGroupBasicData(groupId: Int, userId: Int, membersQuantity: Int, mediaQuantity: Int, completion: @escaping (NetworkResponse) -> Void) {
         guard let url = URL(string: appUrl + "/groups/\(groupId)/\(userId)/\(membersQuantity)") else {
             completion(NetworkResponse(success: false, message: "Wrong URL"))
@@ -340,6 +341,7 @@ final class NetworkService {
         request.httpMethod = "GET"
         
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            print(data?.count)
             let networkResponse = self.processJSONResponse(data: data, response: response, error: error)
             completion(networkResponse)
         }
@@ -397,10 +399,28 @@ final class NetworkService {
         }
         task.resume()
     }
+    
+    // MARK: - Get Group Users
+    static func getGroupMembers(groupId: Int, completion: @escaping (NetworkResponse) -> Void) {
+        guard let url = URL(string: appUrl + "/groups/users/\(groupId)") else {
+            completion(NetworkResponse(success: false, message: "Wrong URL"))
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            let networkResponse = self.processJSONArrayResponse(data: data, response: response, error: error)
+            completion(networkResponse)
+        }
+        task.resume()
+    }
 }
 
 // MARK: - Private funcs
 extension NetworkService {
+    // MARK: - Process String Response
     static private func processStringResponse(data: Data?, response: URLResponse?, error: Error?) -> NetworkResponse {
         if let error = error {
             return NetworkResponse(success: false, message: error.localizedDescription)
@@ -421,6 +441,7 @@ extension NetworkService {
         return NetworkResponse(success: success, statusCode: statusCode, message: message)
     }
     
+    // MARK: - Process JSON Response
     static private func processJSONResponse(data: Data?, response: URLResponse?, error: Error?) -> NetworkResponse {
         if let error = error {
             return NetworkResponse(success: false, message: error.localizedDescription)
@@ -448,7 +469,8 @@ extension NetworkService {
         return NetworkResponse(success: success, statusCode: statusCode, json: json)
     }
     
-    static private func processJSONAarrayResponse(data: Data?, response: URLResponse?, error: Error?) -> NetworkResponse {
+    // MARK: - Process JSON Array Response
+    static private func processJSONArrayResponse(data: Data?, response: URLResponse?, error: Error?) -> NetworkResponse {
         if let error = error {
             return NetworkResponse(success: false, message: error.localizedDescription)
         }

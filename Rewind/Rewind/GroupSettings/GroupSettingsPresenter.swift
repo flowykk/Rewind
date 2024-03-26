@@ -26,7 +26,6 @@ final class GroupSettingsPresenter {
     }
     
     func openPhotoLibraryButtonTapped() {
-        LoadingView.show(in: view)
         router.presentImagePicker()
     }
     

@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-final class GroupPresenter {
+final class GroupPresenter: AllMembersTablePresenterProtocol {
     private weak var view: GroupViewController?
     weak var membersTable: MembersTableView?
     weak var groupMediaCollection: GroupMediaCollectionView?
@@ -31,6 +31,21 @@ final class GroupPresenter {
         router.navigateToGallery()
     }
     
+    func rowSelected(_ row: MembersTableView.CellType) {
+        switch row {
+        case .addButton:
+            print("add user")
+        case .allMembersButton:
+            router.navigateAllMembers()
+        default:
+            print("member selected")
+        }
+    }
+    
+    func deleteMemberButtonTapped(memberId: Int) {
+        print("delete user with id: \(memberId)")
+    }
+    
     func getGroupBasicData() {
         LoadingView.show(in: view, backgroundColor: .systemBackground)
         view?.disableSettingsButton()
@@ -40,13 +55,13 @@ final class GroupPresenter {
             return
         }
         let userId = UserDefaults.standard.integer(forKey: "UserId")
-        fetchGroupBasicData(groupId: groupId, userId: userId, membersQuantity: 4, mediaQuantity: 4)
+        requestGroupBasicData(groupId: groupId, userId: userId, membersQuantity: 4, mediaQuantity: 4)
     }
 }
 
 // MARK: - Network Request Funcs
 extension GroupPresenter {
-    private func fetchGroupBasicData(groupId: Int, userId: Int, membersQuantity: Int, mediaQuantity: Int) {
+    private func requestGroupBasicData(groupId: Int, userId: Int, membersQuantity: Int, mediaQuantity: Int) {
         NetworkService.getGroupBasicData(groupId: groupId, userId: userId, membersQuantity: membersQuantity, mediaQuantity: mediaQuantity) { [weak self] response in
             DispatchQueue.global().async {
                 self?.handleGetGroupBasicDataResponse(response)
@@ -93,12 +108,14 @@ extension GroupPresenter {
                 var medias: [Media] = []
                 
                 for mediaJson in mediaJsonArray {
-                    if var media = Media(json: mediaJson) {
+                    if let media = Media(json: mediaJson) {
                         medias.append(media)
                     }
                 }
                 
-                let currentGroup = Group(id: groupId, name: groupName, ownerId: owner.id, bigImage: groupImage, owner: owner, members: members, medias: medias)
+                let miniImage: UIImage? = DataManager.shared.getCurrentGroup()?.miniImage
+                
+                let currentGroup = Group(id: groupId, name: groupName, ownerId: owner.id, bigImage: groupImage, miniImage: miniImage, owner: owner, members: members, medias: medias)
                 DataManager.shared.setCurrentGroup(currentGroup)
                 
                 DispatchQueue.main.async { [weak self] in

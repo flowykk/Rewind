@@ -25,8 +25,13 @@ final class AllGroupsRouter {
     }
     
     func navigateToRewind() {
-        let vc = RewindBuilder.build()
-        view?.navigationController?.pushViewController(vc, animated: true)
+        if let navigationController = view?.navigationController {
+            for viewController in navigationController.viewControllers {
+                if viewController is RewindViewController {
+                    navigationController.popToViewController(viewController, animated: true)
+                    break
+                }
+            }
+        }
     }
 }
-       

@@ -24,9 +24,10 @@ final class GroupViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.delegate = self
         presenter?.membersTable = membersTable
         presenter?.groupMediaCollection = groupMediaCollection
-        navigationController?.delegate = self
+        membersTable.presenter = presenter
         configureUI()
     }
     
@@ -106,12 +107,15 @@ final class GroupViewController: UIViewController {
     }
 }
 
+// MARK: - UINavigationControllerDelegate
 extension GroupViewController: UINavigationControllerDelegate {
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         switch operation {
         case .push:
             if toVC is GroupSettingsViewController {
                 return PushTransitioning()
+            } else if toVC is AllMembersViewController {
+                return PushFromBottomTransitioning()
             }
         case .pop:
             if toVC is RewindViewController {

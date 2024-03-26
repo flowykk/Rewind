@@ -23,6 +23,11 @@ final class GroupRouter {
         view?.navigationController?.pushViewController(vc, animated: true)
     }
     
+    func navigateAllMembers() {
+        let vc = AllMembersBuilder.build()
+        view?.navigationController?.pushViewController(vc, animated: true)
+    }
+    
     func navigateToGallery() {
         let vc = GalleryBuilder.build()
         view?.navigationController?.pushViewController(vc, animated: true)

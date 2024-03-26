@@ -8,6 +8,8 @@
 import UIKit
 
 final class AllMembersViewController: UIViewController {
+    var presenter: AllMembersPresenter?
+    
     var contentViewHeightConstraint: NSLayoutConstraint?
     var membersTableHeightConstraint: NSLayoutConstraint?
     
@@ -18,8 +20,13 @@ final class AllMembersViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.delegate = self
         self.hideKeyboardWhenTappedAround()
+        presenter?.membersTable = membersTable
+        membersTable.presenter = presenter
+        configureNavigationTitle()
         configureUI()
+        presenter?.getGroupMembers()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -29,7 +36,7 @@ final class AllMembersViewController: UIViewController {
     
     @objc
     private func backButtonTapped() {
-        print("go back")
+        presenter?.backButtonTapped()
     }
     
     func updateViewsHeight() {
@@ -42,7 +49,7 @@ final class AllMembersViewController: UIViewController {
             membersTableHeight -= 1
         }
         
-        var contentViewHeight = 60 + membersTableHeight + 20
+        var contentViewHeight = membersTableHeight + 30
         
         if contentViewHeight < view.frame.size.height {
             contentViewHeight = view.frame.size.height
@@ -55,11 +62,34 @@ final class AllMembersViewController: UIViewController {
         contentViewHeightConstraint?.isActive = true
         view.layoutIfNeeded()
     }
+    
+    func configureNavigationTitle() {
+        if let currentGroup = DataManager.shared.getCurrentGroup() {
+            navigationItem.title = currentGroup.name
+        } else {
+            navigationItem.title = "Group name"
+        }
+    }
 }
 
+// MARK: - UINavigationControllerDelegate
+extension AllMembersViewController: UINavigationControllerDelegate {
+    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        switch operation {
+        case .pop:
+            if toVC is GroupViewController {
+                return PopToBottomTransitioning()
+            }
+        default:
+            return nil
+        }
+        return nil
+    }
+}
+
+// MARK: - UI Configuration
 extension AllMembersViewController {
     private func configureUI() {
-        navigationItem.title = "Group name"
         view.backgroundColor = .systemBackground
         configureBackButton()
         configureScrollView()
@@ -152,4 +182,3 @@ extension AllMembersViewController {
         membersTable.pinRight(to: contentView.trailingAnchor, 20)
     }
 }
-

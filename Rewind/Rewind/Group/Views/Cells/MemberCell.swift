@@ -10,13 +10,15 @@ import UIKit
 final class MemberCell: UITableViewCell {
     private let memberImageView: UIImageView = UIImageView()
     private let memberNameLabel: UILabel = UILabel()
-    
     private let ownerSignImageView: UIImageView = UIImageView()
-    
     private let deleteMemberButton: UIButton = UIButton(type: .system)
+    
+    weak var membersTable: MembersTableView?
+    private var memberId: Int?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        commonInit()
         configureUI()
     }
     
@@ -38,7 +40,19 @@ final class MemberCell: UITableViewCell {
         deleteMemberButton.setImage(nil, for: .normal)
     }
     
+    private func commonInit() {
+        selectionStyle = .none
+    }
+    
+    @objc
+    private func deleteMemberButtonTapped() {
+        guard let memberId = self.memberId else { return }
+        membersTable?.presenter?.deleteMemberButtonTapped(memberId: memberId)
+    }
+    
     func configureMember(_ member: GroupMember) {
+        self.memberId = member.id
+        
         memberNameLabel.text = member.name
         
         if let memberImage = member.miniImage {
@@ -111,6 +125,8 @@ extension MemberCell {
         var image = UIImage(systemName: "xmark", withConfiguration: configuration)
         image = image?.withTintColor(.systemGray, renderingMode: .alwaysOriginal)
         deleteMemberButton.setImage(image, for: .normal)
+        
+        deleteMemberButton.addTarget(self, action: #selector(deleteMemberButtonTapped), for: .touchUpInside)
         
         deleteMemberButton.pinRight(to: trailingAnchor, 14)
         deleteMemberButton.pinCenterY(to: centerYAnchor)

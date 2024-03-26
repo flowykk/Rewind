@@ -8,6 +8,8 @@
 import UIKit
 
 final class MembersTableView: UITableView {
+    var presenter: AllMembersTablePresenterProtocol?
+    
     var members: [GroupMember] = []
     
     var isAllMembersButtonShown: Bool = true
@@ -64,7 +66,9 @@ final class MembersTableView: UITableView {
 // MARK: - UITableViewDataSource
 extension MembersTableView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return members.count + MembersButton.allCases.count
+        var rows = members.count + MembersButton.allCases.count
+        rows -= isAllMembersButtonShown ? 0 : 1
+        return rows
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -82,6 +86,7 @@ extension MembersTableView: UITableViewDataSource {
         case .member(let member):
             let cell = tableView.dequeueReusableCell(withIdentifier: "MemberCell", for: indexPath)
             guard let memberCell = cell as? MemberCell else { return cell }
+            memberCell.membersTable = self
             memberCell.configureMember(member)
             return memberCell
         }
@@ -91,7 +96,11 @@ extension MembersTableView: UITableViewDataSource {
         if indexPath.row == 0 {
             return .addButton
         } else if indexPath.row == tableView.numberOfRows(inSection: 0) - 1 {
-            return .allMembersButton
+            if isAllMembersButtonShown {
+                return .allMembersButton
+            } else {
+                return .member(members[indexPath.row - 1])
+            }
         } else {
             return .member(members[indexPath.row - 1])
         }
@@ -101,6 +110,8 @@ extension MembersTableView: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 extension MembersTableView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let row = determineCellType(tableView, for: indexPath)
+        presenter?.rowSelected(row)
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }

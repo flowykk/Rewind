@@ -77,6 +77,10 @@ final class DataManager {
         return user.groups
     }
     
+    func getCurrectGroupId() -> Int? {
+        return user.currentGroup?.id
+    }
+    
     func getUser() -> User {
         return user
     }

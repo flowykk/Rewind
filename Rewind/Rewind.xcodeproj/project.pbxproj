@@ -96,6 +96,10 @@
 		558D63732BB0F42B00B75AA6 /* GroupSettingsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558D63722BB0F42B00B75AA6 /* GroupSettingsPresenter.swift */; };
 		558D63752BB0F45800B75AA6 /* GroupSettingsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558D63742BB0F45800B75AA6 /* GroupSettingsRouter.swift */; };
 		558D63772BB0F48900B75AA6 /* GroupSettingsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558D63762BB0F48900B75AA6 /* GroupSettingsBuilder.swift */; };
+		55967FE62BB27CCE0054D1BB /* AllMembersPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55967FE52BB27CCE0054D1BB /* AllMembersPresenter.swift */; };
+		55967FE82BB27CF00054D1BB /* AllMembersBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55967FE72BB27CF00054D1BB /* AllMembersBuilder.swift */; };
+		55967FEA2BB27D1F0054D1BB /* AllMembersRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55967FE92BB27D1F0054D1BB /* AllMembersRouter.swift */; };
+		55967FEC2BB27E480054D1BB /* AllMembersTablePresenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55967FEB2BB27E480054D1BB /* AllMembersTablePresenterProtocol.swift */; };
 		559A50492B97822F00A2BAB4 /* SettingsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559A50482B97822F00A2BAB4 /* SettingsPresenter.swift */; };
 		559A504B2B97825400A2BAB4 /* SettingsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559A504A2B97825400A2BAB4 /* SettingsBuilder.swift */; };
 		559A50512B97844400A2BAB4 /* TagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559A50502B97844400A2BAB4 /* TagCell.swift */; };
@@ -248,6 +252,10 @@
 		558D63722BB0F42B00B75AA6 /* GroupSettingsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupSettingsPresenter.swift; sourceTree = "<group>"; };
 		558D63742BB0F45800B75AA6 /* GroupSettingsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupSettingsRouter.swift; sourceTree = "<group>"; };
 		558D63762BB0F48900B75AA6 /* GroupSettingsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupSettingsBuilder.swift; sourceTree = "<group>"; };
+		55967FE52BB27CCE0054D1BB /* AllMembersPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllMembersPresenter.swift; sourceTree = "<group>"; };
+		55967FE72BB27CF00054D1BB /* AllMembersBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllMembersBuilder.swift; sourceTree = "<group>"; };
+		55967FE92BB27D1F0054D1BB /* AllMembersRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllMembersRouter.swift; sourceTree = "<group>"; };
+		55967FEB2BB27E480054D1BB /* AllMembersTablePresenterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllMembersTablePresenterProtocol.swift; sourceTree = "<group>"; };
 		559A50482B97822F00A2BAB4 /* SettingsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPresenter.swift; sourceTree = "<group>"; };
 		559A504A2B97825400A2BAB4 /* SettingsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsBuilder.swift; sourceTree = "<group>"; };
 		559A50502B97844400A2BAB4 /* TagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCell.swift; sourceTree = "<group>"; };
@@ -602,8 +610,8 @@
 			isa = PBXGroup;
 			children = (
 				558D63482BB02E2F00B75AA6 /* Cells */,
-				557A078A2B99CCC8002FFF40 /* GroupMediaCollectionView.swift */,
 				557A07862B99C92E002FFF40 /* MembersTableView.swift */,
+				557A078A2B99CCC8002FFF40 /* GroupMediaCollectionView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -655,6 +663,9 @@
 			isa = PBXGroup;
 			children = (
 				557A07982B9A15BE002FFF40 /* AllMembersViewController.swift */,
+				55967FE52BB27CCE0054D1BB /* AllMembersPresenter.swift */,
+				55967FE92BB27D1F0054D1BB /* AllMembersRouter.swift */,
+				55967FE72BB27CF00054D1BB /* AllMembersBuilder.swift */,
 			);
 			path = AllMembers;
 			sourceTree = "<group>";
@@ -730,6 +741,7 @@
 				55A326722B81F8FE007C9B74 /* LaunchScreen.storyboard */,
 				551426FA2B88CAAB000446E9 /* Models */,
 				551427112B8944A1000446E9 /* Utils */,
+				55AA39F52B9911CB0099DB8A /* Protocols */,
 				551426FB2B88CAD5000446E9 /* Services */,
 				55A326CF2B826FC0007C9B74 /* App */,
 			);
@@ -818,6 +830,7 @@
 			isa = PBXGroup;
 			children = (
 				55AA39F12B9905D30099DB8A /* TagsCollectionPresenterProtocol.swift */,
+				55967FEB2BB27E480054D1BB /* AllMembersTablePresenterProtocol.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -835,7 +848,6 @@
 			isa = PBXGroup;
 			children = (
 				55AA39F62B9923400099DB8A /* GroupsMenu */,
-				55AA39F52B9911CB0099DB8A /* Protocols */,
 				55C652F22B98993500A8C595 /* Details */,
 				55C652E92B98513600A8C595 /* AddTag */,
 				55C3E5372B95E27500701BF8 /* Settings */,
@@ -1018,8 +1030,10 @@
 				55A326942B820701007C9B74 /* UIViewPin.swift in Sources */,
 				55A3269C2B820FFA007C9B74 /* WellcomeRouter.swift in Sources */,
 				551427022B88CBEA000446E9 /* AccountRouter.swift in Sources */,
+				55967FEC2BB27E480054D1BB /* AllMembersTablePresenterProtocol.swift in Sources */,
 				550A63682B9CB86700CE3597 /* LoadGroupImageViewController.swift in Sources */,
 				558D63672BB0BFA900B75AA6 /* LoadGroupImageBuilder.swift in Sources */,
+				55967FEA2BB27D1F0054D1BB /* AllMembersRouter.swift in Sources */,
 				55A3266C2B81F8FC007C9B74 /* ViewController.swift in Sources */,
 				55C3E5412B96227800701BF8 /* PropertiesTableView.swift in Sources */,
 				558D63522BB09C3800B75AA6 /* LoadingView.swift in Sources */,
@@ -1042,6 +1056,7 @@
 				55A049182B91CB3000CD9C46 /* PrimaryTableView.swift in Sources */,
 				55A326C12B8263C8007C9B74 /* EnterPasswordPresenter.swift in Sources */,
 				55A326A32B82204E007C9B74 /* EnterEmailPresenter.swift in Sources */,
+				55967FE62BB27CCE0054D1BB /* AllMembersPresenter.swift in Sources */,
 				550109892B8A36FE0005F1D5 /* AppIconModel.swift in Sources */,
 				55C3E53E2B9605ED00701BF8 /* SettingsCell.swift in Sources */,
 				558278472BB1F9EC0072424F /* EditGroupNamePresenter.swift in Sources */,
@@ -1136,6 +1151,7 @@
 				556167BE2B8F6201001AF383 /* EnterAuthCodeBuilder.swift in Sources */,
 				55A3269A2B820F83007C9B74 /* WellcomeBuilder.swift in Sources */,
 				55EFC5ED2B94B0CD00E82D20 /* UserDefaultsExtension.swift in Sources */,
+				55967FE82BB27CF00054D1BB /* AllMembersBuilder.swift in Sources */,
 				551509732B90984100D162CF /* EditEmailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

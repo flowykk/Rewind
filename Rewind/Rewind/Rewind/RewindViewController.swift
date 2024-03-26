@@ -13,6 +13,7 @@ final class RewindViewController: UIViewController {
     var isFavourite: Bool = false
     
     private let goToGroupButton: UIButton = UIButton(type: .system)
+    private let groupImageView: UIImageView = UIImageView()
     private let currentGroupView: UIView = UIView()
     let showGroupsMenuButton: UIButton = UIButton(type: .system)
     private let goToAccountButton: UIButton = UIButton(type: .system)
@@ -29,12 +30,12 @@ final class RewindViewController: UIViewController {
         super.viewDidLoad()
         navigationController?.delegate = self
         configureUI()
-        configureData()
+        configureUIForCurrentGroup()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        updateCurrentGroupTitle()
+        configureUIForCurrentGroup()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -89,20 +90,30 @@ final class RewindViewController: UIViewController {
         presenter?.galleryButtonTapped()
     }
     
-    func configureData() {
+    func configureUIForCurrentGroup() {
         if let currentGroup = DataManager.shared.getCurrentGroup() {
+            goToGroupButton.isEnabled = true
             showGroupsMenuButton.setTitle(currentGroup.name, for: .normal)
-        }
-    }
-    
-    func updateCurrentGroupTitle() {
-        if let currentGroup = DataManager.shared.getCurrentGroup() {
-            showGroupsMenuButton.setTitle(currentGroup.name, for: .normal)
+            if let miniImage = currentGroup.miniImage {
+                groupImageView.image = miniImage
+            } else {
+                guard let defaultImage = UIImage(named: "groupImage") else { return }
+                groupImageView.image = defaultImage
+            }
+        } else {
+            goToGroupButton.isEnabled = false
         }
     }
     
     func setCurrentGroup(to group: Group) {
         showGroupsMenuButton.setTitle(group.name, for: .normal)
+        if let miniImage = group.miniImage {
+            groupImageView.image = miniImage
+        } else {
+            guard let defaultImage = UIImage(named: "groupImage") else { return }
+            groupImageView.image = defaultImage
+        }
+        goToGroupButton.isEnabled = true
     }
     
     func setFavouriteButton(imageName: String, tintColor: UIColor) {
@@ -175,7 +186,9 @@ extension RewindViewController {
         let font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         let configuration = UIImage.SymbolConfiguration(font: font)
         let image = UIImage(systemName: "person.2.fill", withConfiguration: configuration)
+        let disabledStateImage = image?.withTintColor(.lightGray, renderingMode: .alwaysOriginal)
         goToGroupButton.setImage(image, for: .normal)
+        goToGroupButton.setImage(disabledStateImage, for: .disabled)
         
         goToGroupButton.tintColor = .darkGray
         goToGroupButton.backgroundColor = .systemGray6
@@ -197,11 +210,9 @@ extension RewindViewController {
         currentGroupView.setHeight(40)
         
         
-        let groupImageView = UIImageView()
         currentGroupView.addSubview(groupImageView)
         groupImageView.translatesAutoresizingMaskIntoConstraints = false
         
-        groupImageView.image = UIImage(named: "groupImage")
         groupImageView.contentMode = .scaleAspectFill
         groupImageView.clipsToBounds = true
         groupImageView.layer.cornerRadius = 35 / 2
@@ -215,7 +226,7 @@ extension RewindViewController {
         currentGroupView.addSubview(showGroupsMenuButton)
         showGroupsMenuButton.translatesAutoresizingMaskIntoConstraints = false
         
-        showGroupsMenuButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+        showGroupsMenuButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
         
         let font = UIFont.systemFont(ofSize: 11, weight: .bold)
         let configuration = UIImage.SymbolConfiguration(font: font)

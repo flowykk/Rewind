@@ -23,14 +23,17 @@ final class AccountPresenter {
         router.navigateToRewind()
     }
     
-    func newImageSelected(image: UIImage) {
+    func newImageSelected(originalImage: UIImage) {
         LoadingView.show(in: viewController)
         
-        let resizedImage = image.resize(toDimension: 600)
-        let imageData = resizedImage.jpegData(compressionQuality: 1)
+        let bigImage = originalImage.resize(toDimension: 600)
+        let miniImage = originalImage.resize(toDimension: 256)
         
-        if let imageData {
-            updateUserImage(withImageData: imageData)
+        let bigImageData = bigImage.jpegData(compressionQuality: 1)
+        let miniImageData = miniImage.jpegData(compressionQuality: 1)
+        
+        if let bigImageData, let miniImageData {
+            requestUpdateUserImage(bigImageData: bigImageData, miniImageData: miniImageData)
         }
     }
     
@@ -196,12 +199,14 @@ extension AccountPresenter {
         }
     }
     
-    private func updateUserImage(withImageData newImageData: Data) {
+    private func requestUpdateUserImage(bigImageData: Data, miniImageData: Data) {
         let userId = UserDefaults.standard.integer(forKey: "UserId")
-        let imageBase64String = newImageData.base64EncodedString()
-        NetworkService.updateUserImage(userId: userId, newImage: imageBase64String) { [weak self] response in
+        let bigImageB64S = bigImageData.base64EncodedString()
+        let miniImageB64S = miniImageData.base64EncodedString()
+        
+        NetworkService.updateUserImage(userId: userId, bigImageB64String: bigImageB64S, miniImageB64String: miniImageB64S) { [weak self] response in
             DispatchQueue.global().async {
-                self?.handleUpdateUserImageResponse(response, imageData: newImageData)
+                self?.handleUpdateUserImageResponse(response, bigImageData: bigImageData)
             }
         }
     }
@@ -209,16 +214,16 @@ extension AccountPresenter {
 
 // MARK: - Network Response Handlers
 extension AccountPresenter {
-    private func handleUpdateUserImageResponse(_ response: NetworkResponse, imageData: Data) {
+    private func handleUpdateUserImageResponse(_ response: NetworkResponse, bigImageData: Data) {
         if response.success {
-            UserDefaults.standard.setImage(imageData, forKey: "UserImage")
+            UserDefaults.standard.setImage(bigImageData, forKey: "UserImage")
             DispatchQueue.main.async { [weak self] in
-                self?.didUpdateImage(to: imageData)
+                self?.didUpdateImage(to: bigImageData)
                 LoadingView.hide(from: self?.viewController)
             }
         } else {
-            print(response.statusCode as Any)
             print("something went wrong")
+            print(response)
         }
         DispatchQueue.main.async { [weak self] in
             LoadingView.hide(from: self?.viewController)

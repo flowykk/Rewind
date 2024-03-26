@@ -72,10 +72,10 @@ extension AllGroupsPresenter {
                 }
             }
             
-            tableView?.groups = groups
             DataManager.shared.setUserGroups(groups)
             
             DispatchQueue.main.async { [weak self] in
+                self?.tableView?.groups = groups
                 self?.tableView?.reloadData()
                 LoadingView.hide(from: self?.view)
             }

@@ -30,15 +30,9 @@ public class GroupsController : ControllerBase, IGroupsController
     }
 
     [HttpGet]
-    public async Task<IEnumerable<Group>> GetGroups(string? suffix)
+    public async Task<IEnumerable<Group>> GetGroups()
     {
-        IQueryable<Group> groups = _context.Groups;
-
-       /* if (!string.IsNullOrWhiteSpace(suffix))
-            groups = groups.Where(g => g.Name.Contains(suffix));*/
-
-        return await groups.ToListAsync();
-        //return await _context.Groups.ToListAsync();
+        return await _context.Groups.ToListAsync();
     }
     
     [HttpGet("random/{groupId}")]
@@ -62,7 +56,7 @@ public class GroupsController : ControllerBase, IGroupsController
         var group = await GetGroupById(groupId);
         if (group == null) return BadRequest("Group not found");
 
-        var owner = await _usersController.GetUserById(group.OwnerId);
+        /*var owner = await _usersController.GetUserById(group.OwnerId);
         if (owner == null) return BadRequest("Owner not found");
         
         var groupMembers = await GetUsersByGroup(groupId);
@@ -99,7 +93,10 @@ public class GroupsController : ControllerBase, IGroupsController
             FirstMedia = firstMedia,
             GallerySize = groupMedia.Value?.Count() ?? 0,
             FirstMembers = firstMembers
-        };
+        };*/
+
+        var resultResponse = await GetGroupInfo(group, groupId, userId, dataSize);
+        if (resultResponse == null) return BadRequest("Owner not found");
         
         return Ok(resultResponse);
     }
@@ -210,8 +207,8 @@ public class GroupsController : ControllerBase, IGroupsController
         var owner = _usersController.GetUserById(request.OwnerId).Result;
         if (owner == null) return BadRequest("User not found");
         
-        if (_context.Groups.Any(group => group.OwnerId == request.OwnerId && group.Name == request.GroupName))
-            return BadRequest($"Group '{request.GroupName}', created by User {request.OwnerId} already exists");
+        //if (_context.Groups.Any(group => group.OwnerId == request.OwnerId && group.Name == request.GroupName))
+          //  return BadRequest($"Group '{request.GroupName}', created by User {request.OwnerId} already exists");
 
         var group = new Group
         {
@@ -301,5 +298,49 @@ public class GroupsController : ControllerBase, IGroupsController
     {
         var group = _context.Groups.Include(group => group.Media).FirstOrDefaultAsync(g => g.Id == groupId);
         return group;
+    }
+
+    public async Task<GroupInfoResponse?> GetGroupInfo(Group group, int groupId, int userId, int dataSize)
+    {
+        var owner = await _usersController.GetUserById(group.OwnerId);
+        if (owner == null) return null;
+        
+        var groupMembers = await GetUsersByGroup(groupId);
+        var firstMembers = groupMembers.Value!
+            .Select(u => new UserView {
+                Id = u.Id,
+                UserName = u.UserName,
+                TinyProfileImage = u.TinyProfileImage
+            })
+            .Where(u => u.Id != owner.Id && u.Id != userId)
+            .Take(dataSize);
+        //.ToList();
+        
+        var groupMedia = await GetMediaByGroupId(groupId);
+        var firstMedia = groupMedia.Value!
+            .Select(m => new MediaView {
+                Id = m.Id,
+                TinyObject = m.TinyObject
+            })
+            .Take(dataSize);
+        //.ToList(); 
+        
+        var resultResponse = new GroupInfoResponse()
+        {
+            Id = group.Id,
+            DataSize = dataSize,
+            Name = group.Name,
+            Image = group.Image,
+            Owner = new UserView {
+                Id = owner.Id,
+                TinyProfileImage = owner.TinyProfileImage,
+                UserName = owner.UserName
+            },
+            FirstMedia = firstMedia,
+            GallerySize = groupMedia.Value?.Count() ?? 0,
+            FirstMembers = firstMembers
+        };
+
+        return resultResponse;
     }
 }

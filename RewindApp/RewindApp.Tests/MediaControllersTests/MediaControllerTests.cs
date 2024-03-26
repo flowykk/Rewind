@@ -28,7 +28,7 @@ public class MediaControllerTests
         await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
 
         // Act
-        var actionResult = await _mediaController.LoadMediaToGroup(ContextHelper.BuildTestImageRequest(), 1);
+        var actionResult = await _mediaController.LoadMediaToGroup(ContextHelper.BuildTestImageRequest(), 1, 1);
         var result = actionResult as ObjectResult;
 
         // Assert
@@ -44,7 +44,7 @@ public class MediaControllerTests
         await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
         
         // Act
-        var actionResult = await _mediaController.LoadMediaToGroup(ContextHelper.BuildTestImageRequest(), 2);
+        var actionResult = await _mediaController.LoadMediaToGroup(ContextHelper.BuildTestImageRequest(), 1, 2);
         var result = actionResult as ObjectResult;
 
         // Assert
@@ -59,7 +59,7 @@ public class MediaControllerTests
         // Arrange
         await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
         await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
-        await _mediaController.LoadMediaToGroup(ContextHelper.BuildTestImageRequest(), 1);
+        await _mediaController.LoadMediaToGroup(ContextHelper.BuildTestImageRequest(), 1, 1);
         
         // Act
         var actionResult = await _mediaController.GetMedia();
@@ -74,7 +74,7 @@ public class MediaControllerTests
         // Arrange
         await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
         await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
-        await _mediaController.LoadMediaToGroup(ContextHelper.BuildTestImageRequest(), 1);
+        await _mediaController.LoadMediaToGroup(ContextHelper.BuildTestImageRequest(), 1, 1);
         
         // Act
         var actionResult = await _mediaController.GetMediaById(1);
@@ -89,7 +89,7 @@ public class MediaControllerTests
         // Arrange
         await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
         await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
-        await _mediaController.LoadMediaToGroup(ContextHelper.BuildTestImageRequest(), 1);
+        await _mediaController.LoadMediaToGroup(ContextHelper.BuildTestImageRequest(), 1, 1);
         
         // Act
         var actionResult = await _mediaController.GetMediaById(2);

@@ -28,8 +28,8 @@ public class ChangeGroupController : ControllerBase
         group.Name = request.Name;
         _context.Groups.Update(group);
         await _context.SaveChangesAsync();
-
-        return Ok("Name changed");
+        
+        return Ok(group);
     }
     
     [HttpPut("image/{groupId}")]

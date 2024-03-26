@@ -13,7 +13,6 @@ namespace RewindApp.Controllers.UserControllers;
 public class ChangeUserController : ControllerBase
 {
     private readonly DataContext _context;
-    //private readonly ILogger<ChangeUserController> _logger;
     private readonly IUsersController _usersController;
     private readonly IUserService _userService;
 

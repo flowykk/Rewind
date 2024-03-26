@@ -55,8 +55,8 @@ public class MediaController : ControllerBase
         return Ok("ok");
     }*/
 
-    [HttpPost("load/{groupId}")]
-    public async Task<ActionResult> LoadMediaToGroup(MediaRequest mediaRequest, int groupId)
+    [HttpPost("load/{groupId}/{authorId}")]
+    public async Task<ActionResult> LoadMediaToGroup(MediaRequest mediaRequest, int groupId, int authorId)
     {
         var group = await _groupsController.GetGroupById(groupId);
         if (group == null) return BadRequest("Group not found");
@@ -72,7 +72,7 @@ public class MediaController : ControllerBase
         var command = new MySqlCommand()
         {
             Connection = connection,
-            CommandText = "INSERT INTO Media (Date, Object, TinyObject, GroupId) VALUES (?date, ?rawData, ?tinyData, ?groupId);"
+            CommandText = "INSERT INTO Media (Date, Object, TinyObject, GroupId, UserId) VALUES (?date, ?rawData, ?tinyData, ?groupId, ?authorId);"
         };
         var imageParameter = new MySqlParameter("?rawData", MySqlDbType.Blob, rawData.Length)
         {
@@ -90,23 +90,31 @@ public class MediaController : ControllerBase
         {
             Value = groupId
         };
+        var authorIdParameter = new MySqlParameter("?authorId", MySqlDbType.Int64)
+        {
+            Value = authorId
+        };
 
-        var media = new Media()
+        /*var media = new Media()
         {
             Date = date,
-            Object = rawData
+            Object = rawData,
+            TinyObject = tinyData,
+            Group = group,
+            User = await _usersController.GetUserById(authorId) ?? new User()
         };
         
         _context.Media.Add(media);
         group.Media.Add(media);
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync();*/
         
         command.Parameters.Add(imageParameter);
         command.Parameters.Add(tinyImageParameter);
         command.Parameters.Add(dateParameter);
         command.Parameters.Add(groupIdParameter);
+        command.Parameters.Add(authorIdParameter);
         command.ExecuteNonQuery();
-        
+;        
         return Ok("Media loaded");
     }
 }

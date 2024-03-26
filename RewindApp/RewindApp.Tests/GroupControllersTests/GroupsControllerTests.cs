@@ -124,8 +124,8 @@ public class GroupsControllerTests
         await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
         
         // Act
-        var actionResult = await _groupsController.AddUserToGroup(1,2, 5);
-        var result = actionResult.Result as ObjectResult;
+        var actionResult = await _groupsController.AddUserToGroup(1,2);
+        var result = actionResult as ObjectResult;
 
         // Assert
         Assert.Equal("200", result?.StatusCode.ToString());
@@ -140,8 +140,8 @@ public class GroupsControllerTests
         await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
         
         // Act
-        var actionResult = await _groupsController.AddUserToGroup(1,1, 5);
-        var result = actionResult.Result as ObjectResult;
+        var actionResult = await _groupsController.AddUserToGroup(1,1);
+        var result = actionResult as ObjectResult;
 
         // Assert
         Assert.Equal("400", result?.StatusCode.ToString());
@@ -157,8 +157,8 @@ public class GroupsControllerTests
         await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
         
         // Act
-        var actionResult = await _groupsController.AddUserToGroup(1,3, 5);
-        var result = actionResult.Result as ObjectResult;
+        var actionResult = await _groupsController.AddUserToGroup(1,3);
+        var result = actionResult as ObjectResult;
 
         // Assert
         Assert.Equal("400", result?.StatusCode.ToString());
@@ -174,8 +174,8 @@ public class GroupsControllerTests
         await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
         
         // Act
-        var actionResult = await _groupsController.AddUserToGroup(2,1, 5);
-        var result = actionResult.Result as ObjectResult;
+        var actionResult = await _groupsController.AddUserToGroup(2,1);
+        var result = actionResult as ObjectResult;
 
         // Assert
         Assert.Equal("400", result?.StatusCode.ToString());
@@ -302,7 +302,7 @@ public class GroupsControllerTests
         // Arrange
         await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
         await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
-        await _mediaController.LoadMediaToGroup(ContextHelper.BuildTestImageRequest(), 1);
+        await _mediaController.LoadMediaToGroup(ContextHelper.BuildTestImageRequest(), 1, 1);
 
         // Act
         var actionResult = await _groupsController.GetMediaByGroupId(1);
@@ -321,7 +321,7 @@ public class GroupsControllerTests
         // Arrange
         await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
         await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
-        await _mediaController.LoadMediaToGroup(ContextHelper.BuildTestImageRequest(), 1);
+        await _mediaController.LoadMediaToGroup(ContextHelper.BuildTestImageRequest(), 1, 1);
 
         // Act
         var actionResult = await _groupsController.GetMediaByGroupId(2);
@@ -339,7 +339,7 @@ public class GroupsControllerTests
         // Arrange
         await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
         await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
-        await _mediaController.LoadMediaToGroup(ContextHelper.BuildTestImageRequest(), 1);
+        await _mediaController.LoadMediaToGroup(ContextHelper.BuildTestImageRequest(), 1, 1);
         
         // Act
         var actionResult = await _groupsController.GetGroupInfoById(1, 1,5);
@@ -356,7 +356,7 @@ public class GroupsControllerTests
         // Arrange
         await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
         await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
-        await _mediaController.LoadMediaToGroup(ContextHelper.BuildTestImageRequest(), 1);
+        await _mediaController.LoadMediaToGroup(ContextHelper.BuildTestImageRequest(), 1, 1);
         
         // Act
         var actionResult = await _groupsController.GetGroupInfoById(2, 2,5);
@@ -374,7 +374,7 @@ public class GroupsControllerTests
         // Arrange
         await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
         await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
-        await _mediaController.LoadMediaToGroup(ContextHelper.BuildTestImageRequest(), 1);
+        await _mediaController.LoadMediaToGroup(ContextHelper.BuildTestImageRequest(), 1, 1);
         await _usersController.DeleteUserAccount(1);
         
         // Act

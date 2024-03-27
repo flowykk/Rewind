@@ -13,6 +13,7 @@ public interface IUsersController
 
     public Task<User?> GetUserById(int userId);
     public int SendVerificationCode(string receiverEmail);
+    public Task<IEnumerable<Media>> GetLikedMediaByUser(int userId);
 }
 
 [ApiController]
@@ -83,5 +84,13 @@ public class UsersController : ControllerBase, IUsersController
     {
         var user = await _context.Users.FirstOrDefaultAsync(user => user.Id == userId);
         return user;
+    }
+
+    public async Task<IEnumerable<Media>> GetLikedMediaByUser(int userId)
+    {
+        return await _context.Users
+            .Include(user => user.Media)
+            .Where(user => user.Id == userId)
+            .SelectMany(user => user.Media).ToListAsync(); 
     }
 }

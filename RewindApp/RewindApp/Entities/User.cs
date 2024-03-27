@@ -14,6 +14,6 @@ public class User
     [Required] public byte[] ProfileImage { get; set; } = Array.Empty<byte>();
     [Required] public byte[] TinyProfileImage { get; set; } = Array.Empty<byte>();
     [MaxLength(128)] public string AppIcon { get; set; } = "AppIconWhite";
-
     [IgnoreDataMember] public ICollection<Group> Groups { get; set; } = new List<Group>();
+    [IgnoreDataMember] public ICollection<Media> Media { get; set; } = new List<Media>();
 }

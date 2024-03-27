@@ -146,7 +146,7 @@ public class GroupsControllerTests
         // Assert
         Assert.Equal("400", result?.StatusCode.ToString());
         Assert.Equal("Group 1 already contains User 1", result?.Value);
-        Assert.Single(_groupsController.GetUsersByGroup(1).Result.Value!);
+        Assert.Single(await _groupsController.GetUsersByGroupAsync(1));
     }
     
     [Fact]
@@ -163,7 +163,7 @@ public class GroupsControllerTests
         // Assert
         Assert.Equal("400", result?.StatusCode.ToString());
         Assert.Equal("User not found", result?.Value);
-        Assert.Single(_groupsController.GetUsersByGroup(1).Result.Value!);
+        Assert.Single(await _groupsController.GetUsersByGroupAsync(1));
     }
     
     [Fact]
@@ -272,11 +272,10 @@ public class GroupsControllerTests
         await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
         
         // Act
-        var actionResult = await _groupsController.GetUsersByGroup(1);
-        var result = actionResult.Value;
+        var actionResult = await _groupsController.GetUsersByGroupAsync(1);
 
         // Assert
-        Assert.NotNull(result);
+        Assert.NotNull(actionResult);
     }
     
     [Fact]

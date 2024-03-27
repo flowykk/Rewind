@@ -31,29 +31,27 @@ public class MediaController : ControllerBase
     }
     
     [HttpGet("{mediaId}")]
-    public async Task<ActionResult<Media>> GetMediaById(int mediaId)
+    public async Task<Media?> GetMediaById(int mediaId)
     {
         var result = await _context.Media.FirstOrDefaultAsync(media => media.Id == mediaId);
-        if (result == null) return BadRequest("Media not found");
-        
         return result;
     }
 
-   // [HttpPost("like/{userId}/{mediaId}")]
-    /*public async Task<ActionResult<Media>> LikeMedia(int userId, int mediaId)
+    [HttpPost("like/{userId}/{mediaId}")]
+    public async Task<ActionResult<Media>> LikeMedia(int userId, int mediaId)
     {
         var user = await _usersController.GetUserById(userId);
         if (user == null) return BadRequest("User not found");
         
         var media = await GetMediaById(mediaId);
-        if (media.Value == null) return BadRequest("Media not found");
+        if (media == null) return BadRequest("Media not found");
 
-        user.Media.Add(media.Value);
-        media.Value.Users.Add(user);
+        user.Media.Add(media);
+        media.Users.Add(user);
         await _context.SaveChangesAsync();
         
-        return Ok("ok");
-    }*/
+        return Ok("liked");
+    }
 
     [HttpPost("load/{groupId}/{authorId}")]
     public async Task<ActionResult> LoadMediaToGroup(MediaRequest mediaRequest, int groupId, int authorId)
@@ -98,13 +96,13 @@ public class MediaController : ControllerBase
             Value = authorId
         };
         
-        var media = new Media()
+        var media = new Media
         {
             Date = date,
             Object = rawData,
             TinyObject = tinyData,
             Group = group,
-            Author = author
+            AuthorId = author.Id
         };
         
         _context.Media.Add(media);

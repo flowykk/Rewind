@@ -27,5 +27,6 @@ public class DataContext : DbContext
     public DbSet<Media> Media => Set<Media>();
     public DbSet<MediaView> MediaViews => Set<MediaView>();
     public DbSet<UserView> UserViews => Set<UserView>();
+    public DbSet<GroupView> GroupViews => Set<GroupView>();
     public DbSet<Tag> Tags => Set<Tag>();
 }

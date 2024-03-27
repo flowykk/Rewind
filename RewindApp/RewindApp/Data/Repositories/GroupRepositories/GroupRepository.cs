@@ -63,12 +63,9 @@ public class GroupRepository : IGroupRepository
 
     public async Task<Group?> CreateGroupAsync(User owner, CreateGroupRequest request)
     {
-        if (_context.Groups.Any(g => g.OwnerId == request.OwnerId && g.Name == request.GroupName))
-            return null;
-
         var group = new Group
         {
-            OwnerId = request.OwnerId,
+            OwnerId = owner.Id,
             Name = request.GroupName,
             Image = Array.Empty<byte>()
         };

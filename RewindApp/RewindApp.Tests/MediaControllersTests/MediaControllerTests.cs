@@ -82,7 +82,7 @@ public class MediaControllerTests
         var actionResult = await _mediaController.GetMediaById(1);
         
         // Assert
-        Assert.NotNull(actionResult.Value);
+        Assert.NotNull(actionResult);
     }
     
     [Fact]
@@ -95,12 +95,9 @@ public class MediaControllerTests
         
         // Act
         var actionResult = await _mediaController.GetMediaById(2);
-        var result = actionResult.Result as ObjectResult;
         
         // Assert
-        Assert.Equal("400", result?.StatusCode.ToString());
-        Assert.Equal("Media not found", result?.Value);
-        Assert.Null(actionResult.Value);
+        Assert.Null(actionResult);
     }
     
     [Fact]

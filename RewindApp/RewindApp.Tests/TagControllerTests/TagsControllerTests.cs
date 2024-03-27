@@ -39,7 +39,7 @@ public class TagsControllerTests
         // Act
         Assert.Equal("200", result?.StatusCode.ToString());
         Assert.NotEmpty(_context.Tags);
-        Assert.NotEmpty(media.Value!.Tags);
+        Assert.NotEmpty(media.Tags);
     }
     
     [Fact]
@@ -109,7 +109,7 @@ public class TagsControllerTests
 
         // Act
         Assert.NotNull(actionResult.Value);
-        Assert.NotEmpty(media.Value!.Tags);
+        Assert.NotEmpty(media.Tags);
     }
 
     [Fact] public async void ItShould_fail_to_get_media_tags_with_invalid_mediaId()

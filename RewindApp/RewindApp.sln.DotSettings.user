@@ -36,8 +36,8 @@
     &lt;TestId&gt;xUnit::5D77837C-C895-40C6-9CF0-06BFD76A1D95::net6.0::RewindApp.Tests.UserControllersTests&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=2f988121_002Dec8e_002D4835_002Db3b7_002Dc8a379f07404/@EntryIndexedValue">JetBrains.ReSharper.UnitTestFramework.Session.Serialization.SessionState</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=3718c87e_002D73f8_002D44a4_002D8f65_002Dde45509939fe/@EntryIndexedValue">JetBrains.ReSharper.UnitTestFramework.Session.Serialization.SessionState</s:String>
+	
+	
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=376421e5_002D9360_002D4682_002Daaf7_002D30f4a901edcf/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ItShould_successfully_get_group_info_by_groupId #9" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;
     &lt;TestId&gt;xUnit::5D77837C-C895-40C6-9CF0-06BFD76A1D95::net6.0::RewindApp.Tests.GroupControllersTests.GroupsControllerTests.ItShould_successfully_get_group_info_by_groupId&lt;/TestId&gt;

@@ -23,7 +23,7 @@ public class ChangeGroupController : ControllerBase
     }
 
     [HttpPut("name/{groupId}")]
-    public async Task<ActionResult> ChangeName(int groupId, NameRequest request)
+    public async Task<ActionResult> ChangeName(NameRequest request, int groupId)
     {
         var group = await _groupsController.GetGroupById(groupId);
         if (group == null) return BadRequest("Group not found");
@@ -32,32 +32,7 @@ public class ChangeGroupController : ControllerBase
         _context.Groups.Update(group);
         await _context.SaveChangesAsync();
         
-        var imageParameter = new MySqlParameter("?objectData", MySqlDbType.Blob, group.Image.Length)
-        {
-            Value = group.Image
-        };
-        var tinyImageParameter = new MySqlParameter("?tinyObjectData", MySqlDbType.TinyBlob, group.TinyImage.Length)
-        {
-            Value = group.TinyImage
-        };
-        var nameParameter = new MySqlParameter("?name", MySqlDbType.VarChar, request.Name.Length)
-        {
-            Value = request.Name
-        };
-        var groupIdParameter = new MySqlParameter("?groupId", MySqlDbType.Int64)
-        {
-            Value = groupId
-        };
-
-        const string commandText = "UPDATE Groups SET Image = @objectData, TinyImage = @tinyObjectData, Name = @name WHERE Id = @groupId;";
-        var parameters = new List<MySqlParameter>
-        {
-            nameParameter,
-            imageParameter,
-            tinyImageParameter,
-            groupIdParameter
-        };
-        _sqlService.UpdateInfo(commandText, parameters);
+        _sqlService.UpdateGroupImage(group);
         
         return Ok(group);
     }
@@ -72,30 +47,11 @@ public class ChangeGroupController : ControllerBase
         var tinyObjectData = Convert.FromBase64String(mediaRequest.TinyObject);
         
         group.Image = objectData;
+        group.TinyImage = tinyObjectData;
         _context.Groups.Update(group);
         await _context.SaveChangesAsync();
         
-        var imageParameter = new MySqlParameter("?objectData", MySqlDbType.Blob, objectData.Length)
-        {
-            Value = objectData
-        };
-        var tinyImageParameter = new MySqlParameter("?tinyObjectData", MySqlDbType.TinyBlob, tinyObjectData.Length)
-        {
-            Value = tinyObjectData
-        };
-        var groupIdParameter = new MySqlParameter("?groupId", MySqlDbType.Int64)
-        {
-            Value = groupId
-        };
-
-        const string commandText = "UPDATE Groups SET Image = @objectData, TinyImage = @tinyObjectData WHERE Id = @groupId;";
-        var parameters = new List<MySqlParameter>
-        {
-            imageParameter,
-            tinyImageParameter,
-            groupIdParameter
-        };
-        _sqlService.UpdateInfo(commandText, parameters);
+        _sqlService.UpdateGroupImage(group);
 
         return Ok("Image changed");
     }

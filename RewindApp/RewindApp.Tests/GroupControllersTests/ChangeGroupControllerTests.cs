@@ -29,7 +29,7 @@ public class ChangeGroupControllerTests
         var nameRequest = new NameRequest() { Name = "newName" };
 
         // Act
-        var actionResult = await _changeGroupController.ChangeName(1, nameRequest);
+        var actionResult = await _changeGroupController.ChangeName(nameRequest, 1);
         var result = actionResult as ObjectResult;
         
         var changedGroup = _context.Groups.FirstOrDefault(g => g.Name == "newName");
@@ -50,7 +50,7 @@ public class ChangeGroupControllerTests
         var nameRequest = new NameRequest() { Name = "newName" };
 
         // Act
-        var actionResult = await _changeGroupController.ChangeName(2, nameRequest);
+        var actionResult = await _changeGroupController.ChangeName(nameRequest, 2);
         var result = actionResult as ObjectResult;
         
         // Assert

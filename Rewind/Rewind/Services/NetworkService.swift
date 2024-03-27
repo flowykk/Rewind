@@ -315,10 +315,12 @@ final class NetworkService {
     
     // MARK: - Get Group Basic Data
     static func getGroupBasicData(groupId: Int, userId: Int, membersQuantity: Int, mediaQuantity: Int, completion: @escaping (NetworkResponse) -> Void) {
-        guard let url = URL(string: appUrl + "/groups/\(groupId)/\(userId)?dataSize=\(membersQuantity)") else {
+        guard let url = URL(string: appUrl + "/groups/info/\(groupId)/\(userId)?dataSize=\(membersQuantity)") else {
             completion(NetworkResponse(success: false, message: "Wrong URL"))
             return
         }
+        
+        print(url)
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"

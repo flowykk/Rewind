@@ -14,14 +14,12 @@ public class ChangeUserController : ControllerBase
 {
     private readonly DataContext _context;
     private readonly IUsersController _usersController;
-    private readonly IUserService _userService;
     private readonly SqlService _sqlService;
 
     public ChangeUserController(DataContext context)
     {
         _context = context;
         _usersController = new UsersController(context);
-        _userService = new UserService();
         _sqlService = new SqlService();
     }
 
@@ -35,32 +33,7 @@ public class ChangeUserController : ControllerBase
         _context.Users.Update(user);
         await _context.SaveChangesAsync();
         
-        var imageParameter = new MySqlParameter("?objectData", MySqlDbType.Blob, user.ProfileImage.Length)
-        {
-            Value = user.ProfileImage
-        };
-        var tinyImageParameter = new MySqlParameter("?tinyObjectData", MySqlDbType.TinyBlob, user.TinyProfileImage.Length)
-        {
-            Value = user.TinyProfileImage
-        };
-        var nameParameter = new MySqlParameter("?name", MySqlDbType.VarChar, request.Name.Length)
-        {
-            Value = request.Name
-        };
-        var groupIdParameter = new MySqlParameter("?userId", MySqlDbType.Int64)
-        {
-            Value = userId
-        };
-
-        const string commandText = "UPDATE Users SET ProfileImage = @objectData, TinyProfileImage = @tinyObjectData, UserName = @name WHERE Id = @userId;";
-        var parameters = new List<MySqlParameter>
-        {
-            nameParameter,
-            imageParameter,
-            tinyImageParameter,
-            groupIdParameter
-        };
-        _sqlService.UpdateInfo(commandText, parameters);
+        _sqlService.UpdateUserImage(user);
         
         return Ok("Name changed");
     }
@@ -75,32 +48,7 @@ public class ChangeUserController : ControllerBase
         _context.Users.Update(user);
         await _context.SaveChangesAsync();
         
-        var imageParameter = new MySqlParameter("?objectData", MySqlDbType.Blob, user.ProfileImage.Length)
-        {
-            Value = user.ProfileImage
-        };
-        var tinyImageParameter = new MySqlParameter("?tinyObjectData", MySqlDbType.TinyBlob, user.TinyProfileImage.Length)
-        {
-            Value = user.TinyProfileImage
-        };
-        var emailParameter = new MySqlParameter("?email", MySqlDbType.VarChar, request.Email.Length)
-        {
-            Value = request.Email
-        };
-        var groupIdParameter = new MySqlParameter("?userId", MySqlDbType.Int64)
-        {
-            Value = userId
-        };
-
-        const string commandText = "UPDATE Users SET ProfileImage = @objectData, TinyProfileImage = @tinyObjectData, Email = @email WHERE Id = @userId;";
-        var parameters = new List<MySqlParameter>
-        {
-            emailParameter,
-            imageParameter,
-            tinyImageParameter,
-            groupIdParameter
-        };
-        _sqlService.UpdateInfo(commandText, parameters);
+        _sqlService.UpdateUserImage(user);
         
         return Ok("Email changed");
     }
@@ -111,36 +59,11 @@ public class ChangeUserController : ControllerBase
         var user = await _usersController.GetUserById(userId);
         if (user == null) return BadRequest("User not found");
 
-        user.Password = request.Password; //_userService.ComputeHash(request.Password);
+        user.Password = request.Password; 
         _context.Users.Update(user);
         await _context.SaveChangesAsync();
         
-        var imageParameter = new MySqlParameter("?objectData", MySqlDbType.Blob, user.ProfileImage.Length)
-        {
-            Value = user.ProfileImage
-        };
-        var tinyImageParameter = new MySqlParameter("?tinyObjectData", MySqlDbType.TinyBlob, user.TinyProfileImage.Length)
-        {
-            Value = user.TinyProfileImage
-        };
-        var passwordParameter = new MySqlParameter("?password", MySqlDbType.VarChar, request.Password.Length)
-        {
-            Value = request.Password
-        };
-        var groupIdParameter = new MySqlParameter("?userId", MySqlDbType.Int64)
-        {
-            Value = userId
-        };
-
-        const string commandText = "UPDATE Users SET ProfileImage = @objectData, TinyProfileImage = @tinyObjectData, Password = @password WHERE Id = @userId;";
-        var parameters = new List<MySqlParameter>
-        {
-            passwordParameter,
-            imageParameter,
-            tinyImageParameter,
-            groupIdParameter
-        };
-        _sqlService.UpdateInfo(commandText, parameters);
+        _sqlService.UpdateUserImage(user);
         
         return Ok("Password changed");
     }
@@ -155,32 +78,7 @@ public class ChangeUserController : ControllerBase
         _context.Users.Update(user);
         await _context.SaveChangesAsync();
         
-        var imageParameter = new MySqlParameter("?objectData", MySqlDbType.Blob, user.ProfileImage.Length)
-        {
-            Value = user.ProfileImage
-        };
-        var tinyImageParameter = new MySqlParameter("?tinyObjectData", MySqlDbType.TinyBlob, user.TinyProfileImage.Length)
-        {
-            Value = user.TinyProfileImage
-        };
-        var iconParameter = new MySqlParameter("?icon", MySqlDbType.VarChar, newIcon.Length)
-        {
-            Value = newIcon
-        };
-        var groupIdParameter = new MySqlParameter("?userId", MySqlDbType.Int64)
-        {
-            Value = userId
-        };
-
-        const string commandText = "UPDATE Users SET ProfileImage = @objectData, TinyProfileImage = @tinyObjectData, AppIcon = @icon WHERE Id = @userId;";
-        var parameters = new List<MySqlParameter>
-        {
-            iconParameter,
-            imageParameter,
-            tinyImageParameter,
-            groupIdParameter
-        };
-        _sqlService.UpdateInfo(commandText, parameters);
+        _sqlService.UpdateUserImage(user);
         
         return Ok("AppIcon changed");
     }

@@ -41,13 +41,13 @@ extension MenuAddButtonCell {
         
         buttonImageView.contentMode = .center
         
-        let font = UIFont.systemFont(ofSize: 14, weight: .semibold)
+        let font = UIFont.systemFont(ofSize: 20, weight: .semibold)
         let configuration = UIImage.SymbolConfiguration(font: font)
         var image = UIImage(systemName: "plus", withConfiguration: configuration)
         image = image?.withTintColor(.black, renderingMode: .alwaysOriginal)
         buttonImageView.image = image
         
-        let width: CGFloat = 20
+        let width: CGFloat = 30
         
         buttonImageView.setWidth(width)
         buttonImageView.pinLeft(to: leadingAnchor, 10)

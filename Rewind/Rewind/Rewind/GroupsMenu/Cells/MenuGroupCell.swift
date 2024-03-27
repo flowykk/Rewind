@@ -58,10 +58,10 @@ extension MenuGroupCell {
         addSubview(groupImageView)
         groupImageView.translatesAutoresizingMaskIntoConstraints = false
         
-        groupImageView.contentMode = .center
+        groupImageView.contentMode = .scaleAspectFill
         groupImageView.clipsToBounds = true
         
-        let width: CGFloat = 20
+        let width: CGFloat = 30
         
         groupImageView.layer.cornerRadius = width / 2
         

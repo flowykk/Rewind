@@ -129,6 +129,7 @@ extension GroupSettingsPresenter {
         if response.success {
             DataManager.shared.removeGroupFromGroups(groupId: groupId)
             DataManager.shared.resetCurrentGroup()
+            DataManager.shared.setCurrentGroupToRandomUserGroup()
             DispatchQueue.main.async { [weak self] in
                 self?.router.navigateToRewind()
                 LoadingView.hide(from: self?.view)
@@ -146,6 +147,7 @@ extension GroupSettingsPresenter {
         if response.success {
             DataManager.shared.removeGroupFromGroups(groupId: groupId)
             DataManager.shared.resetCurrentGroup()
+            DataManager.shared.setCurrentGroupToRandomUserGroup()
             DispatchQueue.main.async { [weak self] in
                 self?.router.navigateToRewind()
                 LoadingView.hide(from: self?.view)

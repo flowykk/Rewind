@@ -39,6 +39,47 @@ final class RewindPresenter {
         router.navigateToDetails()
     }
     
+    func galleryButtonTapped() {
+        router.navigateToGallery()
+    }
+    
+    func getInitialRewindScreenData() {
+        LoadingView.show(in: view, backgroundColor: .systemBackground)
+        if let groupId = DataManager.shared.getCurrectGroupId() {
+            print("request data")
+            LoadingView.hide(from: view)
+//            requestInitialRewindScreenData(groupId: groupId)
+        } else {
+            print("group is not selected")
+            LoadingView.hide(from: view)
+        }
+    }
+    
+    func favouriteButtonTapped(favourite: Bool) {
+        view?.isFavourite = !favourite
+        if !favourite {
+            view?.setFavouriteButton(imageName: "heart.fill", tintColor: .customPink)
+        } else {
+            view?.setFavouriteButton(imageName: "heart", tintColor: .systemGray2)
+        }
+    }
+    
+    func menuButtonSelected(_ button: GroupsMenuTableView.GroupsMenuButton) {
+        switch button {
+        case .allGroups:
+            router.navigateToAllGroups()
+        case .addGroup:
+            print("add group")
+        }
+    }
+    
+    func menuGroupSelected(_ group: Group) {
+        DataManager.shared.setCurrentGroup(group)
+        view?.configureUIForCurrentGroup()
+    }
+}
+
+extension RewindPresenter {
     func downloadButtonTapped(currentImage: UIImage) {
         PHPhotoLibrary.requestAuthorization { status in
             switch status {
@@ -71,31 +112,10 @@ final class RewindPresenter {
             }
         }
     }
-    
-    func favouriteButtonTapped(favourite: Bool) {
-        view?.isFavourite = !favourite
-        if !favourite {
-            view?.setFavouriteButton(imageName: "heart.fill", tintColor: .customPink)
-        } else {
-            view?.setFavouriteButton(imageName: "heart", tintColor: .systemGray2)
-        }
-    }
-    
-    func galleryButtonTapped() {
-        router.navigateToGallery()
-    }
-    
-    func buttonSelected(_ button: GroupsMenuTableView.GroupsMenuButton) {
-        switch button {
-        case .allGroups:
-            router.navigateToAllGroups()
-        case .addGroup:
-            print("add group")
-        }
-    }
-    
-    func groupSelected(_ group: Group) {
-        DataManager.shared.setCurrentGroup(group)
-        view?.setCurrentGroup(to: group)
+}
+
+extension RewindPresenter {
+    private func requestInitialRewindScreenData(groupId: Int) {
+        
     }
 }

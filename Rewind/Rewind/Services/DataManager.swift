@@ -84,6 +84,10 @@ final class DataManager {
         }
     }
     
+    func setCurrentGroupToRandomUserGroup() {
+        user.currentGroup = user.groups.randomElement()
+    }
+    
     func getUserGroups() -> [Group] {
         return user.groups
     }

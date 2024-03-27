@@ -196,6 +196,7 @@
 		5515097C2B909CE600D162CF /* EnterVerificationCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterVerificationCodeViewController.swift; sourceTree = "<group>"; };
 		5515097E2B909D0C00D162CF /* EnterVerificationCodePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterVerificationCodePresenter.swift; sourceTree = "<group>"; };
 		551509802B909D1500D162CF /* EnterVerificationCodeBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterVerificationCodeBuilder.swift; sourceTree = "<group>"; };
+		551C2D0A2BB4353700714DDD /* Rewind.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Rewind.entitlements; sourceTree = "<group>"; };
 		553FB28E2BA099ED00C3E6FB /* GalleryPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryPresenter.swift; sourceTree = "<group>"; };
 		553FB2902BA09EC600C3E6FB /* GalleryRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryRouter.swift; sourceTree = "<group>"; };
 		553FB2922BA09EDB00C3E6FB /* GalleryBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryBuilder.swift; sourceTree = "<group>"; };
@@ -733,6 +734,7 @@
 		55A326662B81F8FC007C9B74 /* Rewind */ = {
 			isa = PBXGroup;
 			children = (
+				551C2D0A2BB4353700714DDD /* Rewind.entitlements */,
 				55A326AE2B825274007C9B74 /* Wellcome */,
 				55A3267B2B81FB7F007C9B74 /* Authentication */,
 				55AF8C6B2B9381CB00AC7CE0 /* Rewind */,
@@ -1323,6 +1325,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconWhite;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_ENTITLEMENTS = Rewind/Rewind.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8FRM8M93L5;
@@ -1339,7 +1342,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = site.aleksa.Rewind;
+				PRODUCT_BUNDLE_IDENTIFIER = site.aleksa.www.Rewind;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1353,6 +1356,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconWhite;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_ENTITLEMENTS = Rewind/Rewind.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8FRM8M93L5;
@@ -1369,7 +1373,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = site.aleksa.Rewind;
+				PRODUCT_BUNDLE_IDENTIFIER = site.aleksa.www.Rewind;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

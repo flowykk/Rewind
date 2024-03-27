@@ -40,7 +40,7 @@ extension AddButtonCell {
         
         buttonImageView.contentMode = .center
         
-        let font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        let font = UIFont.systemFont(ofSize: 20, weight: .semibold)
         let configuration = UIImage.SymbolConfiguration(font: font)
         var image = UIImage(systemName: "plus", withConfiguration: configuration)
         image = image?.withTintColor(.black, renderingMode: .alwaysOriginal)

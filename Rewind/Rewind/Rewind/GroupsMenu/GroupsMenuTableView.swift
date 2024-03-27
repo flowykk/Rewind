@@ -28,6 +28,7 @@ final class GroupsMenuTableView: UITableView {
     
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
+        groups = DataManager.shared.getUserGroups()
         commonInit()
     }
     
@@ -43,24 +44,22 @@ final class GroupsMenuTableView: UITableView {
         register(MenuGroupCell.self, forCellReuseIdentifier: "MenuGroupCell")
         register(MenuAddButtonCell.self, forCellReuseIdentifier: "MenuAddButtonCell")
         
-        backgroundColor = .systemBackground
+        backgroundColor = .clear
         isScrollEnabled = false
-        rowHeight = 40
+        rowHeight = 50
         showsVerticalScrollIndicator = true
         showsHorizontalScrollIndicator = false
         
-        let rows = 4
-        //        let rows = min(GroupsMenuTableView.rowsLimit, groups.count + GroupsMenuButton.allCases.count)
+        let rows = min(GroupsMenuTableView.rowsLimit, groups.count + GroupsMenuButton.allCases.count)
         let height = Double((rows) * Int(rowHeight) - (rows > 0 ? 1 : 0))
         setHeight(height)
-        setWidth(UIScreen.main.bounds.width / 2)
+        setWidth(UIScreen.main.bounds.width * 0.6)
     }
 }
 
 extension GroupsMenuTableView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
-        //        return min(GroupsMenuTableView.rowsLimit, groups.count + GroupsMenuButton.allCases.count)
+        return min(GroupsMenuTableView.rowsLimit, groups.count + GroupsMenuButton.allCases.count)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -98,11 +97,12 @@ extension GroupsMenuTableView: UITableViewDataSource {
 extension GroupsMenuTableView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
-            //            buttonSelected?(GroupsMenuButton.allGroups)
+            buttonSelected?(.allGroups)
         } else if indexPath.row == tableView.numberOfRows(inSection: 0) - 1 {
+            
             //            buttonSelected?(GroupsMenuButton.addGroup)
         } else {
-            //            groupSelected?(groups[indexPath.row - 1])
+            groupSelected?(groups[indexPath.row - 1])
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }

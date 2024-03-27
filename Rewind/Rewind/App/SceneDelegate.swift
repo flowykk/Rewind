@@ -11,22 +11,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
     
-    var deepLinkedURL: String = ""
-    
-    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
-        deepLinkedURL = "------------"
-        if let url = URLContexts.first?.url {
-            deepLinkedURL = url.absoluteString
+    func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
+        if let url = userActivity.webpageURL {
+            // handle deeplink when app was already running
             print(url)
-            if let scheme = url.scheme, scheme.localizedCaseInsensitiveCompare("rewindapp") == .orderedSame, let view = url.host {
-                print("scheme=\(scheme)")
-                print("view=\(view)")
-                var parameters: [String: String] = [:]
-                URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems?.forEach {
-                    parameters[$0.name] = $0.value
+            
+            if let components = URLComponents(url: url, resolvingAgainstBaseURL: false) {
+                if let queryItems = components.queryItems {
+                    for queryItem in queryItems {
+                        print("Parameter: \(queryItem.name), Value: \(queryItem.value ?? "")")
+                    }
                 }
-                print("parameters=\(parameters)")
             }
+            
         }
     }
 
@@ -34,20 +31,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        deepLinkedURL = "------------"
         
-        if let url = connectionOptions.urlContexts.first?.url {
-            deepLinkedURL = url.absoluteString
+        if let url = connectionOptions.userActivities.first?.webpageURL {
+            // handle deeplink when app was launched
             print(url)
-            if let scheme = url.scheme, scheme.localizedCaseInsensitiveCompare("rewindapp") == .orderedSame, let view = url.host {
-                print("scheme=\(scheme)")
-                print("view=\(view)")
-                var parameters: [String: String] = [:]
-                URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems?.forEach {
-                    parameters[$0.name] = $0.value
-                }
-                print("parameters=\(parameters)")
-            }
         }
         
         guard let windowScene = (scene as? UIWindowScene) else { return }
@@ -55,25 +42,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let isUserIDStored = UserDefaults.standard.object(forKey: "UserId")
         
-        var initialViewController = UIViewController()
+        var initialViewController: UIViewController = UIViewController()
         
         if isUserIDStored != nil {
             initialViewController = RewindBuilder.build()
         } else {
             initialViewController = WellcomeBuilder.build()
         }
-        
-//        initialViewController = GroupSettingsBuilder.build()
-//        initialViewController = RewindBuilder.build()
-//        initialViewController = GroupViewController()
-//        initialViewController = AllMembersViewController()
-//        initialViewController = AllGroupsViewController()
-//        initialViewController = EnterGroupNameViewController()
-//        initialViewController = LoadGroupImageViewController()
-//        initialViewController = GalleryBuilder.build()
-//        initialViewController = AddPhotoViewController()
-//        initialViewController = AddQuoteViewController()
-//        initialViewController = QuoteSettingsViewController()
         
         window.rootViewController = UINavigationController(rootViewController: initialViewController)
         self.window = window
@@ -107,7 +82,4 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
     }
-
-
 }
-

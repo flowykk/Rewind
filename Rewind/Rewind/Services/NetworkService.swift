@@ -432,6 +432,22 @@ final class NetworkService {
         }
         task.resume()
     }
+    
+    static func getInitialRewindScreenData(groupId: Int, completion: @escaping (NetworkResponse) -> Void) {
+        guard let url = URL(string: appUrl + "/groups/61/8?dataSize={dataSize}") else {
+            completion(NetworkResponse(success: false, message: "Wrong URL"))
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            let networkResponse = self.processJSONArrayResponse(data: data, response: response, error: error)
+            completion(networkResponse)
+        }
+        task.resume()
+    }
 }
 
 // MARK: - Private funcs

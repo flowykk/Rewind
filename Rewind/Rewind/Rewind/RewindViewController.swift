@@ -29,7 +29,15 @@ final class RewindViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.delegate = self
+        presenter?.getInitialRewindScreenData()
         configureUI()
+        
+        if let navigationController = navigationController {
+            let navigationBarHeight = navigationController.navigationBar.frame.height
+            print("Navigation bar height: \(navigationBarHeight)")
+        } else {
+            print("Navigation controller is not available.")
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -96,13 +104,16 @@ final class RewindViewController: UIViewController {
             if let miniImage = currentGroup.miniImage {
                 groupImageView.image = miniImage
             } else {
-                guard let defaultImage = UIImage(named: "groupImage") else { return }
-                groupImageView.image = defaultImage
+                if let defaultImage = UIImage(named: "groupImage") {
+                    groupImageView.image = defaultImage
+                }
             }
         } else {
             goToGroupButton.isEnabled = false
-            showGroupsMenuButton.setTitle(nil, for: .normal)
-            groupImageView.image = nil
+            showGroupsMenuButton.setTitle("Select group", for: .normal)
+            if let defaultImage = UIImage(named: "groupImage") {
+                groupImageView.image = defaultImage
+            }
         }
     }
     
@@ -114,7 +125,6 @@ final class RewindViewController: UIViewController {
             guard let defaultImage = UIImage(named: "groupImage") else { return }
             groupImageView.image = defaultImage
         }
-        goToGroupButton.isEnabled = true
     }
     
     func setFavouriteButton(imageName: String, tintColor: UIColor) {
@@ -229,21 +239,20 @@ extension RewindViewController {
         
         showGroupsMenuButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
         
-        let font = UIFont.systemFont(ofSize: 11, weight: .bold)
+        let font = UIFont.systemFont(ofSize: 11, weight: .semibold)
         let configuration = UIImage.SymbolConfiguration(font: font)
         let image = UIImage(systemName: "chevron.down", withConfiguration: configuration)
         showGroupsMenuButton.setImage(image, for: .normal)
         
-        showGroupsMenuButton.tintColor = .darkGray
+        showGroupsMenuButton.tintColor = .black
         showGroupsMenuButton.semanticContentAttribute = .forceRightToLeft
-        showGroupsMenuButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 0)
-        showGroupsMenuButton.imageEdgeInsets = UIEdgeInsets(top: 1, left: 0, bottom: 0, right: -35)
+        showGroupsMenuButton.imageEdgeInsets = UIEdgeInsets(top: 1, left: 0, bottom: 0, right: 0)
         
         showGroupsMenuButton.addTarget(self, action: #selector(showGroupsMenuButtonTapped), for: .touchUpInside)
         
         showGroupsMenuButton.setHeight(35)
-        showGroupsMenuButton.pinLeft(to: currentGroupView.leadingAnchor, 5)
-        showGroupsMenuButton.pinRight(to: currentGroupView.trailingAnchor, 5)
+        showGroupsMenuButton.pinLeft(to: groupImageView.trailingAnchor, 2)
+        showGroupsMenuButton.pinRight(to: currentGroupView.trailingAnchor, 3)
         showGroupsMenuButton.pinCenterY(to: currentGroupView.centerYAnchor)
     }
     

@@ -41,13 +41,13 @@ extension MenuAllGroupsButtonCell {
         
         buttonImageView.contentMode = .center
         
-        let font = UIFont.systemFont(ofSize: 14, weight: .bold)
+        let font = UIFont.systemFont(ofSize: 18, weight: .bold)
         let configuration = UIImage.SymbolConfiguration(font: font)
         var image = UIImage(systemName: "eye.fill", withConfiguration: configuration)
         image = image?.withTintColor(.black, renderingMode: .alwaysOriginal)
         buttonImageView.image = image
         
-        let width: CGFloat = 20
+        let width: CGFloat = 30
         
         buttonImageView.setWidth(width)
         buttonImageView.pinLeft(to: leadingAnchor, 10)

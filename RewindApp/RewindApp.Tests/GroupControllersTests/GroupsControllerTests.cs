@@ -30,7 +30,7 @@ public class GroupsControllerTests
         
         // Act
         var actionResult = await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
-        var result = actionResult as ObjectResult;
+        var result = actionResult.Result as ObjectResult;
         
         // Assert
         Assert.Equal("200", result?.StatusCode.ToString());
@@ -44,7 +44,7 @@ public class GroupsControllerTests
 
         // Act
         var actionResult = await _groupsController.CreateGroup(ContextHelper.BuildInvalidOwnerIdCreateGroupRequest());
-        var result = actionResult as ObjectResult;
+        var result = actionResult.Result as ObjectResult;
         
         // Assert
         Assert.Equal("400", result?.StatusCode.ToString());
@@ -91,9 +91,9 @@ public class GroupsControllerTests
         await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
         
         // Act
-        var actionResult = await _groupsController.GetGroupsByUser(1);
-        var result = actionResult.Value;
-
+        var actionResult = await _groupsController.GetGroupsByUserAsync(1);
+        var result = actionResult.Result as ObjectResult;
+        
         // Assert
         Assert.NotNull(result);
     }
@@ -106,7 +106,7 @@ public class GroupsControllerTests
         await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
         
         // Act
-        var actionResult = await _groupsController.GetGroupsByUser(2);
+        var actionResult = await _groupsController.GetGroupsByUserAsync(2);
         var result = actionResult.Result as ObjectResult;
 
         // Assert
@@ -125,11 +125,11 @@ public class GroupsControllerTests
         
         // Act
         var actionResult = await _groupsController.AddUserToGroup(1,2);
-        var result = actionResult as ObjectResult;
+        var result = actionResult.Result as ObjectResult;
 
         // Assert
         Assert.Equal("200", result?.StatusCode.ToString());
-        Assert.NotNull(_groupsController.GetGroupsByUser(2).Result.Value);
+        Assert.NotNull(await _groupsController.GetGroupsByUser(2));
     }
     
     [Fact]
@@ -141,7 +141,7 @@ public class GroupsControllerTests
         
         // Act
         var actionResult = await _groupsController.AddUserToGroup(1,1);
-        var result = actionResult as ObjectResult;
+        var result = actionResult.Result as ObjectResult;
 
         // Assert
         Assert.Equal("400", result?.StatusCode.ToString());
@@ -158,7 +158,7 @@ public class GroupsControllerTests
         
         // Act
         var actionResult = await _groupsController.AddUserToGroup(1,3);
-        var result = actionResult as ObjectResult;
+        var result = actionResult.Result as ObjectResult;
 
         // Assert
         Assert.Equal("400", result?.StatusCode.ToString());
@@ -175,7 +175,7 @@ public class GroupsControllerTests
         
         // Act
         var actionResult = await _groupsController.AddUserToGroup(2,1);
-        var result = actionResult as ObjectResult;
+        var result = actionResult.Result as ObjectResult;
 
         // Assert
         Assert.Equal("400", result?.StatusCode.ToString());
@@ -195,7 +195,7 @@ public class GroupsControllerTests
         
         // Assert
         Assert.Equal("200", result?.StatusCode.ToString());
-        Assert.Empty(_groupsController.GetGroupsByUser(1).Result.Value!);
+        Assert.Empty(await _groupsController.GetGroupsByUser(1));
         Assert.Empty(_context.Groups);
     }
     
@@ -229,7 +229,7 @@ public class GroupsControllerTests
         
         // Assert
         Assert.Equal("200", result?.StatusCode.ToString());
-        Assert.Empty(_groupsController.GetGroupsByUser(1).Result.Value!);
+        Assert.Empty(await _groupsController.GetGroupsByUser(1));
     }
     
     [Fact]
@@ -305,11 +305,11 @@ public class GroupsControllerTests
         await _mediaController.LoadMediaToGroup(ContextHelper.BuildTestImageRequest(), 1, 1);
 
         // Act
-        var actionResult = await _groupsController.GetMediaByGroupId(1);
+        var actionResult = await _groupsController.GetMediaByGroupAsync(1);
         var group = await _groupsController.GetGroupById(1);
 
         // Assert
-        Assert.NotNull(actionResult.Value);
+        Assert.NotNull(actionResult.Result);
         Assert.NotEmpty(group!.Media);
     }
     
@@ -322,7 +322,7 @@ public class GroupsControllerTests
         await _mediaController.LoadMediaToGroup(ContextHelper.BuildTestImageRequest(), 1, 1);
 
         // Act
-        var actionResult = await _groupsController.GetMediaByGroupId(2);
+        var actionResult = await _groupsController.GetMediaByGroupAsync(2);
         var result = actionResult.Result as ObjectResult;
 
         // Assert

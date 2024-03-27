@@ -96,11 +96,10 @@ public class ChangeUserControllerTests
     public async void ItShould_successfully_change_user_password_with_valid_userId()
     {
         // Arrange
-        await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
-        var passwordRequest = new PasswordRequest() { Password = "qwerty" };
-        
         var userService = new UserService();
-
+        await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
+        var passwordRequest = new PasswordRequest() { Password = userService.ComputeHash("qwerty") };
+        
         // Act
         var actionResult = await _changeUserController.ChangePassword(1, passwordRequest);
         var result = actionResult as ObjectResult;

@@ -197,9 +197,14 @@ extension RewindPresenter {
                 self?.view?.configureUIForRandomMedia(randomMedia)
                 LoadingView.hide(fromView: self?.view?.imageView)
             }
+        } else if response.statusCode == 204 {
+            DispatchQueue.main.async { [weak self] in
+                self?.view?.configureUIForRandomMedia(nil)
+                LoadingView.hide(fromView: self?.view?.imageView)
+            }
         } else {
-            print("something went wrong")
-            print(response.json?.keys as Any)
+            print("something went wrong - handleGetRandomMediaResponse")
+            print(response)
         }
         DispatchQueue.main.async { [weak self] in
             LoadingView.hide(fromView: self?.view?.imageView)

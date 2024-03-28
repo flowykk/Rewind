@@ -137,8 +137,9 @@ extension GroupPresenter {
             }
             
             let miniImage: UIImage? = DataManager.shared.getCurrentGroup()?.miniImage
+            let gallerySize = DataManager.shared.getCurrentGroup()?.gallerySize
             
-            let currentGroup = Group(id: groupId, name: groupName, ownerId: owner.id, bigImage: groupImage, miniImage: miniImage, owner: owner, members: members, medias: medias)
+            let currentGroup = Group(id: groupId, name: groupName, ownerId: owner.id, bigImage: groupImage, miniImage: miniImage, owner: owner, members: members, gallerySize: gallerySize, medias: medias)
             DataManager.shared.setCurrentGroup(currentGroup)
             
             DispatchQueue.main.async { [weak self] in

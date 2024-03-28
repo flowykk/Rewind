@@ -15,7 +15,7 @@ final class ObjectsMenuViewController: UIViewController, UIPopoverPresentationCo
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let height = Double(2 * 40)
+        let height = Double(2 * 40 - 1)
         
         preferredContentSize = CGSize(width: UIScreen.main.bounds.width / 2, height: height)
         popoverPresentationController?.permittedArrowDirections = []

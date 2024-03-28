@@ -39,7 +39,6 @@
 		551509812B909D1500D162CF /* EnterVerificationCodeBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551509802B909D1500D162CF /* EnterVerificationCodeBuilder.swift */; };
 		551C2D0C2BB4C65800714DDD /* AuthorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551C2D0B2BB4C65800714DDD /* AuthorModel.swift */; };
 		551C2D102BB4FC9200714DDD /* JoinLinkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551C2D0F2BB4FC9200714DDD /* JoinLinkService.swift */; };
-		551C2D122BB506CD00714DDD /* JoinResponseHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551C2D112BB506CD00714DDD /* JoinResponseHandler.swift */; };
 		553FB28F2BA099ED00C3E6FB /* GalleryPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553FB28E2BA099ED00C3E6FB /* GalleryPresenter.swift */; };
 		553FB2912BA09EC700C3E6FB /* GalleryRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553FB2902BA09EC600C3E6FB /* GalleryRouter.swift */; };
 		553FB2932BA09EDB00C3E6FB /* GalleryBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553FB2922BA09EDB00C3E6FB /* GalleryBuilder.swift */; };
@@ -202,7 +201,6 @@
 		551C2D0A2BB4353700714DDD /* Rewind.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Rewind.entitlements; sourceTree = "<group>"; };
 		551C2D0B2BB4C65800714DDD /* AuthorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorModel.swift; sourceTree = "<group>"; };
 		551C2D0F2BB4FC9200714DDD /* JoinLinkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinLinkService.swift; sourceTree = "<group>"; };
-		551C2D112BB506CD00714DDD /* JoinResponseHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinResponseHandler.swift; sourceTree = "<group>"; };
 		553FB28E2BA099ED00C3E6FB /* GalleryPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryPresenter.swift; sourceTree = "<group>"; };
 		553FB2902BA09EC600C3E6FB /* GalleryRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryRouter.swift; sourceTree = "<group>"; };
 		553FB2922BA09EDB00C3E6FB /* GalleryBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryBuilder.swift; sourceTree = "<group>"; };
@@ -472,7 +470,6 @@
 				55EFC5EC2B94B0CD00E82D20 /* UserDefaultsExtension.swift */,
 				558D634F2BB099AA00B75AA6 /* UIImageExtension.swift */,
 				551C2D0F2BB4FC9200714DDD /* JoinLinkService.swift */,
-				551C2D112BB506CD00714DDD /* JoinResponseHandler.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1095,7 +1092,6 @@
 				55A049182B91CB3000CD9C46 /* PrimaryTableView.swift in Sources */,
 				55A326C12B8263C8007C9B74 /* EnterPasswordPresenter.swift in Sources */,
 				55A326A32B82204E007C9B74 /* EnterEmailPresenter.swift in Sources */,
-				551C2D122BB506CD00714DDD /* JoinResponseHandler.swift in Sources */,
 				55967FE62BB27CCE0054D1BB /* AllMembersPresenter.swift in Sources */,
 				550109892B8A36FE0005F1D5 /* AppIconModel.swift in Sources */,
 				55C3E53E2B9605ED00701BF8 /* SettingsCell.swift in Sources */,
@@ -1340,10 +1336,11 @@
 				CODE_SIGN_ENTITLEMENTS = Rewind/Rewind.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 8FRM8M93L5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Rewind/App/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your photo library to save images that you download from the app.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -1354,7 +1351,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = site.aleksa.www.Rewind;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1373,10 +1370,11 @@
 				CODE_SIGN_ENTITLEMENTS = Rewind/Rewind.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 8FRM8M93L5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Rewind/App/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your photo library to save images that you download from the app.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -1387,7 +1385,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = site.aleksa.www.Rewind;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

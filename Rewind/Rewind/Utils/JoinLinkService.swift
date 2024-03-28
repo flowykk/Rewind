@@ -10,8 +10,6 @@ import CommonCrypto
 
 final class JoinLinkService {
     static func createJoinLink(groupId: Int) -> URL? {
-        let groupIdString = String(groupId)
-        
         guard let encryptedGroupId = encrypt(intValue: groupId, key: "777") else {
             print("Failed to encrypt group ID")
             return nil

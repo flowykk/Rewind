@@ -457,11 +457,7 @@ extension RewindViewController {
         galleryButton.setImage(image, for: .normal)
         
         galleryButton.tintColor = .darkGray
-        
         galleryButton.semanticContentAttribute = .forceRightToLeft
-        
-        let imageSize = image?.size ?? CGSize.zero
-        let titleSize = galleryButton.titleLabel?.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)) ?? CGSize.zero
         
         galleryButton.addTarget(self, action: #selector(galleryButtonTapped), for: .touchUpInside)
         

@@ -22,6 +22,9 @@ final class GroupSettingsRouter {
         if let navigationController = view?.navigationController {
             for viewController in navigationController.viewControllers {
                 if viewController is RewindViewController {
+                    if let rewindVC  = viewController as? RewindViewController {
+                        rewindVC.configureUIForRandomMedia(nil)
+                    }
                     navigationController.popToViewController(viewController, animated: true)
                     break
                 }

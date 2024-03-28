@@ -6,7 +6,7 @@ namespace RewindApp.Services;
 
 public class SqlService
 {
-    public void UpdateInfo(string commandText, List<MySqlParameter> parameters)
+    private void RunCommand(string commandText, List<MySqlParameter> parameters)
     {
         var connectionString = DataContext.GetDbConnection();
         var connection = new MySqlConnection(connectionString);
@@ -45,7 +45,7 @@ public class SqlService
             idParameter
         };
 
-        UpdateInfo(commandText, parameters);
+        RunCommand(commandText, parameters);
     }
 
 
@@ -72,6 +72,27 @@ public class SqlService
             groupIdParameter
         };
         
-        UpdateInfo(commandText, parameters);
+        RunCommand(commandText, parameters);
     }
+
+    public void Delete(int firstId, int secondId, string firstIdName, string secondIdName, string table)
+    {
+        var firstIdParameter = new MySqlParameter("?firstId", MySqlDbType.Int64)
+        {
+            Value = firstId
+        };
+        var secondIdParameter = new MySqlParameter("?secondId", MySqlDbType.Int64)
+        {
+            Value = secondId
+        };
+
+        var commandText = $"DELETE FROM {table} WHERE {firstIdName} = @firstId AND {secondIdName} = @secondId;";
+        var parameters = new List<MySqlParameter>
+        {
+            firstIdParameter,
+            secondIdParameter
+        };
+        
+        RunCommand(commandText, parameters);
+    } 
 }

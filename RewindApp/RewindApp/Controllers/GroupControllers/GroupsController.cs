@@ -1,6 +1,7 @@
 using System.Net.Mime;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MySql.Data.MySqlClient;
 using RewindApp.Controllers.UserControllers;
 using RewindApp.Data;
 using RewindApp.Data.Repositories.GroupRepositories;
@@ -8,6 +9,7 @@ using RewindApp.Entities;
 using RewindApp.Interfaces.GroupInterfaces;
 using RewindApp.Requests;
 using RewindApp.Responses;
+using RewindApp.Services;
 using RewindApp.Views;
 
 namespace RewindApp.Controllers.GroupControllers;
@@ -23,11 +25,13 @@ public class GroupsController : ControllerBase, IGroupsController
 {
     private readonly DataContext _context;
     private readonly IUsersController _usersController;
+    private readonly SqlService _sqlService;
 
     public GroupsController(DataContext context) 
     {
         _context = context;
         _usersController = new UsersController(context);
+        _sqlService = new SqlService();
     }
 
     [HttpGet]
@@ -36,13 +40,13 @@ public class GroupsController : ControllerBase, IGroupsController
         return await _context.Groups.ToListAsync();
     }
     
-    [HttpGet("random/{groupId}")]
-    public async Task<ActionResult<Media>> GetRandomMediaAsync(int groupId)
+    [HttpGet("random/{groupId}/{userId}")]
+    public async Task<ActionResult<Media>> GetRandomMediaAsync(int groupId, int userId)
     {
         if (await GetGroupById(groupId) == null)
             return BadRequest("Group not found");
 
-        return Ok(await GetRandomMedia(groupId));
+        return Ok(await GetRandomBigMedia(groupId, userId));
     }
     
     [HttpGet("info/{groupId}/{userId}")]
@@ -61,7 +65,13 @@ public class GroupsController : ControllerBase, IGroupsController
     public async Task<ActionResult<RewindScreenDataResponse>> GetInitialRewindScreenData(int groupId, int userId)
     {
         var groups = (await GetGroupsByUser(userId))
-            .Select(g => _context.GroupViews.Single(gv => gv.Id == g.Id));
+            .Select(g => new GroupView()
+            {
+                Id = g.Id,
+                Name = g.Name,
+                TinyImage = g.TinyImage,
+                GallerySize = GetMediaByGroup(groupId).Result.ToList().Count
+            });
         
         var resultResponse = new RewindScreenDataResponse {
             Groups = groups,
@@ -87,7 +97,7 @@ public class GroupsController : ControllerBase, IGroupsController
         if (await GetGroupById(groupId) == null)
             return BadRequest("Group not found");
 
-        return Ok(await GetUsersByGroupAsync(groupId));
+        return Ok(await GetUserViewsByGroupAsync(groupId));
     }
     
     /*[HttpGet("image/{groupId}")]
@@ -174,16 +184,16 @@ public class GroupsController : ControllerBase, IGroupsController
         var user = await _usersController.GetUserById(userId);
         if (user == null) return BadRequest("User not found");
         
-        if (group.Users.Contains(user)) 
-            return BadRequest($"Group {groupId} already contains User {userId}");
+        var resultResponse = await GetGroupInfo(group, groupId, userId, dataSize);
+        if (resultResponse == null) return BadRequest("Owner not found");
 
+        if ((await GetUsersByGroupAsync(groupId)).ToList().Contains(user)) 
+            return Ok(resultResponse);
+        
         group.Users.Add(user);
         user.Groups.Add(group);
         await _context.SaveChangesAsync();
 
-        var resultResponse = await GetGroupInfo(group, groupId, userId, dataSize);
-        if (resultResponse == null) return BadRequest("Owner not found");
-        
         return Ok(resultResponse);
     }
 
@@ -196,9 +206,7 @@ public class GroupsController : ControllerBase, IGroupsController
         var user = await _usersController.GetUserById(userId);
         if (user == null) return BadRequest("User not found");
         
-        group.Users.Remove(user);
-        user.Groups.Remove(group);
-        await _context.SaveChangesAsync();
+        _sqlService.Delete(groupId, userId, "GroupsId", "UsersId", "GroupUser");
 
         return Ok($"User {userId} was successfully removed from group {groupId}");
     }
@@ -226,7 +234,7 @@ public class GroupsController : ControllerBase, IGroupsController
         var owner = await _usersController.GetUserById(group.OwnerId);
         if (owner == null) return null;
         
-        var firstMembers = (await GetUsersByGroupAsync(groupId))
+        var firstMembers = (await GetUserViewsByGroupAsync(groupId))
             .Select(u => new UserView {
                 Id = u.Id,
                 UserName = u.UserName,
@@ -263,7 +271,7 @@ public class GroupsController : ControllerBase, IGroupsController
             .SelectMany(user => user.Groups).ToListAsync();
     }
 
-    public async Task<IEnumerable<UserView>> GetUsersByGroupAsync(int groupId)
+    public async Task<IEnumerable<UserView>> GetUserViewsByGroupAsync(int groupId)
     {
         return await _context.Groups
             .Include(group => group.Users)
@@ -274,6 +282,15 @@ public class GroupsController : ControllerBase, IGroupsController
                 UserName = u.UserName,
                 TinyProfileImage = u.TinyProfileImage
             })
+            .ToListAsync();
+    }
+    
+    public async Task<IEnumerable<User>> GetUsersByGroupAsync(int groupId)
+    {
+        return await _context.Groups
+            .Include(group => group.Users)
+            .Where(group => group.Id == groupId)
+            .SelectMany(group => group.Users)
             .ToListAsync();
     }
     
@@ -321,7 +338,7 @@ public class GroupsController : ControllerBase, IGroupsController
     
     public async Task<BigMediaView?> GetRandomBigMedia(int groupId, int userId)
     {
-        var mediaList = (await GetBigMediaByGroup(groupId, userId)).ToList();
-        return mediaList.Count == 0 ? null : mediaList[new Random().Next(0, mediaList.Count)];
+        var media = (await GetBigMediaByGroup(groupId, userId)).ToList();
+        return media.Count == 0 ? null : media[new Random().Next(0, media.Count)];
     }
 }

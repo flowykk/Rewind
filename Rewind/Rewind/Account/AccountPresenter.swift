@@ -24,7 +24,7 @@ final class AccountPresenter {
     }
     
     func newImageSelected(originalImage: UIImage) {
-        LoadingView.show(in: viewController)
+        LoadingView.show(inVC: viewController)
         
         let bigImage = originalImage.resize(toDimension: 600)
         let miniImage = originalImage.resize(toDimension: 256)
@@ -103,7 +103,7 @@ final class AccountPresenter {
             router.presentEnterAuthCode()
         case .getHelp:      openHelpAlert()
         case .share:
-            LoadingView.show(in: viewController)
+            LoadingView.show(inVC: viewController)
             router.presentShareVC()
         }
     }
@@ -170,7 +170,7 @@ final class AccountPresenter {
     }
     
     func openPhotoGallery() {
-        LoadingView.show(in: viewController)
+        LoadingView.show(inVC: viewController)
         viewController?.showImagePicker()
     }
     
@@ -219,14 +219,14 @@ extension AccountPresenter {
             UserDefaults.standard.setImage(bigImageData, forKey: "UserImage")
             DispatchQueue.main.async { [weak self] in
                 self?.didUpdateImage(to: bigImageData)
-                LoadingView.hide(from: self?.viewController)
+                LoadingView.hide(fromVC: self?.viewController)
             }
         } else {
             print("something went wrong")
             print(response)
         }
         DispatchQueue.main.async { [weak self] in
-            LoadingView.hide(from: self?.viewController)
+            LoadingView.hide(fromVC: self?.viewController)
         }
     }
 }

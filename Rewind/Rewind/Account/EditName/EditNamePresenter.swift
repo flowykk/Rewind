@@ -16,7 +16,7 @@ final class EditNamePresenter {
     }
     
     func updateName(with name: String) {
-        LoadingView.show(in: view)
+        LoadingView.show(inVC: view)
         let userId = UserDefaults.standard.integer(forKey: "UserId")
         NetworkService.updateUserName(userId: userId, newName: name) { response in
             DispatchQueue.main.async {
@@ -24,7 +24,7 @@ final class EditNamePresenter {
                     self.view?.delegate?.presenter?.didUpdateName(to: name)
                     UserDefaults.standard.set(name, forKey: "UserName")
                     self.view?.dismiss(animated: true) {
-                        LoadingView.hide(from: self.view)
+                        LoadingView.hide(fromVC: self.view)
                     }
                 } else {
                     print(response.message as Any)

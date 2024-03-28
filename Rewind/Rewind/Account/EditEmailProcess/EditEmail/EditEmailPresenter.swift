@@ -17,7 +17,7 @@ final class EditEmailPresenter {
     }
     
     func sendVerificationCode(toEmail email: String) {
-        LoadingView.show(in: view)
+        LoadingView.show(inVC: view)
         NetworkService.sendCodeToRegister(toEmail: email) { [weak self] response in
             DispatchQueue.main.async {
                 if response.success {
@@ -28,7 +28,7 @@ final class EditEmailPresenter {
                     print(response.statusCode as Any)
                     print(response.message as Any)
                 }
-                LoadingView.hide(from: self?.view)
+                LoadingView.hide(fromVC: self?.view)
             }
         }
     }

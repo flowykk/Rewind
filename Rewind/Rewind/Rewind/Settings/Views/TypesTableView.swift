@@ -10,7 +10,6 @@ import UIKit
 final class TypesTableView: UITableView {
     enum TypeRow: String, CaseIterable {
         case Photos
-        case Videos
         case Quotes
     }
     

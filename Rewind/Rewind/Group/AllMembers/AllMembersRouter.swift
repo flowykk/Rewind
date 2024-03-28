@@ -33,4 +33,17 @@ final class AllMembersRouter {
         alertController.addAction(cancelAction)
         view?.present(alertController, animated: true)
     }
+    
+    func presentShareLinkViewController() {
+        guard let groupId = DataManager.shared.getCurrectGroupId() else { return }
+        
+        guard let joinLink = JoinLinkService.createJoinLink(groupId: groupId) else { return }
+        
+        let vc = UIActivityViewController(activityItems: [joinLink], applicationActivities: nil)
+        vc.excludedActivityTypes = [.addToReadingList, .assignToContact, .print]
+        
+        view?.present(vc, animated: true) { [weak self] in
+            LoadingView.hide(fromVC: self?.view)
+        }
+    }
 }

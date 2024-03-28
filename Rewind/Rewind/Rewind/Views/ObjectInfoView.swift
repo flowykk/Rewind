@@ -8,6 +8,12 @@
 import UIKit
 
 final class ObjectInfoView: UIView {
+    var viewWidth: CGFloat = UIScreen.main.bounds.width / 2 {
+         didSet {
+             setWidth(viewWidth)
+         }
+     }
+    
     private let authorImageView: UIImageView = UIImageView()
     private let authorNameLabel: UILabel = UILabel()
     private let dateObjectAddedLabel: UILabel = UILabel()
@@ -21,14 +27,23 @@ final class ObjectInfoView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureUIForAuthor(_ author: Author, withDateAdded: String) {
-        var authorImage = UIImage(named: "userImage")
-        if let image = author.miniImage {
-            authorImage = image
+    func configureUIForAuthor(_ author: Author?, withDateAdded date: String?) {
+        if let author = author {
+            var authorImage = UIImage(named: "userImage")
+            if let image = author.miniImage {
+                authorImage = image
+            }
+            authorImageView.image = authorImage
+            authorNameLabel.text = author.name
+        } else {
+            authorImageView.image = nil
+            authorNameLabel.text = nil
         }
-        authorImageView.image = authorImage
-        authorNameLabel.text = author.name
-        dateObjectAddedLabel.text = withDateAdded
+        if let date = date {
+            dateObjectAddedLabel.text = date
+        } else {
+            dateObjectAddedLabel.text = nil
+        }
     }
 }
 
@@ -36,7 +51,7 @@ extension ObjectInfoView {
     private func configureUI() {
         backgroundColor = UIColor(white: 1, alpha: 0.75)
         layer.cornerRadius = 35 / 2
-        setWidth(200)
+        setWidth(mode: .lsOE, viewWidth)
         setHeight(35)
         
         configureAuthorImageView()

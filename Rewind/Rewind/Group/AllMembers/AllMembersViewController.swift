@@ -49,7 +49,7 @@ final class AllMembersViewController: UIViewController {
             membersTableHeight -= 1
         }
         
-        var contentViewHeight = membersTableHeight + 30
+        var contentViewHeight = 60 + membersTableHeight + 30
         
         if contentViewHeight < view.frame.size.height {
             contentViewHeight = view.frame.size.height

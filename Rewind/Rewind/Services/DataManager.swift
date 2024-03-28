@@ -57,6 +57,10 @@ final class DataManager {
         user.groups = groups
     }
     
+    func addGroupToGroups(_ group: Group) {
+        user.groups.append(group)
+    }
+    
     func updateGroupWithName(_ groupName: String, forGroupWithId groupId: Int) {
         for index in user.groups.indices {
             if user.groups[index].id == groupId {
@@ -95,17 +99,6 @@ final class DataManager {
     
     func getCurrectGroupId() -> Int? {
         return user.currentGroup?.id
-    }
-    
-    func getSaveCurrentGroupId() -> Int? {
-        let stringGroupId = UserDefaults.standard.string(forKey: "CurrentGroupId")
-        
-        if let stringGroupId {
-            let groupId = Int(stringGroupId)
-            return groupId
-        }
-        
-        return nil
     }
     
     func getUser() -> User {

@@ -15,12 +15,12 @@ final class EditGroupNamePresenter {
     }
     
     func updateName(to name: String) {
-        LoadingView.show(in: view)
+        LoadingView.show(inVC: view)
         if !name.isEmpty {
             requestGroupNameUpdate(newName: name)
         } else {
             print("name cannot be empty")
-            LoadingView.hide(from: view)
+            LoadingView.hide(fromVC: view)
         }
     }
 }
@@ -45,7 +45,7 @@ extension EditGroupNamePresenter {
             DispatchQueue.main.async { [weak self] in
                 self?.view?.groupSettingVC?.setGroupName(newName)
                 self?.view?.dismiss(animated: true) {
-                    LoadingView.hide(from: self?.view)
+                    LoadingView.hide(fromVC: self?.view)
                 }
             }
         } else {
@@ -54,7 +54,7 @@ extension EditGroupNamePresenter {
         }
         DispatchQueue.main.async {
             self.view?.dismiss(animated: true) {
-                LoadingView.hide(from: self.view)
+                LoadingView.hide(fromVC: self.view)
             }
         }
     }

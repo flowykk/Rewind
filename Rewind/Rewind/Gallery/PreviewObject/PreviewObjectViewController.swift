@@ -104,6 +104,8 @@ extension PreviewObjectViewController {
         imageView.addSubview(imageInfoView)
         imageInfoView.translatesAutoresizingMaskIntoConstraints = false
         
+        imageInfoView.viewWidth = UIScreen.main.bounds.width * 0.4
+        
         imageInfoView.pinCenterX(to: imageView.centerXAnchor)
         imageInfoView.pinBottom(to: imageView.bottomAnchor, 5)
     }

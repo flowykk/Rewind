@@ -86,11 +86,11 @@ extension SettingsViewController {
         configureTypesTable()
         configurePropertiesTable()
         
-        configureFromLabel()
-        configureFromDatePicker()
-        
-        configureToDatePicker()
-        configureToLabel()
+//        configureFromLabel()
+//        configureFromDatePicker()
+//        
+//        configureToDatePicker()
+//        configureToLabel()
         
         configureTagsLabel()
         if tags.count < 5 { configureAddButton() }
@@ -156,49 +156,49 @@ extension SettingsViewController {
         propertiesTable.pinRight(to: contentView.trailingAnchor, 20)
     }
     
-    private func configureFromLabel() {
-        contentView.addSubview(fromLabel)
-        fromLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        fromLabel.text = "From"
-        fromLabel.font = UIFont.systemFont(ofSize: 20, weight: .medium)
-        
-        fromLabel.pinTop(to: propertiesTable.bottomAnchor, 30)
-        fromLabel.pinLeft(to: contentView.leadingAnchor, 20)
-    }
-    
-    private func configureFromDatePicker() {
-        contentView.addSubview(fromDatePicker)
-        fromDatePicker.translatesAutoresizingMaskIntoConstraints = false
-        
-        fromDatePicker.datePickerMode = .date
-        fromDatePicker.tintColor = .customPink
-        
-        fromDatePicker.pinCenterY(to: fromLabel.centerYAnchor)
-        fromDatePicker.pinLeft(to: fromLabel.trailingAnchor, 10)
-    }
-    
-    private func configureToLabel() {
-        contentView.addSubview(toLabel)
-        toLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        toLabel.text = "To"
-        toLabel.font = UIFont.systemFont(ofSize: 20, weight: .medium)
-        
-        toLabel.pinTop(to: propertiesTable.bottomAnchor, 30)
-        toLabel.pinRight(to: toDatePicker.leadingAnchor, 20)
-    }
-    
-    private func configureToDatePicker() {
-        contentView.addSubview(toDatePicker)
-        toDatePicker.translatesAutoresizingMaskIntoConstraints = false
-        
-        toDatePicker.datePickerMode = .date
-        toDatePicker.tintColor = .customPink
-        
-        toDatePicker.pinCenterY(to: fromLabel.centerYAnchor)
-        toDatePicker.pinRight(to: contentView.trailingAnchor, 20)
-    }
+//    private func configureFromLabel() {
+//        contentView.addSubview(fromLabel)
+//        fromLabel.translatesAutoresizingMaskIntoConstraints = false
+//        
+//        fromLabel.text = "From"
+//        fromLabel.font = UIFont.systemFont(ofSize: 20, weight: .medium)
+//        
+//        fromLabel.pinTop(to: propertiesTable.bottomAnchor, 30)
+//        fromLabel.pinLeft(to: contentView.leadingAnchor, 20)
+//    }
+//    
+//    private func configureFromDatePicker() {
+//        contentView.addSubview(fromDatePicker)
+//        fromDatePicker.translatesAutoresizingMaskIntoConstraints = false
+//        
+//        fromDatePicker.datePickerMode = .date
+//        fromDatePicker.tintColor = .customPink
+//        
+//        fromDatePicker.pinCenterY(to: fromLabel.centerYAnchor)
+//        fromDatePicker.pinLeft(to: fromLabel.trailingAnchor, 10)
+//    }
+//    
+//    private func configureToLabel() {
+//        contentView.addSubview(toLabel)
+//        toLabel.translatesAutoresizingMaskIntoConstraints = false
+//        
+//        toLabel.text = "To"
+//        toLabel.font = UIFont.systemFont(ofSize: 20, weight: .medium)
+//        
+//        toLabel.pinTop(to: propertiesTable.bottomAnchor, 30)
+//        toLabel.pinRight(to: toDatePicker.leadingAnchor, 20)
+//    }
+//    
+//    private func configureToDatePicker() {
+//        contentView.addSubview(toDatePicker)
+//        toDatePicker.translatesAutoresizingMaskIntoConstraints = false
+//        
+//        toDatePicker.datePickerMode = .date
+//        toDatePicker.tintColor = .customPink
+//        
+//        toDatePicker.pinCenterY(to: fromLabel.centerYAnchor)
+//        toDatePicker.pinRight(to: contentView.trailingAnchor, 20)
+//    }
     
     private func configureTagsLabel() {
         contentView.addSubview(tagsLabel)
@@ -209,7 +209,7 @@ extension SettingsViewController {
         attributedString.addAttributes([.font: UIFont.systemFont(ofSize: 14, weight: .medium)], range: NSRange(location: 6, length: 3))
         tagsLabel.attributedText = attributedString
         
-        tagsLabel.pinTop(to: fromLabel.bottomAnchor, 30)
+        tagsLabel.pinTop(to: propertiesTable.bottomAnchor, 10)
         tagsLabel.pinLeft(to: contentView.leadingAnchor, 20)
     }
     

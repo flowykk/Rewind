@@ -9,6 +9,5 @@ import Foundation
 
 protocol AllMembersTablePresenterProtocol {
     func rowSelected(_ row: MembersTableView.CellType)
-    
     func deleteMemberButtonTapped(memberId: Int)
 }

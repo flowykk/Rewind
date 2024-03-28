@@ -42,7 +42,7 @@ final class GroupRouter {
         vc.excludedActivityTypes = [.addToReadingList, .assignToContact, .print]
         
         view?.present(vc, animated: true) { [weak self] in
-            LoadingView.hide(from: self?.view)
+            LoadingView.hide(fromVC: self?.view)
         }
     }
     

@@ -19,7 +19,7 @@ final class GalleryCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(withImage image: UIImage) {
+    func configure(withImage image: UIImage?) {
         imageView.image = image
     }
     
@@ -42,7 +42,9 @@ extension GalleryCell {
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 10
         
-        imageView.setHeight(self.frame.size.height)
-        imageView.setWidth(self.frame.size.width)
+        imageView.pinLeft(to: self.leadingAnchor, 0)
+        imageView.pinRight(to: self.trailingAnchor, 0)
+        imageView.pinTop(to: self.topAnchor, 0)
+        imageView.pinBottom(to: self.bottomAnchor, 0)
     }
 }

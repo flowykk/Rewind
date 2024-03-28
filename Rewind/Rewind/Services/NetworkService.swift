@@ -382,7 +382,7 @@ final class NetworkService {
         task.resume()
     }
     
-    // MARK: - Get Group Users
+    // MARK: - Get Group Members
     static func getGroupMembers(groupId: Int, completion: @escaping (NetworkResponse) -> Void) {
         guard let url = URL(string: appUrl + "/groups/users?groupId=\(groupId)") else {
             completion(NetworkResponse(success: false, message: "Wrong URL"))
@@ -451,8 +451,8 @@ final class NetworkService {
     }
     
     // MARK: - Get Random Media
-    static func getRandomMedia(groupId: Int, completion: @escaping (NetworkResponse) -> Void) {
-        guard let url = URL(string: appUrl + "/groups/random/\(groupId)") else {
+    static func getRandomMedia(groupId: Int, userId: Int, completion: @escaping (NetworkResponse) -> Void) {
+        guard let url = URL(string: appUrl + "/groups/random/\(groupId)/\(userId)") else {
             completion(NetworkResponse(success: false, message: "Wrong URL"))
             return
         }
@@ -468,8 +468,8 @@ final class NetworkService {
     }
     
     // MARK: - Add Member To Group
-    static func addMemberToGroup(groupId: Int, userId: Int, dataSize: Int, completion: @escaping (NetworkResponse) -> Void) {
-        guard let url = URL(string: appUrl + "/groups/add/\(groupId)/\(userId)?dataSize=\(dataSize)") else {
+    static func addMemberToGroup(groupId: Int, userId: Int, completion: @escaping (NetworkResponse) -> Void) {
+        guard let url = URL(string: appUrl + "/groups/add/\(groupId)/\(userId)") else {
             completion(NetworkResponse(success: false, message: "Wrong URL"))
             return
         }
@@ -479,6 +479,23 @@ final class NetworkService {
         
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             let networkResponse = self.processJSONResponse(data: data, response: response, error: error)
+            completion(networkResponse)
+        }
+        task.resume()
+    }
+    
+    // MARK: - Get Media With Id Greater Than
+    static func getMiniMediasWithIdGreaterThan(mediaId: Int, groupId: Int, completion: @escaping (NetworkResponse) -> Void) {
+        guard let url = URL(string: appUrl + "/groups/media/\(groupId)?mediaId=\(mediaId)") else {
+            completion(NetworkResponse(success: false, message: "Wrong URL"))
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            let networkResponse = self.processJSONArrayResponse(data: data, response: response, error: error)
             completion(networkResponse)
         }
         task.resume()

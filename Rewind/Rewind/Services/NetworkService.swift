@@ -320,8 +320,6 @@ final class NetworkService {
             return
         }
         
-        print(url)
-        
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         
@@ -435,8 +433,9 @@ final class NetworkService {
         task.resume()
     }
     
-    static func getInitialRewindScreenData(groupId: Int, completion: @escaping (NetworkResponse) -> Void) {
-        guard let url = URL(string: appUrl + "/groups/61/8?dataSize={dataSize}") else {
+    // MARK: - Get Initial Rewind Screen Data
+    static func getInitialRewindScreenData(groupId: Int, userId: Int, completion: @escaping (NetworkResponse) -> Void) {
+        guard let url = URL(string: appUrl + "/groups/initial/\(groupId)/\(userId)") else {
             completion(NetworkResponse(success: false, message: "Wrong URL"))
             return
         }
@@ -445,7 +444,41 @@ final class NetworkService {
         request.httpMethod = "GET"
         
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            let networkResponse = self.processJSONArrayResponse(data: data, response: response, error: error)
+            let networkResponse = self.processJSONResponse(data: data, response: response, error: error)
+            completion(networkResponse)
+        }
+        task.resume()
+    }
+    
+    // MARK: - Get Random Media
+    static func getRandomMedia(groupId: Int, completion: @escaping (NetworkResponse) -> Void) {
+        guard let url = URL(string: appUrl + "/groups/random/\(groupId)") else {
+            completion(NetworkResponse(success: false, message: "Wrong URL"))
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            let networkResponse = self.processJSONResponse(data: data, response: response, error: error)
+            completion(networkResponse)
+        }
+        task.resume()
+    }
+    
+    // MARK: - Add Member To Group
+    static func addMemberToGroup(groupId: Int, userId: Int, dataSize: Int, completion: @escaping (NetworkResponse) -> Void) {
+        guard let url = URL(string: appUrl + "/groups/add/\(groupId)/\(userId)?dataSize=\(dataSize)") else {
+            completion(NetworkResponse(success: false, message: "Wrong URL"))
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            let networkResponse = self.processJSONResponse(data: data, response: response, error: error)
             completion(networkResponse)
         }
         task.resume()

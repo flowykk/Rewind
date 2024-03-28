@@ -18,8 +18,12 @@ final class AllGroupsRouter {
         view?.navigationController?.popViewController(animated: true)
     }
     
-    func navigateToAddGroup() {
+    func presentEnterGroupName() {
         let vc = EnterGroupNameBuilder.build()
+        vc.modalPresentationStyle = .custom
+        if let nc = view?.navigationController {
+            vc.viewDistanceTop = nc.navigationBar.frame.height + 10
+        }
         vc.allGroupsVCDelegate = view as? AllGroupsViewController
         view?.present(vc, animated: true)
     }

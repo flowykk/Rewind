@@ -141,7 +141,7 @@ extension GroupPresenter {
                 DataManager.shared.setCurrentGroup(currentGroup)
                 
                 DispatchQueue.main.async { [weak self] in
-                    self?.view?.configureData()
+                    self?.view?.configureUIForCurrentGroup()
                     self?.membersTable?.configureData(members: members)
                     self?.groupMediaCollection?.configureData(medias: medias)
                     self?.view?.updateViewsHeight()

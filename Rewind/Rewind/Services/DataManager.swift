@@ -34,6 +34,7 @@ final class DataManager {
     
     func setCurrentGroup(_ group: Group) {
         user.currentGroup = group
+        UserDefaults.standard.set(group.id, forKey: "CurrentGroupId")
     }
     
     func resetCurrentGroup() {
@@ -94,6 +95,17 @@ final class DataManager {
     
     func getCurrectGroupId() -> Int? {
         return user.currentGroup?.id
+    }
+    
+    func getSaveCurrentGroupId() -> Int? {
+        let stringGroupId = UserDefaults.standard.string(forKey: "CurrentGroupId")
+        
+        if let stringGroupId {
+            let groupId = Int(stringGroupId)
+            return groupId
+        }
+        
+        return nil
     }
     
     func getUser() -> User {

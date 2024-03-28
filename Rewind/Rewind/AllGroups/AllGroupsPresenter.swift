@@ -28,12 +28,11 @@ final class AllGroupsPresenter {
     }
     
     func addGroupButtonSelected() {
-        router.navigateToAddGroup()
+        router.presentEnterGroupName()
     }
     
-    func addGroup(groupName: String) {
-        let userId = UserDefaults.standard.integer(forKey: "UserId")
-        tableView?.groups.append(Group(id: -1, name: groupName, ownerId: userId))
+    func addGroup(_ group: Group) {
+        tableView?.groups.append(group)
         tableView?.reloadData()
         view?.updateViewsHeight()
     }
@@ -62,13 +61,26 @@ extension AllGroupsPresenter {
         if response.success, let jsonArray = response.jsonArray {
             var groups: [Group] = []
             
+            let currentGroupId = DataManager.shared.getCurrectGroupId()
+            var isCurrentGroupInGroups: Bool = false
+            
             for el in jsonArray {
                 if let id = el["id"] as? Int, let ownerId = el["ownerId"] as? Int, let name = el["name"] as? String {
+                    if id == currentGroupId {
+                        isCurrentGroupInGroups = true
+                    }
                     var miniImage: UIImage? = nil
                     if let imageString = el["tinyImage"] as? String {
                         miniImage = UIImage(base64String: imageString)
                     }
                     groups.append(Group(id: id, name: name, ownerId: ownerId, miniImage: miniImage))
+                }
+            }
+            
+            if isCurrentGroupInGroups == false {
+                if let currGID = currentGroupId {
+                    DataManager.shared.removeGroupFromGroups(groupId: currGID)
+                    DataManager.shared.setCurrentGroupToRandomUserGroup()
                 }
             }
             

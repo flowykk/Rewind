@@ -50,8 +50,9 @@ extension GroupMediaCollectionView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
         guard let customCell = cell as? GroupMediaCell else { return cell }
-        let mediaImage = medias[indexPath.row].miniImage
-        customCell.configure(withMediaImage: mediaImage)
+        if let mediaImage = medias[indexPath.row].miniImage {
+            customCell.configure(withMediaImage: mediaImage)
+        }
         return customCell
     }
 }

@@ -10,7 +10,7 @@ import UIKit
 final class GroupsMenuTableView: UITableView {
     var groups: [Group] = []
     
-    static let rowsLimit: Int = 4
+    static let rowsLimit: Int = 5
     
     enum CellType {
         case addGroupButton

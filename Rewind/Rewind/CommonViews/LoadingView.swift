@@ -23,8 +23,9 @@ final class LoadingView {
         viewController.view.addSubview(loadingView)
         loadingView.tag = 777
         loadingView.isUserInteractionEnabled = true
-        viewController.view.isUserInteractionEnabled = false
         
+        viewController.view.isUserInteractionEnabled = false
+        viewController.navigationItem.titleView?.isUserInteractionEnabled = false
         viewController.navigationItem.leftBarButtonItem?.isEnabled = false
         viewController.navigationItem.rightBarButtonItem?.isEnabled = false
     }
@@ -39,7 +40,7 @@ final class LoadingView {
         }
         
         viewController.view.isUserInteractionEnabled = true
-        
+        viewController.navigationItem.titleView?.isUserInteractionEnabled = true
         viewController.navigationItem.leftBarButtonItem?.isEnabled = true
         viewController.navigationItem.rightBarButtonItem?.isEnabled = true
     }

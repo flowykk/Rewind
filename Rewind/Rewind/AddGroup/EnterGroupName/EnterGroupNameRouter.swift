@@ -13,17 +13,4 @@ final class EnterGroupNameRouter {
     init(view: UIViewController?) {
         self.view = view
     }
-    
-    //    func navigateToLoadGroupImage() {
-    //        let vc = LoadGroupImageBuilder.build()
-    //        vc.modalPresentationStyle = .overCurrentContext
-    //        vc.enterGroupNameVC = view
-    //        view?.present(vc, animated: true)
-    //    }
-    
-    func navigateToGroup() {
-        let vc = GroupBuilder.build()
-        vc.modalTransitionStyle = .crossDissolve
-        view?.navigationController?.pushViewController(vc, animated: true)
-    }
 }

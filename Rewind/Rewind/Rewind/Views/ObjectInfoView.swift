@@ -21,14 +21,14 @@ final class ObjectInfoView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureUIForCurrentGroup() {
-        if let currentGroup = DataManager.shared.getCurrentGroup() {
-            print(currentGroup)
-        } else {
-            authorImageView.image = nil
-            authorNameLabel.text = nil
-            dateObjectAddedLabel.text = nil
+    func configureUIForAuthor(_ author: Author, withDateAdded: String) {
+        var authorImage = UIImage(named: "userImage")
+        if let image = author.miniImage {
+            authorImage = image
         }
+        authorImageView.image = authorImage
+        authorNameLabel.text = author.name
+        dateObjectAddedLabel.text = withDateAdded
     }
 }
 
@@ -36,19 +36,18 @@ extension ObjectInfoView {
     private func configureUI() {
         backgroundColor = UIColor(white: 1, alpha: 0.75)
         layer.cornerRadius = 35 / 2
-        setWidth(160)
+        setWidth(200)
         setHeight(35)
         
         configureAuthorImageView()
-        configureAuthorNameLabel()
         configureDateObjectAddedLabel()
+        configureAuthorNameLabel()
     }
     
     private func configureAuthorImageView() {
         addSubview(authorImageView)
         authorImageView.translatesAutoresizingMaskIntoConstraints = false
         
-        authorImageView.image = UIImage(named: "author")
         authorImageView.contentMode = .scaleAspectFill
         authorImageView.clipsToBounds = true
         authorImageView.layer.cornerRadius = 15
@@ -63,12 +62,12 @@ extension ObjectInfoView {
         addSubview(authorNameLabel)
         authorNameLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        authorNameLabel.text = "aleksandra"
         authorNameLabel.textColor = .darkGray
-        authorNameLabel.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
+        authorNameLabel.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         
-        authorNameLabel.setWidth(60)
+        authorNameLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         authorNameLabel.pinLeft(to: authorImageView.trailingAnchor, 5)
+        authorNameLabel.pinRight(to: dateObjectAddedLabel.leadingAnchor, 5)
         authorNameLabel.pinCenterY(to: centerYAnchor)
     }
     
@@ -76,12 +75,11 @@ extension ObjectInfoView {
         addSubview(dateObjectAddedLabel)
         dateObjectAddedLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        dateObjectAddedLabel.text = "7 Jan"
         dateObjectAddedLabel.textColor = .secondaryLabel
-        dateObjectAddedLabel.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
+        dateObjectAddedLabel.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         
-        dateObjectAddedLabel.setWidth(60)
-        dateObjectAddedLabel.pinLeft(to: authorNameLabel.trailingAnchor, 5)
+        dateObjectAddedLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        dateObjectAddedLabel.pinRight(to: self.trailingAnchor, 10)
         dateObjectAddedLabel.pinCenterY(to: centerYAnchor)
     }
 }

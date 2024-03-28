@@ -44,15 +44,22 @@ final class RewindPresenter {
     }
     
     func getInitialRewindScreenData() {
-        LoadingView.show(in: view, backgroundColor: .systemBackground)
+        LoadingView.show(in: view, backgroundColor: .white)
+        var groupId = -1
+        if let savedGroupId = DataManager.shared.getSaveCurrentGroupId() {
+            groupId = savedGroupId
+        }
+        requestInitialRewindScreenData(groupId: groupId)
+    }
+    
+    func getRandomMedia() {
+        LoadingView.show(in: view, backgroundColor: .white)
         if let groupId = DataManager.shared.getCurrectGroupId() {
-            print("request data")
-            LoadingView.hide(from: view)
-//            requestInitialRewindScreenData(groupId: groupId)
+//            requestRandomMedia(groupId: groupId)
         } else {
-            print("group is not selected")
             LoadingView.hide(from: view)
         }
+        LoadingView.hide(from: view)
     }
     
     func favouriteButtonTapped(favourite: Bool) {
@@ -69,7 +76,7 @@ final class RewindPresenter {
         case .allGroups:
             router.navigateToAllGroups()
         case .addGroup:
-            print("add group")
+            router.presentEnterGroupName()
         }
     }
     
@@ -114,8 +121,91 @@ extension RewindPresenter {
     }
 }
 
+// MARK: - Network Request Funcs
 extension RewindPresenter {
     private func requestInitialRewindScreenData(groupId: Int) {
-        
+        let userId = UserDefaults.standard.integer(forKey: "UserId")
+        NetworkService.getInitialRewindScreenData(groupId: groupId, userId: userId) { [weak self] response in
+            DispatchQueue.global().async {
+                self?.handleGetInitialRewindScreenData(response, groupId: groupId)
+            }
+        }
+    }
+    
+    private func requestRandomMedia(groupId: Int) {
+        NetworkService.getRandomMedia(groupId: groupId) { [weak self] response in
+            DispatchQueue.global().async {
+                self?.handleGetRandomMediaResponse(response)
+            }
+        }
+    }
+}
+
+// MARK: - Network Response Handlers
+extension RewindPresenter {
+    private func handleGetInitialRewindScreenData(_ response: NetworkResponse, groupId: Int) {
+        if response.success, let json = response.json {
+            var userGroups: [Group]? = nil
+            var gallerySize: Int? = nil
+            var randomMedia: Media? = nil
+            
+            if let groups = json["groups"] as? [[String : Any]] {
+                userGroups = groups.compactMap { groupDict in
+                    guard let id = groupDict["id"] as? Int,
+                          let name = groupDict["name"] as? String else {
+                        return nil
+                    }
+                    
+                    var miniImage: UIImage? = nil
+                    if let imageString = groupDict["tinyImage"] as? String {
+                        miniImage = UIImage(base64String: imageString)
+                    }
+                    
+                    if groupId == id {
+                        let currentGroup = Group(id: id, name: name, ownerId: -1, miniImage: miniImage)
+                        DataManager.shared.setCurrentGroup(currentGroup)
+                    }
+                    
+                    return Group(id: id, name: name, ownerId: -1, miniImage: miniImage)
+                }
+                
+                DataManager.shared.setUserGroups(userGroups ?? [])
+            }
+            
+            gallerySize = json["gallerySize"] as? Int
+            randomMedia = Media(json: json["randomImage"] as? [String : Any])
+            
+            DispatchQueue.main.async { [weak self] in
+                self?.view?.configureUIForCurrentGroup()
+                self?.view?.configureUIForRandomMedia(randomMedia)
+                self?.view?.configureGallerySize(gallerySize)
+                LoadingView.hide(from: self?.view)
+            }
+        } else {
+            print("something went wrong")
+            print(response)
+        }
+        DispatchQueue.main.async { [weak self] in
+            LoadingView.hide(from: self?.view)
+        }
+    }
+    
+    private func handleGetRandomMediaResponse(_ response: NetworkResponse) {
+        if response.success, let json = response.json {
+//            print(response)
+            print(json.keys)
+            let randomMedia = Media(json: json)
+            print("handleGetRandomMediaResponse: randomMedia id = \(String(describing: randomMedia?.id))")
+            DispatchQueue.main.async { [weak self] in
+                self?.view?.configureUIForRandomMedia(randomMedia)
+                LoadingView.hide(from: self?.view)
+            }
+        } else {
+            print("something went wrong")
+            print(response)
+        }
+        DispatchQueue.main.async { [weak self] in
+            LoadingView.hide(from: self?.view)
+        }
     }
 }

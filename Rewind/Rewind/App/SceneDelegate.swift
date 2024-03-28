@@ -12,18 +12,45 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     
     func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
+        guard let windowScene = scene as? UIWindowScene else { return }
+        guard let window = windowScene.windows.first else { return }
+        
+        LoadingView.show(in: window.rootViewController, backgroundColor: .white)
+        
+        let rootVC = RewindBuilder.build()
+        window.rootViewController = UINavigationController(rootViewController: rootVC)
+        self.window = window
+        
         if let url = userActivity.webpageURL {
-            // handle deeplink when app was already running
+            print("App is running")
             print(url)
             
-            if let components = URLComponents(url: url, resolvingAgainstBaseURL: false) {
-                if let queryItems = components.queryItems {
-                    for queryItem in queryItems {
-                        print("Parameter: \(queryItem.name), Value: \(queryItem.value ?? "")")
+            if let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
+               let ecryptedGroupIdToJoin = components.queryItems?.first?.value {
+                
+                guard let decryptedGroupIdToJoin = JoinLinkService.decrypt(encryptedString: ecryptedGroupIdToJoin) else { return }
+                let userId = UserDefaults.standard.integer(forKey: "UserId")
+                
+                NetworkService.addMemberToGroup(groupId: decryptedGroupIdToJoin, userId: userId, dataSize: 4) { response in
+                    if response.success {
+                        
+                        DataManager.shared.setCurrentGroup(Group(id: decryptedGroupIdToJoin, name: "", ownerId: -1))
+                        
+                        DispatchQueue.main.async {
+                            let groupVC = GroupBuilder.build()
+                            rootVC.navigationController?.pushViewController(groupVC, animated: true)
+                            groupVC.presenter?.getGroupBasicData()
+                            LoadingView.hide(from: window.rootViewController)
+                        }
+                    } else {
+                        print("something went wrong")
+                        print(response)
+                    }
+                    DispatchQueue.main.async {
+                        LoadingView.hide(from: window.rootViewController)
                     }
                 }
             }
-            
         }
     }
 

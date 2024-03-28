@@ -85,7 +85,7 @@ final class GroupViewController: UIViewController {
         view.layoutIfNeeded()
     }
     
-    func configureData() {
+    func configureUIForCurrentGroup() {
         let currentGroup = DataManager.shared.getCurrentGroup()
         
         if let bigImage = currentGroup?.bigImage {

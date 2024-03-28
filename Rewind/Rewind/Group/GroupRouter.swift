@@ -34,18 +34,16 @@ final class GroupRouter {
     }
     
     func presentShareLinkViewController() {
-        print("present share link vc")
-        LoadingView.hide(from: view)
-        //        if let groupId = DataManager.shared.getCurrectGroupId() {
-        //            guard let joinLink = JoinLinkGenerator.createJoinLink(groupId: groupId, key: "777") else { return }
-        //
-        //            let vc = UIActivityViewController(activityItems: [joinLink], applicationActivities: nil)
-        //            vc.excludedActivityTypes = [.addToReadingList, .assignToContact, .print]
-        //
-        //            view?.present(vc, animated: true) { [weak self] in
-        //                LoadingView.hide(from: self?.view)
-        //            }
-        //        }
+        guard let groupId = DataManager.shared.getCurrectGroupId() else { return }
+        
+        guard let joinLink = JoinLinkService.createJoinLink(groupId: groupId) else { return }
+        
+        let vc = UIActivityViewController(activityItems: [joinLink], applicationActivities: nil)
+        vc.excludedActivityTypes = [.addToReadingList, .assignToContact, .print]
+        
+        view?.present(vc, animated: true) { [weak self] in
+            LoadingView.hide(from: self?.view)
+        }
     }
     
     func presentDeleteMemberConfirmationAlert(memberId: Int) {

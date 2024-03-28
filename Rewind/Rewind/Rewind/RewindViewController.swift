@@ -10,12 +10,13 @@ import UIKit
 final class RewindViewController: UIViewController {
     var presenter: RewindPresenter?
     
+    private var galleryButtonWidthConstraint: NSLayoutConstraint?
     var isFavourite: Bool = false
     
     private let goToGroupButton: UIButton = UIButton(type: .system)
     private let groupImageView: UIImageView = UIImageView()
     private let currentGroupView: UIView = UIView()
-    let showGroupsMenuButton: UIButton = UIButton(type: .system)
+    private let showGroupsMenuButton: UIButton = UIButton(type: .system)
     private let goToAccountButton: UIButton = UIButton(type: .system)
     private let imageView: UIImageView = UIImageView()
     private let imageInfoView: ObjectInfoView = ObjectInfoView()
@@ -29,8 +30,8 @@ final class RewindViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.delegate = self
-        presenter?.getInitialRewindScreenData()
         configureUI()
+        presenter?.getInitialRewindScreenData()
         
         if let navigationController = navigationController {
             let navigationBarHeight = navigationController.navigationBar.frame.height
@@ -84,7 +85,7 @@ final class RewindViewController: UIViewController {
     
     @objc
     private func rewindButtonTapped() {
-        print("rewind")
+        presenter?.getRandomMedia()
     }
     
     @objc
@@ -117,6 +118,31 @@ final class RewindViewController: UIViewController {
         }
     }
     
+    func configureUIForRandomMedia(_ randomMedia: Media?) {
+        if let image = randomMedia?.bigImage {
+            imageView.image = image
+        } else {
+            imageView.image = UIImage(named: "defaultImage")
+        }
+        if let author = randomMedia?.author {
+            imageInfoView.configureUIForAuthor(author, withDateAdded: randomMedia?.dateAdded ?? "")
+        }
+        if let liked = randomMedia?.liked {
+            if liked {
+                setFavouriteButton(imageName: "heart.fill", tintColor: .customPink)
+            }
+        }
+    }
+    
+    func configureGallerySize(_ gallerySize: Int?) {
+        if let gallerySize = gallerySize {
+            galleryButton.setTitle("\(gallerySize) objects", for: .normal)
+        } else {
+            galleryButton.setTitle("0 objects", for: .normal)
+        }
+        updateGalleryButtonWidth()
+    }
+    
     func setCurrentGroup(to group: Group) {
         showGroupsMenuButton.setTitle(group.name, for: .normal)
         if let miniImage = group.miniImage {
@@ -147,6 +173,23 @@ final class RewindViewController: UIViewController {
         let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
         alertController.addAction(okAction)
         present(alertController, animated: true, completion: nil)
+    }
+    
+    private func updateGalleryButtonWidth() {
+        guard let currentTitle = galleryButton.currentTitle else { return }
+        
+        galleryButtonWidthConstraint?.isActive = false
+        
+        let imageSize = galleryButton.imageView?.image?.size ?? CGSize.zero
+        let titleSize = galleryButton.titleLabel?.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)) ?? CGSize.zero
+        
+        galleryButton.titleEdgeInsets = UIEdgeInsets(top: -30, left: imageSize.width, bottom: 0, right: 0)
+        galleryButton.imageEdgeInsets = UIEdgeInsets(top: 10, left: -titleSize.width, bottom: -15, right: 0)
+        
+        let newButtonWidth = titleSize.width * 2
+        
+        galleryButtonWidthConstraint = galleryButton.widthAnchor.constraint(equalToConstant: newButtonWidth)
+        galleryButtonWidthConstraint?.isActive = true
     }
 }
 
@@ -278,7 +321,6 @@ extension RewindViewController {
         view.addSubview(imageView)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         
-        imageView.image = UIImage(named: "bonic")
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 40
@@ -391,6 +433,8 @@ extension RewindViewController {
         rewindButton.layer.borderWidth = 4
         rewindButton.layer.cornerRadius = 35
         
+        rewindButton.addTarget(self, action: #selector(rewindButtonTapped), for: .touchUpInside)
+        
         rewindButton.setWidth(UIScreen.main.bounds.width * 0.6)
         rewindButton.setHeight(70)
         rewindButton.pinTop(to: imageView.bottomAnchor, 10)
@@ -423,7 +467,6 @@ extension RewindViewController {
         view.addSubview(galleryButton)
         galleryButton.translatesAutoresizingMaskIntoConstraints = false
         
-        galleryButton.setTitle("1288 objects", for: .normal)
         galleryButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
         
         let font = UIFont.systemFont(ofSize: 28, weight: .semibold)
@@ -443,7 +486,8 @@ extension RewindViewController {
         
         galleryButton.addTarget(self, action: #selector(galleryButtonTapped), for: .touchUpInside)
         
-        galleryButton.setWidth(titleSize.width * 2)
+        galleryButtonWidthConstraint = galleryButton.widthAnchor.constraint(equalToConstant: titleSize.width * 2)
+        galleryButtonWidthConstraint?.isActive = true
         galleryButton.setHeight(UIScreen.main.bounds.height * 0.07)
         galleryButton.pinBottom(to: view.safeAreaLayoutGuide.bottomAnchor, 20)
         galleryButton.pinCenterX(to: view.centerXAnchor)

@@ -14,11 +14,6 @@ final class RewindRouter {
         self.view = view
     }
     
-    func navigateToGroup() {
-        let vc = GroupBuilder.build()
-        view?.navigationController?.pushViewController(vc, animated: true)
-    }
-    
     func presentGroupsMenu() {
         let vc = GroupsMenuViewController()
         guard let rewindView = view as? RewindViewController else { return }
@@ -37,12 +32,28 @@ final class RewindRouter {
         vc.popoverPresentationController?.delegate = vc
         vc.popoverPresentationController?.permittedArrowDirections = .up
         
-        if let rewindView = view as? RewindViewController {
-            let button = rewindView.showGroupsMenuButton
-            vc.popoverPresentationController?.sourceView = button
-            vc.popoverPresentationController?.sourceRect = CGRect(x: button.bounds.midX, y: button.bounds.maxY + 2, width: 0, height: 0)
-            rewindView.present(vc, animated: true)
+        if let navigationBar = rewindView.navigationController?.navigationBar {
+            vc.popoverPresentationController?.sourceView = navigationBar
+            let titleViewCenter = CGPoint(x: navigationBar.bounds.midX, y: navigationBar.bounds.maxY)
+            vc.popoverPresentationController?.sourceRect = CGRect(origin: titleViewCenter, size: .zero)
         }
+        
+        rewindView.present(vc, animated: true)
+    }
+    
+    func presentEnterGroupName() {
+        let vc = EnterGroupNameBuilder.build()
+        vc.modalPresentationStyle = .custom
+        if let nc = view?.navigationController {
+            vc.viewDistanceTop = nc.navigationBar.frame.height + 10
+        }
+        vc.allGroupsVCDelegate = view as? AllGroupsViewController
+        view?.present(vc, animated: true)
+    }
+    
+    func navigateToGroup() {
+        let vc = GroupBuilder.build()
+        view?.navigationController?.pushViewController(vc, animated: true)
     }
     
     func navigateToAllGroups() {

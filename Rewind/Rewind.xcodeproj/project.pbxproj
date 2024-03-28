@@ -37,6 +37,9 @@
 		5515097D2B909CE600D162CF /* EnterVerificationCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5515097C2B909CE600D162CF /* EnterVerificationCodeViewController.swift */; };
 		5515097F2B909D0C00D162CF /* EnterVerificationCodePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5515097E2B909D0C00D162CF /* EnterVerificationCodePresenter.swift */; };
 		551509812B909D1500D162CF /* EnterVerificationCodeBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551509802B909D1500D162CF /* EnterVerificationCodeBuilder.swift */; };
+		551C2D0C2BB4C65800714DDD /* AuthorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551C2D0B2BB4C65800714DDD /* AuthorModel.swift */; };
+		551C2D102BB4FC9200714DDD /* JoinLinkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551C2D0F2BB4FC9200714DDD /* JoinLinkService.swift */; };
+		551C2D122BB506CD00714DDD /* JoinResponseHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551C2D112BB506CD00714DDD /* JoinResponseHandler.swift */; };
 		553FB28F2BA099ED00C3E6FB /* GalleryPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553FB28E2BA099ED00C3E6FB /* GalleryPresenter.swift */; };
 		553FB2912BA09EC700C3E6FB /* GalleryRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553FB2902BA09EC600C3E6FB /* GalleryRouter.swift */; };
 		553FB2932BA09EDB00C3E6FB /* GalleryBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553FB2922BA09EDB00C3E6FB /* GalleryBuilder.swift */; };
@@ -197,6 +200,9 @@
 		5515097E2B909D0C00D162CF /* EnterVerificationCodePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterVerificationCodePresenter.swift; sourceTree = "<group>"; };
 		551509802B909D1500D162CF /* EnterVerificationCodeBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterVerificationCodeBuilder.swift; sourceTree = "<group>"; };
 		551C2D0A2BB4353700714DDD /* Rewind.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Rewind.entitlements; sourceTree = "<group>"; };
+		551C2D0B2BB4C65800714DDD /* AuthorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorModel.swift; sourceTree = "<group>"; };
+		551C2D0F2BB4FC9200714DDD /* JoinLinkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinLinkService.swift; sourceTree = "<group>"; };
+		551C2D112BB506CD00714DDD /* JoinResponseHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinResponseHandler.swift; sourceTree = "<group>"; };
 		553FB28E2BA099ED00C3E6FB /* GalleryPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryPresenter.swift; sourceTree = "<group>"; };
 		553FB2902BA09EC600C3E6FB /* GalleryRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryRouter.swift; sourceTree = "<group>"; };
 		553FB2922BA09EDB00C3E6FB /* GalleryBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryBuilder.swift; sourceTree = "<group>"; };
@@ -407,6 +413,7 @@
 				5582783B2BB1A9BC0072424F /* GroupMemberModel.swift */,
 				55A326AF2B82535E007C9B74 /* UserModel.swift */,
 				550109882B8A36FE0005F1D5 /* AppIconModel.swift */,
+				551C2D0B2BB4C65800714DDD /* AuthorModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -464,6 +471,8 @@
 				55C121882B8CCA6400520718 /* UIViewControllerExtension.swift */,
 				55EFC5EC2B94B0CD00E82D20 /* UserDefaultsExtension.swift */,
 				558D634F2BB099AA00B75AA6 /* UIImageExtension.swift */,
+				551C2D0F2BB4FC9200714DDD /* JoinLinkService.swift */,
+				551C2D112BB506CD00714DDD /* JoinResponseHandler.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1030,6 +1039,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				55A326B52B8259D4007C9B74 /* EnterCodeBuilder.swift in Sources */,
+				551C2D0C2BB4C65800714DDD /* AuthorModel.swift in Sources */,
 				55C652EB2B98515100A8C595 /* AddTagPresenter.swift in Sources */,
 				55A326CE2B826A44007C9B74 /* EnterNameBuilder.swift in Sources */,
 				553FB2912BA09EC700C3E6FB /* GalleryRouter.swift in Sources */,
@@ -1067,6 +1077,7 @@
 				557A2DCD2B97C37900ACA400 /* TagsCollectionView.swift in Sources */,
 				55BAA87F2BB35DB3001839C6 /* MenuAddButtonCell.swift in Sources */,
 				558D63562BB0B2BE00B75AA6 /* AllGroupsBuilder.swift in Sources */,
+				551C2D102BB4FC9200714DDD /* JoinLinkService.swift in Sources */,
 				55A326C52B8263D9007C9B74 /* EnterPasswordBuilder.swift in Sources */,
 				55DFB5FA2BAB0D9900527800 /* PreviewObjectViewController.swift in Sources */,
 				550A637B2B9CF4AD00CE3597 /* ColorCell.swift in Sources */,
@@ -1084,6 +1095,7 @@
 				55A049182B91CB3000CD9C46 /* PrimaryTableView.swift in Sources */,
 				55A326C12B8263C8007C9B74 /* EnterPasswordPresenter.swift in Sources */,
 				55A326A32B82204E007C9B74 /* EnterEmailPresenter.swift in Sources */,
+				551C2D122BB506CD00714DDD /* JoinResponseHandler.swift in Sources */,
 				55967FE62BB27CCE0054D1BB /* AllMembersPresenter.swift in Sources */,
 				550109892B8A36FE0005F1D5 /* AppIconModel.swift in Sources */,
 				55C3E53E2B9605ED00701BF8 /* SettingsCell.swift in Sources */,
@@ -1329,7 +1341,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = MV84AF3V6Q;
+				DEVELOPMENT_TEAM = 8FRM8M93L5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Rewind/App/Info.plist;
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your photo library to save images that you download from the app.";
@@ -1362,7 +1374,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = MV84AF3V6Q;
+				DEVELOPMENT_TEAM = 8FRM8M93L5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Rewind/App/Info.plist;
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your photo library to save images that you download from the app.";

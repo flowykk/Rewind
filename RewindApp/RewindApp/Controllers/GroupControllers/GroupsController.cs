@@ -64,19 +64,22 @@ public class GroupsController : ControllerBase, IGroupsController
     [HttpGet("initial/{groupId}/{userId}")]
     public async Task<ActionResult<RewindScreenDataResponse>> GetInitialRewindScreenData(int groupId, int userId)
     {
+        var group = await GetGroupById(groupId);
+        
         var groups = (await GetGroupsByUser(userId))
             .Select(g => new GroupView()
             {
                 Id = g.Id,
                 Name = g.Name,
+                OwnerId = g.OwnerId,
                 TinyImage = g.TinyImage,
-                GallerySize = GetMediaByGroup(groupId).Result.ToList().Count
+                GallerySize = GetMediaByGroup(g.Id).Result.Count()
             });
         
         var resultResponse = new RewindScreenDataResponse {
             Groups = groups,
             RandomImage = await GetRandomBigMedia(groupId, userId),
-            GallerySize = (await GetGroupById(groupId))?.Media.Count
+            GallerySize = group != null ? group.Media.Count : 0
         };
 
         return Ok(resultResponse);
@@ -176,7 +179,7 @@ public class GroupsController : ControllerBase, IGroupsController
     }
 
     [HttpPost("add/{groupId}/{userId}")]
-    public async Task<ActionResult<GroupInfoResponse>> AddUserToGroup(int groupId, int userId, int dataSize = 5)
+    public async Task<ActionResult<SmallGroupInfoResponse>> AddUserToGroup(int groupId, int userId)
     {
         var group = await GetGroupById(groupId);
         if (group == null) return BadRequest("Group not found");
@@ -184,7 +187,7 @@ public class GroupsController : ControllerBase, IGroupsController
         var user = await _usersController.GetUserById(userId);
         if (user == null) return BadRequest("User not found");
         
-        var resultResponse = await GetGroupInfo(group, groupId, userId, dataSize);
+        var resultResponse = await GetSmallGroupInfo(group);
         if (resultResponse == null) return BadRequest("Owner not found");
 
         if ((await GetUsersByGroupAsync(groupId)).ToList().Contains(user)) 
@@ -205,8 +208,12 @@ public class GroupsController : ControllerBase, IGroupsController
 
         var user = await _usersController.GetUserById(userId);
         if (user == null) return BadRequest("User not found");
+
+        user.Groups.Remove(group);
+        group.Users.Remove(user);
+        await _context.SaveChangesAsync();
         
-        _sqlService.Delete(groupId, userId, "GroupsId", "UsersId", "GroupUser");
+        //_sqlService.Delete(groupId, userId, "GroupsId", "UsersId", "GroupUser");
 
         return Ok($"User {userId} was successfully removed from group {groupId}");
     }
@@ -258,6 +265,20 @@ public class GroupsController : ControllerBase, IGroupsController
             FirstMedia = firstMedia,
             GallerySize = group.Media.Count,
             FirstMembers = firstMembers
+        };
+
+        return resultResponse;
+    }
+    
+    public async Task<SmallGroupInfoResponse?> GetSmallGroupInfo(Group group)
+    {
+        var owner = await _usersController.GetUserById(group.OwnerId);
+        if (owner == null) return null;
+        
+        var resultResponse = new SmallGroupInfoResponse() {
+            Id = group.Id,
+            OwnerId = group.OwnerId,
+            TinyImage = group.Image
         };
 
         return resultResponse;

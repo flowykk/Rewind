@@ -6,6 +6,7 @@ using RewindApp.Controllers.UserControllers;
 using RewindApp.Data;
 using RewindApp.Entities;
 using RewindApp.Requests;
+using RewindApp.Services;
 
 namespace RewindApp.Controllers.MediaControllers;
 
@@ -16,12 +17,14 @@ public class MediaController : ControllerBase
     private readonly DataContext _context;
     private readonly IGroupsController _groupsController;
     private readonly IUsersController _usersController;
+    private readonly SqlService _sqlService;
 
     public MediaController(DataContext context) 
     {
         _context = context;
         _groupsController = new GroupsController(context);
         _usersController = new UsersController(context);
+        _sqlService = new SqlService();
     }
 
     [HttpGet]
@@ -33,8 +36,11 @@ public class MediaController : ControllerBase
     [HttpGet("{mediaId}")]
     public async Task<Media?> GetMediaById(int mediaId)
     {
-        var result = await _context.Media.FirstOrDefaultAsync(media => media.Id == mediaId);
-        return result;
+        var media = await _context.Media
+            .Include(m => m.Users)
+            .Include(m => m.Tags)
+            .FirstOrDefaultAsync(media => media.Id == mediaId);
+        return media;
     }
 
     [HttpPost("like/{userId}/{mediaId}")]
@@ -53,6 +59,24 @@ public class MediaController : ControllerBase
         return Ok("liked");
     }
 
+    [HttpDelete("unlike/{userId}/{mediaId}")]
+    public async Task<ActionResult<Media>> UnlikeMedia(int userId, int mediaId)
+    {
+        var user = await _usersController.GetUserById(userId);
+        if (user == null) return BadRequest("User not found");
+        
+        var media = await GetMediaById(mediaId);
+        if (media == null) return BadRequest("Media not found");
+
+        user.Media.Remove(media);
+        media.Users.Remove(user);
+        await _context.SaveChangesAsync();
+        
+        //_sqlService.Delete(userId, mediaId, "UsersId", "MediaId", "MediaUser");
+        
+        return Ok("unliked");
+    }
+
     [HttpPost("load/{groupId}/{authorId}")]
     public async Task<ActionResult> LoadMediaToGroup(MediaRequest mediaRequest, int groupId, int authorId)
     {
@@ -64,41 +88,12 @@ public class MediaController : ControllerBase
         
         var rawData = Convert.FromBase64String(mediaRequest.Object);
         var tinyData = Convert.FromBase64String(mediaRequest.TinyObject);
-        var date = DateTime.Now;
 
-        var connectionString = DataContext.GetDbConnection();
-        var connection = new MySqlConnection(connectionString);
-        connection.Open();
-
-        var command = new MySqlCommand()
+        _sqlService.LoadMedia(rawData, tinyData, groupId, authorId, mediaRequest.isPhoto);
+       
+        /*var media = new Media
         {
-            Connection = connection,
-            CommandText = "INSERT INTO Media (Date, Object, TinyObject, GroupId, AuthorId) VALUES (?date, ?rawData, ?tinyData, ?groupId, ?authorId);"
-        };
-        var imageParameter = new MySqlParameter("?rawData", MySqlDbType.Blob, rawData.Length)
-        {
-            Value = rawData
-        };
-        var tinyImageParameter = new MySqlParameter("?tinyData", MySqlDbType.TinyBlob, tinyData.Length)
-        {
-            Value = tinyData
-        };
-        var dateParameter = new MySqlParameter("?date", MySqlDbType.DateTime)
-        {
-            Value = date
-        };
-        var groupIdParameter = new MySqlParameter("?groupId", MySqlDbType.Int64)
-        {
-            Value = groupId
-        };
-        var authorIdParameter = new MySqlParameter("?authorId", MySqlDbType.Int64)
-        {
-            Value = authorId
-        };
-        
-        var media = new Media
-        {
-            Date = date,
+            Date = DateTime.Now,
             Object = rawData,
             TinyObject = tinyData,
             Group = group,
@@ -107,14 +102,7 @@ public class MediaController : ControllerBase
         
         _context.Media.Add(media);
         group.Media.Add(media);
-        await _context.SaveChangesAsync();
-        
-        command.Parameters.Add(imageParameter);
-        command.Parameters.Add(tinyImageParameter);
-        command.Parameters.Add(dateParameter);
-        command.Parameters.Add(groupIdParameter);
-        command.Parameters.Add(authorIdParameter);
-        command.ExecuteNonQuery();
+        await _context.SaveChangesAsync();*/
 ;        
         return Ok("Media loaded");
     }

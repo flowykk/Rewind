@@ -75,24 +75,44 @@ public class SqlService
         RunCommand(commandText, parameters);
     }
 
-    public void Delete(int firstId, int secondId, string firstIdName, string secondIdName, string table)
+    public void LoadMedia(byte[] rawData, byte[] tinyData, int groupId, int authorId, int isPhoto)
     {
-        var firstIdParameter = new MySqlParameter("?firstId", MySqlDbType.Int64)
+        var imageParameter = new MySqlParameter("?rawData", MySqlDbType.Blob, rawData.Length)
         {
-            Value = firstId
+            Value = rawData
         };
-        var secondIdParameter = new MySqlParameter("?secondId", MySqlDbType.Int64)
+        var tinyImageParameter = new MySqlParameter("?tinyData", MySqlDbType.TinyBlob, tinyData.Length)
         {
-            Value = secondId
+            Value = tinyData
+        };
+        var dateParameter = new MySqlParameter("?date", MySqlDbType.DateTime)
+        {
+            Value = DateTime.Now
+        };
+        var groupIdParameter = new MySqlParameter("?groupId", MySqlDbType.Int64)
+        {
+            Value = groupId
+        };
+        var authorIdParameter = new MySqlParameter("?authorId", MySqlDbType.Int64)
+        {
+            Value = authorId
+        };
+        var isPhotoParameter = new MySqlParameter("?isPhoto", MySqlDbType.Byte)
+        {
+            Value = isPhoto
         };
 
-        var commandText = $"DELETE FROM {table} WHERE {firstIdName} = @firstId AND {secondIdName} = @secondId;";
+        const string commandText = "INSERT INTO Media (Date, Object, TinyObject, GroupId, AuthorId, IsPhoto) VALUES (?date, ?rawData, ?tinyData, ?groupId, ?authorId, ?isPhoto);";
         var parameters = new List<MySqlParameter>
         {
-            firstIdParameter,
-            secondIdParameter
+            imageParameter,
+            tinyImageParameter,
+            dateParameter,
+            groupIdParameter,
+            authorIdParameter,
+            isPhotoParameter
         };
         
         RunCommand(commandText, parameters);
-    } 
+    }
 }

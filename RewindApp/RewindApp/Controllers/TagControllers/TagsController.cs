@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using RewindApp.Controllers.MediaControllers;
 using RewindApp.Data;
 using RewindApp.Requests.ChangeRequests;
 using RewindApp.Entities;
@@ -11,11 +12,12 @@ namespace RewindApp.Controllers.TagControllers;
 public class TagsController : ControllerBase
 {
     private readonly DataContext _context;
- //   private readonly ILogger<TagsController> _logger;
-
-    public TagsController(DataContext context)//, ILogger<TagsController> logger)
+    private readonly MediaController _mediaController;
+    
+    public TagsController(DataContext context)
     {
         _context = context;
+        _mediaController = new MediaController(context);
     }
     
     [HttpGet]
@@ -27,7 +29,7 @@ public class TagsController : ControllerBase
     [HttpGet("{mediaId}")]
     public async Task<ActionResult<IEnumerable<Tag>>> GetTagsByMediaId(int mediaId)
     {
-        var media = await _context.Media.Include(m => m.Tags).FirstOrDefaultAsync(m => m.Id == mediaId);
+        var media = await _mediaController.GetMediaById(mediaId);
         if (media == null) return BadRequest("Media not found");
 
         return media.Tags.ToList();
@@ -36,7 +38,7 @@ public class TagsController : ControllerBase
     [HttpPost("add/{mediaId}")]
     public async Task<ActionResult> AddTag(NameRequest nameRequest, int mediaId)
     {
-        var media = await _context.Media.Include(media => media.Tags).FirstOrDefaultAsync(m => m.Id == mediaId);
+        var media = await _mediaController.GetMediaById(mediaId);
         if (media == null) return BadRequest("Media not found");
 
         var similarTag = media.Tags.ToList().FirstOrDefault(t => t.Text == nameRequest.Name);
@@ -50,6 +52,22 @@ public class TagsController : ControllerBase
 
         _context.Tags.Add(tag);
         media.Tags.Add(tag);
+        await _context.SaveChangesAsync();
+
+        return Ok(tag);
+    }
+    
+    [HttpDelete("delete/{mediaId}")]
+    public async Task<ActionResult> DeleteTag(NameRequest nameRequest, int mediaId)
+    {
+        var media = await _mediaController.GetMediaById(mediaId);
+        if (media == null) return BadRequest("Media not found");
+
+        var tag = media.Tags.ToList().FirstOrDefault(t => t.Text == nameRequest.Name);
+        if (tag == null) return BadRequest("Media has no such Tag");
+
+        _context.Tags.Remove(tag);
+        media.Tags.Remove(tag);
         await _context.SaveChangesAsync();
 
         return Ok(tag);

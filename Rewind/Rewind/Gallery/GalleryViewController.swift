@@ -15,9 +15,12 @@ final class GalleryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.delegate = self
-        galleryCollection.gallery = self
+        self.navigationController?.delegate = self
+        galleryCollection.galleryVC = self
+        presenter?.galleryCollection = galleryCollection
+        configureNavigationTitle()
         configureUI()
+        presenter?.getMiniMedias()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -39,6 +42,14 @@ final class GalleryViewController: UIViewController {
     private func addButtonTapped() {
         presenter?.addButtonTapped()
     }
+    
+    func configureNavigationTitle() {
+        if let currentGroup = DataManager.shared.getCurrentGroup() {
+            navigationItem.title = currentGroup.name
+        } else {
+            navigationItem.title = "Group name"
+        }
+    }
 }
 
 // MARK: - UINavigationControllerDelegate
@@ -57,8 +68,6 @@ extension GalleryViewController: UINavigationControllerDelegate {
 extension GalleryViewController {
     private func configureUI() {
         view.backgroundColor = .systemBackground
-        navigationItem.title = "Group name"
-        
         configureNavigationBackButton()
         configureAddButton()
         configureGalleryCollection()
@@ -109,7 +118,7 @@ extension GalleryViewController {
         galleryBackButton.setImage(image, for: .normal)
         
         galleryBackButton.tintColor = .customPink
-        galleryBackButton.backgroundColor = .systemBackground
+        galleryBackButton.backgroundColor = .systemGray5.withAlphaComponent(0.75)
         galleryBackButton.layer.cornerRadius = UIScreen.main.bounds.width / 7 / 2
         
         galleryBackButton.addTarget(self, action: #selector(galleryBackButtonTapped), for: .touchUpInside)

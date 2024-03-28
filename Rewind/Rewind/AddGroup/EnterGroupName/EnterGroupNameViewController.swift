@@ -10,8 +10,10 @@ import UIKit
 final class EnterGroupNameViewController: UIViewController {
     var presenter: EnterGroupNamePresenter?
     
-    weak var allGroupsVCDelegate: AllGroupsViewController?
     var viewDistanceTop: CGFloat = 40
+    
+    weak var allGroupsVC: AllGroupsViewController?
+    weak var rewindVC: RewindViewController?
     
     private let groupNameLabel: UILabel = UILabel()
     private let groupNameField: UITextField = UITextField()

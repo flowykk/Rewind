@@ -8,7 +8,7 @@
 import UIKit
 
 final class LoadingView {
-    static func show(in viewController: UIViewController?, backgroundColor: UIColor = UIColor(white: 0, alpha: 0.3)) {
+    static func show(inVC viewController: UIViewController?, backgroundColor: UIColor = UIColor(white: 0, alpha: 0.3)) {
         guard let viewController = viewController else { return }
         
         let loadingView = UIView(frame: viewController.view.bounds)
@@ -21,16 +21,15 @@ final class LoadingView {
         activityIndicator.startAnimating()
         
         viewController.view.addSubview(loadingView)
+        viewController.view.bringSubviewToFront(loadingView)
+        
         loadingView.tag = 777
         loadingView.isUserInteractionEnabled = true
         
         viewController.view.isUserInteractionEnabled = false
-        viewController.navigationItem.titleView?.isUserInteractionEnabled = false
-        viewController.navigationItem.leftBarButtonItem?.isEnabled = false
-        viewController.navigationItem.rightBarButtonItem?.isEnabled = false
     }
     
-    static func hide(from viewController: UIViewController?) {
+    static func hide(fromVC viewController: UIViewController?) {
         guard let viewController = viewController else { return }
         
         viewController.view.subviews.forEach { subview in
@@ -40,8 +39,38 @@ final class LoadingView {
         }
         
         viewController.view.isUserInteractionEnabled = true
-        viewController.navigationItem.titleView?.isUserInteractionEnabled = true
-        viewController.navigationItem.leftBarButtonItem?.isEnabled = true
-        viewController.navigationItem.rightBarButtonItem?.isEnabled = true
+    }
+    
+    static func show(inView view: UIView?, backgroundColor: UIColor = UIColor(white: 0, alpha: 0.3)) {
+        guard let view = view else { return }
+        
+        let loadingView = UIView(frame: view.bounds)
+        loadingView.backgroundColor = backgroundColor
+        
+        let activityIndicator = UIActivityIndicatorView(style: .large)
+        activityIndicator.color = .black
+        activityIndicator.center = loadingView.center
+        loadingView.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
+        
+        view.addSubview(loadingView)
+        view.bringSubviewToFront(loadingView)
+        
+        loadingView.tag = 777
+        loadingView.isUserInteractionEnabled = true
+        
+        view.isUserInteractionEnabled = false
+    }
+    
+    static func hide(fromView view: UIView?) {
+        guard let view = view else { return }
+        
+        view.subviews.forEach { subview in
+            if subview.tag == 777 {
+                subview.removeFromSuperview()
+            }
+        }
+        
+        view.isUserInteractionEnabled = true
     }
 }

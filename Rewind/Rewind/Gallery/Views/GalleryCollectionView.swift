@@ -8,18 +8,9 @@
 import UIKit
 
 final class GalleryCollectionView: UICollectionView {
-    weak var gallery: GalleryViewController?
+    weak var galleryVC: GalleryViewController?
     
-    var images = [
-        UIImage(named: "bonic"),
-        UIImage(named: "green"),
-        UIImage(named: "member"),
-        UIImage(named: "moscow"),
-        UIImage(named: "groupImage"),
-        UIImage(named: "sea"),
-        UIImage(named: "sunset"),
-        UIImage(named: "icecream")
-    ]
+    var miniMedias: [Media] = []
     
     init() {
         let layout = UICollectionViewFlowLayout()
@@ -44,14 +35,14 @@ final class GalleryCollectionView: UICollectionView {
 
 extension GalleryCollectionView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 24
+        return miniMedias.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
         guard let customCell = cell as? GalleryCell else { return cell }
-        guard let randomImage = images[indexPath.row % images.count] else { return cell }
-        customCell.configure(withImage: randomImage)
+        let mediaImage = miniMedias[indexPath.row].miniImage
+        customCell.configure(withImage: mediaImage)
         let side = UIScreen.main.bounds.width / 3 - 1
         customCell.layer.cornerRadius = side / 8
         return customCell
@@ -65,7 +56,7 @@ extension GalleryCollectionView: UICollectionViewDelegate {
         fullScreenVC.image = cell.getImage()
         fullScreenVC.modalPresentationStyle = .overCurrentContext
         fullScreenVC.modalTransitionStyle = .crossDissolve
-        gallery?.present(fullScreenVC, animated: true)
+        galleryVC?.present(fullScreenVC, animated: true)
     }
 }
 

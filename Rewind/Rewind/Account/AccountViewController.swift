@@ -72,7 +72,7 @@ final class AccountViewController: UIViewController {
         imagePickerController.sourceType = .photoLibrary
         imagePickerController.delegate = self
         present(imagePickerController, animated: true) {
-            LoadingView.hide(from: self)
+            LoadingView.hide(fromVC: self)
         }
     }
     

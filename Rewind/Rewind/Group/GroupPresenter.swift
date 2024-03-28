@@ -34,7 +34,7 @@ final class GroupPresenter: AllMembersTablePresenterProtocol {
     func rowSelected(_ row: MembersTableView.CellType) {
         switch row {
         case .addButton:
-            LoadingView.show(in: view)
+            LoadingView.show(inVC: view)
             router.presentShareLinkViewController()
         case .allMembersButton:
             router.navigateToAllMembers()
@@ -48,20 +48,20 @@ final class GroupPresenter: AllMembersTablePresenterProtocol {
     }
     
     func removeMemberFromGroup(memberId: Int) {
-        LoadingView.show(in: view, backgroundColor: view?.view.backgroundColor ?? .systemBackground)
+        LoadingView.show(inVC: view, backgroundColor: view?.view.backgroundColor ?? .systemBackground)
         if let groupId = DataManager.shared.getCurrectGroupId() {
             requestRemoveMemberFromGroup(groupId: groupId, memberId: memberId)
         } else {
-            LoadingView.hide(from: view)
+            LoadingView.hide(fromVC: view)
         }
     }
     
     func getGroupBasicData() {
-        LoadingView.show(in: view, backgroundColor: .systemBackground)
+        LoadingView.show(inVC: view, backgroundColor: .systemBackground)
         view?.disableSettingsButton()
         guard let groupId = DataManager.shared.getCurrentGroup()?.id else {
             router.navigateToRewind()
-            LoadingView.hide(from: view)
+            LoadingView.hide(fromVC: view)
             return
         }
         let userId = UserDefaults.standard.integer(forKey: "UserId")
@@ -91,72 +91,70 @@ extension GroupPresenter {
 // MARK: - Network Response Handlers
 extension GroupPresenter {
     private func handleGetGroupBasicDataResponse(_ response: NetworkResponse) {
-        if response.success, let json = response.json {
-            if let groupId = json["id"] as? Int,
-               let groupName = json["name"] as? String,
-               let ownerJson = json["owner"] as? [String : Any],
-               let membersJsonArray = json["firstMembers"] as? [[String : Any]],
-               let mediaJsonArray = json["firstMedia"] as? [[String : Any]]
-            {
-                var groupImage: UIImage? = nil
-                if let base64String = json["image"] as? String {
-                    groupImage = UIImage(base64String: base64String)
-                }
-                
-                let userId = UserDefaults.standard.integer(forKey: "UserId")
-                let userName = UserDefaults.standard.string(forKey: "UserName") ?? "Anonymous"
-                let userImage = UserDefaults.standard.image(forKey: "UserImage")
-                
-                let user = GroupMember(id: userId, name: userName, role: .user, miniImage: userImage)
-                guard let owner = GroupMember(json: ownerJson, role: .owner) else { return }
-                
-                var members: [GroupMember] = [owner]
-                if user.id != owner.id {
-                    members.insert(user, at: 0)
-                }
-                
-                for memberJson in membersJsonArray {
-                    if var member = GroupMember(json: memberJson, role: .member) {
-                        if member.id == user.id {
-                            member.role = .user
-                        }
-                        if member.id == owner.id {
-                            member.role = .owner
-                        }
-                        members.append(member)
+        if response.success,
+           let json = response.json,
+           let groupId = json["id"] as? Int,
+           let groupName = json["name"] as? String,
+           let ownerJson = json["owner"] as? [String : Any],
+           let membersJsonArray = json["firstMembers"] as? [[String : Any]],
+           let mediaJsonArray = json["firstMedia"] as? [[String : Any]]
+        {
+            var groupImage: UIImage? = nil
+            if let base64String = json["image"] as? String {
+                groupImage = UIImage(base64String: base64String)
+            }
+            
+            let userId = UserDefaults.standard.integer(forKey: "UserId")
+            let userName = UserDefaults.standard.string(forKey: "UserName") ?? "Anonymous"
+            let userImage = UserDefaults.standard.image(forKey: "UserImage")
+            
+            let user = GroupMember(id: userId, name: userName, role: .user, miniImage: userImage)
+            guard let owner = GroupMember(json: ownerJson, role: .owner) else { return }
+            
+            var members: [GroupMember] = [owner]
+            if user.id != owner.id {
+                members.insert(user, at: 0)
+            }
+            
+            for memberJson in membersJsonArray {
+                if var member = GroupMember(json: memberJson, role: .member) {
+                    if member.id == user.id {
+                        member.role = .user
                     }
-                }
-                
-                var medias: [Media] = []
-                
-                for mediaJson in mediaJsonArray {
-                    if let media = Media(json: mediaJson) {
-                        medias.append(media)
+                    if member.id == owner.id {
+                        member.role = .owner
                     }
+                    members.append(member)
                 }
-                
-                let miniImage: UIImage? = DataManager.shared.getCurrentGroup()?.miniImage
-                
-                let currentGroup = Group(id: groupId, name: groupName, ownerId: owner.id, bigImage: groupImage, miniImage: miniImage, owner: owner, members: members, medias: medias)
-                DataManager.shared.setCurrentGroup(currentGroup)
-                
-                DispatchQueue.main.async { [weak self] in
-                    self?.view?.configureUIForCurrentGroup()
-                    self?.membersTable?.configureData(members: members)
-                    self?.groupMediaCollection?.configureData(medias: medias)
-                    self?.view?.updateViewsHeight()
-                    LoadingView.hide(from: self?.view)
-                    self?.view?.enableSettingsButton()
+            }
+            
+            var medias: [Media] = []
+            
+            for mediaJson in mediaJsonArray {
+                if let media = Media(json: mediaJson) {
+                    medias.append(media)
                 }
-            } else {
-                
+            }
+            
+            let miniImage: UIImage? = DataManager.shared.getCurrentGroup()?.miniImage
+            
+            let currentGroup = Group(id: groupId, name: groupName, ownerId: owner.id, bigImage: groupImage, miniImage: miniImage, owner: owner, members: members, medias: medias)
+            DataManager.shared.setCurrentGroup(currentGroup)
+            
+            DispatchQueue.main.async { [weak self] in
+                self?.view?.configureUIForCurrentGroup()
+                self?.membersTable?.configureData(members: members)
+                self?.groupMediaCollection?.configureData(medias: medias)
+                self?.view?.updateViewsHeight()
+                LoadingView.hide(fromVC: self?.view)
+                self?.view?.enableSettingsButton()
             }
         } else {
             print("something went wrong")
             print(response)
         }
         DispatchQueue.main.async { [weak self] in
-            LoadingView.hide(from: self?.view)
+            LoadingView.hide(fromVC: self?.view)
         }
     }
     
@@ -166,14 +164,14 @@ extension GroupPresenter {
             DispatchQueue.main.async { [weak self] in
                 self?.membersTable?.reloadData()
                 self?.view?.updateViewsHeight()
-                LoadingView.hide(from: self?.view)
+                LoadingView.hide(fromVC: self?.view)
             }
         } else {
             print("something went wrong")
             print(response)
         }
         DispatchQueue.main.async { [weak self] in
-            LoadingView.hide(from: self?.view)
+            LoadingView.hide(fromVC: self?.view)
         }
     }
 }

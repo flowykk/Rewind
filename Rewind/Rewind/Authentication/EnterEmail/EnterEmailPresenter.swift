@@ -22,7 +22,7 @@ final class EnterEmailPresenter {
     }
     
     func continueButtonTapped(email: String) {
-        LoadingView.show(in: view)
+        LoadingView.show(inVC: view)
         let process = DataManager.shared.getUserProcess()
         switch process {
         case .registration:
@@ -61,6 +61,7 @@ extension EnterEmailPresenter {
         if response.success, let message = response.message, let code = Int(message) {
             DataManager.shared.setUserEmail(email)
             DataManager.shared.setUserVerificationCode("\(code)")
+            print(code)
             DispatchQueue.main.async {
                 self.router.navigateToEnterCode()
             }
@@ -69,7 +70,7 @@ extension EnterEmailPresenter {
             print(response.message as Any)
         }
         DispatchQueue.main.async { [weak self] in
-            LoadingView.hide(from: self?.view)
+            LoadingView.hide(fromVC: self?.view)
         }
     }
     
@@ -84,7 +85,7 @@ extension EnterEmailPresenter {
             print(response.statusCode as Any)
         }
         DispatchQueue.main.async { [weak self] in
-            LoadingView.hide(from: self?.view)
+            LoadingView.hide(fromVC: self?.view)
         }
     }
 }

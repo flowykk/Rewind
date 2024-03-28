@@ -15,39 +15,38 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = scene as? UIWindowScene else { return }
         guard let window = windowScene.windows.first else { return }
         
-        LoadingView.show(in: window.rootViewController, backgroundColor: .white)
+        LoadingView.show(inVC: window.rootViewController, backgroundColor: .white)
         
         let rootVC = RewindBuilder.build()
         window.rootViewController = UINavigationController(rootViewController: rootVC)
         self.window = window
         
         if let url = userActivity.webpageURL {
-            print("App is running")
-            print(url)
-            
-            if let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
-               let ecryptedGroupIdToJoin = components.queryItems?.first?.value {
-                
+            if
+                let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
+                let ecryptedGroupIdToJoin = components.queryItems?.first?.value
+            {
                 guard let decryptedGroupIdToJoin = JoinLinkService.decrypt(encryptedString: ecryptedGroupIdToJoin) else { return }
                 let userId = UserDefaults.standard.integer(forKey: "UserId")
                 
-                NetworkService.addMemberToGroup(groupId: decryptedGroupIdToJoin, userId: userId, dataSize: 4) { response in
-                    if response.success {
-                        
-                        DataManager.shared.setCurrentGroup(Group(id: decryptedGroupIdToJoin, name: "", ownerId: -1))
-                        
+                NetworkService.addMemberToGroup(groupId: decryptedGroupIdToJoin, userId: userId) { response in
+                    if
+                        response.success,
+                        let json = response.json,
+                        let groupToJoin = Group(json: json)
+                    {
+                        DataManager.shared.setCurrentGroup(groupToJoin)
                         DispatchQueue.main.async {
                             let groupVC = GroupBuilder.build()
                             rootVC.navigationController?.pushViewController(groupVC, animated: true)
-                            groupVC.presenter?.getGroupBasicData()
-                            LoadingView.hide(from: window.rootViewController)
+                            LoadingView.hide(fromVC: window.rootViewController)
                         }
                     } else {
                         print("something went wrong")
                         print(response)
                     }
                     DispatchQueue.main.async {
-                        LoadingView.hide(from: window.rootViewController)
+                        LoadingView.hide(fromVC: window.rootViewController)
                     }
                 }
             }
@@ -58,11 +57,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        
-        if let url = connectionOptions.userActivities.first?.webpageURL {
-            // handle deeplink when app was launched
-            print(url)
-        }
         
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: windowScene)
@@ -80,6 +74,37 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window.rootViewController = UINavigationController(rootViewController: initialViewController)
         self.window = window
         window.makeKeyAndVisible()
+        
+        if isUserIDStored != nil {
+            if let url = connectionOptions.userActivities.first?.webpageURL {
+                LoadingView.show(inVC: initialViewController, backgroundColor: .white)
+                
+                if
+                    let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
+                    let ecryptedGroupIdToJoin = components.queryItems?.first?.value
+                {
+                    guard let decryptedGroupIdToJoin = JoinLinkService.decrypt(encryptedString: ecryptedGroupIdToJoin) else { return }
+                    let userId = UserDefaults.standard.integer(forKey: "UserId")
+                    NetworkService.addMemberToGroup(groupId: decryptedGroupIdToJoin, userId: userId) { response in
+                        if response.success, let json = response.json {
+                            guard let group = Group(json: json) else { return }
+                            DataManager.shared.setCurrentGroup(group)
+                            DispatchQueue.main.async {
+                                let groupVC = GroupBuilder.build()
+                                initialViewController.navigationController?.pushViewController(groupVC, animated: true)
+                                LoadingView.hide(fromVC: initialViewController)
+                            }
+                        } else {
+                            print("something went wrong")
+                            print(response)
+                        }
+                        DispatchQueue.main.async {
+                            LoadingView.hide(fromVC: initialViewController)
+                        }
+                    }
+                }
+            }
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

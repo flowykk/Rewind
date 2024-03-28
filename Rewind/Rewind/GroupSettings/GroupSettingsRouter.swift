@@ -34,7 +34,7 @@ final class GroupSettingsRouter {
         imagePickerController.sourceType = .photoLibrary
         imagePickerController.delegate = view as? GroupSettingsViewController
         view?.present(imagePickerController, animated: true) {
-            LoadingView.hide(from: self.view)
+            LoadingView.hide(fromVC: self.view)
         }
     }
     
@@ -57,7 +57,7 @@ final class GroupSettingsRouter {
             preferredStyle: .alert)
         let chooseImageAction = UIAlertAction(title: "Choose from Library", style: .default) { [weak self] _ in
             if let groupSettingVC = self?.view as? GroupSettingsViewController {
-                LoadingView.show(in: groupSettingVC)
+                LoadingView.show(inVC: groupSettingVC)
                 groupSettingVC.presenter?.openPhotoLibraryButtonTapped()
             }
         }

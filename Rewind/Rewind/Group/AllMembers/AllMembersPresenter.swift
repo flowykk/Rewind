@@ -22,7 +22,15 @@ final class AllMembersPresenter: AllMembersTablePresenterProtocol {
     }
     
     func rowSelected(_ row: MembersTableView.CellType) {
-        //        if row == .addButton
+        switch row {
+        case .addButton:
+            LoadingView.show(inVC: view)
+            router.presentShareLinkViewController()
+        case .allMembersButton:
+            print("all members button")
+        default:
+            print("member selected")
+        }
     }
     
     func deleteMemberButtonTapped(memberId: Int) {
@@ -30,18 +38,18 @@ final class AllMembersPresenter: AllMembersTablePresenterProtocol {
     }
     
     func deleteMember(withId memberId: Int) {
-        LoadingView.show(in: view, backgroundColor: view?.view.backgroundColor ?? .systemBackground)
+        LoadingView.show(inVC: view, backgroundColor: view?.view.backgroundColor ?? .systemBackground)
         if let groupId = DataManager.shared.getCurrectGroupId() {
             requestDeleteMember(groupId: groupId, memberId: memberId)
         } else {
-            LoadingView.hide(from: view)
+            LoadingView.hide(fromVC: view)
         }
     }
     
     func getGroupMembers() {
-        LoadingView.show(in: view, backgroundColor: view?.view.backgroundColor ?? .systemBackground)
+        LoadingView.show(inVC: view, backgroundColor: view?.view.backgroundColor ?? .systemBackground)
         guard let groupId = DataManager.shared.getCurrectGroupId() else {
-            LoadingView.hide(from: view)
+            LoadingView.hide(fromVC: view)
             return
         }
         requestGroupMembers(groupId: groupId)
@@ -101,13 +109,13 @@ extension AllMembersPresenter {
             DispatchQueue.main.async { [weak self] in
                 self?.membersTable?.configureData(members: sortedMembers)
                 self?.view?.updateViewsHeight()
-                LoadingView.hide(from: self?.view)
+                LoadingView.hide(fromVC: self?.view)
             }
         } else {
             print(response)
         }
         DispatchQueue.main.async { [weak self] in
-            LoadingView.hide(from: self?.view)
+            LoadingView.hide(fromVC: self?.view)
         }
     }
     
@@ -117,14 +125,14 @@ extension AllMembersPresenter {
             DispatchQueue.main.async { [weak self] in
                 self?.membersTable?.reloadData()
                 self?.view?.updateViewsHeight()
-                LoadingView.hide(from: self?.view)
+                LoadingView.hide(fromVC: self?.view)
             }
         } else {
             print("something went wrong")
             print(response)
         }
         DispatchQueue.main.async { [weak self] in
-            LoadingView.hide(from: self?.view)
+            LoadingView.hide(fromVC: self?.view)
         }
     }
 }

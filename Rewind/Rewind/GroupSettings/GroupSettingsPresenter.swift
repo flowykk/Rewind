@@ -44,12 +44,12 @@ final class GroupSettingsPresenter {
     }
     
     func openPhotoLibraryButtonTapped() {
-        LoadingView.show(in: view)
+        LoadingView.show(inVC: view)
         router.presentImagePicker()
     }
     
     func newImageSelected(originalImage: UIImage) {
-        LoadingView.show(in: view)
+        LoadingView.show(inVC: view)
         
         let bigImage = originalImage.resize(toDimension: 600)
         let miniImage = originalImage.resize(toDimension: 256)
@@ -63,13 +63,13 @@ final class GroupSettingsPresenter {
     }
     
     func removeUserFromGroup() {
-        LoadingView.show(in: view)
+        LoadingView.show(inVC: view)
         let userId = UserDefaults.standard.integer(forKey: "UserId")
         requestRemoveUserFromGroup(userId: userId)
     }
     
     func deleteGroup() {
-        LoadingView.show(in: view)
+        LoadingView.show(inVC: view)
         requestDeleteGroup()
     }
 }
@@ -114,14 +114,14 @@ extension GroupSettingsPresenter {
             DataManager.shared.updateGroupWithImage(bigImageData: bigImageData, miniImageData: miniImageData, forGroupWithId: groupId)
             DispatchQueue.main.async { [weak self] in
                 self?.view?.setGroupImage(to: bigImageData)
-                LoadingView.hide(from: self?.view)
+                LoadingView.hide(fromVC: self?.view)
             }
         } else {
             print("something went wrong")
             print(response)
         }
         DispatchQueue.main.async { [weak self] in
-            LoadingView.hide(from: self?.view)
+            LoadingView.hide(fromVC: self?.view)
         }
     }
     
@@ -132,14 +132,14 @@ extension GroupSettingsPresenter {
             DataManager.shared.setCurrentGroupToRandomUserGroup()
             DispatchQueue.main.async { [weak self] in
                 self?.router.navigateToRewind()
-                LoadingView.hide(from: self?.view)
+                LoadingView.hide(fromVC: self?.view)
             }
         } else {
             print("something went wrong")
             print(response)
         }
         DispatchQueue.main.async { [weak self] in
-            LoadingView.hide(from: self?.view)
+            LoadingView.hide(fromVC: self?.view)
         }
     }
     
@@ -150,14 +150,14 @@ extension GroupSettingsPresenter {
             DataManager.shared.setCurrentGroupToRandomUserGroup()
             DispatchQueue.main.async { [weak self] in
                 self?.router.navigateToRewind()
-                LoadingView.hide(from: self?.view)
+                LoadingView.hide(fromVC: self?.view)
             }
         } else {
             print("something went wrong")
             print(response)
         }
         DispatchQueue.main.async { [weak self] in
-            LoadingView.hide(from: self?.view)
+            LoadingView.hide(fromVC: self?.view)
         }
     }
 }

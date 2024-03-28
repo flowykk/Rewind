@@ -12,6 +12,7 @@ struct Media {
     var miniImage: UIImage?
     var bigImage: UIImage?
     var dateAdded: String?
+    var shortDateAdded: String?
     var author: Author?
     var liked: Bool?
     
@@ -26,7 +27,9 @@ struct Media {
         self.bigImage = parseImage(forKey: "object", in: json)
         self.miniImage = parseImage(forKey: "tinyObject", in: json)
         if let dateString = json["date"] as? String {
-            self.dateAdded = convertDateString(dateString)
+            let formattedDates = getFormattedDate(dateString)
+            self.dateAdded = formattedDates.dateAdded
+            self.shortDateAdded = formattedDates.shortDateAdded
         }
         self.author = Author(json: json["author"] as? [String: Any])
         self.liked = json["liked"] as? Bool
@@ -37,15 +40,16 @@ struct Media {
         return UIImage(base64String: imageB64String)
     }
     
-    private func convertDateString(_ inputDateString: String) -> String? {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
-
-        guard let date = dateFormatter.date(from: inputDateString) else {
-            return nil
+    private func getFormattedDate(_ inputDateString: String) -> (dateAdded: String?, shortDateAdded: String?) {
+        let dateString = inputDateString.prefix(10)
+        let splitedDate = dateString.split(separator: "-").reversed()
+        
+        if splitedDate.count >= 3 {
+            let formattedDate = splitedDate.joined(separator: ".")
+            let formattedShortDate = String(formattedDate.prefix(5))
+            return (formattedDate, formattedShortDate)
         }
-
-        dateFormatter.dateFormat = "dd.MM.yyyy"
-        return dateFormatter.string(from: date)
+        
+        return (nil, nil)
     }
 }

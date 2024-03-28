@@ -24,12 +24,12 @@ final class LoadGroupImageViewController: UIViewController {
     
     @objc
     private func loadGroupImageButtonTapped() {
-        LoadingView.show(in: self)
+        LoadingView.show(inVC: self)
         let imagePickerController = UIImagePickerController()
         imagePickerController.sourceType = .photoLibrary
         imagePickerController.delegate = self
         present(imagePickerController, animated: true) {
-            LoadingView.hide(from: self)
+            LoadingView.hide(fromVC: self)
         }
     }
     

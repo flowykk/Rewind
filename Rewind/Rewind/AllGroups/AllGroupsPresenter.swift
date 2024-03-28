@@ -18,8 +18,12 @@ final class AllGroupsPresenter {
         self.router = router
     }
     
+    func goToCurrentGroupAfterAdding() {
+        router.goToCurrentGroupAfterAdding()
+    }
+    
     func getUserGroups() {
-        LoadingView.show(in: view)
+        LoadingView.show(inVC: view, backgroundColor: .systemBackground)
         requestUserGroups()
     }
     
@@ -31,7 +35,7 @@ final class AllGroupsPresenter {
         router.presentEnterGroupName()
     }
     
-    func addGroup(_ group: Group) {
+    func addGroupToTable(_ group: Group) {
         tableView?.groups.append(group)
         tableView?.reloadData()
         view?.updateViewsHeight()
@@ -59,44 +63,38 @@ extension AllGroupsPresenter {
 extension AllGroupsPresenter {
     private func handleGetUserGroupsResponse(_ response: NetworkResponse) {
         if response.success, let jsonArray = response.jsonArray {
-            var groups: [Group] = []
+            var userGroups: [Group] = []
             
-            let currentGroupId = DataManager.shared.getCurrectGroupId()
-            var isCurrentGroupInGroups: Bool = false
-            
-            for el in jsonArray {
-                if let id = el["id"] as? Int, let ownerId = el["ownerId"] as? Int, let name = el["name"] as? String {
-                    if id == currentGroupId {
-                        isCurrentGroupInGroups = true
-                    }
-                    var miniImage: UIImage? = nil
-                    if let imageString = el["tinyImage"] as? String {
-                        miniImage = UIImage(base64String: imageString)
-                    }
-                    groups.append(Group(id: id, name: name, ownerId: ownerId, miniImage: miniImage))
+            for groupJSON in jsonArray {
+                if let group = Group(json: groupJSON) {
+                    userGroups.append(group)
                 }
             }
             
-            if isCurrentGroupInGroups == false {
-                if let currGID = currentGroupId {
-                    DataManager.shared.removeGroupFromGroups(groupId: currGID)
-                    DataManager.shared.setCurrentGroupToRandomUserGroup()
-                }
+            DataManager.shared.setUserGroups(userGroups)
+            
+            let currGroupId = DataManager.shared.getCurrectGroupId()
+            
+            if let currentGroupIndex = userGroups.firstIndex(where: { $0.id == currGroupId }) {
+                let currentGroup = userGroups[currentGroupIndex]
+                DataManager.shared.setCurrentGroup(currentGroup)
+            } else {
+                DataManager.shared.resetCurrentGroup()
+                DataManager.shared.setCurrentGroupToRandomUserGroup()
             }
             
-            DataManager.shared.setUserGroups(groups)
+            tableView?.groups = userGroups
             
             DispatchQueue.main.async { [weak self] in
-                self?.tableView?.groups = groups
                 self?.tableView?.reloadData()
-                LoadingView.hide(from: self?.view)
+                LoadingView.hide(fromVC: self?.view)
             }
         } else {
-            print(response.statusCode as Any)
-            print(response.message as Any)
+            print("something went wrong - handleGetUserGroupsResponse")
+            print(response)
         }
         DispatchQueue.main.async { [weak self] in
-            LoadingView.hide(from: self?.view)
+            LoadingView.hide(fromVC: self?.view)
         }
     }
 }

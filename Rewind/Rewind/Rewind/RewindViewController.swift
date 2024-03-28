@@ -18,7 +18,7 @@ final class RewindViewController: UIViewController {
     private let currentGroupView: UIView = UIView()
     private let showGroupsMenuButton: UIButton = UIButton(type: .system)
     private let goToAccountButton: UIButton = UIButton(type: .system)
-    private let imageView: UIImageView = UIImageView()
+    let imageView: UIImageView = UIImageView()
     private let imageInfoView: ObjectInfoView = ObjectInfoView()
     private let settingsButton: UIButton = UIButton(type: .system)
     private let detailsButton: UIButton = UIButton(type: .system)
@@ -100,7 +100,7 @@ final class RewindViewController: UIViewController {
     
     func configureUIForCurrentGroup() {
         if let currentGroup = DataManager.shared.getCurrentGroup() {
-            goToGroupButton.isEnabled = true
+            navigationItem.leftBarButtonItem?.isEnabled = true
             showGroupsMenuButton.setTitle(currentGroup.name, for: .normal)
             if let miniImage = currentGroup.miniImage {
                 groupImageView.image = miniImage
@@ -109,12 +109,18 @@ final class RewindViewController: UIViewController {
                     groupImageView.image = defaultImage
                 }
             }
+            if let gallerySize = currentGroup.gallerySize {
+                galleryButton.setTitle("\(gallerySize) media", for: .normal)
+            } else {
+                galleryButton.setTitle("0 media", for: .normal)
+            }
         } else {
-            goToGroupButton.isEnabled = false
+            navigationItem.leftBarButtonItem?.isEnabled = false
             showGroupsMenuButton.setTitle("Select group", for: .normal)
             if let defaultImage = UIImage(named: "groupImage") {
                 groupImageView.image = defaultImage
             }
+            galleryButton.setTitle("0 media", for: .normal)
         }
     }
     
@@ -126,21 +132,14 @@ final class RewindViewController: UIViewController {
         }
         if let author = randomMedia?.author {
             imageInfoView.configureUIForAuthor(author, withDateAdded: randomMedia?.dateAdded ?? "")
+        } else {
+            imageInfoView.configureUIForAuthor(nil, withDateAdded: nil)
         }
         if let liked = randomMedia?.liked {
             if liked {
                 setFavouriteButton(imageName: "heart.fill", tintColor: .customPink)
             }
         }
-    }
-    
-    func configureGallerySize(_ gallerySize: Int?) {
-        if let gallerySize = gallerySize {
-            galleryButton.setTitle("\(gallerySize) objects", for: .normal)
-        } else {
-            galleryButton.setTitle("0 objects", for: .normal)
-        }
-        updateGalleryButtonWidth()
     }
     
     func setCurrentGroup(to group: Group) {
@@ -173,23 +172,6 @@ final class RewindViewController: UIViewController {
         let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
         alertController.addAction(okAction)
         present(alertController, animated: true, completion: nil)
-    }
-    
-    private func updateGalleryButtonWidth() {
-        guard let currentTitle = galleryButton.currentTitle else { return }
-        
-        galleryButtonWidthConstraint?.isActive = false
-        
-        let imageSize = galleryButton.imageView?.image?.size ?? CGSize.zero
-        let titleSize = galleryButton.titleLabel?.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)) ?? CGSize.zero
-        
-        galleryButton.titleEdgeInsets = UIEdgeInsets(top: -30, left: imageSize.width, bottom: 0, right: 0)
-        galleryButton.imageEdgeInsets = UIEdgeInsets(top: 10, left: -titleSize.width, bottom: -15, right: 0)
-        
-        let newButtonWidth = titleSize.width * 2
-        
-        galleryButtonWidthConstraint = galleryButton.widthAnchor.constraint(equalToConstant: newButtonWidth)
-        galleryButtonWidthConstraint?.isActive = true
     }
 }
 
@@ -481,15 +463,17 @@ extension RewindViewController {
         let imageSize = image?.size ?? CGSize.zero
         let titleSize = galleryButton.titleLabel?.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)) ?? CGSize.zero
         
-        galleryButton.titleEdgeInsets = UIEdgeInsets(top: -30, left: imageSize.width, bottom: 0, right: 0)
-        galleryButton.imageEdgeInsets = UIEdgeInsets(top: 10, left: -titleSize.width, bottom: -15, right: 0)
-        
         galleryButton.addTarget(self, action: #selector(galleryButtonTapped), for: .touchUpInside)
         
-        galleryButtonWidthConstraint = galleryButton.widthAnchor.constraint(equalToConstant: titleSize.width * 2)
-        galleryButtonWidthConstraint?.isActive = true
-        galleryButton.setHeight(UIScreen.main.bounds.height * 0.07)
-        galleryButton.pinBottom(to: view.safeAreaLayoutGuide.bottomAnchor, 20)
+        galleryButton.imageView?.pinCenterX(to: galleryButton.centerXAnchor)
+        
+        if let tl = galleryButton.titleLabel {
+            galleryButton.titleLabel?.pinCenterX(to: galleryButton.centerXAnchor)
+            galleryButton.imageView?.pinTop(to: tl.bottomAnchor, -2.5)
+        }
+        
+        galleryButton.setHeight(80)
+        galleryButton.pinBottom(to: view.safeAreaLayoutGuide.bottomAnchor, 10)
         galleryButton.pinCenterX(to: view.centerXAnchor)
     }
 }

@@ -43,7 +43,7 @@ final class EnterPasswordPresenter {
             DataManager.shared.setUserPassword(password)
             router.navigateToEnterName()
         case .authorization:
-            LoadingView.show(in: view)
+            LoadingView.show(inVC: view)
             let email = DataManager.shared.getUserEmail()
             loginUser(withEmail: email, password: password)
         default:
@@ -88,8 +88,11 @@ extension EnterPasswordPresenter {
                 UserDefaults.standard.set(email, forKey: "UserEmail")
                 UserDefaults.standard.set(regDateString, forKey: "UserRegDate")
                 
-                if let image = json["profileImage"] as? String {
-                    print(image.count)
+                if let imageB64String = json["profileImage"] as? String {
+                    let image = UIImage(base64String: imageB64String)
+                    if let imageData = image?.jpegData(compressionQuality: 1) {
+                        UserDefaults.standard.setImage(imageData, forKey: "UserImage")
+                    }
                 }
                 
                 DispatchQueue.main.async {
@@ -103,7 +106,7 @@ extension EnterPasswordPresenter {
                 print("--------------------")
             }
             DispatchQueue.main.async { [weak self] in
-                LoadingView.hide(from: self?.view)
+                LoadingView.hide(fromVC: self?.view)
             }
         }
     }

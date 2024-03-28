@@ -9,7 +9,7 @@ using RewindApp.Entities;
 using RewindApp.Interfaces.GroupInterfaces;
 using RewindApp.Requests;
 using RewindApp.Responses;
-using RewindApp.Services;
+using static RewindApp.Extensions.Extensions;
 using RewindApp.Views;
 
 namespace RewindApp.Controllers.GroupControllers;
@@ -25,13 +25,11 @@ public class GroupsController : ControllerBase, IGroupsController
 {
     private readonly DataContext _context;
     private readonly IUsersController _usersController;
-    private readonly SqlService _sqlService;
 
     public GroupsController(DataContext context) 
     {
         _context = context;
         _usersController = new UsersController(context);
-        _sqlService = new SqlService();
     }
 
     [HttpGet]
@@ -86,12 +84,20 @@ public class GroupsController : ControllerBase, IGroupsController
     }
 
     [HttpGet("{userId}")]
-    public async Task<ActionResult<List<Group>>> GetGroupsByUserAsync(int userId)
+    public async Task<ActionResult<List<GroupView>>> GetGroupsByUserAsync(int userId)
     {
         if (await _usersController.GetUserById(userId) == null)
             return BadRequest("User not found");
         
-        return Ok(await GetGroupsByUser(userId));
+        return Ok((await GetGroupsByUser(userId))
+            .Select(g => new GroupView()
+            {
+                Id = g.Id,
+                Name = g.Name,
+                OwnerId = g.OwnerId,
+                TinyImage = g.TinyImage,
+                GallerySize = GetMediaByGroup(g.Id).Result.Count()
+            }));
     }
     
     [HttpGet("users")]
@@ -232,7 +238,10 @@ public class GroupsController : ControllerBase, IGroupsController
     
     public async Task<Group?> GetGroupById(int groupId)
     {
-        var group = await _context.Groups.Include(group => group.Media).FirstOrDefaultAsync(g => g.Id == groupId);
+        var group = await _context.Groups
+            .Include(group => group.Media)
+            .Include(group => group.Users)
+            .FirstOrDefaultAsync(g => g.Id == groupId);
         return group;
     }
 
@@ -248,9 +257,12 @@ public class GroupsController : ControllerBase, IGroupsController
                 TinyProfileImage = u.TinyProfileImage
             })
             .Where(u => u.Id != owner.Id && u.Id != userId)
+            .OrderBy(_ => Guid.NewGuid())
             .Take(dataSize);
         
-        var firstMedia = (await GetMediaByGroup(groupId)).Take(dataSize);
+        var firstMedia = (await GetMediaByGroup(groupId))
+            .OrderBy(_ => Guid.NewGuid())
+            .Take(dataSize);
         
         var resultResponse = new GroupInfoResponse {
             Id = group.Id,
@@ -277,8 +289,9 @@ public class GroupsController : ControllerBase, IGroupsController
         
         var resultResponse = new SmallGroupInfoResponse() {
             Id = group.Id,
+            Name = group.Name,
             OwnerId = group.OwnerId,
-            TinyImage = group.Image
+            TinyImage = group.TinyImage
         };
 
         return resultResponse;
@@ -289,7 +302,8 @@ public class GroupsController : ControllerBase, IGroupsController
         return await _context.Users
             .Include(user => user.Groups)
             .Where(user => user.Id == userId)
-            .SelectMany(user => user.Groups).ToListAsync();
+            .SelectMany(user => user.Groups)
+            .ToListAsync();
     }
 
     public async Task<IEnumerable<UserView>> GetUserViewsByGroupAsync(int groupId)
@@ -329,7 +343,7 @@ public class GroupsController : ControllerBase, IGroupsController
             .ToListAsync();
     }
     
-    public async Task<IEnumerable<BigMediaView>> GetBigMediaByGroup(int groupId, int userId)
+    public async Task<IEnumerable<LargeMediaView>> GetBigMediaByGroup(int groupId, int userId)
     {
         var user = await _usersController.GetUserById(userId);
         return await _context.Groups
@@ -337,11 +351,11 @@ public class GroupsController : ControllerBase, IGroupsController
             .Where(g => g.Id == groupId)
             .SelectMany(g => g.Media)
             .Where(m => m.Author != null)
-            .Select(m => new BigMediaView {
+            .Select(m => new LargeMediaView {
                 Id = m.Id,
                 Object = m.Object,
                 Author = new UserView {
-                    Id = m.Author.Id,
+                    Id = m.Author!.Id,
                     TinyProfileImage = m.Author.TinyProfileImage,
                     UserName = m.Author.UserName
                 },
@@ -357,7 +371,7 @@ public class GroupsController : ControllerBase, IGroupsController
         return media.Count == 0 ? null : media[new Random().Next(0, media.Count)];
     }
     
-    public async Task<BigMediaView?> GetRandomBigMedia(int groupId, int userId)
+    public async Task<LargeMediaView?> GetRandomBigMedia(int groupId, int userId)
     {
         var media = (await GetBigMediaByGroup(groupId, userId)).ToList();
         return media.Count == 0 ? null : media[new Random().Next(0, media.Count)];

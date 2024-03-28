@@ -7,6 +7,7 @@ using RewindApp.Data;
 using RewindApp.Entities;
 using RewindApp.Requests;
 using RewindApp.Services;
+using RewindApp.Views;
 
 namespace RewindApp.Controllers.MediaControllers;
 
@@ -38,10 +39,26 @@ public class MediaController : ControllerBase
     {
         var media = await _context.Media
             .Include(m => m.Users)
+            .Include(m => m.Author)
             .Include(m => m.Tags)
             .FirstOrDefaultAsync(media => media.Id == mediaId);
         return media;
     }
+    
+    [HttpGet("info/{mediaId}")]
+    public async Task<ActionResult<BigMediaView>> GetMediaInfoById(int mediaId)
+    {
+        var media = await GetMediaById(mediaId);
+        if (media == null) return BadRequest("Media not found");
+
+        return Ok(new BigMediaView {
+            Id = mediaId,
+            Author = media.Author,
+            Date = media.Date,
+            Object = media.Object
+        });
+    }
+
 
     [HttpPost("like/{userId}/{mediaId}")]
     public async Task<ActionResult<Media>> LikeMedia(int userId, int mediaId)
@@ -105,5 +122,23 @@ public class MediaController : ControllerBase
         await _context.SaveChangesAsync();*/
 ;        
         return Ok("Media loaded");
+    }
+    
+    [HttpDelete("unload/{mediaId}/{groupId}/{authorId}")]
+    public async Task<ActionResult> UnloadMediaToGroup(int mediaId, int groupId)
+    {
+        var group = await _groupsController.GetGroupById(groupId);
+        if (group == null) return BadRequest("Group not found");
+
+        var media = await GetMediaById(mediaId);
+        if (media == null) return BadRequest("Media not found");
+
+        var author = media.Author == null ? null : await _usersController.GetUserById(media.Author.Id);
+        // if (author == null) return BadRequest("Author not found");
+
+        group.Media.Remove(media);
+        author?.Media.Remove(media);
+        
+        return Ok("Media unloaded");
     }
 }

@@ -11,15 +11,12 @@ namespace RewindApp.Controllers.UserControllers;
 public class RegisterController : ControllerBase
 {
     private readonly DataContext _context;
-    //private readonly ILogger<RegisterController> _logger;
     private readonly IUsersController _usersController;
-    private readonly IUserService _userService;
 
-    public RegisterController(DataContext context) //ILogger<RegisterController> logger, IUsersController usersController, IUserService userService)
+    public RegisterController(DataContext context) 
     {
         _context = context;
         _usersController = new UsersController(context);
-        _userService = new UserService();
     }
 
     [HttpGet("check-email/{email}")]
@@ -57,6 +54,6 @@ public class RegisterController : ControllerBase
         _context.Users.Add(newUser);
         await _context.SaveChangesAsync();
 
-        return StatusCode(200, newUser);  //Ok(newUser);
+        return StatusCode(200, newUser);
     }
 }

@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using MySql.Data.MySqlClient;
 using RewindApp.Data;
 using RewindApp.Requests;
 using RewindApp.Requests.ChangeRequests;

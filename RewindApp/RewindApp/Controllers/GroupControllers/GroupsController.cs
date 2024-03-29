@@ -1,15 +1,11 @@
-using System.Net.Mime;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MySql.Data.MySqlClient;
 using RewindApp.Controllers.UserControllers;
 using RewindApp.Data;
-using RewindApp.Data.Repositories.GroupRepositories;
 using RewindApp.Entities;
-using RewindApp.Interfaces.GroupInterfaces;
+using RewindApp.Extensions;
 using RewindApp.Requests;
 using RewindApp.Responses;
-using static RewindApp.Extensions.Extensions;
 using RewindApp.Views;
 
 namespace RewindApp.Controllers.GroupControllers;
@@ -70,7 +66,7 @@ public class GroupsController : ControllerBase, IGroupsController
     {
         var group = await GetGroupById(groupId);
         
-        var groups = (await GetGroupsByUser(userId))
+        var groups = (await GetGroupsByUserAsync(userId))
             .Select(g => new GroupView()
             {
                 Id = g.Id,
@@ -90,12 +86,13 @@ public class GroupsController : ControllerBase, IGroupsController
     }
 
     [HttpGet("{userId}")]
-    public async Task<ActionResult<List<GroupView>>> GetGroupsByUserAsync(int userId)
+    public async Task<ActionResult<IEnumerable<GroupView>>> GetGroupsByUser(int userId)
+//    public async Task<IActionResult> GetGroupsByUserAsync(int userId)
     {
         if (await _usersController.GetUserById(userId) == null)
             return BadRequest("User not found");
         
-        return Ok((await GetGroupsByUser(userId))
+        return Ok((await GetGroupsByUserAsync(userId))
             .Select(g => new GroupView()
             {
                 Id = g.Id,
@@ -165,8 +162,8 @@ public class GroupsController : ControllerBase, IGroupsController
         var group = await GetGroupById(groupId);
         if (group == null) return BadRequest("Group not found");
         
-//      return Ok((await GetMediaByGroup(groupId)).Where(m => m.Id > mediaId));
-        return Ok(await GetMediaByGroup(groupId, mediaId));
+        return Ok((await GetMediaByGroup(groupId)).Where(m => m.Id > mediaId));
+ //       return Ok(await GetMediaByGroup(groupId, mediaId));
     }
     
     [HttpPost("create")]
@@ -263,11 +260,13 @@ public class GroupsController : ControllerBase, IGroupsController
                 TinyProfileImage = u.TinyProfileImage
             })
             .Where(u => u.Id != owner.Id && u.Id != userId)
-            .OrderBy(_ => Guid.NewGuid())
+            //.OrderBy(_ => Guid.NewGuid())
+            .Shuffle()
             .Take(dataSize);
         
         var firstMedia = (await GetMediaByGroup(groupId))
-            .OrderBy(_ => Guid.NewGuid())
+            //.OrderBy(_ => Guid.NewGuid())
+            .Shuffle()
             .Take(dataSize);
         
         var resultResponse = new GroupInfoResponse {
@@ -293,7 +292,7 @@ public class GroupsController : ControllerBase, IGroupsController
         var owner = await _usersController.GetUserById(group.OwnerId);
         if (owner == null) return null;
         
-        var resultResponse = new SmallGroupInfoResponse() {
+        var resultResponse = new SmallGroupInfoResponse {
             Id = group.Id,
             Name = group.Name,
             OwnerId = group.OwnerId,
@@ -303,7 +302,7 @@ public class GroupsController : ControllerBase, IGroupsController
         return resultResponse;
     }
 
-    public async Task<IEnumerable<Group>> GetGroupsByUser(int userId)
+    public async Task<IEnumerable<Group>> GetGroupsByUserAsync(int userId)
     {
         return await _context.Users
             .Include(user => user.Groups)

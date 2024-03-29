@@ -1,4 +1,3 @@
-using RewindApp.Entities;
 using RewindApp.Views;
 
 namespace RewindApp.Responses;

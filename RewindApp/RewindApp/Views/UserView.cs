@@ -1,5 +1,3 @@
-using System.Collections;
-
 namespace RewindApp.Views;
 
 public class UserView

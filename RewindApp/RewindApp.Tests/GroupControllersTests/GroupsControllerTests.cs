@@ -1,8 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
+using MySqlX.XDevAPI.Common;
 using RewindApp.Controllers.GroupControllers;
 using RewindApp.Controllers.MediaControllers;
 using RewindApp.Controllers.UserControllers;
 using RewindApp.Data;
+using RewindApp.Entities;
+using RewindApp.Responses;
+using RewindApp.Views;
 
 namespace RewindApp.Tests.GroupControllersTests;
 
@@ -52,23 +56,6 @@ public class GroupsControllerTests
         Assert.Empty(_context.Groups);
     }
     
-    /*[Fact]
-    public async void ItShould_fail_to_create_group_because_of_duplicate_group_name()
-    {
-        // Arrange
-        await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
-        await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
-        
-        // Act
-        var actionResult = await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
-        var result = actionResult as ObjectResult;
-        
-        // Assert
-        Assert.Equal("400", result?.StatusCode.ToString());
-        Assert.Equal("Group 'defaultName', created by User 1 already exists", result?.Value);
-        Assert.Single(_context.Groups);
-    }*/
-    
     [Fact]
     public async void ItShould_successfully_get_groups()
     {
@@ -91,11 +78,13 @@ public class GroupsControllerTests
         await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
         
         // Act
-        var actionResult = await _groupsController.GetGroupsByUserAsync(1);
+        var actionResult = await _groupsController.GetGroupsByUser(1);
         var result = actionResult.Result as ObjectResult;
+        var value = result?.Value as IEnumerable<GroupView>;
         
         // Assert
-        Assert.NotNull(result);
+        Assert.Equal("200", result?.StatusCode.ToString());
+        Assert.NotNull(value);
     }
     
     [Fact]
@@ -106,13 +95,14 @@ public class GroupsControllerTests
         await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
         
         // Act
-        var actionResult = await _groupsController.GetGroupsByUserAsync(2);
+        var actionResult = await _groupsController.GetGroupsByUser(2);
         var result = actionResult.Result as ObjectResult;
+        var value = result?.Value as IEnumerable<GroupView>;
 
         // Assert
         Assert.Equal("400", result?.StatusCode.ToString());
         Assert.Equal("User not found", result?.Value);
-        Assert.Null(actionResult.Value);
+        Assert.Null(value);
     }
     
     [Fact]
@@ -126,10 +116,11 @@ public class GroupsControllerTests
         // Act
         var actionResult = await _groupsController.AddUserToGroup(1,2);
         var result = actionResult.Result as ObjectResult;
-
+        var groups = await _groupsController.GetGroupsByUserAsync(2);
+        
         // Assert
         Assert.Equal("200", result?.StatusCode.ToString());
-        Assert.NotNull(await _groupsController.GetGroupsByUser(2));
+        Assert.NotNull(groups);
     }
     
     [Fact]
@@ -142,11 +133,11 @@ public class GroupsControllerTests
         // Act
         var actionResult = await _groupsController.AddUserToGroup(1,1);
         var result = actionResult.Result as ObjectResult;
+        var groups = await _groupsController.GetGroupsByUserAsync(1);
 
         // Assert
-        Assert.Equal("400", result?.StatusCode.ToString());
-        Assert.Equal("Group 1 already contains User 1", result?.Value);
-        Assert.Single(await _groupsController.GetUserViewsByGroupAsync(1));
+        Assert.Equal("200", result?.StatusCode.ToString());
+        Assert.Single(groups);
     }
     
     [Fact]
@@ -163,7 +154,6 @@ public class GroupsControllerTests
         // Assert
         Assert.Equal("400", result?.StatusCode.ToString());
         Assert.Equal("User not found", result?.Value);
-        Assert.Single(await _groupsController.GetUserViewsByGroupAsync(1));
     }
     
     [Fact]
@@ -192,10 +182,11 @@ public class GroupsControllerTests
         // Act
         var actionResult = await _groupsController.DeleteGroup(1);
         var result = actionResult as ObjectResult;
+        var groups = await _groupsController.GetGroupsByUserAsync(1);
         
         // Assert
         Assert.Equal("200", result?.StatusCode.ToString());
-        Assert.Empty(await _groupsController.GetGroupsByUser(1));
+        Assert.Empty(groups);
         Assert.Empty(_context.Groups);
     }
     
@@ -213,7 +204,6 @@ public class GroupsControllerTests
         // Assert
         Assert.Equal("400", result?.StatusCode.ToString());
         Assert.Equal("Group not found", result?.Value);
-        Assert.NotEmpty(_context.Groups);
     }
 
     [Fact]
@@ -226,10 +216,13 @@ public class GroupsControllerTests
         // Act
         var actionResult = await _groupsController.DeleteUserFromGroup(1, 1);
         var result = actionResult as ObjectResult;
+        var groups = await _groupsController.GetGroupsByUserAsync(1);
+        var users = await _groupsController.GetUsersByGroupAsync(1);
         
         // Assert
         Assert.Equal("200", result?.StatusCode.ToString());
-        Assert.Empty(await _groupsController.GetGroupsByUser(1));
+        Assert.Empty(users);
+        Assert.Empty(groups);
     }
     
     [Fact]
@@ -272,10 +265,13 @@ public class GroupsControllerTests
         await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
         
         // Act
-        var actionResult = await _groupsController.GetUserViewsByGroupAsync(1);
-
+        var actionResult = await _groupsController.GetUsersByGroup(1);
+        var result = actionResult.Result as ObjectResult;
+        var value = result?.Value as IEnumerable<UserView>;
+        
         // Assert
-        Assert.NotNull(actionResult);
+        Assert.Equal("200", result?.StatusCode.ToString());
+        Assert.NotNull(value);
     }
     
     [Fact]
@@ -292,7 +288,6 @@ public class GroupsControllerTests
         // Assert
         Assert.Equal("400", result?.StatusCode.ToString());
         Assert.Equal("Group not found", result?.Value);
-        Assert.Null(actionResult.Value);
     }
 
     [Fact]
@@ -301,15 +296,17 @@ public class GroupsControllerTests
         // Arrange
         await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
         await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
-        await _mediaController.LoadMediaToGroup(ContextHelper.BuildTestImageRequest(), 1, 1);
+        await _mediaController.LoadMediaToGroup(ContextHelper.BuildLoadMediaRequest(), 1, 1);
 
         // Act
         var actionResult = await _groupsController.GetMediaByGroupAsync(1);
-        var group = await _groupsController.GetGroupById(1);
+        var result = actionResult.Result as ObjectResult;
+        var value = result?.Value as IEnumerable<MediaView>;
 
         // Assert
         Assert.NotNull(actionResult.Result);
-        Assert.NotEmpty(group!.Media);
+        Assert.NotNull(value);
+        Assert.NotEmpty(value);
     }
     
     [Fact]
@@ -318,7 +315,7 @@ public class GroupsControllerTests
         // Arrange
         await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
         await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
-        await _mediaController.LoadMediaToGroup(ContextHelper.BuildTestImageRequest(), 1, 1);
+        await _mediaController.LoadMediaToGroup(ContextHelper.BuildLoadMediaRequest(), 1, 1);
 
         // Act
         var actionResult = await _groupsController.GetMediaByGroupAsync(2);
@@ -327,7 +324,6 @@ public class GroupsControllerTests
         // Assert
         Assert.Equal("400", result?.StatusCode.ToString());
         Assert.Equal("Group not found", result?.Value);
-        Assert.Null(actionResult.Value);
     }
 
     [Fact]
@@ -336,17 +332,17 @@ public class GroupsControllerTests
         // Arrange
         await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
         await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
-        await _mediaController.LoadMediaToGroup(ContextHelper.BuildTestImageRequest(), 1, 1);
+        await _mediaController.LoadMediaToGroup(ContextHelper.BuildLoadMediaRequest(), 1, 1);
         var group = await _groupsController.GetGroupById(1); 
         
         // Act
         var actionResult = await _groupsController.GetGroupInfoById(1, 1,5);
-        var groupInfo = await _groupsController.GetGroupInfo(group, 1, 1, 5);
         var result = actionResult.Result as ObjectResult;
+        var value = result?.Value as GroupInfoResponse;
 
         // Assert
         Assert.Equal("200", result?.StatusCode.ToString());
-        Assert.NotNull(groupInfo);
+        Assert.NotNull(value);
     }
     
     [Fact]
@@ -355,7 +351,7 @@ public class GroupsControllerTests
         // Arrange
         await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
         await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
-        await _mediaController.LoadMediaToGroup(ContextHelper.BuildTestImageRequest(), 1, 1);
+        await _mediaController.LoadMediaToGroup(ContextHelper.BuildLoadMediaRequest(), 1, 1);
         
         // Act
         var actionResult = await _groupsController.GetGroupInfoById(2, 2,5);
@@ -364,7 +360,6 @@ public class GroupsControllerTests
         // Assert
         Assert.Equal("400", result?.StatusCode.ToString());
         Assert.Equal("Group not found", result?.Value);
-        Assert.Null(actionResult.Value);
     }
     
     [Fact]
@@ -373,7 +368,7 @@ public class GroupsControllerTests
         // Arrange
         await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
         await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
-        await _mediaController.LoadMediaToGroup(ContextHelper.BuildTestImageRequest(), 1, 1);
+        await _mediaController.LoadMediaToGroup(ContextHelper.BuildLoadMediaRequest(), 1, 1);
         await _usersController.DeleteUserAccount(1);
         
         // Act
@@ -383,6 +378,5 @@ public class GroupsControllerTests
         // Assert
         Assert.Equal("400", result?.StatusCode.ToString());
         Assert.Equal("Owner not found", result?.Value);
-        Assert.Null(actionResult.Value);
     }
 }

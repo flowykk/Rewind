@@ -1,8 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MySql.Data.MySqlClient;
 using RewindApp.Controllers.GroupControllers;
-using RewindApp.Controllers.TagControllers;
 using RewindApp.Controllers.UserControllers;
 using RewindApp.Data;
 using RewindApp.Data.Repositories;
@@ -113,8 +111,24 @@ public class MediaController : ControllerBase
 
         var id = _sqlService.LoadMedia(rawData, tinyData, groupId, authorId, mediaRequest.IsPhoto);
 
+        var media = new Media {
+            Author = new UserView
+            {
+                Id = author.Id,
+                TinyProfileImage = author.TinyProfileImage,
+                UserName = author.UserName
+            },
+            Date = DateTime.Now,
+            Group = group,
+            IsPhoto = mediaRequest.IsPhoto == 1
+        };
+
         foreach (var tag in mediaRequest.Tags)
-            await _tagsRepository.AddTagAsync((await GetMediaById(id))!, tag);
+            media.Tags.Add(await _tagsRepository.AddTagAsync((await GetMediaById(id))!, tag));
+        
+        group.Media.Add(media);
+        _context.Media.Add(media);
+        await _context.SaveChangesAsync();
         
         return Ok(id);
     }

@@ -136,7 +136,7 @@ public class ChangeUserControllerTests
         await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
 
         // Act
-        var actionResult = await _changeUserController.ChangeProfileImage(ContextHelper.BuildTestImageRequest(), 1);
+        var actionResult = await _changeUserController.ChangeProfileImage(ContextHelper.BuildTestChangeImageRequest(), 1);
         var result = actionResult as ObjectResult;
         
         var changedUser = _context.Users.FirstOrDefault(u => u.Id == 1);
@@ -157,8 +157,7 @@ public class ChangeUserControllerTests
         await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
 
         // Act
-        var actionResult = await _changeUserController.ChangeProfileImage(
-            ContextHelper.BuildTestImageRequest(), 2);
+        var actionResult = await _changeUserController.ChangeProfileImage(ContextHelper.BuildTestChangeImageRequest(), 2);
         var result = actionResult as ObjectResult;
         
         // Assert

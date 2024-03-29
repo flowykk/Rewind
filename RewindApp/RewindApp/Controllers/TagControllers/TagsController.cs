@@ -1,11 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using RewindApp.Controllers.MediaControllers;
 using RewindApp.Data;
 using RewindApp.Data.Repositories;
-using RewindApp.Requests.ChangeRequests;
 using RewindApp.Entities;
 using RewindApp.Interfaces;
+using RewindApp.Requests.ChangeRequests;
 
 namespace RewindApp.Controllers.TagControllers;
 
@@ -13,13 +12,11 @@ namespace RewindApp.Controllers.TagControllers;
 [Route("[controller]")]
 public class TagsController : ControllerBase
 {
-    private readonly DataContext _context;
     private readonly MediaController _mediaController;
     private readonly ITagsRepository _tagsRepository;
     
     public TagsController(DataContext context)
     {
-        _context = context;
         _mediaController = new MediaController(context);
         _tagsRepository = new TagsRepository(context);
     }
@@ -43,10 +40,10 @@ public class TagsController : ControllerBase
         var media = await _mediaController.GetMediaById(mediaId);
         if (media == null) return BadRequest("Media not found");
 
-        if (media.Tags.ToList().FirstOrDefault(t => t.Text == textRequest.Text) == null)
-            await _tagsRepository.AddTagAsync(media, textRequest.Text);
-
-        return Ok(media.Tags);
+        if (media.Tags.ToList().FirstOrDefault(t => t.Text == textRequest.Text) != null)
+            return BadRequest("Duplicate tag");
+            
+        return Ok(await _tagsRepository.AddTagAsync(media, textRequest.Text));
     }
     
     [HttpDelete("delete/{mediaId}")]

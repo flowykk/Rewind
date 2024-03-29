@@ -1,6 +1,4 @@
-using System.Data.Common;
 using Microsoft.EntityFrameworkCore;
-using MySql.Data.MySqlClient;
 using RewindApp.Entities;
 using RewindApp.Views;
 

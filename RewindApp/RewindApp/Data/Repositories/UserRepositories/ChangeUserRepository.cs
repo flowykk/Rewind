@@ -19,9 +19,9 @@ public class ChangeUserRepository : IChangeUserRepository
         _userService = new UserService();
     }
     
-    public async Task<User> ChangeNameAsync(User user, int userId, NameRequest request)
+    public async Task<User> ChangeNameAsync(User user, int userId, TextRequest request)
     {
-        user.UserName = request.Name;
+        user.UserName = request.Text;
         _context.Users.Update(user);
         await _context.SaveChangesAsync();
         

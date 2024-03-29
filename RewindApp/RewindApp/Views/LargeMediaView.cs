@@ -9,4 +9,5 @@ public class LargeMediaView
     public UserView? Author { get; set; }
     public DateTime Date { get; set; }
     public bool Liked { get; set; }
+    public ICollection<Tag> Tags { get; set; }
 }

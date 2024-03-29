@@ -26,7 +26,7 @@ public class ChangeGroupControllerTests
         // Arrange
         await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
         await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
-        var nameRequest = new NameRequest() { Name = "newName" };
+        var nameRequest = new TextRequest() { Text = "newName" };
 
         // Act
         var actionResult = await _changeGroupController.ChangeName(nameRequest, 1);
@@ -47,7 +47,7 @@ public class ChangeGroupControllerTests
         // Arrange
         await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
         await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
-        var nameRequest = new NameRequest() { Name = "newName" };
+        var nameRequest = new TextRequest() { Text = "newName" };
 
         // Act
         var actionResult = await _changeGroupController.ChangeName(nameRequest, 2);

@@ -23,12 +23,12 @@ public class ChangeGroupController : ControllerBase
     }
 
     [HttpPut("name/{groupId}")]
-    public async Task<ActionResult> ChangeName(NameRequest request, int groupId)
+    public async Task<ActionResult> ChangeName(TextRequest request, int groupId)
     {
         var group = await _groupsController.GetGroupById(groupId);
         if (group == null) return BadRequest("Group not found");
 
-        group.Name = request.Name;
+        group.Name = request.Text;
         _context.Groups.Update(group);
         await _context.SaveChangesAsync();
         

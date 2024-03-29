@@ -2,8 +2,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RewindApp.Controllers.MediaControllers;
 using RewindApp.Data;
+using RewindApp.Data.Repositories;
 using RewindApp.Requests.ChangeRequests;
 using RewindApp.Entities;
+using RewindApp.Interfaces;
 
 namespace RewindApp.Controllers.TagControllers;
 
@@ -13,63 +15,49 @@ public class TagsController : ControllerBase
 {
     private readonly DataContext _context;
     private readonly MediaController _mediaController;
+    private readonly ITagsRepository _tagsRepository;
     
     public TagsController(DataContext context)
     {
         _context = context;
         _mediaController = new MediaController(context);
+        _tagsRepository = new TagsRepository(context);
     }
     
     [HttpGet]
     public async Task<IEnumerable<Tag>> GetTags()
     {
-        return await _context.Tags.ToListAsync();
+        return await _tagsRepository.GetTagsAsync();
     }
 
     [HttpGet("{mediaId}")]
     public async Task<ActionResult<IEnumerable<Tag>>> GetTagsByMediaId(int mediaId)
     {
         var media = await _mediaController.GetMediaById(mediaId);
-        if (media == null) return BadRequest("Media not found");
-
-        return media.Tags.ToList();
+        return Ok(_tagsRepository.GetTagsByMediaAsync(media));
     }
 
     [HttpPost("add/{mediaId}")]
-    public async Task<ActionResult> AddTag(NameRequest nameRequest, int mediaId)
+    public async Task<ActionResult<Tag>> AddTag(TextRequest textRequest, int mediaId)
     {
         var media = await _mediaController.GetMediaById(mediaId);
         if (media == null) return BadRequest("Media not found");
 
-        var similarTag = media.Tags.ToList().FirstOrDefault(t => t.Text == nameRequest.Name);
-        if (similarTag != null) return BadRequest("Media already has such Tag");
+        if (media.Tags.ToList().FirstOrDefault(t => t.Text == textRequest.Text) == null)
+            await _tagsRepository.AddTagAsync(media, textRequest.Text);
 
-        var tag = new Tag()
-        {
-            Text = nameRequest.Name,
-            Media = media
-        };
-
-        _context.Tags.Add(tag);
-        media.Tags.Add(tag);
-        await _context.SaveChangesAsync();
-
-        return Ok(tag);
+        return Ok(media.Tags);
     }
     
     [HttpDelete("delete/{mediaId}")]
-    public async Task<ActionResult> DeleteTag(NameRequest nameRequest, int mediaId)
+    public async Task<ActionResult> DeleteTag(TextRequest textRequest, int mediaId)
     {
         var media = await _mediaController.GetMediaById(mediaId);
         if (media == null) return BadRequest("Media not found");
 
-        var tag = media.Tags.ToList().FirstOrDefault(t => t.Text == nameRequest.Name);
-        if (tag == null) return BadRequest("Media has no such Tag");
+        var tag = media.Tags.ToList().FirstOrDefault(t => t.Text == textRequest.Text);
+        if (tag != null) await _tagsRepository.DeleteTagAsync(media, tag);
 
-        _context.Tags.Remove(tag);
-        media.Tags.Remove(tag);
-        await _context.SaveChangesAsync();
-
-        return Ok(tag);
+        return Ok(media.Tags);
     }
 }

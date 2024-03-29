@@ -49,7 +49,7 @@ public class RegisterController : ControllerBase
         { 
             UserName = request.UserName,
             Email = request.Email,
-            Password = _userService.ComputeHash(request.Password),
+            Password = request.Password,
             RegistrationDateTime = DateTime.Now,
             ProfileImage = Array.Empty<byte>()
         };

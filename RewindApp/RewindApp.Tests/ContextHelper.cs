@@ -78,16 +78,16 @@ public static class ContextHelper
             .Create();
     }
     
-    public static NameRequest BuildDefaultNameRequest()
+    public static TextRequest BuildDefaultNameRequest()
     {
-        return _fixture.Create<NameRequest>();
+        return _fixture.Create<TextRequest>();
     }
     
-    public static NameRequest BuildNameRequest(string name)
+    public static TextRequest BuildNameRequest(string name)
     {
         return _fixture
-            .Build<NameRequest>()
-            .With(req => req.Name, name)
+            .Build<TextRequest>()
+            .With(req => req.Text, name)
             .Create();
     }
 }

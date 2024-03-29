@@ -6,7 +6,7 @@ namespace RewindApp.Services;
 
 public class SqlService
 {
-    private void RunCommand(string commandText, List<MySqlParameter> parameters)
+    private int RunCommand(string commandText, List<MySqlParameter> parameters)
     {
         var connectionString = DataContext.GetDbConnection();
         var connection = new MySqlConnection(connectionString);
@@ -17,9 +17,9 @@ public class SqlService
             Connection = connection,
             CommandText = commandText
         };
-
         foreach (var param in parameters) command.Parameters.Add(param);
-        command.ExecuteNonQuery();
+        
+        return Convert.ToInt32(command.ExecuteScalar());
     }
 
     public void UpdateUserImage(User user)
@@ -48,7 +48,6 @@ public class SqlService
         RunCommand(commandText, parameters);
     }
 
-
     public void UpdateGroupImage(Group group)
     {
         var imageParameter = new MySqlParameter("?objectData", MySqlDbType.Blob, group.Image.Length)
@@ -75,7 +74,7 @@ public class SqlService
         RunCommand(commandText, parameters);
     }
 
-    public void LoadMedia(byte[] rawData, byte[] tinyData, int groupId, int authorId, int isPhoto)
+    public int LoadMedia(byte[] rawData, byte[] tinyData, int groupId, int authorId, int isPhoto)
     {
         var imageParameter = new MySqlParameter("?rawData", MySqlDbType.Blob, rawData.Length)
         {
@@ -102,7 +101,8 @@ public class SqlService
             Value = isPhoto
         };
 
-        const string commandText = "INSERT INTO Media (Date, Object, TinyObject, GroupId, AuthorId, IsPhoto) VALUES (?date, ?rawData, ?tinyData, ?groupId, ?authorId, ?isPhoto);";
+        const string commandText = "INSERT INTO Media (Date, Object, TinyObject, GroupId, AuthorId, IsPhoto) VALUES (?date, ?rawData, ?tinyData, ?groupId, ?authorId, ?isPhoto);" +
+                                   "SELECT LAST_INSERT_ID();";
         var parameters = new List<MySqlParameter>
         {
             imageParameter,
@@ -113,6 +113,6 @@ public class SqlService
             isPhotoParameter
         };
         
-        RunCommand(commandText, parameters);
+        return RunCommand(commandText, parameters);
     }
 }

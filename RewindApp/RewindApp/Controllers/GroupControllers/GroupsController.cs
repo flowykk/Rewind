@@ -39,12 +39,18 @@ public class GroupsController : ControllerBase, IGroupsController
     }
     
     [HttpGet("random/{groupId}/{userId}")]
-    public async Task<ActionResult<Media>> GetRandomMediaAsync(int groupId, int userId)
+    public async Task<ActionResult<BigMediaView>> GetRandomMediaAsync(int groupId, int userId, bool images = true, bool quotes = true, bool onlyFavorites = false)
     {
         if (await GetGroupById(groupId) == null)
             return BadRequest("Group not found");
 
-        return Ok(await GetRandomBigMedia(groupId, userId));
+        var filter = new FilterSettings {
+            Images = images,
+            Quotes = quotes,
+            OnlyFavorites = onlyFavorites
+        };
+        
+        return Ok(await GetRandomBigMedia(filter, groupId, userId));
     }
     
     [HttpGet("info/{groupId}/{userId}")]
@@ -76,7 +82,7 @@ public class GroupsController : ControllerBase, IGroupsController
         
         var resultResponse = new RewindScreenDataResponse {
             Groups = groups,
-            RandomImage = await GetRandomBigMedia(groupId, userId),
+            RandomImage = await GetRandomBigMedia(new FilterSettings(), groupId, userId),
             GallerySize = group != null ? group.Media.Count : 0
         };
 
@@ -343,15 +349,16 @@ public class GroupsController : ControllerBase, IGroupsController
             .ToListAsync();
     }
     
-    public async Task<IEnumerable<LargeMediaView>> GetBigMediaByGroup(int groupId, int userId)
+    public async Task<IEnumerable<BigMediaView>> GetBigMediaByGroup(FilterSettings filterSettings, int groupId, int userId)
     {
-        var user = await _usersController.GetUserById(userId);
         return await _context.Groups
             .Include(g => g.Media)
             .Where(g => g.Id == groupId)
             .SelectMany(g => g.Media)
-            .Where(m => m.Author != null)
-            .Select(m => new LargeMediaView {
+            .Where(m => m.Author != null && ((m.IsPhoto && filterSettings.Images) || (!m.IsPhoto && filterSettings.Quotes)))
+            .Where(m => !filterSettings.OnlyFavorites || 
+                filterSettings.OnlyFavorites && _usersController.GetLikedMediaByUser(userId).Result.Contains(m))
+            .Select(m => new BigMediaView {
                 Id = m.Id,
                 Object = m.Object,
                 Author = new UserView {
@@ -371,9 +378,9 @@ public class GroupsController : ControllerBase, IGroupsController
         return media.Count == 0 ? null : media[new Random().Next(0, media.Count)];
     }
     
-    public async Task<LargeMediaView?> GetRandomBigMedia(int groupId, int userId)
+    public async Task<BigMediaView?> GetRandomBigMedia(FilterSettings filterSettings, int groupId, int userId)
     {
-        var media = (await GetBigMediaByGroup(groupId, userId)).ToList();
+        var media = (await GetBigMediaByGroup(filterSettings, groupId, userId)).ToList();
         return media.Count == 0 ? null : media[new Random().Next(0, media.Count)];
     }
 }

@@ -25,7 +25,7 @@ public class ChangeUserControllerTests
     {
         // Arrange
         await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
-        var nameRequest = new NameRequest() { Name = "newName" };
+        var nameRequest = new TextRequest() { Text = "newName" };
 
         // Act
         var actionResult = await _changeUserController.ChangeName(1, nameRequest);
@@ -45,7 +45,7 @@ public class ChangeUserControllerTests
     {
         // Arrange
         await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
-        var nameRequest = new NameRequest() { Name = "newName" };
+        var nameRequest = new TextRequest() { Text = "newName" };
 
         // Act
         var actionResult = await _changeUserController.ChangeName(2, nameRequest);

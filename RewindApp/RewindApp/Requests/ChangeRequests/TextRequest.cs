@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace RewindApp.Requests.ChangeRequests;
 
-public class NameRequest
+public class TextRequest
 {
-    [Required] public string Name { get; set; } = string.Empty;
+    [Required] public string Text { get; set; } = string.Empty;
 }

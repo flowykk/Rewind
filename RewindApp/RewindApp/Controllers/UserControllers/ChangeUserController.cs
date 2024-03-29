@@ -24,18 +24,18 @@ public class ChangeUserController : ControllerBase
     }
 
     [HttpPut("name/{userId}")]
-    public async Task<ActionResult> ChangeName(int userId, NameRequest request)
+    public async Task<ActionResult> ChangeName(int userId, TextRequest request)
     {
         var user = await _usersController.GetUserById(userId);
         if (user == null) return BadRequest("User not found");
         
-        user.UserName = request.Name;
+        user.UserName = request.Text;
         _context.Users.Update(user);
         await _context.SaveChangesAsync();
         
         _sqlService.UpdateUserImage(user);
         
-        return Ok("Name changed");
+        return Ok("Text changed");
     }
     
     [HttpPut("email/{userId}")]

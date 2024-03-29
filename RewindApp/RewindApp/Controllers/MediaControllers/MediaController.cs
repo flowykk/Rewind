@@ -2,9 +2,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MySql.Data.MySqlClient;
 using RewindApp.Controllers.GroupControllers;
+using RewindApp.Controllers.TagControllers;
 using RewindApp.Controllers.UserControllers;
 using RewindApp.Data;
+using RewindApp.Data.Repositories;
 using RewindApp.Entities;
+using RewindApp.Interfaces;
 using RewindApp.Requests;
 using RewindApp.Services;
 using RewindApp.Views;
@@ -20,12 +23,15 @@ public class MediaController : ControllerBase
     private readonly IUsersController _usersController;
     private readonly SqlService _sqlService;
 
+    private readonly ITagsRepository _tagsRepository;
+
     public MediaController(DataContext context) 
     {
         _context = context;
         _groupsController = new GroupsController(context);
         _usersController = new UsersController(context);
         _sqlService = new SqlService();
+        _tagsRepository = new TagsRepository(context);
     }
 
     [HttpGet]
@@ -45,21 +51,22 @@ public class MediaController : ControllerBase
         return media;
     }
     
-    [HttpGet("info/{mediaId}")]
-    public async Task<ActionResult<BigMediaView>> GetMediaInfoById(int mediaId)
+    [HttpGet("info/{mediaId}/{userId}")]
+    public async Task<ActionResult<LargeMediaView>> GetMediaInfoById(int mediaId, int userId)
     {
         var media = await GetMediaById(mediaId);
         if (media == null) return BadRequest("Media not found");
 
-        return Ok(new BigMediaView {
+        return Ok(new LargeMediaView {
             Id = mediaId,
             Author = media.Author,
             Date = media.Date,
-            Object = media.Object
+            Object = media.Object,
+            Liked = (await _usersController.GetLikedMediaByUser(userId)).Contains(media),
+            Tags = media.Tags
         });
     }
-
-
+    
     [HttpPost("like/{userId}/{mediaId}")]
     public async Task<ActionResult<Media>> LikeMedia(int userId, int mediaId)
     {
@@ -89,13 +96,11 @@ public class MediaController : ControllerBase
         media.Users.Remove(user);
         await _context.SaveChangesAsync();
         
-        //_sqlService.Delete(userId, mediaId, "UsersId", "MediaId", "MediaUser");
-        
         return Ok("unliked");
     }
 
     [HttpPost("load/{groupId}/{authorId}")]
-    public async Task<ActionResult> LoadMediaToGroup(MediaRequest mediaRequest, int groupId, int authorId)
+    public async Task<ActionResult> LoadMediaToGroup(LoadMediaRequest mediaRequest, int groupId, int authorId)
     {
         var group = await _groupsController.GetGroupById(groupId);
         if (group == null) return BadRequest("Group not found");
@@ -106,25 +111,15 @@ public class MediaController : ControllerBase
         var rawData = Convert.FromBase64String(mediaRequest.Object);
         var tinyData = Convert.FromBase64String(mediaRequest.TinyObject);
 
-        _sqlService.LoadMedia(rawData, tinyData, groupId, authorId, mediaRequest.isPhoto);
-       
-        /*var media = new Media
-        {
-            Date = DateTime.Now,
-            Object = rawData,
-            TinyObject = tinyData,
-            Group = group,
-            AuthorId = author.Id
-        };
+        var id = _sqlService.LoadMedia(rawData, tinyData, groupId, authorId, mediaRequest.IsPhoto);
+
+        foreach (var tag in mediaRequest.Tags)
+            await _tagsRepository.AddTagAsync((await GetMediaById(id))!, tag);
         
-        _context.Media.Add(media);
-        group.Media.Add(media);
-        await _context.SaveChangesAsync();*/
-;        
-        return Ok("Media loaded");
+        return Ok(id);
     }
     
-    [HttpDelete("unload/{mediaId}/{groupId}/{authorId}")]
+    [HttpDelete("unload/{mediaId}/{groupId}")]
     public async Task<ActionResult> UnloadMediaToGroup(int mediaId, int groupId)
     {
         var group = await _groupsController.GetGroupById(groupId);
@@ -134,11 +129,11 @@ public class MediaController : ControllerBase
         if (media == null) return BadRequest("Media not found");
 
         var author = media.Author == null ? null : await _usersController.GetUserById(media.Author.Id);
-        // if (author == null) return BadRequest("Author not found");
 
         group.Media.Remove(media);
         author?.Media.Remove(media);
+        await _context.SaveChangesAsync();
         
-        return Ok("Media unloaded");
+        return Ok(media.Id);
     }
 }

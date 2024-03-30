@@ -52,7 +52,7 @@ final class GroupSettingsViewController: UIViewController {
             groupRiskyZoneTableHeight -= 1
         }
         
-        let contentViewHeight = view.frame.height
+        let contentViewHeight = view.frame.height - (navigationController?.navigationBar.frame.height ?? 0)
         
         groupRiskyZoneTableHeightConstraint = groupRiskyZoneTable.heightAnchor.constraint(greaterThanOrEqualToConstant: groupRiskyZoneTableHeight)
         contentViewHeightConstraint = contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: contentViewHeight)
@@ -142,6 +142,7 @@ extension GroupSettingsViewController {
         scrollView.delaysContentTouches = false
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
+        scrollView.alwaysBounceVertical = true
         scrollView.backgroundColor = .systemBackground
         
         scrollView.pinLeft(to: view.leadingAnchor)

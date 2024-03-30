@@ -10,12 +10,31 @@ import UIKit
 
 final class AllGroupsPresenter {
     private weak var view: AllGroupsViewController?
-    weak var tableView: GroupsTableView?
+    weak var groupsTable: GroupsTableView?
     private var router: AllGroupsRouter
+    
+    private var originalGroups: [Group] = []
     
     init(view: AllGroupsViewController?, router: AllGroupsRouter) {
         self.view = view
         self.router = router
+    }
+    
+    func searchTextChanged(newValue: String?) {
+        guard let newValue = newValue else { return }
+        
+        var filteredGroups: [Group] = []
+        
+        if newValue.isEmpty {
+            filteredGroups = originalGroups
+        } else {
+            filteredGroups = originalGroups.filter({ $0.name.lowercased().contains(newValue.lowercased()) })
+        }
+        
+        groupsTable?.groups = filteredGroups
+        groupsTable?.reloadData()
+        view?.updateViewsHeight()
+        groupsTable?.groups = originalGroups
     }
     
     func goToCurrentGroupAfterAdding() {
@@ -36,8 +55,9 @@ final class AllGroupsPresenter {
     }
     
     func addGroupToTable(_ group: Group) {
-        tableView?.groups.append(group)
-        tableView?.reloadData()
+        groupsTable?.groups.append(group)
+        originalGroups = groupsTable?.groups ?? []
+        groupsTable?.reloadData()
         view?.updateViewsHeight()
     }
     
@@ -83,10 +103,11 @@ extension AllGroupsPresenter {
                 DataManager.shared.setCurrentGroupToRandomUserGroup()
             }
             
-            tableView?.groups = userGroups
+            groupsTable?.groups = userGroups
+            originalGroups = userGroups
             
             DispatchQueue.main.async { [weak self] in
-                self?.tableView?.reloadData()
+                self?.groupsTable?.reloadData()
                 LoadingView.hide(fromVC: self?.view)
             }
         } else {

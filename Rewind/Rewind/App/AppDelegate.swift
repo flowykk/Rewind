@@ -9,20 +9,19 @@ import UIKit
 import CoreML
 import Vision
 
-var tags = [String]()
-var requests = [VNRequest]()
+var yoloModel: YOLOv3Model?
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-
+    
+    
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        Task { setupVision() }
+        Task { configureYOLOv3Model() }
         
-//        modelRequest(imageData: (UIImage(named: "moscow")?.jpegData(compressionQuality: 1)!)!)
+        configureLaunchImage()
         
         return true
     }
@@ -45,36 +44,47 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 }
 
 extension AppDelegate {
-    @discardableResult
-    private func setupVision() -> NSError? {
-        debugPrint("setupVision()")
-        let error: NSError! = nil
-        
-        guard let modelURL = Bundle.main.url(forResource: "YOLOv3", withExtension: "mlmodelc") else {
-            debugPrint("Load YOLOv3.mlmodelc error!")
-            return NSError(domain: "VisionObjectRecognitionViewController", code: -1, userInfo: [NSLocalizedDescriptionKey: "Model file is missing"])
+    func configureYOLOv3Model() {
+        guard let modelURL = Bundle.main.url(forResource: "YOLOv3Int8LUT", withExtension: "mlmodelc") else {
+            fatalError("Failed to find YOLOv3 model file")
         }
         do {
-            let visionModel = try VNCoreMLModel(for: MLModel(contentsOf: modelURL))
-            let objectRecognition = VNCoreMLRequest(model: visionModel, completionHandler: { (request, error) in
-                if let results = request.results as? [VNRecognizedObjectObservation] {
-                    tags = results.first?.labels.prefix(5).map{ $0.identifier } ?? []
-                }
-            })
-            requests = [objectRecognition]
-        } catch let error as NSError {
-            print("Model loading went wrong: \(error)")
+            let model = try VNCoreMLModel(for: MLModel(contentsOf: modelURL))
+            yoloModel = YOLOv3Model(model: model)
+        } catch {
+            fatalError("Failed to load YOLOv3 model: \(error)")
         }
-        
-        return error
     }
 }
 
-func modelRequest(imageData: Data) {
-    let imageRequestHandler = VNImageRequestHandler(data: imageData)
-    do {
-        try imageRequestHandler.perform(requests)
-    }
-    catch {
+extension AppDelegate {
+    private func configureLaunchImage() {
+        let launchImageFileName = DataManager.shared.getLaunchImageFileName()
+        
+        let docDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.absoluteString ?? ""
+        let launchFileFullPath = docDir + launchImageFileName
+        
+        let launchImageURL = URL(string: launchFileFullPath)
+        
+        var launchImage: UIImage = UIImage()
+        
+        do {
+            if (launchImageURL != nil) {
+                let launchImageData = try Data(contentsOf: launchImageURL!)
+                launchImage = UIImage(data: launchImageData) ?? UIImage()
+            }
+        } catch {
+            
+        }
+        
+        if (launchImage.size.width == 0 || launchImage.size.height == 0) {
+            launchImage = UIImage(named: "moscow") ?? UIImage()
+        }
+        
+        DataManager.shared.setLaunchImage(to: launchImage)
+        
+        Task {
+            NetworkService.downloadLaunchImage()
+        }
     }
 }

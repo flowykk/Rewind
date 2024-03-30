@@ -19,6 +19,24 @@ final class RewindPresenter {
         self.router = router
     }
     
+    func viewDidLoad() {
+        if let fromLaunch = view?.fromLaunch {
+            if !fromLaunch {
+                getInitialRewindScreenData()
+            }
+            view?.fromLaunch = false
+        }
+    }
+    
+    func viewWillAppear() {
+        if let fromLaunch = view?.fromLaunch {
+            if !fromLaunch {
+                view?.configureUIForCurrentGroup()
+            }
+            view?.fromLaunch = false
+        }
+    }
+    
     func goToGroup() {
         router.navigateToGroup()
     }
@@ -63,7 +81,7 @@ final class RewindPresenter {
         if let currentGroupId = DataManager.shared.getCurrectGroupId() {
             requestRandomMedia(groupId: currentGroupId)
         } else {
-            LoadingView.hide(fromVC: view)
+            LoadingView.hide(fromView: view?.imageView)
         }
     }
     
@@ -200,6 +218,7 @@ extension RewindPresenter {
                 DataManager.shared.setCurrentGroup(currentGroup)
                 randomMedia = Media(json: json["randomImage"] as? [String : Any])
                 view?.randomMediaId = randomMedia?.id
+                DataManager.shared.setCurrentRandomMedia(to: randomMedia)
             } else {
                 DataManager.shared.resetCurrentGroup()
                 DataManager.shared.setCurrentGroupToRandomUserGroup()
@@ -222,6 +241,7 @@ extension RewindPresenter {
     private func handleGetRandomMediaResponse(_ response: NetworkResponse) {
         if response.success, let json = response.json {
             let randomMedia = Media(json: json)
+            DataManager.shared.setCurrentRandomMedia(to: randomMedia)
             view?.randomMediaId = randomMedia?.id
             DispatchQueue.main.async { [weak self] in
                 self?.view?.configureUIForRandomMedia(randomMedia)

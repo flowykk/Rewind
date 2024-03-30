@@ -12,6 +12,7 @@ final class RewindViewController: UIViewController {
     
     var likeButtonState: LikeButtonState = .unliked
     var randomMediaId: Int? = nil
+    var fromLaunch: Bool = false
     
     enum LikeButtonState {
         case liked
@@ -49,12 +50,13 @@ final class RewindViewController: UIViewController {
     private let rewindButton: UIButton = UIButton(type: .system)
     let likeButton: UIButton = UIButton(type: .system)
     private let galleryButton: UIButton = UIButton(type: .system)
+    private let chevronButton: UIButton = UIButton(type: .system)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.delegate = self
         configureUI()
-        presenter?.getInitialRewindScreenData()
+        presenter?.viewDidLoad()
         
         if let navigationController = navigationController {
             let navigationBarHeight = navigationController.navigationBar.frame.height
@@ -66,12 +68,13 @@ final class RewindViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        configureUIForCurrentGroup()
+        presenter?.viewWillAppear()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         navigationController?.delegate = self
+        navigationController?.isNavigationBarHidden = false
     }
     
     @objc
@@ -221,6 +224,7 @@ extension RewindViewController {
         configureDownloadButton()
         configureLikeButton()
         
+        configureChevronButton()
         configureGalleryButton()
         
         configureNavigationBar()
@@ -464,26 +468,32 @@ extension RewindViewController {
         galleryButton.translatesAutoresizingMaskIntoConstraints = false
         
         galleryButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
+        galleryButton.tintColor = .darkGray
+        
+        galleryButton.isUserInteractionEnabled = false
+        
+        galleryButton.pinBottom(to: chevronButton.bottomAnchor, 20)
+        galleryButton.pinCenterX(to: view.centerXAnchor)
+    }
+    
+    private func configureChevronButton() {
+        view.addSubview(chevronButton)
+        chevronButton.translatesAutoresizingMaskIntoConstraints = false
         
         let font = UIFont.systemFont(ofSize: 28, weight: .semibold)
         let configuration = UIImage.SymbolConfiguration(font: font)
-        let image = UIImage(systemName: "chevron.compact.down", withConfiguration: configuration)
-        galleryButton.setImage(image, for: .normal)
+        var image = UIImage(systemName: "chevron.compact.down", withConfiguration: configuration)
+        image = image?.withTintColor(.darkGray, renderingMode: .alwaysOriginal)
+        chevronButton.setImage(image, for: .normal)
         
-        galleryButton.tintColor = .darkGray
-        galleryButton.semanticContentAttribute = .forceRightToLeft
+        chevronButton.addTarget(self, action: #selector(galleryButtonTapped), for: .touchUpInside)
         
-        galleryButton.addTarget(self, action: #selector(galleryButtonTapped), for: .touchUpInside)
+        chevronButton.imageView?.contentMode = .bottom
+        chevronButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: -25, right: 0)
         
-        galleryButton.imageView?.pinCenterX(to: galleryButton.centerXAnchor)
-        
-        if let tl = galleryButton.titleLabel {
-            galleryButton.titleLabel?.pinCenterX(to: galleryButton.centerXAnchor)
-            galleryButton.imageView?.pinTop(to: tl.bottomAnchor, -2.5)
-        }
-        
-        galleryButton.setHeight(80)
-        galleryButton.pinBottom(to: view.safeAreaLayoutGuide.bottomAnchor, 10)
-        galleryButton.pinCenterX(to: view.centerXAnchor)
+        chevronButton.setHeight(50)
+        chevronButton.setWidth(80)
+        chevronButton.pinBottom(to: view.safeAreaLayoutGuide.bottomAnchor, 15)
+        chevronButton.pinCenterX(to: view.centerXAnchor)
     }
 }

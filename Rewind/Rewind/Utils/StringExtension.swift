@@ -6,6 +6,19 @@
 //
 
 import Foundation
+import CryptoKit
+
+extension String {
+    func sha256() -> String {
+        if let data = self.data(using: .utf8) {
+            let hashedData = SHA256.hash(data: data)
+            let hashedString = hashedData.compactMap { String(format: "%02x", $0) }.joined()
+            return hashedString
+        } else {
+            return ""
+        }
+    }
+}
 
 extension String {
     func splitByCharacterCount(_ count: Int) -> [String] {
@@ -31,7 +44,9 @@ extension String {
         
         return result
     }
-    
+}
+
+extension String{
     func trim() -> String {
         return self.trimmingCharacters(in: NSCharacterSet.whitespaces)
     }

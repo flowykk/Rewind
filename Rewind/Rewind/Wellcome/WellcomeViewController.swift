@@ -16,6 +16,7 @@ final class WellcomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.delegate = nil
         configureUI()
     }
     

@@ -22,7 +22,7 @@ final class AllGroupsViewController: UIViewController {
         super.viewDidLoad()
         self.hideKeyboardWhenTappedAround()
         groupsTable.presenter = presenter
-        presenter?.tableView = groupsTable
+        presenter?.groupsTable = groupsTable
         configureUI()
         presenter?.getUserGroups()
         print("AllGroupsVC Did Load")
@@ -41,6 +41,11 @@ final class AllGroupsViewController: UIViewController {
     @objc
     private func backButtonTapped() {
         presenter?.backButtonTapped()
+    }
+    
+    @objc
+    private func searchTextChanged() {
+        presenter?.searchTextChanged(newValue: searchField.text)
     }
     
     func updateViewsHeight() {
@@ -68,6 +73,14 @@ final class AllGroupsViewController: UIViewController {
     }
 }
 
+// MARK: - UITextFieldDelegate
+extension AllGroupsViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        view.endEditing(true)
+    }
+}
+
+// MARK: - UI Configuration
 extension AllGroupsViewController {
     private func configureUI() {
         view.backgroundColor = .systemBackground
@@ -121,6 +134,8 @@ extension AllGroupsViewController {
         searchField.placeholder = "Group's name"
         searchField.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
         
+        searchField.delegate = self
+        
         let imageWidth = UIScreen.main.bounds.width * 0.09
         let leftViewWidth = 12 + imageWidth + 12
         
@@ -143,6 +158,8 @@ extension AllGroupsViewController {
         searchField.rightViewMode = .always
         searchField.backgroundColor = .systemGray6
         searchField.layer.cornerRadius = 20
+        
+        searchField.addTarget(self, action: #selector(searchTextChanged), for: .allEditingEvents)
         
         searchField.setHeight(50)
         searchField.pinTop(to: contentView.topAnchor, 0)

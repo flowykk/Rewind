@@ -27,13 +27,14 @@ final class DetailsPresenter: TagsCollectionPresenterProtocol {
     
     func generateTagsButtonTapped(currentImageData: Data?) {
         LoadingView.show(inView: tagsCollection, indicatorStyle: .medium)
-        
         if let imageData = currentImageData {
-            modelRequest(imageData: imageData)
-            print(tags)
+            let tagsQuantity = 5 - (tagsCollection?.tags.count ?? 0)
+            requestTagsFromModel(forImageData: imageData, tagsQuantity: tagsQuantity, existingTags: tagsCollection?.tags ?? []) { [weak self] generatedTags in
+                self?.handleRequestTagsFromModel(tags: generatedTags)
+            }
+        } else {
+            LoadingView.hide(fromView: tagsCollection)
         }
-        
-        LoadingView.hide(fromView: tagsCollection)
     }
     
     func objectRiskyZoneRowSelected(_ row: ObjectRiskyZoneTableView.ObjectRiskyZoneRow) {
@@ -43,9 +44,13 @@ final class DetailsPresenter: TagsCollectionPresenterProtocol {
         }
     }
     
-    func addTagToCollection(_ tag: Tag) {
-        tagsCollection?.tags.append(tag)
+    func updateTagsInCollection(_ newTags: [Tag]) {
+        tagsCollection?.tags = newTags
         tagsCollection?.reloadData()
+    }
+    
+    func addTagToCollection(_ tag: Tag) {
+        
     }
     
     func deleteTag(atIndex index: Int) {
@@ -84,6 +89,49 @@ final class DetailsPresenter: TagsCollectionPresenterProtocol {
     }
 }
 
+extension DetailsPresenter {
+    private func requestTagsFromModel(forImageData imageData: Data, tagsQuantity: Int, existingTags: [Tag], completion: @escaping ([String]) -> Void) {
+        DispatchQueue.global().async {
+            if let yoloModel = yoloModel {
+                yoloModel.performObjectDetection(with: imageData) { results, error in
+                    if let error = error {
+                        print("Error performing object detection: \(error)")
+                        completion([])
+                        return
+                    }
+                    
+                    if let results = results, let resultsFirst = results.first {
+                        let generatedTags = resultsFirst.labels.map { $0.identifier.replacingOccurrences(of: " ", with: "") }
+                        
+                        let shuffledTags = generatedTags.shuffled()
+                        
+                        let uniqueTags = shuffledTags.filter { generatedTag in
+                            generatedTag.count <= 10 && !existingTags.contains { $0.text == generatedTag }
+                        }.prefix(tagsQuantity)
+                        
+                        completion(Array(uniqueTags))
+                    } else {
+                        print("No results found.")
+                        completion([])
+                    }
+                }
+            }
+        }
+    }
+}
+
+extension DetailsPresenter {
+    private func handleRequestTagsFromModel(tags: [String]) {
+        if !tags.isEmpty, let mediaId = view?.mediaId {
+            requestAddTagToMedia(mediaId: mediaId, tagTexts: tags)
+        } else {
+            DispatchQueue.main.async { [weak self] in
+                LoadingView.hide(fromView: self?.tagsCollection)
+            }
+        }
+    }
+}
+
 // MARK: - Network Request Funcs
 extension DetailsPresenter {
     private func requestMediaInfo(mediaId: Int) {
@@ -92,6 +140,12 @@ extension DetailsPresenter {
             DispatchQueue.global().async {
                 self?.handleGetMediaInfoResponse(response)
             }
+        }
+    }
+    
+    private func requestAddTagToMedia(mediaId: Int, tagTexts: [String]) {
+        NetworkService.addTagToMedia(mediaId: mediaId, tagTexts: tagTexts) { [weak self] response in
+            self?.handleAddTagToMediaResponseInDetails(response)
         }
     }
     
@@ -133,6 +187,31 @@ extension DetailsPresenter {
         }
         DispatchQueue.main.async { [weak self] in
             LoadingView.hide(fromVC: self?.view)
+        }
+    }
+    
+    private func handleAddTagToMediaResponseInDetails(_ response: NetworkResponse) {
+        if response.success, let jsonArray = response.jsonArray {
+            var allTags: [Tag] = []
+            
+            for tagJson in jsonArray {
+                if let newTag = Tag(json: tagJson) {
+                    allTags.append(newTag)
+                }
+            }
+            
+            DispatchQueue.main.async { [weak self] in
+                self?.updateTagsInCollection(allTags)
+                self?.view?.configureUIForTags()
+                self?.view?.updateViewsHeight()
+                LoadingView.hide(fromView: self?.tagsCollection)
+            }
+        } else {
+            print("something went wrong - handleAddTagToMediaResponse (DetailsPresenter)")
+            print(response)
+        }
+        DispatchQueue.main.async { [weak self] in
+            LoadingView.hide(fromView: self?.tagsCollection)
         }
     }
     

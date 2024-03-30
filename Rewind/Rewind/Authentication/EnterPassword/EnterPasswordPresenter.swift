@@ -17,7 +17,6 @@ final class EnterPasswordPresenter {
         self.router = router
     }
     
-    // MARK: - View To Presenter
     func viewDidLoad() {
         let process = DataManager.shared.getUserProcess()
         var text = ""
@@ -36,23 +35,28 @@ final class EnterPasswordPresenter {
         router.navigateToEnterCode()
     }
     
-    func continueButtonTapped(password: String) {
+    func continueButtonTapped(password: String?) {
+        guard let password = password, Validator.isValidPassword(password) else {
+            AlertHelper.showAlert(from: view, withTitle: "Error", message: "Incorrect password")
+            return
+        }
+        
         let process = DataManager.shared.getUserProcess()
+        let encryptedPassword = password.sha256()
         switch process {
         case .registration:
-            DataManager.shared.setUserPassword(password)
+            DataManager.shared.setUserPassword(encryptedPassword)
             router.navigateToEnterName()
         case .authorization:
             LoadingView.show(inVC: view)
             let email = DataManager.shared.getUserEmail()
-            loginUser(withEmail: email, password: password)
+            loginUser(withEmail: email, password: encryptedPassword)
         default:
             // TODO: something
             return
         }
     }
     
-    // MARK: - Presenter To View
     func configureLabel(withText text: String) {
         view?.configureLabel(withText: text)
     }
@@ -107,9 +111,16 @@ extension EnterPasswordPresenter {
                 self?.router.navigateToRewind()
             }
         } else {
+            var message = response.message ?? "Something went wrong"
+            if response.statusCode == 400 {
+                message = "Incorrect password or unregistered email address"
+            }
             print("something went wrong - handleLoginUserResponse")
-            print(response.statusCode as Any)
-            print(response.message as Any)
+            print(#function, response)
+            DispatchQueue.main.async { [weak self] in
+                LoadingView.hide(fromVC: self?.view)
+                AlertHelper.showAlert(from: self?.view, withTitle: "Error", message: message)
+            }
         }
         DispatchQueue.main.async { [weak self] in
             LoadingView.hide(fromVC: self?.view)

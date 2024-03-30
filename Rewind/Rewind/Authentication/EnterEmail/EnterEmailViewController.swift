@@ -28,8 +28,16 @@ final class EnterEmailViewController: UIViewController {
     
     @objc
     private func continueButtonTapped() {
-        guard let email = emailField.text else { return }
-        presenter?.continueButtonTapped(email: email)
+        presenter?.continueButtonTapped(email: emailField.text)
+    }
+}
+
+// MARK: - UITextFieldDelegate
+extension EnterEmailViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        view.endEditing(true)
+        presenter?.continueButtonTapped(email: emailField.text)
+        return false
     }
 }
 
@@ -107,12 +115,5 @@ extension EnterEmailViewController {
         continueButton.pinCenterX(to: view.centerXAnchor)
         continueButton.setHeight(60)
         continueButton.setWidth(200)
-    }
-}
-
-extension EnterEmailViewController: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        view.endEditing(true)
-        return false
     }
 }

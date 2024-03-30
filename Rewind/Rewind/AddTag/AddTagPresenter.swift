@@ -54,7 +54,7 @@ final class AddTagPresenter {
 // MARK: - Network Request Funcs
 extension AddTagPresenter {
     private func requestAddTagToMedia(mediaId: Int, tagText: String) {
-        NetworkService.addTagToMedia(mediaId: mediaId, tagText: tagText) { [weak self] response in
+        NetworkService.addTagToMedia(mediaId: mediaId, tagTexts: [tagText]) { [weak self] response in
             self?.handleAddTagToMediaResponseInDetails(response)
         }
     }
@@ -63,20 +63,25 @@ extension AddTagPresenter {
 // MARK: - Network Response Handlers
 extension AddTagPresenter {
     private func handleAddTagToMediaResponseInDetails(_ response: NetworkResponse) {
-        if response.success, let json = response.json {
-            let newTag = Tag(json: json)
-            DispatchQueue.main.async { [weak self] in
-                if let newTag = newTag {
-                    self?.view?.detailsVC?.presenter?.addTagToCollection(newTag)
-                    self?.view?.detailsVC?.configureUIForTags()
-                    self?.view?.detailsVC?.updateViewsHeight()
+        if response.success, let jsonArray = response.jsonArray {
+            var allTags: [Tag] = []
+            
+            for tagJson in jsonArray {
+                if let newTag = Tag(json: tagJson) {
+                    allTags.append(newTag)
                 }
+            }
+            
+            DispatchQueue.main.async { [weak self] in
+                self?.view?.detailsVC?.presenter?.updateTagsInCollection(allTags)
+                self?.view?.detailsVC?.configureUIForTags()
+                self?.view?.detailsVC?.updateViewsHeight()
                 self?.view?.dismiss(animated: true) {
                     LoadingView.hide(fromVC: self?.view)
                 }
             }
         } else {
-            print("something went wrong - handleAddTagToMediaResponse")
+            print("something went wrong - handleAddTagToMediaResponse (handleAddTagToMediaResponseInDetails)")
             print(response)
         }
         DispatchQueue.main.async { [weak self] in

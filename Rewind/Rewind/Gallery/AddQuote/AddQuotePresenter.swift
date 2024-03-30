@@ -93,6 +93,10 @@ final class AddQuotePresenter: TagsCollectionPresenterProtocol {
         generateQuoteImage()
     }
     
+    func updateTagsInCollection(_ tags: [Tag]) {
+        
+    }
+    
     func addTagToCollection(_ tag: Tag) {
         tagsCollection?.tags.append(tag)
         tagsCollection?.reloadData()

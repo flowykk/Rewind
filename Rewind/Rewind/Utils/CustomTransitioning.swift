@@ -120,3 +120,29 @@ final class PopToBottomTransitioning: NSObject, UIViewControllerAnimatedTransiti
         }
     }
 }
+
+final class DisappearingTransitioning: NSObject, UIViewControllerAnimatedTransitioning {
+    let duration: TimeInterval = 0.5
+
+    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
+        return duration
+    }
+
+    func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+        guard let destinationViewController = transitionContext.viewController(forKey: .to) else {
+            return
+        }
+        
+        let containerView = transitionContext.containerView
+        
+        containerView.addSubview(destinationViewController.view)
+        
+        destinationViewController.view.alpha = 0
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            UIView.animate(withDuration: self.duration, animations: { destinationViewController.view.alpha = 1 }) { _ in
+                transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
+            }
+        }
+    }
+}

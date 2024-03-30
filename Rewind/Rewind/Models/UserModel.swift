@@ -22,4 +22,6 @@ struct User {
     
     var groups: [Group] = []
     var currentGroup: Group? = nil
+    
+    var currentRandomMedia: Media?
 }

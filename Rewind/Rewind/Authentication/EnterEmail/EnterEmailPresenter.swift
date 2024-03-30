@@ -21,8 +21,15 @@ final class EnterEmailPresenter {
         router.navigateToWellcome()
     }
     
-    func continueButtonTapped(email: String) {
+    func continueButtonTapped(email: String?) {
+        guard let email = email, Validator.isValidEmail(email) else {
+            AlertHelper.showAlert(from: view, withTitle: "Error", message: "Wrong email")
+            return
+        }
+        
+        
         LoadingView.show(inVC: view)
+        
         let process = DataManager.shared.getUserProcess()
         switch process {
         case .registration:
@@ -63,11 +70,16 @@ extension EnterEmailPresenter {
             DataManager.shared.setUserVerificationCode("\(code)")
             print(code)
             DispatchQueue.main.async { [weak self] in
+                LoadingView.hide(fromVC: self?.view)
                 self?.router.navigateToEnterCode()
             }
         } else {
-            print(response.statusCode as Any)
-            print(response.message as Any)
+            let message = response.message ?? "Something went wrong"
+            print(#function, response)
+            DispatchQueue.main.async { [weak self] in
+                LoadingView.hide(fromVC: self?.view)
+                AlertHelper.showAlert(from: self?.view, withTitle: "Error", message: message)
+            }
         }
         DispatchQueue.main.async { [weak self] in
             LoadingView.hide(fromVC: self?.view)
@@ -78,11 +90,16 @@ extension EnterEmailPresenter {
         if response.success {
             DataManager.shared.setUserEmail(email)
             DispatchQueue.main.async { [weak self] in
+                LoadingView.hide(fromVC: self?.view)
                 self?.router.navigateToEnterPassword()
             }
         } else {
-            print(response.message as Any)
-            print(response.statusCode as Any)
+            let message = response.message ?? "Something went wrong"
+            print(#function, response)
+            DispatchQueue.main.async { [weak self] in
+                LoadingView.hide(fromVC: self?.view)
+                AlertHelper.showAlert(from: self?.view, withTitle: "Error", message: message)
+            }
         }
         DispatchQueue.main.async { [weak self] in
             LoadingView.hide(fromVC: self?.view)

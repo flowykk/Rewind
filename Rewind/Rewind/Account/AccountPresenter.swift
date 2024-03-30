@@ -45,8 +45,10 @@ final class AccountPresenter {
         UserDefaults.standard.removeObject(forKey: "UserId")
         UserDefaults.standard.removeObject(forKey: "UserName")
         UserDefaults.standard.removeObject(forKey: "UserImage")
+        UserDefaults.standard.removeObject(forKey: "UserMiniImage")
         UserDefaults.standard.removeObject(forKey: "UserEmail")
         UserDefaults.standard.removeObject(forKey: "UserRegDate")
+        UserDefaults.standard.removeObject(forKey: "CurrentGroupId")
         router.navigateToWellcome()
     }
     
@@ -57,9 +59,10 @@ final class AccountPresenter {
                 if response.success {
                     UserDefaults.standard.removeObject(forKey: "UserId")
                     UserDefaults.standard.removeObject(forKey: "UserName")
-                    UserDefaults.standard.removeObject(forKey: "UserImage")
+                    UserDefaults.standard.removeObject(forKey: "UserMiniImage")
                     UserDefaults.standard.removeObject(forKey: "UserEmail")
                     UserDefaults.standard.removeObject(forKey: "UserRegDate")
+                    UserDefaults.standard.removeObject(forKey: "CurrentGroupId")
                     self?.router.navigateToWellcome()
                 } else {
                     print(response.message as Any)
@@ -94,14 +97,18 @@ final class AccountPresenter {
     // MARK: - GeneralTableView To Presenter
     func generalRowSelected(_ row: GeneralTableView.GeneralRow) {
         switch row {
-        case .editImage:    openEditImageAlert()
-        case .editName:     router.presentEditName()
-        case .editEmail:    router.presentEditEmail()
+        case .editImage:
+            router.presentEditImageAlert()
+        case .editName:
+            router.presentEditName()
+        case .editEmail:
+            router.presentEditEmail()
         case .editPassword:
             guard let userEmail = UserDefaults.standard.string(forKey: "UserEmail") else { return }
             sendAuthenticationCode(toEmail: userEmail)
             router.presentEnterAuthCode()
-        case .getHelp:      openHelpAlert()
+        case .getHelp:
+            router.presentHelpAlert()
         case .share:
             LoadingView.show(inVC: viewController)
             router.presentShareVC()
@@ -111,28 +118,30 @@ final class AccountPresenter {
     // MARK: - RiskyZoneTableView To Presenter
     func riskyZoneRowSelected(_ row: RiskyZoneTableView.RiskyZoneRow) {
         switch row {
-        case .logOut:        openLogOutConfirmationAlert()
-        case .deleteAccount: openDeleteAccountConfirmationAlert()
+        case .logOut:
+            router.presentLogOutConfirmationAlert()
+        case .deleteAccount:
+            router.presentDeleteAccountConfirmationAlert()
         }
     }
     
     // MARK: - Presenter To View
     func viewDidLoad() {
         var userImage = UIImage(named: "userImage") ?? UIImage()
-        
         if let image = UserDefaults.standard.image(forKey: "UserImage") {
             userImage = image
         }
-        
         viewController?.setUserImage(to: userImage)
         
         var userName = "Anonymous"
-        
         if let name = UserDefaults.standard.string(forKey: "UserName") {
             userName = name
         }
-        
         viewController?.setUserName(to: userName)
+        
+        if let userEmail = UserDefaults.standard.string(forKey: "UserEmail") {
+            viewController?.setUserEmail(to: userEmail)
+        }
         
         if let regDate = UserDefaults.standard.string(forKey: "UserRegDate") {
             if let days = getDaysWithRewind(regDate: regDate) {
@@ -153,29 +162,15 @@ final class AccountPresenter {
         }
     }
     
-    func openEditImageAlert() {
-        viewController?.showEditImageAlert()
-    }
-    
-    func openHelpAlert() {
-        viewController?.showHelpAlert()
-    }
-    
-    func openLogOutConfirmationAlert() {
-        viewController?.showLogOutConfirmationAlert()
-    }
-    
-    func openDeleteAccountConfirmationAlert() {
-        viewController?.showDeleteAccountConfirmationAlert()
-    }
-    
-    func openPhotoGallery() {
+    func openPhotoLibraryButtonTapped() {
         LoadingView.show(inVC: viewController)
-        viewController?.showImagePicker()
+        router.presentImagePicker()
     }
     
     // MARK: - Presenter to CollectionView
     func updateSelection(idnex: Int) {
+        collectionView?.allowsSelection = false
+        collectionView?.allowsSelection = true
         collectionView?.updateSelectedCell(at: idnex)
     }
 }

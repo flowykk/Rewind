@@ -20,7 +20,12 @@ final class EnterNamePresenter {
         router.navigateToEnterPassword()
     }
     
-    func saveName(name: String) {
+    func saveName(name: String?) {
+        guard let name = name, Validator.isValidName(name) else {
+            AlertHelper.showAlert(from: view, withTitle: "Error", message: "Incorrect name")
+            return
+        }
+        LoadingView.show(inVC: view)
         registerUser(withName: name)
     }
 }
@@ -54,11 +59,19 @@ extension EnterNamePresenter {
             UserDefaults.standard.set(regDateString, forKey: "UserRegDate")
             
             DispatchQueue.main.async { [weak self] in
+                LoadingView.hide(fromVC: self?.view)
                 self?.router.navigateToRewind()
             }
         } else {
-            print(response.statusCode as Any)
-            print(response.message as Any)
+            let message = response.message ?? "Something went wrong"
+            print(#function, response)
+            DispatchQueue.main.async { [weak self] in
+                LoadingView.hide(fromVC: self?.view)
+                AlertHelper.showAlert(from: self?.view, withTitle: "Error", message: message)
+            }
+        }
+        DispatchQueue.main.async { [weak self] in
+            LoadingView.hide(fromVC: self?.view)
         }
     }
 }

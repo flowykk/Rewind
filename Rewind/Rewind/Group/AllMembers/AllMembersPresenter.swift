@@ -12,6 +12,8 @@ final class AllMembersPresenter: AllMembersTablePresenterProtocol {
     weak var membersTable: MembersTableView?
     private var router: AllMembersRouter
     
+    private var originalMembers: [GroupMember] = []
+    
     init(view: AllMembersViewController?, router: AllMembersRouter) {
         self.view = view
         self.router = router
@@ -19,6 +21,23 @@ final class AllMembersPresenter: AllMembersTablePresenterProtocol {
     
     func backButtonTapped() {
         router.navigateToGroup()
+    }
+    
+    func searchTextChanged(newValue: String?) {
+        guard let newValue = newValue else { return }
+        
+        var filteredMembers: [GroupMember] = []
+        
+        if newValue.isEmpty {
+            filteredMembers = originalMembers
+        } else {
+            filteredMembers = originalMembers.filter({ $0.name.lowercased().contains(newValue.lowercased()) })
+        }
+        
+        membersTable?.members = filteredMembers
+        membersTable?.reloadData()
+        view?.updateViewsHeight()
+        membersTable?.members = originalMembers
     }
     
     func rowSelected(_ row: MembersTableView.CellType) {
@@ -106,6 +125,8 @@ extension AllMembersPresenter {
                 return index1 < index2
             }
             
+            originalMembers = sortedMembers
+            
             DispatchQueue.main.async { [weak self] in
                 self?.membersTable?.configureData(members: sortedMembers)
                 self?.view?.updateViewsHeight()
@@ -125,6 +146,8 @@ extension AllMembersPresenter {
             DispatchQueue.main.async { [weak self] in
                 self?.membersTable?.reloadData()
                 self?.view?.updateViewsHeight()
+                self?.originalMembers = self?.membersTable?.members ?? []
+                self?.view?.resetSearchText()
                 LoadingView.hide(fromVC: self?.view)
             }
         } else {

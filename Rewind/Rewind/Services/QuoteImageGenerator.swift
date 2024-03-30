@@ -12,7 +12,7 @@ final class QuoteImageGenerator {
         let quoteRowsMax = 10
         let quoteCharactersPerRow = 18
         let authorCharactersPerRow = 20
-        let quoteHeightFactor = 1.2
+//        let _ = 1.2
         let authorHeightFactor = 1.2
         let minRowsCount: Int = 10
         var s: String = ""

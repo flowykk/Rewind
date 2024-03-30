@@ -61,15 +61,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: windowScene)
         
+        let initialViewController = LaunchBuilder.build()
         let isUserIDStored = UserDefaults.standard.object(forKey: "UserId")
-        
-        var initialViewController: UIViewController = UIViewController()
-        
-        if isUserIDStored != nil {
-            initialViewController = RewindBuilder.build()
-        } else {
-            initialViewController = WellcomeBuilder.build()
-        }
         
         window.rootViewController = UINavigationController(rootViewController: initialViewController)
         self.window = window

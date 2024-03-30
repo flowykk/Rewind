@@ -28,8 +28,16 @@ final class EnterNameViewController: UIViewController {
     
     @objc
     private func continueButtonTapped() {
-        guard let name = nameField.text else { return }
-        presenter?.saveName(name: name)
+        presenter?.saveName(name: nameField.text)
+    }
+}
+
+// MARK: - UITextFieldDelegate
+extension EnterNameViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        view.endEditing(true)
+        continueButtonTapped()
+        return false
     }
 }
 
@@ -106,11 +114,5 @@ extension EnterNameViewController {
         continueButton.pinCenterX(to: view.centerXAnchor)
         continueButton.setHeight(60)
         continueButton.setWidth(200)
-    }
-}
-
-extension EnterNameViewController: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        view.endEditing(true)
     }
 }

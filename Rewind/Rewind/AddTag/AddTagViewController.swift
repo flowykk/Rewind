@@ -72,7 +72,7 @@ extension AddTagViewController {
         
         tagField.delegate = self
         
-        tagField.backgroundColor = .systemGray6
+        tagField.backgroundColor = .systemBackground
         tagField.placeholder = "Your tag"
         tagField.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         tagField.layer.cornerRadius = 15

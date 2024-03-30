@@ -57,6 +57,10 @@ final class AddPhotoPresenter: TagsCollectionPresenterProtocol {
         }
     }
     
+    func updateTagsInCollection(_ tags: [Tag]) {
+        
+    }
+    
     func addTagToCollection(_ tag: Tag) {
         tagsCollection?.tags.append(tag)
         tagsCollection?.reloadData()

@@ -12,6 +12,28 @@ final class DataManager {
     static let shared = DataManager()
     private var user = User()
     private var filter = Filter()
+    private var launchImage: UIImage = UIImage()
+    private let launchImageFileName = "launchImage.png"
+    
+    func setCurrentRandomMedia(to newRandomMedia: Media?) {
+        user.currentRandomMedia = newRandomMedia
+    }
+    
+    func getCurrentRandomMedia() -> Media? {
+        return user.currentRandomMedia
+    }
+    
+    func getLaunchImageFileName() -> String {
+        return launchImageFileName
+    }
+    
+    func setLaunchImage(to newImage: UIImage) {
+        launchImage = newImage
+    }
+    
+    func getLaunchImage() -> UIImage {
+        return launchImage
+    }
     
     func getFilter() -> Filter {
         return filter

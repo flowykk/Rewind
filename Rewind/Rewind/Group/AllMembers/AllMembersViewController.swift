@@ -39,6 +39,11 @@ final class AllMembersViewController: UIViewController {
         presenter?.backButtonTapped()
     }
     
+    @objc
+    private func searchTextChanged() {
+        presenter?.searchTextChanged(newValue: searchField.text)
+    }
+    
     func updateViewsHeight() {
         contentViewHeightConstraint?.isActive = false
         membersTableHeightConstraint?.isActive = false
@@ -70,6 +75,10 @@ final class AllMembersViewController: UIViewController {
             navigationItem.title = "Group name"
         }
     }
+    
+    func resetSearchText() {
+        searchField.text = nil
+    }
 }
 
 // MARK: - UINavigationControllerDelegate
@@ -84,6 +93,13 @@ extension AllMembersViewController: UINavigationControllerDelegate {
             return nil
         }
         return nil
+    }
+}
+
+// MARK: - UITextFieldDelegate
+extension AllMembersViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        view.endEditing(true)
     }
 }
 
@@ -138,6 +154,8 @@ extension AllMembersViewController {
         contentView.addSubview(searchField)
         searchField.translatesAutoresizingMaskIntoConstraints = false
         
+        searchField.delegate = self
+        
         searchField.placeholder = "Member's name"
         searchField.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
         
@@ -163,6 +181,8 @@ extension AllMembersViewController {
         searchField.rightViewMode = .always
         searchField.backgroundColor = .systemGray6
         searchField.layer.cornerRadius = 20
+        
+        searchField.addTarget(self, action: #selector(searchTextChanged), for: .allEditingEvents)
         
         searchField.setHeight(50)
         searchField.pinTop(to: contentView.topAnchor, 0)

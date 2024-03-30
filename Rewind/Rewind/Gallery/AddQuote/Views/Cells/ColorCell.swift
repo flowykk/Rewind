@@ -30,6 +30,10 @@ final class ColorCell: UITableViewCell {
         titleLabel.text = title
         colorView.backgroundColor = color
     }
+    
+    func configureWithColor(_ color: UIColor) {
+        colorView.backgroundColor = color
+    }
 }
 
 extension ColorCell {

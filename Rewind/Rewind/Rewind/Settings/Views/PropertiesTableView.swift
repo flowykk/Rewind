@@ -8,8 +8,10 @@
 import UIKit
 
 final class PropertiesTableView: UITableView {
+    weak var presenter: SettingsPresenter?
+    
     enum PropertyRow: String, CaseIterable {
-        case favourites = "Only favourites"
+        case favorites = "Only favorites"
     }
     
     override init(frame: CGRect, style: UITableView.Style) {
@@ -24,7 +26,7 @@ final class PropertiesTableView: UITableView {
     private func commonInit() {
         delegate = self
         dataSource = self
-        register(SettingsCell.self, forCellReuseIdentifier: "cell")
+        register(PropertyCell.self, forCellReuseIdentifier: "PropertyCell")
         
         isScrollEnabled = false
         layer.cornerRadius = 20
@@ -33,6 +35,21 @@ final class PropertiesTableView: UITableView {
         showsHorizontalScrollIndicator = false
         
         setHeight(Double(Int(rowHeight) * PropertyRow.allCases.count - 1))
+    }
+    
+    func configureUIForSavedFilter(_ savedFilter: Filter) {
+        let numberOfRows = numberOfRows(inSection: 0)
+        
+        for row in 0..<numberOfRows {
+            if let cell = cellForRow(at: IndexPath(row: row, section: 0)) as? PropertyCell {
+                switch row {
+                case 0:
+                    cell.configureWithState(savedFilter.onlyFavorites)
+                default:
+                    break
+                }
+            }
+        }
     }
 }
 
@@ -47,11 +64,11 @@ extension PropertiesTableView: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        guard let customCell = cell as? SettingsCell else { return cell }
-        let name = PropertyRow.allCases[indexPath.row].rawValue
-        let isOn = false
-        customCell.configure(withName: name, isOn: isOn)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "PropertyCell", for: indexPath)
+        guard let customCell = cell as? PropertyCell else { return cell }
+        let property = PropertyRow.allCases[indexPath.row]
+        let name = property.rawValue
+        customCell.configure(withName: name)
         return customCell
     }
 }

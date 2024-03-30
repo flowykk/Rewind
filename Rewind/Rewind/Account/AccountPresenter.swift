@@ -53,14 +53,14 @@ final class AccountPresenter {
     func deleteAccount() {
         let userId = UserDefaults.standard.integer(forKey: "UserId")
         NetworkService.deleteUser(withId: userId) { response in
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [weak self] in
                 if response.success {
                     UserDefaults.standard.removeObject(forKey: "UserId")
                     UserDefaults.standard.removeObject(forKey: "UserName")
                     UserDefaults.standard.removeObject(forKey: "UserImage")
                     UserDefaults.standard.removeObject(forKey: "UserEmail")
                     UserDefaults.standard.removeObject(forKey: "UserRegDate")
-                    self.router.navigateToWellcome()
+                    self?.router.navigateToWellcome()
                 } else {
                     print(response.message as Any)
                     print(response.statusCode as Any)
@@ -206,7 +206,7 @@ extension AccountPresenter {
         
         NetworkService.updateUserImage(userId: userId, bigImageB64String: bigImageB64S, miniImageB64String: miniImageB64S) { [weak self] response in
             DispatchQueue.global().async {
-                self?.handleUpdateUserImageResponse(response, bigImageData: bigImageData)
+                self?.handleUpdateUserImageResponse(response, bigImageData: bigImageData, miniImageData: miniImageData)
             }
         }
     }
@@ -214,15 +214,16 @@ extension AccountPresenter {
 
 // MARK: - Network Response Handlers
 extension AccountPresenter {
-    private func handleUpdateUserImageResponse(_ response: NetworkResponse, bigImageData: Data) {
+    private func handleUpdateUserImageResponse(_ response: NetworkResponse, bigImageData: Data, miniImageData: Data) {
         if response.success {
             UserDefaults.standard.setImage(bigImageData, forKey: "UserImage")
+            UserDefaults.standard.setImage(miniImageData, forKey: "UserMiniImage")
             DispatchQueue.main.async { [weak self] in
                 self?.didUpdateImage(to: bigImageData)
                 LoadingView.hide(fromVC: self?.viewController)
             }
         } else {
-            print("something went wrong")
+            print("something went wrong - handleUpdateUserImageResponse")
             print(response)
         }
         DispatchQueue.main.async { [weak self] in

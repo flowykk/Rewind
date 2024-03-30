@@ -43,3 +43,30 @@ extension UIImage {
         return resized
     }
 }
+
+extension UIImage {
+    func getPixelColor(row: Int, col: Int) -> UIColor {
+        guard let cgImage = cgImage, let pixelData = cgImage.dataProvider?.data else {
+            return UIColor()
+        }
+        
+        let data: UnsafePointer<UInt8> = CFDataGetBytePtr(pixelData)
+        
+        let bytesPerPixel = cgImage.bitsPerPixel / 8
+        let bytesPerRow = cgImage.bytesPerRow
+//        let width = cgImage.width
+//        let height = cgImage.height
+        
+        let x = col
+        let y = row
+        
+        let byteIndex = (bytesPerRow * y) + x * bytesPerPixel
+        
+        let red = CGFloat(data[byteIndex + 0]) / 255.0
+        let green = CGFloat(data[byteIndex + 1]) / 255.0
+        let blue = CGFloat(data[byteIndex + 2]) / 255.0
+        let alpha = CGFloat(data[byteIndex + 3]) / 255.0
+
+        return UIColor(red: red, green: green, blue: blue, alpha: alpha)
+    }
+}

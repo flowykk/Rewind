@@ -10,21 +10,46 @@ import UIKit
 final class PreviewObjectViewController: UIViewController {
     var presenter: PreviewObjectPresenter?
     
-    var image: UIImage?
-    var isFavourite: Bool = false
+    var galleryVC: GalleryViewController?
+    var likeButtonState: LikeButtonState = .unliked
+    var mediaId: Int?
+    
+    enum LikeButtonState {
+        case liked
+        case unliked
+        
+        var imageName: String {
+            switch self {
+            case .liked:
+                return "heart.fill"
+            case .unliked:
+                return "heart"
+            }
+        }
+        
+        var tintColor: UIColor {
+            switch self {
+            case .liked:
+                return .customPink
+            case .unliked:
+                return .darkGray
+            }
+        }
+    }
     
     private let imageView: UIImageView = UIImageView()
     private let imageInfoView: ObjectInfoView = ObjectInfoView()
     private let downloadButton: UIButton = UIButton(type: .system)
-    private let settingsButton: UIButton = UIButton(type: .system)
+    private let detailsButton: UIButton = UIButton(type: .system)
     private let shareButton: UIButton = UIButton(type: .system)
-    private let favoriteButton: UIButton = UIButton(type: .system)
+    let likeButton: UIButton = UIButton(type: .system)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.white.withAlphaComponent(0.5)
         configureGestures()
         configureUI()
+        presenter?.getMediaInfo()
     }
     
     private func configureGestures() {
@@ -48,18 +73,57 @@ final class PreviewObjectViewController: UIViewController {
             dismissFullScreen()
         }
     }
-
+    
     @objc
-    private func favouriteButtonTapped() {
-        presenter?.favouriteButtonTapped(favourite: isFavourite)
+    private func downloadButtonTapped() {
+        if let image = imageView.image {
+            presenter?.downloadButtonTapped(currentImage: image)
+        }
     }
     
-    func setFavouriteButton(imageName: String, tintColor: UIColor) {
+    @objc
+    private func detailsButtonTapped() {
+        presenter?.detailsButtonTapped()
+    }
+    
+    @objc
+    private func shareButtonTapped() {
+        if let image = imageView.image {
+            presenter?.shareButtonTapped(imageToShare: image)
+        }
+    }
+
+    @objc
+    private func likeButtonTapped() {
+        presenter?.likeButtonTapped(likeButtonState: likeButtonState)
+    }
+    
+    func configureUIForCurrentMedia(_ currentMedia: Media?) {
+        imageView.image = currentMedia?.bigImage ?? UIImage(named: "defaultImage")
+        imageInfoView.configureUIForAuthor(currentMedia?.author, withDateAdded: currentMedia?.shortDateAdded)
+    }
+    
+    func configureLikeButtonUI(newState: LikeButtonState) {
+        likeButtonState = newState
         let font = UIFont.systemFont(ofSize: 16, weight: .semibold)
         let configuration = UIImage.SymbolConfiguration(font: font)
-        let image = UIImage(systemName: imageName, withConfiguration: configuration)
-        favoriteButton.setImage(image, for: .normal)
-        favoriteButton.tintColor = tintColor
+        let image = UIImage(systemName: newState.imageName, withConfiguration: configuration)
+        likeButton.setImage(image, for: .normal)
+        likeButton.tintColor = newState.tintColor
+    }
+    
+    func showSuccessAlert() {
+        let alertController = UIAlertController(title: "Success", message: "The image has been successfully saved to your gallery", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(okAction)
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    func showErrorAlert(message: String) {
+        let alertController = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(okAction)
+        present(alertController, animated: true, completion: nil)
     }
 }
 
@@ -89,7 +153,6 @@ extension PreviewObjectViewController {
         view.addSubview(imageView)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         
-        imageView.image = image
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 40
@@ -124,29 +187,33 @@ extension PreviewObjectViewController {
         downloadButton.layer.cornerRadius = 35 / 2
         downloadButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 6, right: 0)
         
+        downloadButton.addTarget(self, action: #selector(downloadButtonTapped), for: .touchUpInside)
+        
         downloadButton.setWidth(35)
         downloadButton.setHeight(35)
-        downloadButton.pinRight(to: settingsButton.leadingAnchor, 10)
-        downloadButton.pinCenterY(to: settingsButton.centerYAnchor)
+        downloadButton.pinRight(to: detailsButton.leadingAnchor, 10)
+        downloadButton.pinCenterY(to: detailsButton.centerYAnchor)
     }
     
     private func configureSettingsButton() {
-        view.addSubview(settingsButton)
-        settingsButton.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(detailsButton)
+        detailsButton.translatesAutoresizingMaskIntoConstraints = false
         
         let font = UIFont.systemFont(ofSize: 16, weight: .semibold)
         let configuration = UIImage.SymbolConfiguration(font: font)
         let image = UIImage(systemName: "gearshape.fill", withConfiguration: configuration)
-        settingsButton.setImage(image, for: .normal)
+        detailsButton.setImage(image, for: .normal)
         
-        settingsButton.tintColor = .darkGray
-        settingsButton.backgroundColor = UIColor(white: 1, alpha: 0.75)
-        settingsButton.layer.cornerRadius = 35 / 2
+        detailsButton.tintColor = .darkGray
+        detailsButton.backgroundColor = UIColor(white: 1, alpha: 0.75)
+        detailsButton.layer.cornerRadius = 35 / 2
         
-        settingsButton.setWidth(35)
-        settingsButton.setHeight(35)
-        settingsButton.pinRight(to: imageInfoView.leadingAnchor, 10)
-        settingsButton.pinCenterY(to: imageInfoView.centerYAnchor)
+        detailsButton.addTarget(self, action: #selector(detailsButtonTapped), for: .touchUpInside)
+        
+        detailsButton.setWidth(35)
+        detailsButton.setHeight(35)
+        detailsButton.pinRight(to: imageInfoView.leadingAnchor, 10)
+        detailsButton.pinCenterY(to: imageInfoView.centerYAnchor)
     }
     
     private func configureShareButton() {
@@ -163,6 +230,8 @@ extension PreviewObjectViewController {
         shareButton.layer.cornerRadius = 35 / 2
         shareButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 6, right: 0)
         
+        shareButton.addTarget(self, action: #selector(shareButtonTapped), for: .touchUpInside)
+        
         shareButton.setWidth(35)
         shareButton.setHeight(35)
         shareButton.pinLeft(to: imageInfoView.trailingAnchor, 10)
@@ -170,24 +239,24 @@ extension PreviewObjectViewController {
     }
     
     private func configureFavoriteButton() {
-        view.addSubview(favoriteButton)
-        favoriteButton.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(likeButton)
+        likeButton.translatesAutoresizingMaskIntoConstraints = false
         
         let font = UIFont.systemFont(ofSize: 16, weight: .semibold)
         let configuration = UIImage.SymbolConfiguration(font: font)
         let image = UIImage(systemName: "heart", withConfiguration: configuration)
-        favoriteButton.setImage(image, for: .normal)
+        likeButton.setImage(image, for: .normal)
         
-        favoriteButton.tintColor = .darkGray
-        favoriteButton.backgroundColor = UIColor(white: 1, alpha: 0.75)
-        favoriteButton.layer.cornerRadius = 35 / 2
-        favoriteButton.imageEdgeInsets = UIEdgeInsets(top: 1, left: 0, bottom: 0, right: 0)
+        likeButton.tintColor = .darkGray
+        likeButton.backgroundColor = UIColor(white: 1, alpha: 0.75)
+        likeButton.layer.cornerRadius = 35 / 2
+        likeButton.imageEdgeInsets = UIEdgeInsets(top: 1, left: 0, bottom: 0, right: 0)
         
-        favoriteButton.addTarget(self, action: #selector(favouriteButtonTapped), for: .touchUpInside)
+        likeButton.addTarget(self, action: #selector(likeButtonTapped), for: .touchUpInside)
         
-        favoriteButton.setWidth(35)
-        favoriteButton.setHeight(35)
-        favoriteButton.pinLeft(to: shareButton.trailingAnchor, 10)
-        favoriteButton.pinCenterY(to: shareButton.centerYAnchor)
+        likeButton.setWidth(35)
+        likeButton.setHeight(35)
+        likeButton.pinLeft(to: shareButton.trailingAnchor, 10)
+        likeButton.pinCenterY(to: shareButton.centerYAnchor)
     }
 }

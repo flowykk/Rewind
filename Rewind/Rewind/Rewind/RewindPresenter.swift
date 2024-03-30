@@ -36,7 +36,11 @@ final class RewindPresenter {
     }
     
     func detailsButtonTapped() {
-        router.navigateToDetails()
+        if (view?.randomMediaId) != nil {
+            router.navigateToDetails()
+        } else {
+            print("detailsButtonTapped - no media")
+        }
     }
     
     func galleryButtonTapped() {
@@ -55,7 +59,7 @@ final class RewindPresenter {
     }
     
     func getRandomMedia() {
-        LoadingView.show(inView: view?.imageView, backgroundColor: .systemBackground)
+        LoadingView.show(inView: view?.imageView)
         if let currentGroupId = DataManager.shared.getCurrectGroupId() {
             requestRandomMedia(groupId: currentGroupId)
         } else {
@@ -63,12 +67,17 @@ final class RewindPresenter {
         }
     }
     
-    func favouriteButtonTapped(favourite: Bool) {
-        view?.isFavourite = !favourite
-        if !favourite {
-            view?.setFavouriteButton(imageName: "heart.fill", tintColor: .customPink)
-        } else {
-            view?.setFavouriteButton(imageName: "heart", tintColor: .systemGray2)
+    func likeButtonTapped(likeButtonState: RewindViewController.LikeButtonState) {
+        LoadingView.show(inView: view?.likeButton, indicatorStyle: .medium)
+        guard let randomMediaId = view?.randomMediaId else {
+            LoadingView.hide(fromView: view?.likeButton)
+            return
+        }
+        switch likeButtonState {
+        case .liked:
+            requestUnlikeMedia(mediaId: randomMediaId)
+        default:
+            requestLikeMedia(mediaId: randomMediaId)
         }
     }
     
@@ -100,29 +109,29 @@ extension RewindPresenter {
             switch status {
             case .authorized:
                 PHPhotoLibrary.shared().performChanges({PHAssetChangeRequest.creationRequestForAsset(from: currentImage)}, completionHandler: { success, error in
-                    DispatchQueue.main.async {
+                    DispatchQueue.main.async { [weak self] in
                         if success {
-                            self.view?.showSuccessAlert()
+                            self?.view?.showSuccessAlert()
                         } else if let error = error {
-                            self.view?.showErrorAlert(message: error.localizedDescription)
+                            self?.view?.showErrorAlert(message: error.localizedDescription)
                         }
                     }
                 })
             case .denied, .restricted:
-                DispatchQueue.main.async {
-                    self.view?.showErrorAlert(message: "Access to the gallery is denied or restricted")
+                DispatchQueue.main.async { [weak self] in
+                    self?.view?.showErrorAlert(message: "Access to the gallery is denied or restricted")
                 }
             case .limited:
-                DispatchQueue.main.async {
-                    self.view?.showErrorAlert(message: "Access to the gallery is limited")
+                DispatchQueue.main.async { [weak self] in
+                    self?.view?.showErrorAlert(message: "Access to the gallery is limited")
                 }
             case .notDetermined:
-                DispatchQueue.main.async {
-                    self.view?.showErrorAlert(message: "Access to the gallery is not determined")
+                DispatchQueue.main.async { [weak self] in
+                    self?.view?.showErrorAlert(message: "Access to the gallery is not determined")
                 }
             @unknown default:
-                DispatchQueue.main.async {
-                    self.view?.showErrorAlert(message: "Something went wrong")
+                DispatchQueue.main.async { [weak self] in
+                    self?.view?.showErrorAlert(message: "Something went wrong")
                 }
             }
         }
@@ -142,9 +151,28 @@ extension RewindPresenter {
     
     private func requestRandomMedia(groupId: Int) {
         let userId = UserDefaults.standard.integer(forKey: "UserId")
-        NetworkService.getRandomMedia(groupId: groupId, userId: userId) { [weak self] response in
+        let filter = DataManager.shared.getFilter()
+        NetworkService.getRandomMedia(groupId: groupId, userId: userId, includePhotos: filter.includePhotos, includeQuotes: filter.includeQuotes, onlyFavorites: filter.onlyFavorites) { [weak self] response in
             DispatchQueue.global().async {
                 self?.handleGetRandomMediaResponse(response)
+            }
+        }
+    }
+    
+    private func requestLikeMedia(mediaId: Int) {
+        let userId = UserDefaults.standard.integer(forKey: "UserId")
+        NetworkService.likeMedia(userId: userId, mediaId: mediaId) { [weak self] response in
+            DispatchQueue.global().async {
+                self?.handleLikeMedia(response)
+            }
+        }
+    }
+    
+    private func requestUnlikeMedia(mediaId: Int) {
+        let userId = UserDefaults.standard.integer(forKey: "UserId")
+        NetworkService.unlikeMedia(userId: userId, mediaId: mediaId) { [weak self] response in
+            DispatchQueue.global().async {
+                self?.handleUnlikeMedia(response)
             }
         }
     }
@@ -171,6 +199,7 @@ extension RewindPresenter {
                 let currentGroup = userGroups[currentGroupIndex]
                 DataManager.shared.setCurrentGroup(currentGroup)
                 randomMedia = Media(json: json["randomImage"] as? [String : Any])
+                view?.randomMediaId = randomMedia?.id
             } else {
                 DataManager.shared.resetCurrentGroup()
                 DataManager.shared.setCurrentGroupToRandomUserGroup()
@@ -193,11 +222,13 @@ extension RewindPresenter {
     private func handleGetRandomMediaResponse(_ response: NetworkResponse) {
         if response.success, let json = response.json {
             let randomMedia = Media(json: json)
+            view?.randomMediaId = randomMedia?.id
             DispatchQueue.main.async { [weak self] in
                 self?.view?.configureUIForRandomMedia(randomMedia)
                 LoadingView.hide(fromView: self?.view?.imageView)
             }
         } else if response.statusCode == 204 {
+            view?.randomMediaId = nil
             DispatchQueue.main.async { [weak self] in
                 self?.view?.configureUIForRandomMedia(nil)
                 LoadingView.hide(fromView: self?.view?.imageView)
@@ -208,6 +239,36 @@ extension RewindPresenter {
         }
         DispatchQueue.main.async { [weak self] in
             LoadingView.hide(fromView: self?.view?.imageView)
+        }
+    }
+    
+    private func handleLikeMedia(_ response: NetworkResponse) {
+        if response.success {
+            DispatchQueue.main.async { [weak self] in
+                self?.view?.configureLikeButtonUI(newState: .liked)
+                LoadingView.hide(fromView: self?.view?.likeButton)
+            }
+        } else {
+            print("something went wrong - handleLikeMedia")
+            print(response)
+        }
+        DispatchQueue.main.async { [weak self] in
+            LoadingView.hide(fromView: self?.view?.likeButton)
+        }
+    }
+    
+    private func handleUnlikeMedia(_ response: NetworkResponse) {
+        if response.success {
+            DispatchQueue.main.async { [weak self] in
+                self?.view?.configureLikeButtonUI(newState: .unliked)
+                LoadingView.hide(fromView: self?.view?.likeButton)
+            }
+        } else {
+            print("something went wrong - handleLikeMedia")
+            print(response)
+        }
+        DispatchQueue.main.async { [weak self] in
+            LoadingView.hide(fromView: self?.view?.likeButton)
         }
     }
 }

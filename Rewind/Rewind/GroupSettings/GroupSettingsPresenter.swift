@@ -91,7 +91,7 @@ extension GroupSettingsPresenter {
     private func requestRemoveUserFromGroup(userId: Int) {
         guard let groupId = DataManager.shared.getCurrentGroup()?.id else { return }
         NetworkService.removeMemberFromGroup(groupId: groupId, memberId: userId) { [weak self] response in
-            DispatchQueue.main.async {
+            DispatchQueue.global().async {
                 self?.handleRemoveMemberFromGroupResponse(response, groupId: groupId)
             }
         }

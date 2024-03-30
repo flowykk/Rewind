@@ -11,6 +11,27 @@ import UIKit
 final class DataManager {
     static let shared = DataManager()
     private var user = User()
+    private var filter = Filter()
+    
+    func getFilter() -> Filter {
+        return filter
+    }
+    
+    func setNewTypeValue(forType type: TypesTableView.TypeRow, newValue: Bool) {
+        switch type {
+        case .Photos:
+            filter.includePhotos = newValue
+        case .Quotes:
+            filter.includeQuotes = newValue
+        }
+    }
+    
+    func setNewPropertyValue(forProperty property: PropertiesTableView.PropertyRow, newValue: Bool) {
+        switch property {
+        case .favorites:
+            filter.onlyFavorites = newValue
+        }
+    }
     
     func setUserProcess(_ process: User.Process) {
         user.proccess = process
@@ -91,6 +112,33 @@ final class DataManager {
     
     func setCurrentGroupToRandomUserGroup() {
         user.currentGroup = user.groups.randomElement()
+    }
+    
+    func setCurrentGroupGallerySize(_ newGallerySize: Int) {
+        if var currentGroup = user.currentGroup {
+            currentGroup.gallerySize = newGallerySize
+            user.currentGroup = currentGroup
+        }
+    }
+    
+    func decrementCurrentGroupGallerySizer() {
+        if var currentGroup = user.currentGroup,
+           let gallerySize = currentGroup.gallerySize
+        {
+            let newGallerySize = max(0, gallerySize - 1)
+            currentGroup.gallerySize = newGallerySize
+            user.currentGroup = currentGroup
+        }
+    }
+    
+    func incrementCurrentGroupGallerySizer() {
+        if var currentGroup = user.currentGroup,
+           let gallerySize = currentGroup.gallerySize
+        {
+            let newGallerySize = max(0, gallerySize + 1)
+            currentGroup.gallerySize = newGallerySize
+            user.currentGroup = currentGroup
+        }
     }
     
     func getUserGroups() -> [Group] {

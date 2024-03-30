@@ -19,12 +19,12 @@ final class EditNamePresenter {
         LoadingView.show(inVC: view)
         let userId = UserDefaults.standard.integer(forKey: "UserId")
         NetworkService.updateUserName(userId: userId, newName: name) { response in
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [weak self] in
                 if response.success {
-                    self.view?.delegate?.presenter?.didUpdateName(to: name)
+                    self?.view?.accountVC?.presenter?.didUpdateName(to: name)
                     UserDefaults.standard.set(name, forKey: "UserName")
-                    self.view?.dismiss(animated: true) {
-                        LoadingView.hide(fromVC: self.view)
+                    self?.view?.dismiss(animated: true) {
+                        LoadingView.hide(fromVC: self?.view)
                     }
                 } else {
                     print(response.message as Any)

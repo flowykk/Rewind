@@ -11,13 +11,12 @@ final class EditGroupNameViewController: UIViewController {
     var presenter: EditGroupNamePresenter?
     weak var groupSettingVC: GroupSettingsViewController?
     
+    var viewDistanceTop: CGFloat = 40
+    var onNameUpdated: ((String) -> Void)?
+    
     private let nameLabel: UILabel = UILabel()
     private let nameField: UITextField = UITextField()
     private let continueButton: UIButton = UIButton(type: .system)
-   
-    var viewDistanceTop: CGFloat = 40
-    
-    var onNameUpdated: ((String) -> Void)?
     
     override func viewDidLoad() {
         super.viewDidLoad()

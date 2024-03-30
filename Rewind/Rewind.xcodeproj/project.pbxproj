@@ -105,6 +105,15 @@
 		559A50492B97822F00A2BAB4 /* SettingsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559A50482B97822F00A2BAB4 /* SettingsPresenter.swift */; };
 		559A504B2B97825400A2BAB4 /* SettingsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559A504A2B97825400A2BAB4 /* SettingsBuilder.swift */; };
 		559A50512B97844400A2BAB4 /* TagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559A50502B97844400A2BAB4 /* TagCell.swift */; };
+		559B28E32BB7072D00999F34 /* TagModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559B28E22BB7072D00999F34 /* TagModel.swift */; };
+		559B28E52BB736C400999F34 /* QuoteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559B28E42BB736C400999F34 /* QuoteModel.swift */; };
+		559B28E92BB74AF700999F34 /* YOLOv3.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 559B28E82BB74AF700999F34 /* YOLOv3.mlmodel */; };
+		559B28EB2BB7546B00999F34 /* QuoteImageGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559B28EA2BB7546B00999F34 /* QuoteImageGenerator.swift */; };
+		559B28ED2BB7557E00999F34 /* StringProtocolExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559B28EC2BB7557E00999F34 /* StringProtocolExtension.swift */; };
+		559B28EF2BB755B800999F34 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559B28EE2BB755B800999F34 /* StringExtension.swift */; };
+		559B28F12BB7656900999F34 /* PreviewObjectRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559B28F02BB7656900999F34 /* PreviewObjectRouter.swift */; };
+		559B28F32BB7723A00999F34 /* FilterModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559B28F22BB7723A00999F34 /* FilterModel.swift */; };
+		559B28F52BB77CB700999F34 /* TypeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559B28F42BB77CB700999F34 /* TypeCell.swift */; };
 		55A049182B91CB3000CD9C46 /* PrimaryTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A049172B91CB3000CD9C46 /* PrimaryTableView.swift */; };
 		55A326682B81F8FC007C9B74 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A326672B81F8FC007C9B74 /* AppDelegate.swift */; };
 		55A3266A2B81F8FC007C9B74 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A326692B81F8FC007C9B74 /* SceneDelegate.swift */; };
@@ -153,7 +162,7 @@
 		55C121892B8CCA6400520718 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C121882B8CCA6400520718 /* UIViewControllerExtension.swift */; };
 		55C3E5392B95E2A300701BF8 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C3E5382B95E2A300701BF8 /* SettingsViewController.swift */; };
 		55C3E53B2B95E55D00701BF8 /* TypesTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C3E53A2B95E55D00701BF8 /* TypesTableView.swift */; };
-		55C3E53E2B9605ED00701BF8 /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C3E53D2B9605ED00701BF8 /* SettingsCell.swift */; };
+		55C3E53E2B9605ED00701BF8 /* PropertyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C3E53D2B9605ED00701BF8 /* PropertyCell.swift */; };
 		55C3E5412B96227800701BF8 /* PropertiesTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C3E5402B96227800701BF8 /* PropertiesTableView.swift */; };
 		55C652E82B984FEE00A8C595 /* AddTagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C652E72B984FEE00A8C595 /* AddTagViewController.swift */; };
 		55C652EB2B98515100A8C595 /* AddTagPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C652EA2B98515100A8C595 /* AddTagPresenter.swift */; };
@@ -267,6 +276,15 @@
 		559A50482B97822F00A2BAB4 /* SettingsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPresenter.swift; sourceTree = "<group>"; };
 		559A504A2B97825400A2BAB4 /* SettingsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsBuilder.swift; sourceTree = "<group>"; };
 		559A50502B97844400A2BAB4 /* TagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCell.swift; sourceTree = "<group>"; };
+		559B28E22BB7072D00999F34 /* TagModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagModel.swift; sourceTree = "<group>"; };
+		559B28E42BB736C400999F34 /* QuoteModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoteModel.swift; sourceTree = "<group>"; };
+		559B28E82BB74AF700999F34 /* YOLOv3.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = YOLOv3.mlmodel; sourceTree = "<group>"; };
+		559B28EA2BB7546B00999F34 /* QuoteImageGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoteImageGenerator.swift; sourceTree = "<group>"; };
+		559B28EC2BB7557E00999F34 /* StringProtocolExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringProtocolExtension.swift; sourceTree = "<group>"; };
+		559B28EE2BB755B800999F34 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
+		559B28F02BB7656900999F34 /* PreviewObjectRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewObjectRouter.swift; sourceTree = "<group>"; };
+		559B28F22BB7723A00999F34 /* FilterModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterModel.swift; sourceTree = "<group>"; };
+		559B28F42BB77CB700999F34 /* TypeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeCell.swift; sourceTree = "<group>"; };
 		55A049172B91CB3000CD9C46 /* PrimaryTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryTableView.swift; sourceTree = "<group>"; };
 		55A326642B81F8FC007C9B74 /* Rewind.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rewind.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		55A326672B81F8FC007C9B74 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -317,7 +335,7 @@
 		55C121882B8CCA6400520718 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
 		55C3E5382B95E2A300701BF8 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		55C3E53A2B95E55D00701BF8 /* TypesTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypesTableView.swift; sourceTree = "<group>"; };
-		55C3E53D2B9605ED00701BF8 /* SettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCell.swift; sourceTree = "<group>"; };
+		55C3E53D2B9605ED00701BF8 /* PropertyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyCell.swift; sourceTree = "<group>"; };
 		55C3E5402B96227800701BF8 /* PropertiesTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertiesTableView.swift; sourceTree = "<group>"; };
 		55C652E72B984FEE00A8C595 /* AddTagViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTagViewController.swift; sourceTree = "<group>"; };
 		55C652EA2B98515100A8C595 /* AddTagPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTagPresenter.swift; sourceTree = "<group>"; };
@@ -412,6 +430,9 @@
 				55A326AF2B82535E007C9B74 /* UserModel.swift */,
 				550109882B8A36FE0005F1D5 /* AppIconModel.swift */,
 				551C2D0B2BB4C65800714DDD /* AuthorModel.swift */,
+				559B28E22BB7072D00999F34 /* TagModel.swift */,
+				559B28E42BB736C400999F34 /* QuoteModel.swift */,
+				559B28F22BB7723A00999F34 /* FilterModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -419,6 +440,8 @@
 		551426FB2B88CAD5000446E9 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				559B28EA2BB7546B00999F34 /* QuoteImageGenerator.swift */,
+				551C2D0F2BB4FC9200714DDD /* JoinLinkService.swift */,
 				55A326BA2B82612B007C9B74 /* DataManager.swift */,
 				55A326AC2B823CF7007C9B74 /* NetworkService.swift */,
 			);
@@ -469,7 +492,8 @@
 				55C121882B8CCA6400520718 /* UIViewControllerExtension.swift */,
 				55EFC5EC2B94B0CD00E82D20 /* UserDefaultsExtension.swift */,
 				558D634F2BB099AA00B75AA6 /* UIImageExtension.swift */,
-				551C2D0F2BB4FC9200714DDD /* JoinLinkService.swift */,
+				559B28EC2BB7557E00999F34 /* StringProtocolExtension.swift */,
+				559B28EE2BB755B800999F34 /* StringExtension.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -740,9 +764,12 @@
 		55A326662B81F8FC007C9B74 /* Rewind */ = {
 			isa = PBXGroup;
 			children = (
+				559B28E82BB74AF700999F34 /* YOLOv3.mlmodel */,
 				551C2D0A2BB4353700714DDD /* Rewind.entitlements */,
 				55A326AE2B825274007C9B74 /* Wellcome */,
 				55A3267B2B81FB7F007C9B74 /* Authentication */,
+				55C652E92B98513600A8C595 /* AddTag */,
+				55C652F22B98993500A8C595 /* MediaDetails */,
 				55AF8C6B2B9381CB00AC7CE0 /* Rewind */,
 				550A63642B9CB57C00CE3597 /* AddGroup */,
 				550A635D2B9CAE8A00CE3597 /* AllGroups */,
@@ -863,8 +890,6 @@
 			isa = PBXGroup;
 			children = (
 				55AA39F62B9923400099DB8A /* GroupsMenu */,
-				55C652F22B98993500A8C595 /* Details */,
-				55C652E92B98513600A8C595 /* AddTag */,
 				55C3E5372B95E27500701BF8 /* Settings */,
 				55AF8C742B93CF0000AC7CE0 /* Views */,
 				55AF8C6C2B9381DC00AC7CE0 /* RewindViewController.swift */,
@@ -886,6 +911,7 @@
 		55BAA87D2BB340F7001839C6 /* CommonViews */ = {
 			isa = PBXGroup;
 			children = (
+				557A2DCC2B97C37900ACA400 /* TagsCollectionView.swift */,
 				558D63512BB09C3800B75AA6 /* LoadingView.swift */,
 			);
 			path = CommonViews;
@@ -917,7 +943,8 @@
 		55C3E53C2B96058E00701BF8 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				55C3E53D2B9605ED00701BF8 /* SettingsCell.swift */,
+				559B28F42BB77CB700999F34 /* TypeCell.swift */,
+				55C3E53D2B9605ED00701BF8 /* PropertyCell.swift */,
 				559A50502B97844400A2BAB4 /* TagCell.swift */,
 			);
 			path = Cells;
@@ -928,7 +955,6 @@
 			children = (
 				55C3E53A2B95E55D00701BF8 /* TypesTableView.swift */,
 				55C3E5402B96227800701BF8 /* PropertiesTableView.swift */,
-				557A2DCC2B97C37900ACA400 /* TagsCollectionView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -943,7 +969,7 @@
 			path = AddTag;
 			sourceTree = "<group>";
 		};
-		55C652F22B98993500A8C595 /* Details */ = {
+		55C652F22B98993500A8C595 /* MediaDetails */ = {
 			isa = PBXGroup;
 			children = (
 				558D63492BB0522600B75AA6 /* Views */,
@@ -952,7 +978,7 @@
 				55AA39ED2B9902B40099DB8A /* DetailsRouter.swift */,
 				55AA39EF2B9902CB0099DB8A /* DetailsBuilder.swift */,
 			);
-			path = Details;
+			path = MediaDetails;
 			sourceTree = "<group>";
 		};
 		55DFB5FD2BAB28A600527800 /* PreviewObject */ = {
@@ -960,6 +986,7 @@
 			children = (
 				55DFB5F92BAB0D9900527800 /* PreviewObjectViewController.swift */,
 				55DFB5FE2BAB28C000527800 /* PreviewObjectPresenter.swift */,
+				559B28F02BB7656900999F34 /* PreviewObjectRouter.swift */,
 				55DFB6002BAB291000527800 /* PreviewObjectBuilder.swift */,
 			);
 			path = PreviewObject;
@@ -1038,6 +1065,7 @@
 				55A326B52B8259D4007C9B74 /* EnterCodeBuilder.swift in Sources */,
 				551C2D0C2BB4C65800714DDD /* AuthorModel.swift in Sources */,
 				55C652EB2B98515100A8C595 /* AddTagPresenter.swift in Sources */,
+				559B28F32BB7723A00999F34 /* FilterModel.swift in Sources */,
 				55A326CE2B826A44007C9B74 /* EnterNameBuilder.swift in Sources */,
 				553FB2912BA09EC700C3E6FB /* GalleryRouter.swift in Sources */,
 				55DFB6012BAB291000527800 /* PreviewObjectBuilder.swift in Sources */,
@@ -1067,6 +1095,8 @@
 				55967FEC2BB27E480054D1BB /* AllMembersTablePresenterProtocol.swift in Sources */,
 				550A63682B9CB86700CE3597 /* LoadGroupImageViewController.swift in Sources */,
 				558D63672BB0BFA900B75AA6 /* LoadGroupImageBuilder.swift in Sources */,
+				559B28EF2BB755B800999F34 /* StringExtension.swift in Sources */,
+				559B28E52BB736C400999F34 /* QuoteModel.swift in Sources */,
 				55967FEA2BB27D1F0054D1BB /* AllMembersRouter.swift in Sources */,
 				55A3266C2B81F8FC007C9B74 /* ViewController.swift in Sources */,
 				55C3E5412B96227800701BF8 /* PropertiesTableView.swift in Sources */,
@@ -1078,12 +1108,14 @@
 				55A326C52B8263D9007C9B74 /* EnterPasswordBuilder.swift in Sources */,
 				55DFB5FA2BAB0D9900527800 /* PreviewObjectViewController.swift in Sources */,
 				550A637B2B9CF4AD00CE3597 /* ColorCell.swift in Sources */,
+				559B28EB2BB7546B00999F34 /* QuoteImageGenerator.swift in Sources */,
 				55DFB5FF2BAB28C000527800 /* PreviewObjectPresenter.swift in Sources */,
 				556167C02B8F6421001AF383 /* EnterAuthCodeRouter.swift in Sources */,
 				55A326982B820B03007C9B74 /* WellcomePresenter.swift in Sources */,
 				55AA39F22B9905D30099DB8A /* TagsCollectionPresenterProtocol.swift in Sources */,
 				551427082B89375C000446E9 /* AppIconCell.swift in Sources */,
 				556167B42B8F5EA5001AF383 /* EditNameBuilder.swift in Sources */,
+				559B28E92BB74AF700999F34 /* YOLOv3.mlmodel in Sources */,
 				55AA39EA2B98FF090099DB8A /* ObjectRiskyZoneTableView.swift in Sources */,
 				5515097D2B909CE600D162CF /* EnterVerificationCodeViewController.swift in Sources */,
 				553FB2992BA0A57D00C3E6FB /* AddPhotoRouter.swift in Sources */,
@@ -1094,7 +1126,7 @@
 				55A326A32B82204E007C9B74 /* EnterEmailPresenter.swift in Sources */,
 				55967FE62BB27CCE0054D1BB /* AllMembersPresenter.swift in Sources */,
 				550109892B8A36FE0005F1D5 /* AppIconModel.swift in Sources */,
-				55C3E53E2B9605ED00701BF8 /* SettingsCell.swift in Sources */,
+				55C3E53E2B9605ED00701BF8 /* PropertyCell.swift in Sources */,
 				55BAA8832BB35DD6001839C6 /* MenuAllGroupsButtonCell.swift in Sources */,
 				558278472BB1F9EC0072424F /* EditGroupNamePresenter.swift in Sources */,
 				556167BC2B8F61D2001AF383 /* EnterAuthCodePresenter.swift in Sources */,
@@ -1103,6 +1135,8 @@
 				557A07932B99ED67002FFF40 /* GroupSettingsViewController.swift in Sources */,
 				55AF8C6F2B9381F100AC7CE0 /* RewindBuilder.swift in Sources */,
 				55A326B02B82535E007C9B74 /* UserModel.swift in Sources */,
+				559B28F12BB7656900999F34 /* PreviewObjectRouter.swift in Sources */,
+				559B28ED2BB7557E00999F34 /* StringProtocolExtension.swift in Sources */,
 				553FB2A52BA0AAEA00C3E6FB /* QuoteSettingsBuilder.swift in Sources */,
 				55AA39EC2B9902800099DB8A /* DetailsPresenter.swift in Sources */,
 				550A63662B9CB62200CE3597 /* EnterGroupNameViewController.swift in Sources */,
@@ -1119,6 +1153,7 @@
 				550109852B89E99D0005F1D5 /* CustomTableViewCell.swift in Sources */,
 				5514270E2B894198000446E9 /* AppIconCollectionView.swift in Sources */,
 				55C652ED2B9851BA00A8C595 /* AddTagBuilder.swift in Sources */,
+				559B28F52BB77CB700999F34 /* TypeCell.swift in Sources */,
 				557A07972B99F2A7002FFF40 /* GroupRiskyZoneTableView.swift in Sources */,
 				55DFB5FC2BAB1A2300527800 /* GalleryCell.swift in Sources */,
 				5582783E2BB1C4360072424F /* AddButtonCell.swift in Sources */,
@@ -1144,6 +1179,7 @@
 				55A3266A2B81F8FC007C9B74 /* SceneDelegate.swift in Sources */,
 				555F07532B85EF5F00E6991E /* AuthConsts.swift in Sources */,
 				5582784E2BB239540072424F /* MediaModel.swift in Sources */,
+				559B28E32BB7072D00999F34 /* TagModel.swift in Sources */,
 				551509792B9099A100D162CF /* EditEmailBuilder.swift in Sources */,
 				558D63502BB099AA00B75AA6 /* UIImageExtension.swift in Sources */,
 				550A63712B9CD97000CE3597 /* ObjectsMenuTableView.swift in Sources */,
@@ -1336,7 +1372,7 @@
 				CODE_SIGN_ENTITLEMENTS = Rewind/Rewind.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 8FRM8M93L5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Rewind/App/Info.plist;
@@ -1346,7 +1382,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1370,7 +1406,7 @@
 				CODE_SIGN_ENTITLEMENTS = Rewind/Rewind.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 8FRM8M93L5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Rewind/App/Info.plist;
@@ -1380,7 +1416,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

@@ -7,9 +7,10 @@
 
 import Foundation
 
-final class SettingsPresenter: TagsCollectionPresenterProtocol {
+final class SettingsPresenter {
     private weak var view: SettingsViewController?
-    weak var tagsCollection: TagsCollectionView?
+    weak var typesTable: TypesTableView?
+    weak var propertiesTable: PropertiesTableView?
     private var router: SettingsRouter
     
     init(view: SettingsViewController?, router: SettingsRouter) {
@@ -17,31 +18,13 @@ final class SettingsPresenter: TagsCollectionPresenterProtocol {
         self.router = router
     }
     
+    func configureUIForFilter() {
+        let filter = DataManager.shared.getFilter()
+        typesTable?.configureUIForSavedFilter(filter)
+        propertiesTable?.configureUIForSavedFilter(filter)
+    }
+    
     func continueButtonTapped() {
         view?.dismiss(animated: true)
-    }
-    
-    func initTagsCollection() {
-        tagsCollection?.tags = view?.tags ?? []
-    }
-    
-    func addTagButtonTapped() {
-        router.presentAddTag()
-    }
-    
-    func deleteTag(atIndex index: Int) {
-        view?.tags.remove(at: index)
-        view?.updateUI()
-        tagsCollection?.tags = view?.tags ?? []
-        tagsCollection?.reloadData()
-        view?.updateViewsHeight()
-    }
-    
-    func addTag(_ title: String) {
-        view?.tags.append(title)
-        view?.updateUI()
-        tagsCollection?.tags = view?.tags ?? []
-        tagsCollection?.reloadData()
-        view?.updateViewsHeight()
     }
 }

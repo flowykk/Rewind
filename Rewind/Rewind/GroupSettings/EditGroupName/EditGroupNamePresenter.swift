@@ -52,9 +52,9 @@ extension EditGroupNamePresenter {
             print(response.message as Any)
             print(response.statusCode as Any)
         }
-        DispatchQueue.main.async {
-            self.view?.dismiss(animated: true) {
-                LoadingView.hide(fromVC: self.view)
+        DispatchQueue.main.async { [weak self] in
+            self?.view?.dismiss(animated: true) {
+                LoadingView.hide(fromVC: self?.view)
             }
         }
     }

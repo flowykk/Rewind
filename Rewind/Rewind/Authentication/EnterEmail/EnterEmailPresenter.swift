@@ -62,8 +62,8 @@ extension EnterEmailPresenter {
             DataManager.shared.setUserEmail(email)
             DataManager.shared.setUserVerificationCode("\(code)")
             print(code)
-            DispatchQueue.main.async {
-                self.router.navigateToEnterCode()
+            DispatchQueue.main.async { [weak self] in
+                self?.router.navigateToEnterCode()
             }
         } else {
             print(response.statusCode as Any)
@@ -77,8 +77,8 @@ extension EnterEmailPresenter {
     private func handleCheckEmailToLoginResponse(_ response: NetworkResponse, email: String) {
         if response.success {
             DataManager.shared.setUserEmail(email)
-            DispatchQueue.main.async {
-                self.router.navigateToEnterPassword()
+            DispatchQueue.main.async { [weak self] in
+                self?.router.navigateToEnterPassword()
             }
         } else {
             print(response.message as Any)

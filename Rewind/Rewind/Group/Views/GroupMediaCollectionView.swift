@@ -26,6 +26,7 @@ final class GroupMediaCollectionView: UICollectionView {
         dataSource = self
         delegate = self
         register(GroupMediaCell.self, forCellWithReuseIdentifier: "cell")
+        alwaysBounceHorizontal = true
         showsVerticalScrollIndicator = false
         showsHorizontalScrollIndicator = false
         backgroundColor = .systemGray6

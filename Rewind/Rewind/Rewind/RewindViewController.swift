@@ -10,8 +10,31 @@ import UIKit
 final class RewindViewController: UIViewController {
     var presenter: RewindPresenter?
     
-    private var galleryButtonWidthConstraint: NSLayoutConstraint?
-    var isFavourite: Bool = false
+    var likeButtonState: LikeButtonState = .unliked
+    var randomMediaId: Int? = nil
+    
+    enum LikeButtonState {
+        case liked
+        case unliked
+        
+        var imageName: String {
+            switch self {
+            case .liked:
+                return "heart.fill"
+            case .unliked:
+                return "heart"
+            }
+        }
+        
+        var tintColor: UIColor {
+            switch self {
+            case .liked:
+                return .customPink
+            case .unliked:
+                return .systemGray2
+            }
+        }
+    }
     
     private let goToGroupButton: UIButton = UIButton(type: .system)
     private let groupImageView: UIImageView = UIImageView()
@@ -24,7 +47,7 @@ final class RewindViewController: UIViewController {
     private let detailsButton: UIButton = UIButton(type: .system)
     private let downloadButton: UIButton = UIButton(type: .system)
     private let rewindButton: UIButton = UIButton(type: .system)
-    private let favoriteButton: UIButton = UIButton(type: .system)
+    let likeButton: UIButton = UIButton(type: .system)
     private let galleryButton: UIButton = UIButton(type: .system)
     
     override func viewDidLoad() {
@@ -89,8 +112,8 @@ final class RewindViewController: UIViewController {
     }
     
     @objc
-    private func favouriteButtonTapped() {
-        presenter?.favouriteButtonTapped(favourite: isFavourite)
+    private func likeButtonTapped() {
+        presenter?.likeButtonTapped(likeButtonState: likeButtonState)
     }
     
     @objc
@@ -125,21 +148,20 @@ final class RewindViewController: UIViewController {
     }
     
     func configureUIForRandomMedia(_ randomMedia: Media?) {
-        if let image = randomMedia?.bigImage {
-            imageView.image = image
-        } else {
-            imageView.image = UIImage(named: "defaultImage")
-        }
-        if let author = randomMedia?.author {
-            imageInfoView.configureUIForAuthor(author, withDateAdded: randomMedia?.dateAdded ?? "")
-        } else {
-            imageInfoView.configureUIForAuthor(nil, withDateAdded: nil)
-        }
+        imageView.image = randomMedia?.bigImage ?? UIImage(named: "defaultImage")
+        imageInfoView.configureUIForAuthor(randomMedia?.author, withDateAdded: randomMedia?.dateAdded)
         if let liked = randomMedia?.liked {
-            if liked {
-                setFavouriteButton(imageName: "heart.fill", tintColor: .customPink)
-            }
+            configureLikeButtonUI(newState: liked ? .liked : .unliked)
         }
+    }
+    
+    func configureLikeButtonUI(newState: LikeButtonState) {
+        likeButtonState = newState
+        let font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+        let configuration = UIImage.SymbolConfiguration(font: font)
+        let image = UIImage(systemName: newState.imageName, withConfiguration: configuration)
+        likeButton.setImage(image, for: .normal)
+        likeButton.tintColor = newState.tintColor
     }
     
     func setCurrentGroup(to group: Group) {
@@ -150,14 +172,6 @@ final class RewindViewController: UIViewController {
             guard let defaultImage = UIImage(named: "groupImage") else { return }
             groupImageView.image = defaultImage
         }
-    }
-    
-    func setFavouriteButton(imageName: String, tintColor: UIColor) {
-        let font = UIFont.systemFont(ofSize: 18, weight: .semibold)
-        let configuration = UIImage.SymbolConfiguration(font: font)
-        let image = UIImage(systemName: imageName, withConfiguration: configuration)
-        favoriteButton.setImage(image, for: .normal)
-        favoriteButton.tintColor = tintColor
     }
     
     func showSuccessAlert() {
@@ -205,7 +219,7 @@ extension RewindViewController {
         
         configureRewindButton()
         configureDownloadButton()
-        configureFavoriteButton()
+        configureLikeButton()
         
         configureGalleryButton()
         
@@ -423,26 +437,26 @@ extension RewindViewController {
         rewindButton.pinCenterX(to: view.centerXAnchor)
     }
     
-    private func configureFavoriteButton() {
-        view.addSubview(favoriteButton)
-        favoriteButton.translatesAutoresizingMaskIntoConstraints = false
+    private func configureLikeButton() {
+        view.addSubview(likeButton)
+        likeButton.translatesAutoresizingMaskIntoConstraints = false
         
         let font = UIFont.systemFont(ofSize: 18, weight: .semibold)
         let configuration = UIImage.SymbolConfiguration(font: font)
         let image = UIImage(systemName: "heart", withConfiguration: configuration)
-        favoriteButton.setImage(image, for: .normal)
+        likeButton.setImage(image, for: .normal)
         
-        favoriteButton.tintColor = .systemGray2
-        favoriteButton.backgroundColor = .systemGray6
-        favoriteButton.layer.cornerRadius = 45 / 2
-        favoriteButton.imageEdgeInsets = UIEdgeInsets(top: 1, left: 0, bottom: 0, right: 0)
+        likeButton.tintColor = .systemGray2
+        likeButton.backgroundColor = .systemGray6
+        likeButton.layer.cornerRadius = 45 / 2
+        likeButton.imageEdgeInsets = UIEdgeInsets(top: 1, left: 0, bottom: 0, right: 0)
         
-        favoriteButton.addTarget(self, action: #selector(favouriteButtonTapped), for: .touchUpInside)
+        likeButton.addTarget(self, action: #selector(likeButtonTapped), for: .touchUpInside)
         
-        favoriteButton.setWidth(45)
-        favoriteButton.setHeight(45)
-        favoriteButton.pinLeft(to: rewindButton.trailingAnchor, 20)
-        favoriteButton.pinCenterY(to: rewindButton.centerYAnchor)
+        likeButton.setWidth(45)
+        likeButton.setHeight(45)
+        likeButton.pinLeft(to: rewindButton.trailingAnchor, 20)
+        likeButton.pinCenterY(to: rewindButton.centerYAnchor)
     }
     
     private func configureGalleryButton() {

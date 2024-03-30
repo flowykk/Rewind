@@ -8,19 +8,11 @@
 import UIKit
 
 final class ColorsTableView: UITableView {
+    var presenter: AddQuotePresenter?
     
     enum ColorRow: String, CaseIterable {
         case backgroundColor = "Background color"
         case textColor = "Quote color"
-        
-        var color: UIColor {
-            switch self {
-            case .backgroundColor:
-                return .white
-            case .textColor:
-                return .customPink
-            }
-        }
     }
     
     override init(frame: CGRect, style: UITableView.Style) {
@@ -41,6 +33,21 @@ final class ColorsTableView: UITableView {
         rowHeight = 50
         setHeight(Double(Int(rowHeight) * (ColorRow.allCases.count) - 1))
     }
+    
+    func configureUIForColor(_ selectedColor: UIColor, inRow row: ColorsTableView.ColorRow?) {
+        switch row {
+        case .backgroundColor:
+            if let cell = cellForRow(at: IndexPath(row: 0, section: 0)) as? ColorCell {
+                cell.configureWithColor(selectedColor)
+            }
+        case .textColor:
+            if let cell = cellForRow(at: IndexPath(row: 1, section: 0)) as? ColorCell {
+                cell.configureWithColor(selectedColor)
+            }
+        case nil:
+            print("do nothing")
+        }
+    }
 }
 
 extension ColorsTableView: UITableViewDataSource {
@@ -52,14 +59,22 @@ extension ColorsTableView: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         guard let customCell = cell as? ColorCell else { return cell }
         let title = ColorRow.allCases[indexPath.row].rawValue
-        let color = ColorRow.allCases[indexPath.row].color
-        customCell.configure(withTitle: title, color: color)
+        if indexPath.row == 0 {
+            customCell.configure(withTitle: title, color: .systemGray6)
+        } else if indexPath.row == 1 {
+            customCell.configure(withTitle: title, color: .systemGray)
+        }
         return customCell
     }
 }
 
 extension ColorsTableView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.row == 0 {
+            presenter?.rowSelected(.backgroundColor)
+        } else if indexPath.row == 1 {
+            presenter?.rowSelected(.textColor)
+        }
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }

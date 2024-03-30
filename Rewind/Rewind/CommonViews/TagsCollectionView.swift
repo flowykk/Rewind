@@ -10,7 +10,7 @@ import UIKit
 final class TagsCollectionView: UICollectionView {
     var presenter: TagsCollectionPresenterProtocol?
     
-    var tags: [String] = []
+    var tags: [Tag] = []
     
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         let newLayout = LeftAlignedCollectionViewFlowLayout()
@@ -24,7 +24,6 @@ final class TagsCollectionView: UICollectionView {
     }
     
     private func commonInit() {
-        presenter?.initTagsCollection()
         delegate = self
         dataSource = self
         register(TagCell.self, forCellWithReuseIdentifier: "TagCell")
@@ -44,7 +43,7 @@ extension TagsCollectionView: UICollectionViewDataSource {
         let cell = dequeueReusableCell(withReuseIdentifier: "TagCell", for: indexPath)
         
         guard let customCell = cell as? TagCell else { return cell }
-        customCell.configure(withTitle: tags[indexPath.item])
+        customCell.configure(withTitle: tags[indexPath.item].text)
         customCell.buttonAction = {
             self.presenter?.deleteTag(atIndex: indexPath.item)
         }
@@ -63,12 +62,13 @@ extension TagsCollectionView: UICollectionViewDelegate {
 // MARK: - UICollectionViewDelegateFlowLayout
 extension TagsCollectionView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let tag = tags[indexPath.item]
-        let tagWidth = 10 + tag.size(withAttributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18)]).width + 10 + 30 + 5
+        let tagText = tags[indexPath.item].text
+        let tagWidth = 10 + tagText.size(withAttributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18)]).width + 10 + 30 + 5
         return CGSize(width: tagWidth, height: 40)
     }
 }
 
+// MARK: - UICollectionViewFlowLayout
 final class LeftAlignedCollectionViewFlowLayout: UICollectionViewFlowLayout {
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         let attributes = super.layoutAttributesForElements(in: rect)

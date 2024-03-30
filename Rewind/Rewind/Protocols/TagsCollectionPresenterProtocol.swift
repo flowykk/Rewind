@@ -8,7 +8,6 @@
 import Foundation
 
 protocol TagsCollectionPresenterProtocol {
-    func initTagsCollection()
-    func addTag(_ title: String)
+    func addTagToCollection(_ tag: Tag)
     func deleteTag(atIndex index: Int)
 }

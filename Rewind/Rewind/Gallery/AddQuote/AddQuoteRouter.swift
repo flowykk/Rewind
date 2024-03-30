@@ -18,19 +18,35 @@ final class AddQuoteRouter {
         view?.navigationController?.popViewController(animated: true)
     }
     
-    func navigateToQuoteSettings() {
+    func presentQuoteSettings() {
         let vc = QuoteSettingsBuilder.build()
+        vc.modalPresentationStyle = .custom
+        if let nc = view?.navigationController {
+            vc.viewDistanceTop = nc.navigationBar.frame.height + 10
+        }
+        vc.addQuoteVC = view as? AddQuoteViewController
         view?.present(vc, animated: true)
     }
     
     func presentAddTag() {
         let vc = AddTagBuilder.build()
-        
-        if let addQuoteView = view as? AddQuoteViewController {
-            vc.addTagHandler = { tag in
-                addQuoteView.presenter?.addTag(tag)
-            }
-            view?.present(vc, animated: true)
+        vc.modalPresentationStyle = .custom
+        if let nc = view?.navigationController {
+            vc.viewDistanceTop = nc.navigationBar.frame.height + 10
+        }
+        if let addQuoteVC = view as? AddQuoteViewController {
+            vc.addQuoteVC = addQuoteVC
+            vc.existingTags = addQuoteVC.presenter?.tagsCollection?.tags
+        }
+        view?.present(vc, animated: true)
+    }
+    
+    func presentColorPicker(selectedColor: UIColor) {
+        let colorPicker = UIColorPickerViewController()
+        colorPicker.selectedColor = selectedColor
+        colorPicker.delegate = view as? AddQuoteViewController
+        view?.present(colorPicker, animated: true) { [weak self] in
+            LoadingView.hide(fromVC: self?.view)
         }
     }
 }

@@ -19,7 +19,7 @@ final class EditEmailPresenter {
     func sendVerificationCode(toEmail email: String) {
         LoadingView.show(inVC: view)
         NetworkService.sendCodeToRegister(toEmail: email) { [weak self] response in
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [weak self] in
                 if response.success {
                     let value = self?.view?.viewDistanceTop ?? 40
                     DataManager.shared.setUserVerificationCode(response.message ?? "")

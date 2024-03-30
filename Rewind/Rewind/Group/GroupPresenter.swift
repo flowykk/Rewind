@@ -106,7 +106,7 @@ extension GroupPresenter {
             
             let userId = UserDefaults.standard.integer(forKey: "UserId")
             let userName = UserDefaults.standard.string(forKey: "UserName") ?? "Anonymous"
-            let userImage = UserDefaults.standard.image(forKey: "UserImage")
+            let userImage = UserDefaults.standard.image(forKey: "UserMiniImage")
             
             let user = GroupMember(id: userId, name: userName, role: .user, miniImage: userImage)
             guard let owner = GroupMember(json: ownerJson, role: .owner) else { return }

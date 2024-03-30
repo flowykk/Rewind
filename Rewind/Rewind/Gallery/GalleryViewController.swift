@@ -16,10 +16,14 @@ final class GalleryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.delegate = self
-        galleryCollection.galleryVC = self
+        galleryCollection.presenter = presenter
         presenter?.galleryCollection = galleryCollection
         configureNavigationTitle()
         configureUI()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         presenter?.getMiniMedias()
     }
     

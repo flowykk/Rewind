@@ -10,6 +10,10 @@ import UIKit
 final class QuoteSettingsViewController: UIViewController {
     var presenter: QuoteSettingsPresenter?
     
+    var viewDistanceTop: CGFloat = 40
+    
+    var addQuoteVC: AddQuoteViewController?
+    
     private let quoteLabel: UILabel = UILabel()
     private let quoteField: UITextView = UITextView()
     private let authorLabel: UILabel = UILabel()
@@ -20,11 +24,27 @@ final class QuoteSettingsViewController: UIViewController {
         super.viewDidLoad()
         self.hideKeyboardWhenTappedAround()
         configureUI()
+        presenter?.viewDidLoad()
+        
+        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture(_:)))
+        view.addGestureRecognizer(panGesture)
+    }
+    
+    override func updateViewConstraints() {
+        super.updateViewConstraints()
+        view.frame.size.height = UIScreen.main.bounds.height - viewDistanceTop
+        view.frame.origin.y = viewDistanceTop
+        view.layer.cornerRadius = 20
     }
     
     @objc
     private func continueButtonTapped() {
-        presenter?.continueButtonTapped()
+        presenter?.continueButtonTapped(quoteText: quoteField.text, author: authorField.text)
+    }
+    
+    func configureUIForSavedData(quote: String?, author: String?) {
+        quoteField.text = quote
+        authorField.text = author
     }
 }
 
@@ -58,8 +78,12 @@ extension QuoteSettingsViewController {
         quoteField.textContainerInset = UIEdgeInsets(top: 15, left: 20, bottom: 15, right: 20)
         quoteField.font = UIFont.systemFont(ofSize: 18, weight: .medium)
         quoteField.layer.cornerRadius = 20
+        authorField.returnKeyType = .done
         
-        quoteField.setHeight(UIScreen.main.bounds.width / 3)
+        quoteField.autocapitalizationType = .none
+        quoteField.autocorrectionType = .no
+        
+        quoteField.setHeight(UIScreen.main.bounds.width / 4)
         quoteField.pinLeft(to: view.leadingAnchor, 20)
         quoteField.pinRight(to: view.trailingAnchor, 20)
         quoteField.pinTop(to: quoteLabel.bottomAnchor, 15)
@@ -124,8 +148,44 @@ extension QuoteSettingsViewController {
     }
 }
 
+// MARK: - UITextFieldDelegate
 extension QuoteSettingsViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         view.endEditing(true)
+    }
+}
+
+// MARK: - Private funcs
+extension QuoteSettingsViewController {
+    @objc
+    private func handlePanGesture(_ gesture: UIPanGestureRecognizer) {
+        switch gesture.state {
+        case .began:
+            break
+        case .changed:
+            let translation = gesture.translation(in: view)
+            if view.frame.origin.y + translation.y >= viewDistanceTop {
+                view.frame.origin.y += translation.y
+                gesture.setTranslation(.zero, in: view)
+            }
+        case .ended:
+            let velocity = gesture.velocity(in: view)
+            let childViewHeight = UIScreen.main.bounds.height - viewDistanceTop
+            if velocity.y > 0 && view.frame.origin.y > childViewHeight * 0.5 {
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.view.frame.origin.y = UIScreen.main.bounds.height
+                }) { _ in
+                    self.dismiss(animated: false, completion: nil)
+                }
+            } else {
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.view.frame.origin.y = self.viewDistanceTop
+                }) { _ in
+                    self.view.frame.origin.y = self.viewDistanceTop
+                }
+            }
+        default:
+            break
+        }
     }
 }

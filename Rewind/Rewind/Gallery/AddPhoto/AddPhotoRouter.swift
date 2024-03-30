@@ -18,14 +18,25 @@ final class AddPhotoRouter {
         view?.navigationController?.popViewController(animated: true)
     }
     
+    func presentImagePicker() {
+        let imagePickerController = UIImagePickerController()
+        imagePickerController.sourceType = .photoLibrary
+        imagePickerController.delegate = view as? AddPhotoViewController
+        view?.present(imagePickerController, animated: true) { [weak self] in
+            LoadingView.hide(fromVC: self?.view)
+        }
+    }
+    
     func presentAddTag() {
         let vc = AddTagBuilder.build()
-        
-        if let addPhotoView = view as? AddPhotoViewController {
-            vc.addTagHandler = { tag in
-                addPhotoView.presenter?.addTag(tag)
-            }
-            view?.present(vc, animated: true)
+        vc.modalPresentationStyle = .custom
+        if let nc = view?.navigationController {
+            vc.viewDistanceTop = nc.navigationBar.frame.height + 10
         }
+        if let addPhotoVC = view as? AddPhotoViewController {
+            vc.addPhotoVC = addPhotoVC
+            vc.existingTags = addPhotoVC.presenter?.tagsCollection?.tags
+        }
+        view?.present(vc, animated: true)
     }
 }

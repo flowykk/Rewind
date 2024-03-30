@@ -9,7 +9,7 @@ import UIKit
 
 final class EditNameViewController: UIViewController {
     var presenter: EditNamePresenter?
-    weak var delegate: AccountViewController?
+    weak var accountVC: AccountViewController?
     
     var viewDistanceTop: CGFloat = 40
     var onNameUpdated: ((String) -> Void)?

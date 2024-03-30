@@ -76,38 +76,43 @@ extension EnterPasswordPresenter {
 // MARK: - Network Response Handlers
 extension EnterPasswordPresenter {
     private func handleLoginUserResponse(_ response: NetworkResponse) {
-        if response.success, let json = response.json {
-            if
-                let id = json["id"] as? Int,
-                let name = json["userName"] as? String,
-                let email = json["email"] as? String,
-                let regDateString = json["registrationDateTime"] as? String
-            {
-                UserDefaults.standard.set(id, forKey: "UserId")
-                UserDefaults.standard.set(name, forKey: "UserName")
-                UserDefaults.standard.set(email, forKey: "UserEmail")
-                UserDefaults.standard.set(regDateString, forKey: "UserRegDate")
-                
-                if let imageB64String = json["profileImage"] as? String {
-                    let image = UIImage(base64String: imageB64String)
-                    if let imageData = image?.jpegData(compressionQuality: 1) {
-                        UserDefaults.standard.setImage(imageData, forKey: "UserImage")
-                    }
+        if response.success,
+           let json = response.json,
+           let id = json["id"] as? Int,
+           let name = json["userName"] as? String,
+           let email = json["email"] as? String,
+           let regDateString = json["registrationDateTime"] as? String
+        {
+            UserDefaults.standard.set(id, forKey: "UserId")
+            UserDefaults.standard.set(name, forKey: "UserName")
+            UserDefaults.standard.set(email, forKey: "UserEmail")
+            UserDefaults.standard.set(regDateString, forKey: "UserRegDate")
+            
+            if let imageB64String = json["profileImage"] as? String {
+                let image = UIImage(base64String: imageB64String)
+                if let imageData = image?.jpegData(compressionQuality: 1) {
+                    UserDefaults.standard.setImage(imageData, forKey: "UserImage")
                 }
-                
-                DispatchQueue.main.async {
-                    self.router.navigateToRewind()
-                }
-            } else {
-                print("something went wrong")
-                print("--------------------")
-                print(response.statusCode as Any)
-                print(response.message as Any)
-                print("--------------------")
             }
+            
+            if let imageB64String = json["tinyProfileImage"] as? String {
+                let image = UIImage(base64String: imageB64String)
+                if let imageData = image?.jpegData(compressionQuality: 1) {
+                    UserDefaults.standard.setImage(imageData, forKey: "UserMiniImage")
+                }
+            }
+            
             DispatchQueue.main.async { [weak self] in
                 LoadingView.hide(fromVC: self?.view)
+                self?.router.navigateToRewind()
             }
+        } else {
+            print("something went wrong - handleLoginUserResponse")
+            print(response.statusCode as Any)
+            print(response.message as Any)
+        }
+        DispatchQueue.main.async { [weak self] in
+            LoadingView.hide(fromVC: self?.view)
         }
     }
 }

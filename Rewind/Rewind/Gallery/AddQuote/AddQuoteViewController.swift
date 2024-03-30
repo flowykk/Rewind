@@ -10,13 +10,15 @@ import UIKit
 final class AddQuoteViewController: UIViewController {
     var presenter: AddQuotePresenter?
     
-    var tags: [String] = []
+    var currentColorSelection: ColorsTableView.ColorRow? = nil
+    
     var contentViewHeightConstraint: NSLayoutConstraint?
     var tagsCollectionHeightConstraint: NSLayoutConstraint?
     
     private let scrollView: UIScrollView = UIScrollView()
     private let contentView: UIView = UIView()
     private let quoteSettingsButton: UIButton = UIButton(type: .system)
+    private let imageView: UIImageView = UIImageView()
     private let colorsLabel: UILabel = UILabel()
     private let colorsTable: ColorsTableView = ColorsTableView()
     private let tagsLabel: UILabel = UILabel()
@@ -26,7 +28,9 @@ final class AddQuoteViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        colorsTable.presenter = presenter
         tagsCollection.presenter = presenter
+        presenter?.colorsTable = colorsTable
         presenter?.tagsCollection = tagsCollection
         configureUI()
     }
@@ -56,16 +60,35 @@ final class AddQuoteViewController: UIViewController {
         presenter?.continueButtonTapped()
     }
     
-    func updateUI() {
-        let attributedString = NSMutableAttributedString(string: "Tags  \(tags.count)/5")
+    func configureUIForTags() {
+        let attributedString = NSMutableAttributedString(string: "Tags  \(tagsCollection.tags.count)/5")
         attributedString.addAttributes([.font: UIFont.systemFont(ofSize: 20, weight: .medium)], range: NSRange(location: 0, length: 4))
         attributedString.addAttributes([.font: UIFont.systemFont(ofSize: 14, weight: .medium)], range: NSRange(location: 6, length: 3))
         tagsLabel.attributedText = attributedString
         
-        if tags.count == 5 {
+        if tagsCollection.tags.count == 5 {
             addTagButton.isHidden = true
         } else {
             addTagButton.isHidden = false
+        }
+    }
+    
+    func configureUIForColor(_ selectedColor: UIColor) {
+        switch currentColorSelection {
+        case .backgroundColor:
+            quoteSettingsButton.backgroundColor = selectedColor
+        case .textColor:
+            quoteSettingsButton.tintColor = selectedColor
+        case nil:
+            print("do nothing")
+        }
+    }
+    
+    func configureUIForQuoteImage(image: UIImage?) {
+        if let image = image {
+            imageView.image = image
+            quoteSettingsButton.backgroundColor = .clear
+            quoteSettingsButton.setTitle(nil, for: .normal)
         }
     }
     
@@ -90,6 +113,18 @@ final class AddQuoteViewController: UIViewController {
     }
 }
 
+// MARK: - UIColorPickerViewControllerDelegate
+extension AddQuoteViewController: UIColorPickerViewControllerDelegate {
+    func colorPickerViewControllerDidFinish(_ viewController: UIColorPickerViewController) {
+        viewController.dismiss(animated: true, completion: nil)
+        
+        let selectedColor = viewController.selectedColor
+        
+        presenter?.colorPicked(selectedColor: selectedColor)
+    }
+}
+
+// MARK: - UI Configuration
 extension AddQuoteViewController {
     private func configureUI() {
         navigationItem.hidesBackButton = true
@@ -106,7 +141,7 @@ extension AddQuoteViewController {
         configureColorsTable()
         
         configureTagsLabel()
-        if tags.count < 5 { configureAddButton() }
+        configureAddButton()
         configureTagsCollection()
         
         configureContinueButton()
@@ -152,11 +187,15 @@ extension AddQuoteViewController {
         contentView.addSubview(quoteSettingsButton)
         quoteSettingsButton.translatesAutoresizingMaskIntoConstraints = false
         
-        quoteSettingsButton.setTitle("Tap to view quote settings", for: .normal)
-        quoteSettingsButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
+        quoteSettingsButton.setTitle("Tap to view\nquote settings", for: .normal)
+        quoteSettingsButton.titleLabel?.numberOfLines = 0
+        quoteSettingsButton.titleLabel?.textAlignment = .center
+        quoteSettingsButton.titleLabel?.font = UIFont.monospacedSystemFont(ofSize: 20, weight: .semibold)
         quoteSettingsButton.tintColor = .systemGray
         
         quoteSettingsButton.backgroundColor = .systemGray6
+        quoteSettingsButton.layer.borderWidth = 1
+        quoteSettingsButton.layer.borderColor = UIColor.systemGray4.cgColor
         
         let width = UIScreen.main.bounds.width - 40
         quoteSettingsButton.layer.cornerRadius = width / 8
@@ -167,6 +206,19 @@ extension AddQuoteViewController {
         quoteSettingsButton.setHeight(width)
         quoteSettingsButton.pinTop(to: contentView.topAnchor, 0)
         quoteSettingsButton.pinCenterX(to: contentView.centerXAnchor)
+        
+        
+        quoteSettingsButton.addSubview(imageView)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        imageView.contentMode = .scaleToFill
+        imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = quoteSettingsButton.layer.cornerRadius
+        
+        imageView.pinLeft(to: quoteSettingsButton.leadingAnchor)
+        imageView.pinRight(to: quoteSettingsButton.trailingAnchor)
+        imageView.pinTop(to: quoteSettingsButton.topAnchor)
+        imageView.pinBottom(to: quoteSettingsButton.bottomAnchor)
     }
     
     private func configureColorsLabel() {
@@ -193,7 +245,7 @@ extension AddQuoteViewController {
         contentView.addSubview(tagsLabel)
         tagsLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        let attributedString = NSMutableAttributedString(string: "Tags  \(tags.count)/5")
+        let attributedString = NSMutableAttributedString(string: "Tags  0/5")
         attributedString.addAttributes([.font: UIFont.systemFont(ofSize: 20, weight: .medium)], range: NSRange(location: 0, length: 4))
         attributedString.addAttributes([.font: UIFont.systemFont(ofSize: 14, weight: .medium)], range: NSRange(location: 6, length: 3))
         tagsLabel.attributedText = attributedString

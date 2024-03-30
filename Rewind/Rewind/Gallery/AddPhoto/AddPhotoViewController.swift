@@ -10,13 +10,13 @@ import UIKit
 final class AddPhotoViewController: UIViewController {
     var presenter: AddPhotoPresenter?
     
-    var tags: [String] = []
     var contentViewHeightConstraint: NSLayoutConstraint?
     var tagsCollectionHeightConstraint: NSLayoutConstraint?
     
     private let scrollView: UIScrollView = UIScrollView()
     private let contentView: UIView = UIView()
     private let loadImageButton: UIButton = UIButton(type: .system)
+    private let imageView: UIImageView = UIImageView()
     private let tagsLabel: UILabel = UILabel()
     private let addTagButton: UIButton = UIButton(type: .system)
     private let tagsCollection: TagsCollectionView = TagsCollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
@@ -34,8 +34,14 @@ final class AddPhotoViewController: UIViewController {
         updateViewsHeight()
     }
     
-    @objc func backButtonTapped() {
+    @objc
+    func backButtonTapped() {
         presenter?.backButtonTapped()
+    }
+    
+    @objc
+    private func loadImageButtonTapped() {
+        presenter?.loadImageButtonTapped()
     }
     
     @objc
@@ -45,20 +51,26 @@ final class AddPhotoViewController: UIViewController {
     
     @objc
     private func continueButtonTapped() {
-        presenter?.continueButtonTapped()
+        presenter?.continueButtonTapped(selectedImage: imageView.image)
     }
     
-    func updateUI() {
-        let attributedString = NSMutableAttributedString(string: "Tags  \(tags.count)/5")
+    func configureUIForTags() {
+        let attributedString = NSMutableAttributedString(string: "Tags  \(tagsCollection.tags.count)/5")
         attributedString.addAttributes([.font: UIFont.systemFont(ofSize: 20, weight: .medium)], range: NSRange(location: 0, length: 4))
         attributedString.addAttributes([.font: UIFont.systemFont(ofSize: 14, weight: .medium)], range: NSRange(location: 6, length: 3))
         tagsLabel.attributedText = attributedString
         
-        if tags.count == 5 {
+        if tagsCollection.tags.count == 5 {
             addTagButton.isHidden = true
         } else {
             addTagButton.isHidden = false
         }
+    }
+    
+    func updateUIForSelectedImage(_ image: UIImage) {
+        imageView.image = image
+        loadImageButton.backgroundColor = .clear
+        loadImageButton.setTitle(nil, for: .normal)
     }
     
     func updateViewsHeight() {
@@ -79,6 +91,20 @@ final class AddPhotoViewController: UIViewController {
     }
 }
 
+// MARK: - UIImagePickerControllerDelegate
+extension AddPhotoViewController: UIImagePickerControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let selectedImage = info[.originalImage] as? UIImage {
+            presenter?.imageSelected(selectedImage)
+        }
+        dismiss(animated: true)
+    }
+}
+
+// MARK: - UINavigationControllerDelegate
+extension AddPhotoViewController: UINavigationControllerDelegate { }
+
+// MARK: - UI Configuration
 extension AddPhotoViewController {
     private func configureUI() {
         navigationItem.hidesBackButton = true
@@ -92,7 +118,7 @@ extension AddPhotoViewController {
         configureLoadImageButton()
         
         configureTagsLabel()
-        if tags.count < 5 { configureAddButton() }
+        configureAddButton()
         configureTagsCollection()
         
         configureContinueButton()
@@ -148,17 +174,32 @@ extension AddPhotoViewController {
         let width = UIScreen.main.bounds.width - 40
         loadImageButton.layer.cornerRadius = width / 8
         
+        loadImageButton.addTarget(self, action: #selector(loadImageButtonTapped), for: .touchUpInside)
+        
         loadImageButton.setWidth(width)
         loadImageButton.setHeight(width)
         loadImageButton.pinTop(to: contentView.topAnchor, 0)
         loadImageButton.pinCenterX(to: contentView.centerXAnchor)
+        
+        
+        loadImageButton.addSubview(imageView)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = loadImageButton.layer.cornerRadius
+        
+        imageView.pinLeft(to: loadImageButton.leadingAnchor)
+        imageView.pinRight(to: loadImageButton.trailingAnchor)
+        imageView.pinTop(to: loadImageButton.topAnchor)
+        imageView.pinBottom(to: loadImageButton.bottomAnchor)
     }
     
     private func configureTagsLabel() {
         contentView.addSubview(tagsLabel)
         tagsLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        let attributedString = NSMutableAttributedString(string: "Tags  \(tags.count)/5")
+        let attributedString = NSMutableAttributedString(string: "Tags  0/5")
         attributedString.addAttributes([.font: UIFont.systemFont(ofSize: 20, weight: .medium)], range: NSRange(location: 0, length: 4))
         attributedString.addAttributes([.font: UIFont.systemFont(ofSize: 14, weight: .medium)], range: NSRange(location: 6, length: 3))
         tagsLabel.attributedText = attributedString

@@ -1,15 +1,17 @@
 //
-//  SettingsCell.swift
+//  TypeCell.swift
 //  Rewind
 //
-//  Created by Aleksa Khruleva on 04.03.2024.
+//  Created by Aleksa Khruleva on 30.03.2024.
 //
 
 import UIKit
 
-final class SettingsCell: UITableViewCell {
+final class TypeCell: UITableViewCell {
     private let nameLabel: UILabel = UILabel()
     private let toggleSwitch: UISwitch = UISwitch()
+    
+    private var type: TypesTableView.TypeRow?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -25,14 +27,25 @@ final class SettingsCell: UITableViewCell {
         separatorInset = UIEdgeInsets(top: 0, left: nameLabel.frame.origin.x, bottom: 0, right: 0)
     }
     
-    func configure(withName name: String, isOn: Bool) {
+    @objc
+    private func toggled() {
+        if let type = type {
+            DataManager.shared.setNewTypeValue(forType: type, newValue: toggleSwitch.isOn)
+        }
+    }
+    
+    func configure(withName name: String, type: TypesTableView.TypeRow) {
         nameLabel.text = name
-        toggleSwitch.isOn = isOn
+        self.type = type
+    }
+    
+    func configureWithState(_ state: Bool) {
+        toggleSwitch.isOn = state
     }
 }
 
 // MARK: - UI Configuration
-extension SettingsCell {
+extension TypeCell {
     private func configureUI() {
         backgroundColor = .systemGray6
         selectionStyle = .none
@@ -56,14 +69,9 @@ extension SettingsCell {
         
         toggleSwitch.onTintColor = .customPink
         toggleSwitch.isUserInteractionEnabled = true
-        toggleSwitch.addTarget(self, action: #selector(toggled), for: .touchUpInside)
+        toggleSwitch.addTarget(self, action: #selector(toggled), for: .valueChanged)
         
         toggleSwitch.pinRight(to: trailingAnchor, 20)
         toggleSwitch.pinCenterY(to: centerYAnchor)
-    }
-    
-    @objc
-    private func toggled() {
-        
     }
 }

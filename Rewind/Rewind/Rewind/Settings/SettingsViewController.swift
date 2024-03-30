@@ -10,68 +10,41 @@ import UIKit
 final class SettingsViewController: UIViewController {
     var presenter: SettingsPresenter?
     
-    var tags: [String] = []
-    var contentViewHeightConstraint: NSLayoutConstraint?
-    var tagsCollectionHeightConstraint: NSLayoutConstraint?
+    var viewDistanceTop: CGFloat = 40
+    var rewindVC: RewindViewController?
     
-    private let scrollView: UIScrollView = UIScrollView()
-    private let contentView: UIView = UIView()
     private let titleLabel: UILabel = UILabel()
     private let typesTable: TypesTableView = TypesTableView()
     private let propertiesTable: PropertiesTableView = PropertiesTableView()
-    private let fromLabel: UILabel = UILabel()
-    private let fromDatePicker: UIDatePicker = UIDatePicker()
-    private let toLabel: UILabel = UILabel()
-    private let toDatePicker: UIDatePicker = UIDatePicker()
-    private let tagsLabel: UILabel = UILabel()
-    private let addTagButton: UIButton = UIButton(type: .system)
-    private let tagsCollection: TagsCollectionView = TagsCollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     private let continueButton: UIButton = UIButton(type: .system)
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tagsCollection.presenter = presenter
-        presenter?.tagsCollection = tagsCollection
-        updateViewsHeight()
+        typesTable.presenter = presenter
+        propertiesTable.presenter = presenter
+        presenter?.typesTable = typesTable
+        presenter?.propertiesTable = propertiesTable
         configureUI()
+        
+        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture(_:)))
+        view.addGestureRecognizer(panGesture)
     }
     
-    @objc
-    private func addTagButtonTapped() {
-        presenter?.addTagButtonTapped()
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        presenter?.configureUIForFilter()
+    }
+    
+    override func updateViewConstraints() {
+        super.updateViewConstraints()
+        view.frame.size.height = UIScreen.main.bounds.height - viewDistanceTop
+        view.frame.origin.y = viewDistanceTop
+        view.layer.cornerRadius = 20
     }
     
     @objc
     private func continueButtonTapped() {
         presenter?.continueButtonTapped()
-    }
-    
-    func updateUI() {
-        let attributedString = NSMutableAttributedString(string: "Tags  \(tags.count)/5")
-        attributedString.addAttributes([.font: UIFont.systemFont(ofSize: 20, weight: .medium)], range: NSRange(location: 0, length: 4))
-        attributedString.addAttributes([.font: UIFont.systemFont(ofSize: 14, weight: .medium)], range: NSRange(location: 6, length: 3))
-        tagsLabel.attributedText = attributedString
-        
-        if tags.count == 5 {
-            addTagButton.isHidden = true
-        } else {
-            addTagButton.isHidden = false
-        }
-    }
-    
-    func updateViewsHeight() {
-        contentViewHeightConstraint?.isActive = false
-        tagsCollectionHeightConstraint?.isActive = false
-        
-        let tagsCollectionHeight = tagsCollection.collectionViewLayout.collectionViewContentSize.height
-        let contentViewHeight = 20 + 25 + 25 + 210 + 30 + 30 + 30 + 30 + 10 + tagsCollectionHeight + 50 + 60 + 60
-        
-        contentViewHeightConstraint = contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: contentViewHeight)
-        tagsCollectionHeightConstraint = tagsCollection.heightAnchor.constraint(equalToConstant: tagsCollectionHeight)
-        
-        contentViewHeightConstraint?.isActive = true
-        tagsCollectionHeightConstraint?.isActive = true
-        view.layoutIfNeeded()
     }
 }
 
@@ -79,170 +52,44 @@ extension SettingsViewController {
     private func configureUI() {
         view.backgroundColor = .systemGray5
         
-        configureScrollView()
-        configureContentView()
-        
         configureTitleLabel()
         configureTypesTable()
         configurePropertiesTable()
         
-//        configureFromLabel()
-//        configureFromDatePicker()
-//        
-//        configureToDatePicker()
-//        configureToLabel()
-        
-        configureTagsLabel()
-        if tags.count < 5 { configureAddButton() }
-        configureTagsCollection()
-        
         configureContinueButton()
     }
     
-    private func configureScrollView() {
-        view.addSubview(scrollView)
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        
-        scrollView.delaysContentTouches = false
-        scrollView.showsVerticalScrollIndicator = false
-        scrollView.showsHorizontalScrollIndicator = false
-        scrollView.backgroundColor = .systemGray5
-        
-        scrollView.pinLeft(to: view.leadingAnchor)
-        scrollView.pinRight(to: view.trailingAnchor)
-        scrollView.pinTop(to: view.topAnchor)
-        scrollView.pinBottom(to: view.bottomAnchor)
-    }
-    
-    private func configureContentView() {
-        scrollView.addSubview(contentView)
-        contentView.translatesAutoresizingMaskIntoConstraints = false
-        
-        contentView.backgroundColor = .systemGray5
-        
-        contentView.pinLeft(to: scrollView.leadingAnchor)
-        contentView.pinRight(to: scrollView.trailingAnchor)
-        contentView.pinTop(to: scrollView.topAnchor)
-        contentView.pinBottom(to: scrollView.bottomAnchor)
-        contentView.pinWidth(to: scrollView.widthAnchor)
-    }
-    
     private func configureTitleLabel() {
-        contentView.addSubview(titleLabel)
+        view.addSubview(titleLabel)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         
         titleLabel.text = "Random object settings"
         titleLabel.font = UIFont.systemFont(ofSize: 23, weight: .bold)
         
-        titleLabel.pinTop(to: contentView.safeAreaLayoutGuide.topAnchor, 20)
-        titleLabel.pinCenterX(to: contentView.centerXAnchor)
+        titleLabel.pinTop(to: view.safeAreaLayoutGuide.topAnchor, 50)
+        titleLabel.pinCenterX(to: view.centerXAnchor)
     }
     
     private func configureTypesTable() {
-        contentView.addSubview(typesTable)
+        view.addSubview(typesTable)
         typesTable.translatesAutoresizingMaskIntoConstraints = false
         
         typesTable.pinTop(to: titleLabel.bottomAnchor, 25)
-        typesTable.pinLeft(to: contentView.leadingAnchor, 20)
-        typesTable.pinRight(to: contentView.trailingAnchor, 20)
+        typesTable.pinLeft(to: view.leadingAnchor, 20)
+        typesTable.pinRight(to: view.trailingAnchor, 20)
     }
     
     private func configurePropertiesTable() {
-        contentView.addSubview(propertiesTable)
+        view.addSubview(propertiesTable)
         propertiesTable.translatesAutoresizingMaskIntoConstraints = false
         
         propertiesTable.pinTop(to: typesTable.bottomAnchor, 10)
-        propertiesTable.pinLeft(to: contentView.leadingAnchor, 20)
-        propertiesTable.pinRight(to: contentView.trailingAnchor, 20)
-    }
-    
-//    private func configureFromLabel() {
-//        contentView.addSubview(fromLabel)
-//        fromLabel.translatesAutoresizingMaskIntoConstraints = false
-//        
-//        fromLabel.text = "From"
-//        fromLabel.font = UIFont.systemFont(ofSize: 20, weight: .medium)
-//        
-//        fromLabel.pinTop(to: propertiesTable.bottomAnchor, 30)
-//        fromLabel.pinLeft(to: contentView.leadingAnchor, 20)
-//    }
-//    
-//    private func configureFromDatePicker() {
-//        contentView.addSubview(fromDatePicker)
-//        fromDatePicker.translatesAutoresizingMaskIntoConstraints = false
-//        
-//        fromDatePicker.datePickerMode = .date
-//        fromDatePicker.tintColor = .customPink
-//        
-//        fromDatePicker.pinCenterY(to: fromLabel.centerYAnchor)
-//        fromDatePicker.pinLeft(to: fromLabel.trailingAnchor, 10)
-//    }
-//    
-//    private func configureToLabel() {
-//        contentView.addSubview(toLabel)
-//        toLabel.translatesAutoresizingMaskIntoConstraints = false
-//        
-//        toLabel.text = "To"
-//        toLabel.font = UIFont.systemFont(ofSize: 20, weight: .medium)
-//        
-//        toLabel.pinTop(to: propertiesTable.bottomAnchor, 30)
-//        toLabel.pinRight(to: toDatePicker.leadingAnchor, 20)
-//    }
-//    
-//    private func configureToDatePicker() {
-//        contentView.addSubview(toDatePicker)
-//        toDatePicker.translatesAutoresizingMaskIntoConstraints = false
-//        
-//        toDatePicker.datePickerMode = .date
-//        toDatePicker.tintColor = .customPink
-//        
-//        toDatePicker.pinCenterY(to: fromLabel.centerYAnchor)
-//        toDatePicker.pinRight(to: contentView.trailingAnchor, 20)
-//    }
-    
-    private func configureTagsLabel() {
-        contentView.addSubview(tagsLabel)
-        tagsLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        let attributedString = NSMutableAttributedString(string: "Tags  \(tags.count)/5")
-        attributedString.addAttributes([.font: UIFont.systemFont(ofSize: 20, weight: .medium)], range: NSRange(location: 0, length: 4))
-        attributedString.addAttributes([.font: UIFont.systemFont(ofSize: 14, weight: .medium)], range: NSRange(location: 6, length: 3))
-        tagsLabel.attributedText = attributedString
-        
-        tagsLabel.pinTop(to: propertiesTable.bottomAnchor, 10)
-        tagsLabel.pinLeft(to: contentView.leadingAnchor, 20)
-    }
-    
-    private func configureAddButton() {
-        contentView.addSubview(addTagButton)
-        addTagButton.translatesAutoresizingMaskIntoConstraints = false
-        
-        let font = UIFont.systemFont(ofSize: 14, weight: .bold)
-        let configuration = UIImage.SymbolConfiguration(font: font)
-        let image = UIImage(systemName: "plus", withConfiguration: configuration)
-        addTagButton.setImage(image, for: .normal)
-        
-        addTagButton.tintColor = .customPink
-        
-        addTagButton.addTarget(self, action: #selector(addTagButtonTapped), for: .touchUpInside)
-        
-        addTagButton.pinLeft(to: tagsLabel.trailingAnchor, 10)
-        addTagButton.pinCenterY(to: tagsLabel.centerYAnchor)
-    }
-    
-    private func configureTagsCollection() {
-        contentView.addSubview(tagsCollection)
-        
-        tagsCollection.delaysContentTouches = false
-        tagsCollection.translatesAutoresizingMaskIntoConstraints = false
-        
-        tagsCollection.pinTop(to: tagsLabel.bottomAnchor, 10)
-        tagsCollection.pinLeft(to: view.leadingAnchor, 20)
-        tagsCollection.pinRight(to: view.trailingAnchor, 20)
+        propertiesTable.pinLeft(to: view.leadingAnchor, 20)
+        propertiesTable.pinRight(to: view.trailingAnchor, 20)
     }
     
     private func configureContinueButton() {
-        contentView.addSubview(continueButton)
+        view.addSubview(continueButton)
         continueButton.translatesAutoresizingMaskIntoConstraints = false
         
         continueButton.setTitle("Continue", for: .normal)
@@ -254,9 +101,44 @@ extension SettingsViewController {
         
         continueButton.addTarget(self, action: #selector(continueButtonTapped), for: .touchUpInside)
         
-        continueButton.pinTop(to: tagsCollection.bottomAnchor, 50)
-        continueButton.pinCenterX(to: contentView.centerXAnchor)
+        continueButton.pinTop(to: propertiesTable.bottomAnchor, 50)
+        continueButton.pinCenterX(to: view.centerXAnchor)
         continueButton.setHeight(60)
         continueButton.setWidth(200)
+    }
+}
+
+// MARK: - Private funcs
+extension SettingsViewController {
+    @objc
+    private func handlePanGesture(_ gesture: UIPanGestureRecognizer) {
+        switch gesture.state {
+        case .began:
+            break
+        case .changed:
+            let translation = gesture.translation(in: view)
+            if view.frame.origin.y + translation.y >= viewDistanceTop {
+                view.frame.origin.y += translation.y
+                gesture.setTranslation(.zero, in: view)
+            }
+        case .ended:
+            let velocity = gesture.velocity(in: view)
+            let childViewHeight = UIScreen.main.bounds.height - viewDistanceTop
+            if velocity.y > 0 && view.frame.origin.y > childViewHeight * 0.5 {
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.view.frame.origin.y = UIScreen.main.bounds.height
+                }) { _ in
+                    self.dismiss(animated: false, completion: nil)
+                }
+            } else {
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.view.frame.origin.y = self.viewDistanceTop
+                }) { _ in
+                    self.view.frame.origin.y = self.viewDistanceTop
+                }
+            }
+        default:
+            break
+        }
     }
 }

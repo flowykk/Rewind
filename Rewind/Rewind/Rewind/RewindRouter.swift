@@ -72,11 +72,25 @@ final class RewindRouter {
     
     func presentSettings() {
         let vc = SettingsBuilder.build()
+        vc.modalPresentationStyle = .custom
+        
+        if let nc = view?.navigationController {
+            vc.viewDistanceTop = nc.navigationBar.frame.height + 10
+        }
+        
+        if let rewindVC = view as? RewindViewController {
+            vc.rewindVC = rewindVC
+        }
+        
         view?.present(vc, animated: true)
     }
     
     func navigateToDetails() {
         let vc = DetailsBuilder.build()
+        if let rewindVC = view as? RewindViewController {
+            vc.rewindVC = rewindVC
+            vc.mediaId = rewindVC.randomMediaId
+        }
         view?.navigationController?.pushViewController(vc, animated: true)
     }
     

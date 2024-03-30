@@ -8,6 +8,8 @@
 import UIKit
 
 final class TypesTableView: UITableView {
+    weak var presenter: SettingsPresenter?
+    
     enum TypeRow: String, CaseIterable {
         case Photos
         case Quotes
@@ -25,7 +27,7 @@ final class TypesTableView: UITableView {
     private func commonInit() {
         delegate = self
         dataSource = self
-        register(SettingsCell.self, forCellReuseIdentifier: "cell")
+        register(TypeCell.self, forCellReuseIdentifier: "TypeCell")
         
         isScrollEnabled = false
         layer.cornerRadius = 20
@@ -34,6 +36,23 @@ final class TypesTableView: UITableView {
         showsHorizontalScrollIndicator = false
         
         setHeight(Double(Int(rowHeight) * TypeRow.allCases.count - 1))
+    }
+    
+    func configureUIForSavedFilter(_ savedFilter: Filter) {
+        let numberOfRows = numberOfRows(inSection: 0)
+
+        for row in 0..<numberOfRows {
+            if let cell = cellForRow(at: IndexPath(row: row, section: 0)) as? TypeCell {
+                switch row {
+                case 0:
+                    cell.configureWithState(savedFilter.includePhotos)
+                case 1:
+                    cell.configureWithState(savedFilter.includeQuotes)
+                default:
+                    break
+                }
+            }
+        }
     }
 }
 
@@ -48,11 +67,11 @@ extension TypesTableView: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        guard let customCell = cell as? SettingsCell else { return cell }
-        let name = TypeRow.allCases[indexPath.row].rawValue
-        let isOn = true
-        customCell.configure(withName: name, isOn: isOn)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TypeCell", for: indexPath)
+        guard let customCell = cell as? TypeCell else { return cell }
+        let type = TypeRow.allCases[indexPath.row]
+        let name = type.rawValue
+        customCell.configure(withName: name, type: type)
         return customCell
     }
 }

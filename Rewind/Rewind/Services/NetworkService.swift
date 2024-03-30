@@ -157,7 +157,7 @@ final class NetworkService {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         do {
-            let parameters: [String : Any] = ["name" : newName]
+            let parameters: [String : Any] = ["text" : newName]
             request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: [])
         } catch {
             completion(NetworkResponse(success: false, message: error.localizedDescription))
@@ -342,7 +342,7 @@ final class NetworkService {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         do {
-            let parameters: [String : Any] = ["name" : newName]
+            let parameters: [String : Any] = ["text" : newName]
             request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: [])
         } catch {
             completion(NetworkResponse(success: false, message: error.localizedDescription))
@@ -440,6 +440,8 @@ final class NetworkService {
             return
         }
         
+        print(url)
+        
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         
@@ -451,8 +453,8 @@ final class NetworkService {
     }
     
     // MARK: - Get Random Media
-    static func getRandomMedia(groupId: Int, userId: Int, completion: @escaping (NetworkResponse) -> Void) {
-        guard let url = URL(string: appUrl + "/groups/random/\(groupId)/\(userId)") else {
+    static func getRandomMedia(groupId: Int, userId: Int, includePhotos: Bool = true, includeQuotes: Bool = true, onlyFavorites: Bool = false, completion: @escaping (NetworkResponse) -> Void) {
+        guard let url = URL(string: appUrl + "/groups/random/\(groupId)/\(userId)?images=\(includePhotos)&quotes=\(includeQuotes)&onlyfavorites=\(onlyFavorites)") else {
             completion(NetworkResponse(success: false, message: "Wrong URL"))
             return
         }
@@ -496,6 +498,160 @@ final class NetworkService {
         
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             let networkResponse = self.processJSONArrayResponse(data: data, response: response, error: error)
+            completion(networkResponse)
+        }
+        task.resume()
+    }
+    
+    // MARK: - Get Media Info
+    static func getMediaInfo(mediaId: Int, userId: Int, completion: @escaping (NetworkResponse) -> Void) {
+        guard let url = URL(string: appUrl + "/media/info/\(mediaId)/\(userId)") else {
+            completion(NetworkResponse(success: false, message: "Wrong URL"))
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            let networkResponse = self.processJSONResponse(data: data, response: response, error: error)
+            completion(networkResponse)
+        }
+        task.resume()
+    }
+    
+    // MARK: - Like Media
+    static func likeMedia(userId: Int, mediaId: Int, completion: @escaping (NetworkResponse) -> Void) {
+        guard let url = URL(string: appUrl + "/media/like/\(userId)/\(mediaId)") else {
+            completion(NetworkResponse(success: false, message: "Wrong URL"))
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            let networkResponse = self.processStringResponse(data: data, response: response, error: error)
+            completion(networkResponse)
+        }
+        task.resume()
+    }
+    
+    // MARK: - Unlike Media
+    static func unlikeMedia(userId: Int, mediaId: Int, completion: @escaping (NetworkResponse) -> Void) {
+        guard let url = URL(string: appUrl + "/media/unlike/\(userId)/\(mediaId)") else {
+            completion(NetworkResponse(success: false, message: "Wrong URL"))
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "DELETE"
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            let networkResponse = self.processStringResponse(data: data, response: response, error: error)
+            completion(networkResponse)
+        }
+        task.resume()
+    }
+    
+    // MARK: - Delete Media From Group
+    static func deleteMediaFromGroup(groupId: Int, mediaId: Int, completion: @escaping (NetworkResponse) -> Void) {
+        guard let url = URL(string: appUrl + "/media/unload/\(mediaId)/\(groupId)") else {
+            completion(NetworkResponse(success: false, message: "Wrong URL"))
+            return
+        }
+        
+        print(url)
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "DELETE"
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            let networkResponse = self.processStringResponse(data: data, response: response, error: error)
+            completion(networkResponse)
+        }
+        task.resume()
+    }
+    
+    // MARK: - Load Media To Group
+    static func loadMediaToGroup(groupId: Int, userId: Int, isPhoto: Int, bigImageB64String: String, miniImageB64String: String, tagTexts: [String], completion: @escaping (NetworkResponse) -> Void) {
+        guard let url = URL(string: appUrl + "/media/load/\(groupId)/\(userId)") else {
+            completion(NetworkResponse(success: false, message: "Wrong URL"))
+            return
+        }
+        
+        print(url)
+        print(groupId)
+        print(userId)
+        print(isPhoto)
+        print(tagTexts)
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        do {
+            let parameters: [String : Any] = ["object" : bigImageB64String, "tinyobject" : miniImageB64String, "isPhoto": isPhoto, "tags": tagTexts]
+            request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: [])
+        } catch {
+            completion(NetworkResponse(success: false, message: error.localizedDescription))
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            let networkResponse = self.processStringResponse(data: data, response: response, error: error)
+            completion(networkResponse)
+        }
+        task.resume()
+    }
+    
+    // MARK: - Add Tag To Media
+    static func addTagToMedia(mediaId: Int, tagText: String, completion: @escaping (NetworkResponse) -> Void) {
+        guard let url = URL(string: appUrl + "/tags/add/\(mediaId)") else {
+            completion(NetworkResponse(success: false, message: "Wrong URL"))
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        do {
+            let parameters: [String : Any] = ["text" : tagText]
+            request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: [])
+        } catch {
+            completion(NetworkResponse(success: false, message: error.localizedDescription))
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            let networkResponse = self.processJSONResponse(data: data, response: response, error: error)
+            completion(networkResponse)
+        }
+        task.resume()
+    }
+    
+    // MARK: - Delete Tag From Media
+    static func deleteTagFromMedia(mediaId: Int, tagText: String, completion: @escaping (NetworkResponse) -> Void) {
+        guard let url = URL(string: appUrl + "/tags/delete/\(mediaId)") else {
+            completion(NetworkResponse(success: false, message: "Wrong URL"))
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "DELETE"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        do {
+            let parameters: [String : Any] = ["text" : tagText]
+            request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: [])
+        } catch {
+            completion(NetworkResponse(success: false, message: error.localizedDescription))
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            let networkResponse = self.processStringResponse(data: data, response: response, error: error)
             completion(networkResponse)
         }
         task.resume()

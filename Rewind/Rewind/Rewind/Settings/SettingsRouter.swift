@@ -15,12 +15,6 @@ final class SettingsRouter {
     }
     
     func presentAddTag() {
-        let vc = AddTagBuilder.build()
-        if let settingsView = view as? SettingsViewController {
-            vc.addTagHandler = { tag in
-                settingsView.presenter?.addTag(tag)
-            }
-            view?.present(vc, animated: true)
-        }
+        
     }
 }

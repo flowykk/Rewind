@@ -8,7 +8,8 @@
 import UIKit
 
 final class GalleryCollectionView: UICollectionView {
-    weak var galleryVC: GalleryViewController?
+    weak var presenter: GalleryPresenter?
+//    weak var galleryVC: GalleryViewController?
     
     var miniMedias: [Media] = []
     
@@ -27,6 +28,9 @@ final class GalleryCollectionView: UICollectionView {
         dataSource = self
         delegate = self
         register(GalleryCell.self, forCellWithReuseIdentifier: "cell")
+        alwaysBounceVertical = true
+        contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 100, right: 0)
+        isScrollEnabled = true
         showsVerticalScrollIndicator = false
         showsHorizontalScrollIndicator = false
         backgroundColor = .clear
@@ -51,12 +55,7 @@ extension GalleryCollectionView: UICollectionViewDataSource {
 
 extension GalleryCollectionView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let fullScreenVC = PreviewObjectBuilder.build()
-        guard let cell = collectionView.cellForItem(at: indexPath) as? GalleryCell else { return }
-        fullScreenVC.image = cell.getImage()
-        fullScreenVC.modalPresentationStyle = .overCurrentContext
-        fullScreenVC.modalTransitionStyle = .crossDissolve
-        galleryVC?.present(fullScreenVC, animated: true)
+        presenter?.selectedMediaInGallery(media: miniMedias[indexPath.row])
     }
 }
 

@@ -14,8 +14,20 @@ final class QuoteSettingsPresenter {
         self.view = view
     }
     
-    func continueButtonTapped() {
-        print("save quote's settings")
-        view?.dismiss(animated: true)
+    func viewDidLoad() {
+        let quoteModel = view?.addQuoteVC?.presenter?.quote
+        view?.configureUIForSavedData(quote: quoteModel?.text, author: quoteModel?.author)
+    }
+    
+    func continueButtonTapped(quoteText: String?, author: String?) {
+        guard let quoteText = quoteText else { return }
+        
+        if !quoteText.isEmpty {
+            view?.addQuoteVC?.presenter?.quote.text = quoteText
+            view?.addQuoteVC?.presenter?.quote.author = author
+            view?.dismiss(animated: true) { [weak self] in
+                self?.view?.addQuoteVC?.presenter?.generateQuoteImage()
+            }
+        }
     }
 }

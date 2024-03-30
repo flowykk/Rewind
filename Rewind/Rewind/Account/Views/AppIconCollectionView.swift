@@ -26,6 +26,7 @@ final class AppIconCollectionView: UICollectionView {
         dataSource = self
         delegate = self
         register(AppIconCell.self, forCellWithReuseIdentifier: "cell")
+        alwaysBounceHorizontal = true
         showsVerticalScrollIndicator = false
         showsHorizontalScrollIndicator = false
         backgroundColor = .systemGray6

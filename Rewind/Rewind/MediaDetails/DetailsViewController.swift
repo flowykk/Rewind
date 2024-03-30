@@ -10,14 +10,19 @@ import UIKit
 final class DetailsViewController: UIViewController {
     var presenter: DetailsPresenter?
     
+    var rewindVC: RewindViewController?
+    var galleryVC: GalleryViewController?
+    
+    var mediaId: Int?
+    
     var tags: [String] = []
     var tagsCollectionHeightConstraint: NSLayoutConstraint?
     var contentViewHeightConstraint: NSLayoutConstraint?
     
     private let scrollView: UIScrollView = UIScrollView()
     private let contentView: UIView = UIView()
-    private let objectView: UIImageView = UIImageView()
-    private let objectInfoView: ObjectInfoView = ObjectInfoView()
+    private let imageView: UIImageView = UIImageView()
+    private let imageInfoView: ObjectInfoView = ObjectInfoView()
     private let tagsLabel: UILabel = UILabel()
     private let addTagButton: UIButton = UIButton(type: .system)
     private let generateTagsButton: UIButton = UIButton(type: .system)
@@ -31,11 +36,7 @@ final class DetailsViewController: UIViewController {
         objectRiskyZoneTabel.presenter = presenter
         presenter?.tagsCollection = tagsCollection
         configureUI()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        updateViewsHeight()
+        presenter?.getMediaInfo()
     }
     
     @objc
@@ -48,30 +49,29 @@ final class DetailsViewController: UIViewController {
         presenter?.addTagButtonTapped()
     }
     
-    func showDeleteObjectConfirmationAlert() {
-        let alertController = UIAlertController(
-            title: "Confirm Object Deletion",
-            message: "Are you sure you want to delete this object? You will not be able to undo this action in the future",
-            preferredStyle: .alert)
-        let confirmAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
-            self.presenter?.deleteObject()
-        }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-        alertController.addAction(confirmAction)
-        alertController.addAction(cancelAction)
-        present(alertController, animated: true)
+    @objc
+    private func generateTagsButtonTapped() {
+        let imageData = imageView.image?.jpegData(compressionQuality: 1)
+        presenter?.generateTagsButtonTapped(currentImageData: imageData)
     }
     
-    func updateUI() {
-        let attributedString = NSMutableAttributedString(string: "Tags  \(tags.count)/5")
+    func configureUIForCurrentMedia(_ currentMedia: Media?) {
+        imageView.image = currentMedia?.bigImage ?? UIImage(named: "defaultImage")
+        imageInfoView.configureUIForAuthor(currentMedia?.author, withDateAdded: currentMedia?.dateAdded)
+    }
+    
+    func configureUIForTags() {
+        let attributedString = NSMutableAttributedString(string: "Tags  \(tagsCollection.tags.count)/5")
         attributedString.addAttributes([.font: UIFont.systemFont(ofSize: 20, weight: .medium)], range: NSRange(location: 0, length: 4))
         attributedString.addAttributes([.font: UIFont.systemFont(ofSize: 14, weight: .medium)], range: NSRange(location: 6, length: 3))
         tagsLabel.attributedText = attributedString
         
-        if tags.count == 5 {
+        if tagsCollection.tags.count == 5 {
             addTagButton.isHidden = true
+            generateTagsButton.isHidden = true
         } else {
             addTagButton.isHidden = false
+            generateTagsButton.isHidden = false
         }
     }
     
@@ -129,6 +129,7 @@ extension DetailsViewController {
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.backgroundColor = .systemBackground
+        scrollView.alwaysBounceVertical = true
         
         scrollView.pinLeft(to: view.leadingAnchor)
         scrollView.pinRight(to: view.trailingAnchor)
@@ -150,26 +151,26 @@ extension DetailsViewController {
     }
     
     private func configureObjectView() {
-        contentView.addSubview(objectView)
-        objectView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(imageView)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         
-        objectView.image = UIImage(named: "bonic")
-        objectView.contentMode = .scaleAspectFill
-        objectView.clipsToBounds = true
-        objectView.layer.cornerRadius = 40
+        imageView.image = UIImage(named: "defaultImage")
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = 40
         
-        objectView.setWidth(UIScreen.main.bounds.width - 20)
-        objectView.setHeight(UIScreen.main.bounds.width - 20)
-        objectView.pinTop(to: contentView.topAnchor)
-        objectView.pinCenterX(to: contentView.centerXAnchor)
+        imageView.setWidth(UIScreen.main.bounds.width - 20)
+        imageView.setHeight(UIScreen.main.bounds.width - 20)
+        imageView.pinTop(to: contentView.topAnchor)
+        imageView.pinCenterX(to: contentView.centerXAnchor)
     }
     
     private func configureObjectInfoView() {
-        contentView.addSubview(objectInfoView)
-        objectInfoView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(imageInfoView)
+        imageInfoView.translatesAutoresizingMaskIntoConstraints = false
         
-        objectInfoView.pinCenterX(to: objectView.centerXAnchor)
-        objectInfoView.pinBottom(to: objectView.bottomAnchor, 5)
+        imageInfoView.pinCenterX(to: imageView.centerXAnchor)
+        imageInfoView.pinBottom(to: imageView.bottomAnchor, 5)
     }
     
     private func configureTagsLabel() {
@@ -181,7 +182,7 @@ extension DetailsViewController {
         attributedString.addAttributes([.font: UIFont.systemFont(ofSize: 14, weight: .medium)], range: NSRange(location: 6, length: 3))
         tagsLabel.attributedText = attributedString
         
-        tagsLabel.pinTop(to: objectView.bottomAnchor, 30)
+        tagsLabel.pinTop(to: imageView.bottomAnchor, 30)
         tagsLabel.pinLeft(to: contentView.leadingAnchor, 20)
     }
     
@@ -210,6 +211,8 @@ extension DetailsViewController {
         generateTagsButton.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         generateTagsButton.tintColor = .customPink
         generateTagsButton.contentEdgeInsets = UIEdgeInsets(top: 5, left: 0, bottom: 0, right: 0)
+        
+        generateTagsButton.addTarget(self, action: #selector(generateTagsButtonTapped), for: .touchUpInside)
         
         generateTagsButton.pinBottom(to: tagsLabel.bottomAnchor)
         generateTagsButton.pinRight(to: contentView.trailingAnchor, 20)

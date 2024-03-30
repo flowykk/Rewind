@@ -15,6 +15,7 @@ struct Media {
     var shortDateAdded: String?
     var author: Author?
     var liked: Bool?
+    var tags: [Tag]?
     
     init?(json: [String : Any]?) {
         guard let json = json,
@@ -33,6 +34,9 @@ struct Media {
         }
         self.author = Author(json: json["author"] as? [String: Any])
         self.liked = json["liked"] as? Bool
+        if let tagsJsonArray = json["tags"] as? [[String : Any]] {
+            self.tags = parseTags(json: tagsJsonArray)
+        }
     }
     
     private func parseImage(forKey key: String, in json: [String: Any]) -> UIImage? {
@@ -51,5 +55,15 @@ struct Media {
         }
         
         return (nil, nil)
+    }
+    
+    private func parseTags(json jsonArray: [[String: Any]]) -> [Tag] {
+        var tags: [Tag] = []
+        for json in jsonArray {
+            if let tag = Tag(json: json) {
+                tags.append(tag)
+            }
+        }
+        return tags
     }
 }

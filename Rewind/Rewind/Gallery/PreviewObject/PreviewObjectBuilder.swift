@@ -10,7 +10,8 @@ import Foundation
 final class PreviewObjectBuilder {
     static func build() -> PreviewObjectViewController {
         let viewController = PreviewObjectViewController()
-        let presenter = PreviewObjectPresenter(viewController: viewController)
+        let router = PreviewObjectRouter(view: viewController)
+        let presenter = PreviewObjectPresenter(view: viewController, router: router)
         
         viewController.presenter = presenter
         

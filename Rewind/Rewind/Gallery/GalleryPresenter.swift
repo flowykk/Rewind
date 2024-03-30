@@ -29,6 +29,14 @@ final class GalleryPresenter {
         router.presentObjectsMenu()
     }
     
+    func selectedMediaInGallery(media: Media) {
+        router.presentPreview(forMedia: media.id)
+    }
+    
+    func detailsButtonTapped(forMedia mediaId: Int) {
+        router.navigateToDetails(forMedia: mediaId)
+    }
+    
     func selectedObjectToAdd(type: ObjectsMenuTableView.ObjectRow) {
         switch type {
         case .photo:
@@ -71,7 +79,8 @@ extension GalleryPresenter {
             }
             
             galleryCollection?.miniMedias = miniMedias
-            print(miniMedias.count)
+            
+            DataManager.shared.setCurrentGroupGallerySize(miniMedias.count)
             
             DispatchQueue.main.async { [weak self] in
                 self?.galleryCollection?.reloadData()

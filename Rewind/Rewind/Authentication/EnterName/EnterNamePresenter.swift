@@ -41,21 +41,20 @@ extension EnterNamePresenter {
 // MARK: - Network Response Handlers
 extension EnterNamePresenter {
     private func handleRegisterUserResponse(_ response: NetworkResponse) {
-        if response.success, let json = response.json {
-            if
-                let id = json["id"] as? Int,
-                let name = json["userName"] as? String,
-                let email = json["email"] as? String,
-                let regDateString = json["registrationDateTime"] as? String
-            {
-                UserDefaults.standard.set(id, forKey: "UserId")
-                UserDefaults.standard.set(name, forKey: "UserName")
-                UserDefaults.standard.set(email, forKey: "UserEmail")
-                UserDefaults.standard.set(regDateString, forKey: "UserRegDate")
-                
-                DispatchQueue.main.async {
-                    self.router.navigateToRewind()
-                }
+        if response.success,
+           let json = response.json,
+           let id = json["id"] as? Int,
+           let name = json["userName"] as? String,
+           let email = json["email"] as? String,
+           let regDateString = json["registrationDateTime"] as? String
+        {
+            UserDefaults.standard.set(id, forKey: "UserId")
+            UserDefaults.standard.set(name, forKey: "UserName")
+            UserDefaults.standard.set(email, forKey: "UserEmail")
+            UserDefaults.standard.set(regDateString, forKey: "UserRegDate")
+            
+            DispatchQueue.main.async { [weak self] in
+                self?.router.navigateToRewind()
             }
         } else {
             print(response.statusCode as Any)

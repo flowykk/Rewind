@@ -8,7 +8,7 @@
 import UIKit
 
 final class LoadingView {
-    static func show(inVC viewController: UIViewController?, backgroundColor: UIColor = UIColor(white: 0, alpha: 0.3)) {
+    static func show(inVC viewController: UIViewController?, backgroundColor: UIColor = .systemBackground) {
         guard let viewController = viewController else { return }
         
         let loadingView = UIView(frame: viewController.view.bounds)
@@ -41,15 +41,16 @@ final class LoadingView {
         viewController.view.isUserInteractionEnabled = true
     }
     
-    static func show(inView view: UIView?, backgroundColor: UIColor = UIColor(white: 0, alpha: 0.3)) {
+    static func show(inView view: UIView?, backgroundColor: UIColor = .systemBackground, indicatorStyle: UIActivityIndicatorView.Style = .large) {
         guard let view = view else { return }
         
         let loadingView = UIView(frame: view.bounds)
         loadingView.backgroundColor = backgroundColor
         
-        let activityIndicator = UIActivityIndicatorView(style: .large)
+        let activityIndicator = UIActivityIndicatorView(style: indicatorStyle)
         activityIndicator.color = .black
         activityIndicator.center = loadingView.center
+        
         loadingView.addSubview(activityIndicator)
         activityIndicator.startAnimating()
         

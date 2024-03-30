@@ -29,6 +29,24 @@ final class GalleryRouter {
         }
     }
     
+    func navigateToDetails(forMedia mediaId: Int) {
+        let vc = DetailsBuilder.build()
+        if let galleryVC = view as? GalleryViewController {
+            vc.galleryVC = galleryVC
+            vc.mediaId = mediaId
+        }
+        view?.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func presentPreview(forMedia mediaId: Int) {
+        let vc = PreviewObjectBuilder.build()
+        vc.mediaId = mediaId
+        vc.galleryVC = view as? GalleryViewController
+        vc.modalPresentationStyle = .overCurrentContext
+        vc.modalTransitionStyle = .crossDissolve
+        view?.present(vc, animated: true)
+    }
+    
     func presentObjectsMenu() {
         let vc = ObjectsMenuViewController()
         

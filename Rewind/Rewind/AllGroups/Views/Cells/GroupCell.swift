@@ -89,7 +89,7 @@ extension GroupCell {
         let configuration = UIImage.SymbolConfiguration(font: font)
         let image = UIImage(systemName: "chevron.right", withConfiguration: configuration)
         chevronImageView.image = image
-        chevronImageView.tintColor = .black
+        chevronImageView.tintColor = .blackAdapted
         
         chevronImageView.pinRight(to: trailingAnchor, 12)
         chevronImageView.pinCenterY(to: centerYAnchor)

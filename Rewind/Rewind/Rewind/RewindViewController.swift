@@ -287,7 +287,7 @@ extension RewindViewController {
         let image = UIImage(systemName: "chevron.down", withConfiguration: configuration)
         showGroupsMenuButton.setImage(image, for: .normal)
         
-        showGroupsMenuButton.tintColor = .black
+        showGroupsMenuButton.tintColor = .blackAdapted
         showGroupsMenuButton.semanticContentAttribute = .forceRightToLeft
         showGroupsMenuButton.imageEdgeInsets = UIEdgeInsets(top: 1, left: 0, bottom: 0, right: 0)
         
@@ -327,7 +327,8 @@ extension RewindViewController {
         
         imageView.setWidth(UIScreen.main.bounds.width - 15)
         imageView.setHeight(UIScreen.main.bounds.width - 15)
-        imageView.pinTop(to: view.topAnchor, UIScreen.main.bounds.height / 4)
+        let divider: CGFloat = (UIScreen.main.bounds.height < 800) ? 5 : 4
+        imageView.pinTop(to: view.topAnchor, UIScreen.main.bounds.height / divider)
         imageView.pinCenterX(to: view.centerXAnchor)
     }
     

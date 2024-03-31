@@ -20,14 +20,15 @@ final class QuoteSettingsPresenter {
     }
     
     func continueButtonTapped(quoteText: String?, author: String?) {
-        guard let quoteText = quoteText else { return }
+        guard let quoteText = quoteText, Validator.isValidQuote(quoteText) else {
+            AlertHelper.showAlert(from: view, withTitle: "Error", message: "Invalid quote text")
+            return
+        }
         
-        if !quoteText.isEmpty {
-            view?.addQuoteVC?.presenter?.quote.text = quoteText
-            view?.addQuoteVC?.presenter?.quote.author = author
-            view?.dismiss(animated: true) { [weak self] in
-                self?.view?.addQuoteVC?.presenter?.generateQuoteImage()
-            }
+        view?.addQuoteVC?.presenter?.quote.text = quoteText
+        view?.addQuoteVC?.presenter?.quote.author = author
+        view?.dismiss(animated: true) { [weak self] in
+            self?.view?.addQuoteVC?.presenter?.generateQuoteImage()
         }
     }
 }

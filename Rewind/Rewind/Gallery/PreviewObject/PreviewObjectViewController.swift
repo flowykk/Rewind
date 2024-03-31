@@ -183,7 +183,7 @@ extension PreviewObjectViewController {
         downloadButton.setImage(image, for: .normal)
         
         downloadButton.tintColor = .darkGray
-        downloadButton.backgroundColor = UIColor(white: 1, alpha: 0.75)
+        downloadButton.backgroundColor = .systemBackground.withAlphaComponent(0.75)
         downloadButton.layer.cornerRadius = 35 / 2
         downloadButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 6, right: 0)
         
@@ -205,7 +205,7 @@ extension PreviewObjectViewController {
         detailsButton.setImage(image, for: .normal)
         
         detailsButton.tintColor = .darkGray
-        detailsButton.backgroundColor = UIColor(white: 1, alpha: 0.75)
+        detailsButton.backgroundColor = .systemBackground.withAlphaComponent(0.75)
         detailsButton.layer.cornerRadius = 35 / 2
         
         detailsButton.addTarget(self, action: #selector(detailsButtonTapped), for: .touchUpInside)
@@ -226,7 +226,7 @@ extension PreviewObjectViewController {
         shareButton.setImage(image, for: .normal)
         
         shareButton.tintColor = .darkGray
-        shareButton.backgroundColor = UIColor(white: 1, alpha: 0.75)
+        shareButton.backgroundColor = .systemBackground.withAlphaComponent(0.75)
         shareButton.layer.cornerRadius = 35 / 2
         shareButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 6, right: 0)
         
@@ -248,7 +248,7 @@ extension PreviewObjectViewController {
         likeButton.setImage(image, for: .normal)
         
         likeButton.tintColor = .darkGray
-        likeButton.backgroundColor = UIColor(white: 1, alpha: 0.75)
+        likeButton.backgroundColor = .systemBackground.withAlphaComponent(0.75)
         likeButton.layer.cornerRadius = 35 / 2
         likeButton.imageEdgeInsets = UIEdgeInsets(top: 1, left: 0, bottom: 0, right: 0)
         

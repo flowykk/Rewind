@@ -98,7 +98,7 @@ extension AccountViewController {
         let configuration = UIImage.SymbolConfiguration(font: largeFont)
         let image = UIImage(systemName: "chevron.left", withConfiguration: configuration)
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(backButtonTapped))
-        navigationItem.leftBarButtonItem?.tintColor = .black
+        navigationItem.leftBarButtonItem?.tintColor = .blackAdapted
     }
     
     private func configureScrollView() {
@@ -127,7 +127,7 @@ extension AccountViewController {
         contentView.pinTop(to: scrollView.topAnchor)
         contentView.pinBottom(to: scrollView.bottomAnchor)
         contentView.pinWidth(to: scrollView.widthAnchor)
-        contentView.setHeight(1030)
+        contentView.setHeight(1040)
     }
     
     private func configureAvatarView() {
@@ -161,7 +161,7 @@ extension AccountViewController {
         contentView.addSubview(emailLabel)
         emailLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        emailLabel.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
+        emailLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         emailLabel.textColor = .systemGray3
         
         emailLabel.pinTop(to: nameLabel.bottomAnchor, 5)

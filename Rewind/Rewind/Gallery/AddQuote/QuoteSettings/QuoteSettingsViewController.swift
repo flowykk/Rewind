@@ -48,6 +48,18 @@ final class QuoteSettingsViewController: UIViewController {
     }
 }
 
+// MARK: - UITextFieldDelegate
+extension QuoteSettingsViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if authorField.isFirstResponder {
+            continueButtonTapped()
+        }
+        view.endEditing(true)
+        return false
+    }
+}
+
+// MARK: - UI Configuration
 extension QuoteSettingsViewController {
     private func configureUI() {
         view.backgroundColor = .systemGray5
@@ -145,13 +157,6 @@ extension QuoteSettingsViewController {
         continueButton.pinCenterX(to: view.centerXAnchor)
         continueButton.setHeight(60)
         continueButton.setWidth(200)
-    }
-}
-
-// MARK: - UITextFieldDelegate
-extension QuoteSettingsViewController: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        view.endEditing(true)
     }
 }
 

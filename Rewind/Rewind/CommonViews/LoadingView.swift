@@ -15,7 +15,7 @@ final class LoadingView {
         loadingView.backgroundColor = backgroundColor
         
         let activityIndicator = UIActivityIndicatorView(style: .large)
-        activityIndicator.color = .black
+        activityIndicator.color = .blackAdapted
         activityIndicator.center = loadingView.center
         loadingView.addSubview(activityIndicator)
         activityIndicator.startAnimating()
@@ -48,7 +48,7 @@ final class LoadingView {
         loadingView.backgroundColor = backgroundColor
         
         let activityIndicator = UIActivityIndicatorView(style: indicatorStyle)
-        activityIndicator.color = .black
+        activityIndicator.color = .blackAdapted
         activityIndicator.center = loadingView.center
         
         loadingView.addSubview(activityIndicator)

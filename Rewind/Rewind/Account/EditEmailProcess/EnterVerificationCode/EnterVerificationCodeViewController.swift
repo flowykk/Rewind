@@ -10,7 +10,7 @@ import UIKit
 final class EnterVerificationCodeViewController: UIViewController {
     var presenter: EnterVerificationCodePresenter?
     
-    weak var editEmailVC: UIViewController?
+    weak var editEmailVC: EditEmailViewController?
     var newEmail: String?
     
     private let codeLabel: UILabel = UILabel()

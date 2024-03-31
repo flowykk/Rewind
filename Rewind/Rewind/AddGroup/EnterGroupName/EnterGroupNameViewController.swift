@@ -37,8 +37,16 @@ final class EnterGroupNameViewController: UIViewController {
     
     @objc
     private func continueButtonTapped() {
-        guard let groupName = groupNameField.text else { return }
-        presenter?.continueButtonTapped(groupName: groupName)
+        presenter?.continueButtonTapped(groupName: groupNameField.text)
+    }
+}
+
+// MARK: - UITextFieldDelegate
+extension EnterGroupNameViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        view.endEditing(true)
+        continueButtonTapped()
+        return false
     }
 }
 
@@ -65,6 +73,8 @@ extension EnterGroupNameViewController {
     private func configureGroupNameField() {
         view.addSubview(groupNameField)
         groupNameField.translatesAutoresizingMaskIntoConstraints = false
+        
+        groupNameField.delegate = self
         
         groupNameField.backgroundColor = .systemBackground
         groupNameField.placeholder = "Group's name"
@@ -104,13 +114,6 @@ extension EnterGroupNameViewController {
         continueButton.pinCenterX(to: view.centerXAnchor)
         continueButton.setHeight(60)
         continueButton.setWidth(200)
-    }
-}
-
-// MARK: - UITextFieldDelegate
-extension EnterGroupNameViewController: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        view.endEditing(true)
     }
 }
 

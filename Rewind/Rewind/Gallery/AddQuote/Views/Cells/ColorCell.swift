@@ -78,7 +78,7 @@ extension ColorCell {
         let largeFont = UIFont.systemFont(ofSize: 16, weight: .medium)
         let configuration = UIImage.SymbolConfiguration(font: largeFont)
         let image = UIImage(systemName: "chevron.right", withConfiguration: configuration)
-        chevronImageView.tintColor = .black
+        chevronImageView.tintColor = .blackAdapted
         chevronImageView.image = image
         
         chevronImageView.pinRight(to: trailingAnchor, 12)

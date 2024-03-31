@@ -18,10 +18,35 @@ final class Validator {
     }
     
     static func isValidPassword(_ password: String) -> Bool {
-        return !password.isEmpty
+        let password = password
+        if password.count < 6 {
+            return false
+        }
+        let passwordRegex = #"^[a-zA-Z0-9]+$"#
+        let passwordPredicate = NSPredicate(format: "SELF MATCHES %@", passwordRegex)
+        return passwordPredicate.evaluate(with: password)
     }
     
-    static func isValidName(_ name: String) -> Bool {
+    static func isValidUserName(_ name: String) -> Bool {
+        let name = name.trimmingCharacters(in: .whitespacesAndNewlines)
         return !name.isEmpty
+    }
+    
+    static func isValidGroupName(_ name: String) -> Bool {
+        let name = name.trimmingCharacters(in: .whitespacesAndNewlines)
+        return !name.isEmpty
+    }
+    
+    static func isValidQuote(_ quote: String) -> Bool {
+        let quote = quote.trimmingCharacters(in: .whitespacesAndNewlines)
+        return !quote.isEmpty
+    }
+    
+    static func isValidTag(_ tag: String) -> Bool {
+        let tag = tag.trimmingCharacters(in: .whitespacesAndNewlines)
+        if tag.count <= 0 || tag.count > 10 {
+            return false
+        }
+        return true
     }
 }

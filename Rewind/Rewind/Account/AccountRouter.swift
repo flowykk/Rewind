@@ -69,6 +69,9 @@ final class AccountRouter {
         if let nc = view?.navigationController {
             vc.viewDistanceTop = nc.navigationBar.frame.height + 10
         }
+        if let accountVC = view as? AccountViewController {
+            vc.accountVC = accountVC
+        }
         view?.present(vc, animated: true)
     }
     

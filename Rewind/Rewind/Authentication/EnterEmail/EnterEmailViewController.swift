@@ -36,7 +36,7 @@ final class EnterEmailViewController: UIViewController {
 extension EnterEmailViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         view.endEditing(true)
-        presenter?.continueButtonTapped(email: emailField.text)
+        continueButtonTapped()
         return false
     }
 }
@@ -57,7 +57,7 @@ extension EnterEmailViewController {
         let configuration = UIImage.SymbolConfiguration(font: largeFont)
         let image = UIImage(systemName: "chevron.left", withConfiguration: configuration)
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(backButtonTapped))
-        navigationItem.leftBarButtonItem?.tintColor = .black
+        navigationItem.leftBarButtonItem?.tintColor = .blackAdapted
     }
     
     private func configureEmailLabel() {
@@ -92,8 +92,9 @@ extension EnterEmailViewController {
         emailField.leftViewMode = .always
         emailField.rightViewMode = .always
         
-        emailField.setWidth(350)
         emailField.setHeight(50)
+        emailField.pinLeft(to: view.leadingAnchor, 20)
+        emailField.pinRight(to: view.trailingAnchor, 20)
         emailField.pinTop(to: emailLabel.bottomAnchor, 30)
         emailField.pinCenterX(to: view.centerXAnchor)
     }

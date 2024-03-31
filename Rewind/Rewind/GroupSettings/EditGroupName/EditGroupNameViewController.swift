@@ -36,8 +36,16 @@ final class EditGroupNameViewController: UIViewController {
     
     @objc
     private func continueButtonTapped() {
-        guard let newName = nameField.text else { return }
-        presenter?.updateName(to: newName)
+        presenter?.updateName(to: nameField.text)
+    }
+}
+
+// MARK: - UITextFieldDelegate
+extension EditGroupNameViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        view.endEditing(true)
+        continueButtonTapped()
+        return false
     }
 }
 
@@ -104,13 +112,6 @@ extension EditGroupNameViewController {
         continueButton.pinCenterX(to: view.centerXAnchor)
         continueButton.setHeight(60)
         continueButton.setWidth(200)
-    }
-}
-
-// MARK: - UITextFieldDelegate
-extension EditGroupNameViewController: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        view.endEditing(true)
     }
 }
 

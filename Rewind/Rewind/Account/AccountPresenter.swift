@@ -229,8 +229,10 @@ extension AccountPresenter {
 
 extension AccountPresenter {
     private func getDaysWithRewind(regDate: String) -> Int? {
+        let regDate = String(regDate.prefix(19))
+        
         let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale(identifier: "ru_RU")
+        dateFormatter.locale = .autoupdatingCurrent
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
         
         guard let date = dateFormatter.date(from: regDate) else {

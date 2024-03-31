@@ -17,7 +17,12 @@ final class EnterGroupNamePresenter {
         self.router = router
     }
     
-    func continueButtonTapped(groupName: String) {
+    func continueButtonTapped(groupName: String?) {
+        guard let groupName = groupName, Validator.isValidGroupName(groupName) else {
+            AlertHelper.showAlert(from: view, withTitle: "Error", message: "Invalid group's name")
+            return
+        }
+        
         LoadingView.show(inVC: view)
         createGroup(withName: groupName)
     }

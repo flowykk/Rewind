@@ -21,8 +21,8 @@ final class EnterNamePresenter {
     }
     
     func saveName(name: String?) {
-        guard let name = name, Validator.isValidName(name) else {
-            AlertHelper.showAlert(from: view, withTitle: "Error", message: "Incorrect name")
+        guard let name = name, Validator.isValidUserName(name) else {
+            AlertHelper.showAlert(from: view, withTitle: "Error", message: "Invalid name")
             return
         }
         LoadingView.show(inVC: view)

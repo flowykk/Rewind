@@ -27,7 +27,6 @@ final class EnterEmailPresenter {
             return
         }
         
-        
         LoadingView.show(inVC: view)
         
         let process = DataManager.shared.getUserProcess()

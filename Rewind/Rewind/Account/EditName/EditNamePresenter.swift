@@ -15,7 +15,12 @@ final class EditNamePresenter {
         self.view = view
     }
     
-    func updateName(with name: String) {
+    func updateName(with name: String?) {
+        guard let name = name, Validator.isValidUserName(name) else {
+            AlertHelper.showAlert(from: view, withTitle: "Error", message: "Invalid name")
+            return
+        }
+        
         LoadingView.show(inVC: view)
         let userId = UserDefaults.standard.integer(forKey: "UserId")
         NetworkService.updateUserName(userId: userId, newName: name) { response in

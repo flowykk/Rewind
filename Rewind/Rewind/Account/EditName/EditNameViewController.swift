@@ -36,8 +36,16 @@ final class EditNameViewController: UIViewController {
     
     @objc
     private func continueButtonTapped() {
-        guard let newName = nameField.text else { return }
-        presenter?.updateName(with: newName)
+        presenter?.updateName(with: nameField.text)
+    }
+}
+
+// MARK: - UITextFieldDelegate
+extension EditNameViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        view.endEditing(true)
+        continueButtonTapped()
+        return false
     }
 }
 
@@ -104,13 +112,6 @@ extension EditNameViewController {
         continueButton.pinCenterX(to: view.centerXAnchor)
         continueButton.setHeight(60)
         continueButton.setWidth(200)
-    }
-}
-
-// MARK: - UITextFieldDelegate
-extension EditNameViewController: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        view.endEditing(true)
     }
 }
 

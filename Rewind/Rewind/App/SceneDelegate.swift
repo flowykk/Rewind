@@ -61,7 +61,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: windowScene)
         
-        let initialViewController = LaunchBuilder.build()
+        let initialViewController: UIViewController = LaunchBuilder.build()
         let isUserIDStored = UserDefaults.standard.object(forKey: "UserId")
         
         window.rootViewController = UINavigationController(rootViewController: initialViewController)

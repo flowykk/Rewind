@@ -78,7 +78,7 @@ extension AppDelegate {
         }
         
         if (launchImage.size.width == 0 || launchImage.size.height == 0) {
-            launchImage = UIImage(named: "moscow") ?? UIImage()
+            launchImage = UIImage(named: "sea") ?? UIImage()
         }
         
         DataManager.shared.setLaunchImage(to: launchImage)

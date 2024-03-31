@@ -34,6 +34,11 @@ final class AddQuotePresenter: TagsCollectionPresenterProtocol {
     }
     
     func continueButtonTapped() {
+        guard let quoteText = quote.text, Validator.isValidQuote(quoteText) else {
+            AlertHelper.showAlert(from: view, withTitle: "Error", message: "Invalid quote text")
+            return
+        }
+        
         if let originalImage = quote.image, let groupId = DataManager.shared.getCurrectGroupId(), let tagsCollection = tagsCollection {
             LoadingView.show(inVC: view)
             

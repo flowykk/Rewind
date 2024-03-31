@@ -49,7 +49,7 @@ final class EnterPasswordPresenter {
     
     func continueButtonTapped(password: String?) {
         guard let password = password, Validator.isValidPassword(password) else {
-            AlertHelper.showAlert(from: view, withTitle: "Error", message: "Incorrect password")
+            AlertHelper.showAlert(from: view, withTitle: "Error", message: "Invalid password")
             return
         }
         

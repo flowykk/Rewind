@@ -45,6 +45,15 @@ final class AddTagViewController: UIViewController {
     }
 }
 
+// MARK: - UITextFieldDelegate
+extension AddTagViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        view.endEditing(true)
+        continueButtonTapped()
+        return false
+    }
+}
+
 // MARK: - UI Configuration
 extension AddTagViewController {
     private func configureUI() {
@@ -110,13 +119,6 @@ extension AddTagViewController {
         continueButton.pinCenterX(to: view.centerXAnchor)
         continueButton.setHeight(60)
         continueButton.setWidth(200)
-    }
-}
-
-// MARK: - UITextFieldDelegate
-extension AddTagViewController: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        view.endEditing(true)
     }
 }
 

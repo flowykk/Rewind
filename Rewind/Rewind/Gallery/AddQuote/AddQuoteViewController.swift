@@ -98,7 +98,7 @@ final class AddQuoteViewController: UIViewController {
         
         let colorsTableHeight = colorsTable.contentSize.height
         let tagsCollectionHeight = tagsCollection.collectionViewLayout.collectionViewContentSize.height
-        var contentViewHeight = UIScreen.main.bounds.width - 40 + 20 + 20 + 10 + colorsTableHeight + 20 + 20 + tagsCollectionHeight + 50 + 60 + 30
+        var contentViewHeight = UIScreen.main.bounds.width - 40 + 20 + 20 + 10 + colorsTableHeight + 20 + 20 + tagsCollectionHeight + 50 + 60 + 45
         
         if contentViewHeight < (view.safeAreaLayoutGuide.layoutFrame.height + 50) {
             contentViewHeight = view.safeAreaLayoutGuide.layoutFrame.height + 50
@@ -117,10 +117,13 @@ final class AddQuoteViewController: UIViewController {
 extension AddQuoteViewController: UIColorPickerViewControllerDelegate {
     func colorPickerViewControllerDidFinish(_ viewController: UIColorPickerViewController) {
         viewController.dismiss(animated: true, completion: nil)
-        
         let selectedColor = viewController.selectedColor
-        
         presenter?.colorPicked(selectedColor: selectedColor)
+    }
+    
+    internal func colorPickerViewControllerDidSelectColor(_ viewController: UIColorPickerViewController) {
+        let selectedColor = viewController.selectedColor
+        self.presenter?.colorPicked(selectedColor: selectedColor)
     }
 }
 
@@ -152,7 +155,7 @@ extension AddQuoteViewController {
         let configuration = UIImage.SymbolConfiguration(font: font)
         let image = UIImage(systemName: "chevron.left", withConfiguration: configuration)
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(backButtonTapped))
-        navigationItem.leftBarButtonItem?.tintColor = .black
+        navigationItem.leftBarButtonItem?.tintColor = .blackAdapted
     }
     
     private func configureScrollView() {

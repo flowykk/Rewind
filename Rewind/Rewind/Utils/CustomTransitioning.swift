@@ -122,7 +122,7 @@ final class PopToBottomTransitioning: NSObject, UIViewControllerAnimatedTransiti
 }
 
 final class DisappearingTransitioning: NSObject, UIViewControllerAnimatedTransitioning {
-    let duration: TimeInterval = 0.5
+    let duration: TimeInterval = 1
 
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return duration

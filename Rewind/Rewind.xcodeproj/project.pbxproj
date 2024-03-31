@@ -816,7 +816,7 @@
 				550A63692B9CCA5C00CE3597 /* Gallery */,
 				557A07832B99BAF8002FFF40 /* Group */,
 				557A07912B99ED31002FFF40 /* GroupSettings */,
-				55C652F22B98993500A8C595 /* MediaDetails */,
+				55C652F22B98993500A8C595 /* Details */,
 				551426FA2B88CAAB000446E9 /* Models */,
 				55AA39F52B9911CB0099DB8A /* Protocols */,
 				551426FB2B88CAD5000446E9 /* Services */,
@@ -931,7 +931,6 @@
 			children = (
 				55AA39F62B9923400099DB8A /* GroupsMenu */,
 				55C3E5372B95E27500701BF8 /* Settings */,
-				55AF8C742B93CF0000AC7CE0 /* Views */,
 				55AF8C6C2B9381DC00AC7CE0 /* RewindViewController.swift */,
 				55AF8C702B93C9F800AC7CE0 /* RewindPresenter.swift */,
 				55AF8C722B93CA1800AC7CE0 /* RewindRouter.swift */,
@@ -940,17 +939,10 @@
 			path = Rewind;
 			sourceTree = "<group>";
 		};
-		55AF8C742B93CF0000AC7CE0 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				55AF8C752B93CF1C00AC7CE0 /* ObjectInfoView.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
 		55BAA87D2BB340F7001839C6 /* CommonViews */ = {
 			isa = PBXGroup;
 			children = (
+				55AF8C752B93CF1C00AC7CE0 /* ObjectInfoView.swift */,
 				557A2DCC2B97C37900ACA400 /* TagsCollectionView.swift */,
 				558D63512BB09C3800B75AA6 /* LoadingView.swift */,
 			);
@@ -1009,7 +1001,7 @@
 			path = AddTag;
 			sourceTree = "<group>";
 		};
-		55C652F22B98993500A8C595 /* MediaDetails */ = {
+		55C652F22B98993500A8C595 /* Details */ = {
 			isa = PBXGroup;
 			children = (
 				558D63492BB0522600B75AA6 /* Views */,
@@ -1018,7 +1010,7 @@
 				55AA39ED2B9902B40099DB8A /* DetailsRouter.swift */,
 				55AA39EF2B9902CB0099DB8A /* DetailsBuilder.swift */,
 			);
-			path = MediaDetails;
+			path = Details;
 			sourceTree = "<group>";
 		};
 		55DFB5FD2BAB28A600527800 /* PreviewObject */ = {
@@ -1430,7 +1422,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1465,7 +1457,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

@@ -12,6 +12,7 @@ final class EnterPasswordViewController: UIViewController {
     
     private let passwordLabel: UILabel = UILabel()
     private let passwordField: UITextField = UITextField()
+    private let promtLabel: UILabel = UILabel()
 //    private let forgotPasswordButton: UIButton = UIButton(type: .system)
     private let continueButton: UIButton = UIButton(type: .system)
     
@@ -70,6 +71,7 @@ extension EnterPasswordViewController {
 //        if showForgotPasswordButton {
 //            configureForgotPasswordButton()
 //        }
+        configurePromtLabel()
         configureContinueButton()
     }
     
@@ -78,7 +80,7 @@ extension EnterPasswordViewController {
         let configuration = UIImage.SymbolConfiguration(font: largeFont)
         let image = UIImage(systemName: "chevron.left", withConfiguration: configuration)
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(backButtonTapped))
-        navigationItem.leftBarButtonItem?.tintColor = .black
+        navigationItem.leftBarButtonItem?.tintColor = .blackAdapted
     }
     
     private func configurePasswordLabel() {
@@ -109,11 +111,27 @@ extension EnterPasswordViewController {
         passwordField.leftViewMode = .always
         passwordField.rightViewMode = .always
         
-        passwordField.setWidth(350)
         passwordField.setHeight(50)
+        passwordField.pinLeft(to: view.leadingAnchor, 20)
+        passwordField.pinRight(to: view.trailingAnchor, 20)
         passwordField.pinTop(to: passwordLabel.bottomAnchor, 30)
         passwordField.pinCenterX(to: view.centerXAnchor)
     }
+    
+    private func configurePromtLabel() {
+        view.addSubview(promtLabel)
+        promtLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        promtLabel.text = "Your password must contain at least 6 characters. Only Latin letters (uppercase and lowercase) and numbers (0-9) are allowed"
+        promtLabel.numberOfLines = 0
+        promtLabel.font = UIFont.systemFont(ofSize: 10, weight: .medium)
+        promtLabel.textColor = .systemGray2
+        
+        promtLabel.pinTop(to: passwordField.bottomAnchor, 20)
+        promtLabel.pinLeft(to: passwordField.leadingAnchor, 20)
+        promtLabel.pinRight(to: passwordField.trailingAnchor, 20)
+    }
+    
     
 //    private func configureForgotPasswordButton() {
 //        view.addSubview(forgotPasswordButton)

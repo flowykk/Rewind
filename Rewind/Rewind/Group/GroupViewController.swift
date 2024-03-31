@@ -150,7 +150,7 @@ extension GroupViewController {
         let image = UIImage(systemName: "gearshape.fill", withConfiguration: configuration)
         
         let barButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(groupSettingsButtonTapped))
-        barButtonItem.tintColor = .black
+        barButtonItem.tintColor = .blackAdapted
         
         let disabledAttributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.gray]
         barButtonItem.setTitleTextAttributes(disabledAttributes, for: .disabled)
@@ -163,7 +163,7 @@ extension GroupViewController {
         let configuration = UIImage.SymbolConfiguration(font: font)
         let image = UIImage(systemName: "chevron.right", withConfiguration: configuration)
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(backButtonTapped))
-        navigationItem.rightBarButtonItem?.tintColor = .black
+        navigationItem.rightBarButtonItem?.tintColor = .blackAdapted
     }
     
     private func configureScrollView() {
@@ -255,7 +255,7 @@ extension GroupViewController {
         let image = UIImage(systemName: "chevron.right", withConfiguration: configuration)
         groupMediaButton.setImage(image, for: .normal)
         
-        groupMediaButton.tintColor = .black
+        groupMediaButton.tintColor = .blackAdapted
         
         groupMediaButton.semanticContentAttribute = .forceRightToLeft
         

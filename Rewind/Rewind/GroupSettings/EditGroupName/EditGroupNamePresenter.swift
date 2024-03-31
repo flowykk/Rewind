@@ -14,14 +14,14 @@ final class EditGroupNamePresenter {
         self.view = view
     }
     
-    func updateName(to name: String) {
-        LoadingView.show(inVC: view)
-        if !name.isEmpty {
-            requestGroupNameUpdate(newName: name)
-        } else {
-            print("name cannot be empty")
-            LoadingView.hide(fromVC: view)
+    func updateName(to name: String?) {
+        guard let name = name, Validator.isValidGroupName(name) else {
+            AlertHelper.showAlert(from: view, withTitle: "Error", message: "Invalid group name")
+            return
         }
+        
+        LoadingView.show(inVC: view)
+        requestGroupNameUpdate(newName: name)
     }
 }
 

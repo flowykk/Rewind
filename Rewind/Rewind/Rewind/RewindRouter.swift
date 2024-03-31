@@ -61,6 +61,10 @@ final class RewindRouter {
     }
     
     func navigateToAllGroups() {
+        if let groupsMenuVC = view?.presentedViewController {
+            groupsMenuVC.dismiss(animated: true)
+        }
+        
         let vc = AllGroupsBuilder.build()
         view?.navigationController?.pushViewController(vc, animated: true)
     }

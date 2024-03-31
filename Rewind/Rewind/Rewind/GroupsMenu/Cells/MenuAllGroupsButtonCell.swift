@@ -44,7 +44,7 @@ extension MenuAllGroupsButtonCell {
         let font = UIFont.systemFont(ofSize: 18, weight: .bold)
         let configuration = UIImage.SymbolConfiguration(font: font)
         var image = UIImage(systemName: "eye.fill", withConfiguration: configuration)
-        image = image?.withTintColor(.black, renderingMode: .alwaysOriginal)
+        image = image?.withTintColor(.blackAdapted, renderingMode: .alwaysOriginal)
         buttonImageView.image = image
         
         let width: CGFloat = 30

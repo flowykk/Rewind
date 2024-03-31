@@ -83,7 +83,7 @@ extension GalleryViewController {
         let configuration = UIImage.SymbolConfiguration(font: font)
         let image = UIImage(systemName: "chevron.left", withConfiguration: configuration)
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(backButtonTapped))
-        navigationItem.leftBarButtonItem?.tintColor = .black
+        navigationItem.leftBarButtonItem?.tintColor = .blackAdapted
     }
     
     private func configureAddButton() {
@@ -94,7 +94,7 @@ extension GalleryViewController {
         let image = UIImage(systemName: "plus", withConfiguration: configuration)
         
         addButton.setImage(image, for: .normal)
-        addButton.tintColor = .black
+        addButton.tintColor = .blackAdapted
         
         addButton.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
         

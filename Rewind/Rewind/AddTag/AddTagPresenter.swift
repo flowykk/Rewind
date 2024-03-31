@@ -15,9 +15,14 @@ final class AddTagPresenter {
     }
     
     func continueButtonTapped(tagText: String?) {
+        guard let tagTextToAdd = tagText, Validator.isValidTag(tagTextToAdd) else {
+            AlertHelper.showAlert(from: view, withTitle: "Error", message: "The tag must be between 1 and 10 characters long")
+            return
+        }
+        
         if view?.detailsVC != nil {
             LoadingView.show(inVC: view, backgroundColor: view?.view.backgroundColor ?? .systemBackground)
-            if let mediaId = view?.mediaId, let existingTags = view?.existingTags, let tagTextToAdd = tagText {
+            if let mediaId = view?.mediaId, let existingTags = view?.existingTags {
                 let isAlreadyExists = existingTags.contains { $0.text == tagTextToAdd }
                 if !tagTextToAdd.isEmpty && !isAlreadyExists {
                     requestAddTagToMedia(mediaId: mediaId, tagText: tagTextToAdd)
@@ -27,7 +32,7 @@ final class AddTagPresenter {
             } else {
                 LoadingView.hide(fromVC: view)
             }
-        } else if let addPhotoVC = view?.addPhotoVC, let existingTags = view?.existingTags, let tagTextToAdd = tagText {
+        } else if let addPhotoVC = view?.addPhotoVC, let existingTags = view?.existingTags {
             let isAlreadyExists = existingTags.contains { $0.text == tagText }
             if !tagTextToAdd.isEmpty && !isAlreadyExists {
                 addPhotoVC.presenter?.addTagToCollection(Tag(id: -1, text: tagTextToAdd))
@@ -37,7 +42,7 @@ final class AddTagPresenter {
             } else {
                 
             }
-        } else if let addQuote = view?.addQuoteVC, let existingTags = view?.existingTags, let tagTextToAdd = tagText {
+        } else if let addQuote = view?.addQuoteVC, let existingTags = view?.existingTags {
             let isAlreadyExists = existingTags.contains { $0.text == tagText }
             if !tagTextToAdd.isEmpty && !isAlreadyExists {
                 addQuote.presenter?.addTagToCollection(Tag(id: -1, text: tagTextToAdd))

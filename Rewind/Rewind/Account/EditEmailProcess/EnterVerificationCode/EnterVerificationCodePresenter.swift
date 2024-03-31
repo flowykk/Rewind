@@ -36,6 +36,7 @@ extension EnterVerificationCodePresenter {
                     UserDefaults.standard.set(newEmail, forKey: "UserEmail")
                     DispatchQueue.main.async { [weak self] in
                         self?.view?.dismiss(animated: true, completion: {
+                            self?.view?.editEmailVC?.accountVC?.setUserEmail(to: newEmail)
                             self?.view?.editEmailVC?.dismiss(animated: true)
                         })
                     }

@@ -57,7 +57,7 @@ extension EnterNameViewController {
         let configuration = UIImage.SymbolConfiguration(font: largeFont)
         let image = UIImage(systemName: "chevron.left", withConfiguration: configuration)
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(backButtonTapped))
-        navigationItem.leftBarButtonItem?.tintColor = .black
+        navigationItem.leftBarButtonItem?.tintColor = .blackAdapted
     }
     
     private func configureNameLabel() {
@@ -91,8 +91,9 @@ extension EnterNameViewController {
         nameField.leftViewMode = .always
         nameField.rightViewMode = .always
         
-        nameField.setWidth(350)
         nameField.setHeight(50)
+        nameField.pinLeft(to: view.leadingAnchor, 20)
+        nameField.pinRight(to: view.trailingAnchor, 20)
         nameField.pinTop(to: nameLabel.bottomAnchor, 30)
         nameField.pinCenterX(to: view.centerXAnchor)
     }

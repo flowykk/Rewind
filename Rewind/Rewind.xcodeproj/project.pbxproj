@@ -440,10 +440,10 @@
 		551426FA2B88CAAB000446E9 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				55A326AF2B82535E007C9B74 /* UserModel.swift */,
 				5582784D2BB239540072424F /* MediaModel.swift */,
 				558D636A2BB0E2B500B75AA6 /* GroupModel.swift */,
 				5582783B2BB1A9BC0072424F /* GroupMemberModel.swift */,
-				55A326AF2B82535E007C9B74 /* UserModel.swift */,
 				550109882B8A36FE0005F1D5 /* AppIconModel.swift */,
 				551C2D0B2BB4C65800714DDD /* AuthorModel.swift */,
 				559B28E22BB7072D00999F34 /* TagModel.swift */,
@@ -1420,7 +1420,7 @@
 				CODE_SIGN_ENTITLEMENTS = Rewind/Rewind.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 150;
+				CURRENT_PROJECT_VERSION = 250;
 				DEVELOPMENT_TEAM = 8FRM8M93L5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Rewind/App/Info.plist;
@@ -1455,7 +1455,7 @@
 				CODE_SIGN_ENTITLEMENTS = Rewind/Rewind.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 150;
+				CURRENT_PROJECT_VERSION = 250;
 				DEVELOPMENT_TEAM = 8FRM8M93L5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Rewind/App/Info.plist;

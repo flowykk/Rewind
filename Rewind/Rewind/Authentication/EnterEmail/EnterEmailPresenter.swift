@@ -74,7 +74,7 @@ extension EnterEmailPresenter {
                 self?.router.navigateToEnterCode()
             }
         } else {
-            let message = response.message ?? "Something went wrong"
+            let message = "User with this email address is already registered or something went wrong"
             print(#function, response)
             DispatchQueue.main.async { [weak self] in
                 LoadingView.hide(fromVC: self?.view)
@@ -94,7 +94,10 @@ extension EnterEmailPresenter {
                 self?.router.navigateToEnterPassword()
             }
         } else {
-            let message = response.message ?? "Something went wrong"
+            var message = response.message ?? "Something went wrong"
+            if response.statusCode == 400 {
+                message = "User with this email address is not registered"
+            }
             print(#function, response)
             DispatchQueue.main.async { [weak self] in
                 LoadingView.hide(fromVC: self?.view)

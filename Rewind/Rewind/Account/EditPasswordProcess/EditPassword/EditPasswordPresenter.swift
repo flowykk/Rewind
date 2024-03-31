@@ -16,7 +16,8 @@ final class EditPasswordPresenter {
     
     func updatePassword(with newPassword: String) {
         let userId = UserDefaults.standard.integer(forKey: "UserId")
-        NetworkService.updateUserPassword(userId: userId, newPassword: newPassword) { response in
+        let encryptedPassword = newPassword.sha256()
+        NetworkService.updateUserPassword(userId: userId, newPassword: encryptedPassword) { response in
             DispatchQueue.main.async { [weak self] in
                 self?.view?.dismiss(animated: true, completion: {
                     self?.view?.enterAuthCodeVC?.dismiss(animated: true)

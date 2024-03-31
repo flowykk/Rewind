@@ -12,10 +12,11 @@ struct User {
         case none
         case registration
         case authorization
+//        case forgotPassword
     }
     
     var proccess: Process = .none
-    var email: String = "aleksa.khruleva@yandex.ru"
+    var email: String = ""
     var verificationCode: String = ""
     var password: String = ""
     var name: String = ""

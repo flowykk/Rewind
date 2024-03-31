@@ -35,6 +35,18 @@ final class EnterPasswordPresenter {
         router.navigateToEnterCode()
     }
     
+//    func forgotPasswordButtonTapped() {
+//        DataManager.shared.setUserProcess(.forgotPassword)
+//        let email = DataManager.shared.getUserEmail()
+//        LoadingView.show(inVC: view)
+//        checkEmailToLogin(email: email)
+//    }
+//    
+//    func sendCode(toEmail email: String) {
+//        LoadingView.show(inVC: view)
+//        requestSendCode(toEmail: email)
+//    }
+    
     func continueButtonTapped(password: String?) {
         guard let password = password, Validator.isValidPassword(password) else {
             AlertHelper.showAlert(from: view, withTitle: "Error", message: "Incorrect password")
@@ -75,6 +87,22 @@ extension EnterPasswordPresenter {
             }
         }
     }
+    
+//    private func checkEmailToLogin(email: String) {
+//        NetworkService.checkEmailToLogin(email: email) { [weak self] response in
+//            DispatchQueue.global().async {
+//                self?.handleCheckEmailToLoginResponse(response, email: email)
+//            }
+//        }
+//    }
+    
+//    private func requestSendCode(toEmail email: String) {
+//        NetworkService.sendCode(toEmail: email) { [weak self] response in
+//            DispatchQueue.global().async {
+//                self?.handleSendCode(response)
+//            }
+//        }
+//    }
 }
 
 // MARK: - Network Response Handlers
@@ -126,4 +154,47 @@ extension EnterPasswordPresenter {
             LoadingView.hide(fromVC: self?.view)
         }
     }
+    
+//    private func handleCheckEmailToLoginResponse(_ response: NetworkResponse, email: String) {
+//        if response.success {
+//            DispatchQueue.main.async { [weak self] in
+//                LoadingView.hide(fromVC: self?.view)
+//                self?.sendCode(toEmail: email)
+//            }
+//        } else {
+//            var message = response.message ?? "Something went wrong"
+//            if response.statusCode == 400 {
+//                message = "User with this email address is not registered"
+//            }
+//            print(#function, response)
+//            DispatchQueue.main.async { [weak self] in
+//                LoadingView.hide(fromVC: self?.view)
+//                AlertHelper.showAlert(from: self?.view, withTitle: "Error", message: message)
+//            }
+//        }
+//        DispatchQueue.main.async { [weak self] in
+//            LoadingView.hide(fromVC: self?.view)
+//        }
+//    }
+//    
+//    private func handleSendCode(_ response: NetworkResponse) {
+//        if response.success, let message = response.message, let code = Int(message) {
+//            DataManager.shared.setUserVerificationCode("\(code)")
+//            print(code)
+//            DispatchQueue.main.async { [weak self] in
+//                LoadingView.hide(fromVC: self?.view)
+//                self?.router.navigateToEnterCodeWhenForgotPassword()
+//            }
+//        } else {
+//            let message = response.message ?? "Something went wrong"
+//            print(#function, response)
+//            DispatchQueue.main.async { [weak self] in
+//                LoadingView.hide(fromVC: self?.view)
+//                AlertHelper.showAlert(from: self?.view, withTitle: "Error", message: message)
+//            }
+//        }
+//        DispatchQueue.main.async { [weak self] in
+//            LoadingView.hide(fromVC: self?.view)
+//        }
+//    }
 }

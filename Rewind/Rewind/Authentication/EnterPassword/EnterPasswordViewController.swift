@@ -15,8 +15,6 @@ final class EnterPasswordViewController: UIViewController {
 //    private let forgotPasswordButton: UIButton = UIButton(type: .system)
     private let continueButton: UIButton = UIButton(type: .system)
     
-//    private let blueMonsterImageView: UIImageView = UIImageView()
-    
     var showForgotPasswordButton: Bool = false
     
     override func viewDidLoad() {
@@ -31,6 +29,11 @@ final class EnterPasswordViewController: UIViewController {
     private func backButtonTapped() {
         presenter?.backButtonTapped()
     }
+    
+//    @objc
+//    private func forgotPasswordButtonTapped() {
+//        presenter?.forgotPasswordButtonTapped()
+//    }
     
     @objc
     private func continueButtonTapped() {
@@ -120,7 +123,7 @@ extension EnterPasswordViewController {
 //        forgotPasswordButton.setTitleColor(UIColor(named: "customPink"), for: .normal)
 //        forgotPasswordButton.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .bold)
 //        
-//        forgotPasswordButton.addTarget(self, action: #selector(showBlueMonster), for: .touchUpInside)
+//        forgotPasswordButton.addTarget(self, action: #selector(forgotPasswordButtonTapped), for: .touchUpInside)
 //        
 //        forgotPasswordButton.pinTop(to: passwordField.bottomAnchor, 5)
 //        forgotPasswordButton.pinCenterX(to: view.centerXAnchor)
@@ -144,22 +147,4 @@ extension EnterPasswordViewController {
         continueButton.setHeight(60)
         continueButton.setWidth(200)
     }
-    
-//    private func configureBlueMonsterImageView() {
-//        view.addSubview(blueMonsterImageView)
-//        blueMonsterImageView.translatesAutoresizingMaskIntoConstraints = false
-//        
-//        blueMonsterImageView.image = UIImage(named: "blueMonster")
-//        blueMonsterImageView.layer.cornerRadius = 20
-//        
-//        blueMonsterImageView.pinCenter(to: continueButton)
-//        blueMonsterImageView.setHeight(300)
-//        blueMonsterImageView.setWidth(300)
-//    }
-    
-//    @objc
-//    private func showBlueMonster() {
-//        configureBlueMonsterImageView()
-//        continueButton.isEnabled = false
-//    }
 }

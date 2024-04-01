@@ -33,6 +33,9 @@ public class TagsRepository : ITagsRepository
             Media = media
         };
 
+        if (media.Tags.ToList().FirstOrDefault(t => t.Text == text) != null)
+            return tag;
+
         _context.Tags.Add(tag); 
         await _context.SaveChangesAsync();
 

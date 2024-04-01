@@ -4,6 +4,7 @@ using RewindApp.Data;
 using RewindApp.Data.Repositories;
 using RewindApp.Entities;
 using RewindApp.Interfaces;
+using RewindApp.Requests;
 using RewindApp.Requests.ChangeRequests;
 
 namespace RewindApp.Controllers.TagControllers;
@@ -35,15 +36,17 @@ public class TagsController : ControllerBase
     }
 
     [HttpPost("add/{mediaId}")]
-    public async Task<ActionResult<Tag>> AddTag(TextRequest textRequest, int mediaId)
+    public async Task<ActionResult<IEnumerable<Tag>>> AddTags(TagsRequest tagsRequest, int mediaId)
     {
         var media = await _mediaController.GetMediaById(mediaId);
         if (media == null) return BadRequest("Media not found");
 
-        if (media.Tags.ToList().FirstOrDefault(t => t.Text == textRequest.Text) != null)
-            return BadRequest("Duplicate tag");
+        foreach (var tag in tagsRequest.Tags)
+        {
+            await _tagsRepository.AddTagAsync(media, tag);
+        }
             
-        return Ok(await _tagsRepository.AddTagAsync(media, textRequest.Text));
+        return Ok(media.Tags);
     }
     
     [HttpDelete("delete/{mediaId}")]

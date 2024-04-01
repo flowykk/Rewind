@@ -111,7 +111,7 @@ public class MediaController : ControllerBase
 
         var id = _sqlService.LoadMedia(rawData, tinyData, groupId, authorId, mediaRequest.IsPhoto);
 
-        var media = new Media {
+        /*var media = new Media {
             Author = new UserView
             {
                 Id = author.Id,
@@ -121,14 +121,14 @@ public class MediaController : ControllerBase
             Date = DateTime.Now,
             Group = group,
             IsPhoto = mediaRequest.IsPhoto == 1
-        };
-
-        foreach (var tag in mediaRequest.Tags)
-            media.Tags.Add(await _tagsRepository.AddTagAsync((await GetMediaById(id))!, tag));
+        };*/
         
-        group.Media.Add(media);
+        foreach (var tag in mediaRequest.Tags)
+            await _tagsRepository.AddTagAsync((await GetMediaById(id))!, tag);
+        
+       /* group.Media.Add(media);
         _context.Media.Add(media);
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync();*/
         
         return Ok(id);
     }

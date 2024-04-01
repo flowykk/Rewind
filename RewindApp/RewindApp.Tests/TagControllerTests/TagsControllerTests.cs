@@ -32,7 +32,7 @@ public class TagsControllerTests
         await _mediaController.LoadMediaToGroup(ContextHelper.BuildLoadMediaRequest(),1,1);
         
         // Assert
-        var actionResult = await _tagsController.AddTag(ContextHelper.BuildDefaultNameRequest(), 1); 
+        var actionResult = await _tagsController.AddTags(ContextHelper.BuildDefaultNameRequest(), 1); 
         var result = actionResult.Result as ObjectResult;
         var media = await _mediaController.GetMediaById(1);
         
@@ -51,7 +51,7 @@ public class TagsControllerTests
         await _mediaController.LoadMediaToGroup(ContextHelper.BuildLoadMediaRequest(), 1, 1);
         
         // Assert
-        var actionResult = await _tagsController.AddTag(ContextHelper.BuildDefaultNameRequest(), 2); 
+        var actionResult = await _tagsController.AddTags(ContextHelper.BuildDefaultNameRequest(), 2); 
         var result = actionResult.Result as ObjectResult;
         
         // Act

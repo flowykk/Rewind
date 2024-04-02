@@ -2730,7 +2730,7 @@
           "lib/net6.0/ZstdSharp.dll": {}
         }
       },
-      "RewindApp/1.0.0": {
+      "RewindApp.API/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
@@ -2742,10 +2742,10 @@
           "Swashbuckle.AspNetCore": "6.5.0"
         },
         "compile": {
-          "bin/placeholder/RewindApp.dll": {}
+          "bin/placeholder/RewindApp.API.dll": {}
         },
         "runtime": {
-          "bin/placeholder/RewindApp.dll": {}
+          "bin/placeholder/RewindApp.API.dll": {}
         },
         "frameworkReferences": [
           "Microsoft.AspNetCore.App"
@@ -8728,10 +8728,10 @@
         "zstdsharp.port.nuspec"
       ]
     },
-    "RewindApp/1.0.0": {
+    "RewindApp.API/1.0.0": {
       "type": "project",
-      "path": "../RewindApp/RewindApp.csproj",
-      "msbuildProject": "../RewindApp/RewindApp.csproj"
+      "path": "../RewindApp.API/RewindApp.API.csproj",
+      "msbuildProject": "../RewindApp.API/RewindApp.API.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -8740,7 +8740,7 @@
       "Microsoft.EntityFrameworkCore.InMemory >= 6.0.25",
       "Microsoft.NET.Test.Sdk >= 17.1.0",
       "Moq >= 4.20.70",
-      "RewindApp >= 1.0.0",
+      "RewindApp.API >= 1.0.0",
       "coverlet.collector >= 3.1.2",
       "xunit >= 2.4.1",
       "xunit.runner.visualstudio >= 2.4.3"
@@ -8771,8 +8771,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp/RewindApp.csproj": {
-              "projectPath": "/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp/RewindApp.csproj"
+            "/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.API/RewindApp.API.csproj": {
+              "projectPath": "/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.API/RewindApp.API.csproj"
             }
           }
         }

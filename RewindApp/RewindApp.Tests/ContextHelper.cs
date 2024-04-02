@@ -1,6 +1,7 @@
 using AutoFixture;
 using RewindApp.Requests;
 using RewindApp.Requests.ChangeRequests;
+using RewindApp.Requests.MediaRequests;
 using RewindApp.Requests.UserRequests;
 
 namespace RewindApp.Tests;
@@ -13,7 +14,7 @@ public static class ContextHelper
         return _fixture
             .Build<UserRegisterRequest>()
             .With(req => req.Email, "test@test.test")
-            .With(req => req.Password, "ee26b0dd4af7e749aa1a8ee3c10ae9923f618980772e473f8819a5d4940e0db27ac185f8a0e1d5f84f88bc887fd67b143732c304cc5fa9ad8e6f57f50028a8ff")
+            .With(req => req.Password, "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08")
             .Create();
     }
     
@@ -30,7 +31,7 @@ public static class ContextHelper
         return _fixture
             .Build<UserLoginRequest>()
             .With(req => req.Email, "test@test.test")
-            .With(req => req.Password, "test")
+            .With(req => req.Password, "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08")
             .Create();
     }
     
@@ -95,11 +96,24 @@ public static class ContextHelper
         return _fixture.Create<TextRequest>();
     }
     
+    public static TagsRequest BuildDefaultTagsRequest()
+    {
+        return _fixture.Create<TagsRequest>();
+    }
+    
     public static TextRequest BuildNameRequest(string name)
     {
         return _fixture
             .Build<TextRequest>()
             .With(req => req.Text, name)
+            .Create();
+    }
+    
+    public static TagsRequest BuildTagsRequest(string name)
+    {
+        return _fixture
+            .Build<TagsRequest>()
+            .With(req => req.Tags, new List<string> { name })
             .Create();
     }
 }

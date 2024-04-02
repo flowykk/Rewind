@@ -62,7 +62,7 @@ public class UsersControllerTests
         await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
 
         // Act
-        var actionResult = await _userController.DeleteUserAccount(1);
+        var actionResult = await _userController.DeleteUser(1);
         var result = actionResult as ObjectResult;
 
         // Assert
@@ -77,7 +77,7 @@ public class UsersControllerTests
         await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
 
         // Act
-        var actionResult = await _userController.DeleteUserAccount(2);
+        var actionResult = await _userController.DeleteUser(2);
         var result = actionResult as ObjectResult;
 
         // Assert

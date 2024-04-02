@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using RewindApp.Controllers.GroupControllers;
 using RewindApp.Controllers.UserControllers;
 using RewindApp.Data;
+using RewindApp.Requests;
 using RewindApp.Requests.ChangeRequests;
 
 namespace RewindApp.Tests.GroupControllersTests;
@@ -30,7 +31,7 @@ public class ChangeGroupControllerTests
 
         // Act
         var actionResult = await _changeGroupController.ChangeName(nameRequest, 1);
-        var result = actionResult as ObjectResult;
+        var result = actionResult.Result as ObjectResult;
         
         var changedGroup = _context.Groups.FirstOrDefault(g => g.Name == "newName");
         
@@ -51,7 +52,7 @@ public class ChangeGroupControllerTests
 
         // Act
         var actionResult = await _changeGroupController.ChangeName(nameRequest, 2);
-        var result = actionResult as ObjectResult;
+        var result = actionResult.Result as ObjectResult;
         
         // Assert
         Assert.Equal("400", result?.StatusCode.ToString());
@@ -66,7 +67,7 @@ public class ChangeGroupControllerTests
         await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
         
         // Act
-        var actionResult = await _changeGroupController.ChangeGroupImage(ContextHelper.BuildTestChangeImageRequest(), 1);
+        var actionResult = await _changeGroupController.ChangeImage(ContextHelper.BuildTestChangeImageRequest(), 1);
         var result = actionResult as ObjectResult;
         
         var changedGroup = _groupsController.GetGroupById(1).Result;
@@ -89,7 +90,7 @@ public class ChangeGroupControllerTests
         await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
 
         // Act
-        var actionResult = await _changeGroupController.ChangeGroupImage(ContextHelper.BuildTestChangeImageRequest(), 2);
+        var actionResult = await _changeGroupController.ChangeImage(ContextHelper.BuildTestChangeImageRequest(), 2);
         var result = actionResult as ObjectResult;
         
         // Assert

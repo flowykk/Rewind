@@ -21,7 +21,7 @@ public class RegisterControllerTests
             
         // Act
         var actionResult = await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
-        var result = actionResult as ObjectResult;
+        var result = actionResult.Result as ObjectResult;
         
         // Assert
         Assert.Equal("200", result?.StatusCode.ToString());
@@ -36,7 +36,7 @@ public class RegisterControllerTests
         
         // Act
         var actionResult = await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
-        var result = actionResult as ObjectResult;
+        var result = actionResult.Result as ObjectResult;
         
         // Assert
         Assert.Equal("400", result?.StatusCode.ToString());

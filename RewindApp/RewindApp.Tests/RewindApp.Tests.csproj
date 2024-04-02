@@ -25,7 +25,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\RewindApp\RewindApp.csproj" />
+      <ProjectReference Include="..\RewindApp.API\RewindApp.API.csproj" />
     </ItemGroup>
 
 </Project>

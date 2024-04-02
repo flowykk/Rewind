@@ -32,7 +32,7 @@ public class TagsControllerTests
         await _mediaController.LoadMediaToGroup(ContextHelper.BuildLoadMediaRequest(),1,1);
         
         // Assert
-        var actionResult = await _tagsController.AddTags(ContextHelper.BuildDefaultNameRequest(), 1); 
+        var actionResult = await _tagsController.AddTags(ContextHelper.BuildDefaultTagsRequest(), 1); 
         var result = actionResult.Result as ObjectResult;
         var media = await _mediaController.GetMediaById(1);
         
@@ -51,7 +51,7 @@ public class TagsControllerTests
         await _mediaController.LoadMediaToGroup(ContextHelper.BuildLoadMediaRequest(), 1, 1);
         
         // Assert
-        var actionResult = await _tagsController.AddTags(ContextHelper.BuildDefaultNameRequest(), 2); 
+        var actionResult = await _tagsController.AddTags(ContextHelper.BuildDefaultTagsRequest(), 2); 
         var result = actionResult.Result as ObjectResult;
         
         // Act
@@ -66,10 +66,10 @@ public class TagsControllerTests
         await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
         await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
         await _mediaController.LoadMediaToGroup(ContextHelper.BuildLoadMediaRequest(), 1, 1);
-        await _tagsController.AddTag(ContextHelper.BuildNameRequest("test"), 1);
+        await _tagsController.AddTags(ContextHelper.BuildTagsRequest("test"), 1);
         
         // Assert
-        var actionResult = await _tagsController.AddTag(ContextHelper.BuildNameRequest("test"), 1); 
+        var actionResult = await _tagsController.AddTags(ContextHelper.BuildTagsRequest("test"), 1); 
         var result = actionResult.Result as ObjectResult;
         
         // Act
@@ -84,7 +84,7 @@ public class TagsControllerTests
         await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
         await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
         await _mediaController.LoadMediaToGroup(ContextHelper.BuildLoadMediaRequest(), 1, 1);
-        await _tagsController.AddTag(ContextHelper.BuildDefaultNameRequest(), 1);
+        await _tagsController.AddTags(ContextHelper.BuildDefaultTagsRequest(), 1);
         
         // Act
         var actionResult = await _tagsController.GetTags();
@@ -101,7 +101,7 @@ public class TagsControllerTests
         await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
         await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
         await _mediaController.LoadMediaToGroup(ContextHelper.BuildLoadMediaRequest(), 1, 1);
-        await _tagsController.AddTag(ContextHelper.BuildDefaultNameRequest(), 1);
+        await _tagsController.AddTags(ContextHelper.BuildDefaultTagsRequest(), 1);
 
         // Assert
         var actionResult = await _tagsController.GetTagsByMediaId(1);
@@ -118,7 +118,7 @@ public class TagsControllerTests
         await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
         await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
         await _mediaController.LoadMediaToGroup(ContextHelper.BuildLoadMediaRequest(), 1, 1);
-        await _tagsController.AddTag(ContextHelper.BuildDefaultNameRequest(), 1);
+        await _tagsController.AddTags(ContextHelper.BuildDefaultTagsRequest(), 1);
 
         // Assert
         var actionResult = await _tagsController.GetTagsByMediaId(2);

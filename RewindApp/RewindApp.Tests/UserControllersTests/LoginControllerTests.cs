@@ -24,7 +24,7 @@ public class LoginControllerTests
         
         // Act
         var actionResult = await _loginController.Login(ContextHelper.BuildTestLoginRequest());
-        var result = actionResult as ObjectResult;
+        var result = actionResult.Result as ObjectResult;
         
         // Assert
         Assert.Equal("200", result?.StatusCode.ToString());
@@ -38,7 +38,7 @@ public class LoginControllerTests
         
         // Act
         var actionResult = await _loginController.Login(ContextHelper.BuildInvalidEmailLoginRequest());
-        var result = actionResult as ObjectResult;
+        var result = actionResult.Result as ObjectResult;
         
         // Assert
         Assert.Equal("400", result?.StatusCode.ToString());
@@ -52,7 +52,7 @@ public class LoginControllerTests
         
         // Act
         var actionResult = await _loginController.Login(ContextHelper.BuildInvalidPasswordLoginRequest());
-        var result = actionResult as ObjectResult;
+        var result = actionResult.Result as ObjectResult;
         
         // Assert
         Assert.Equal("400", result?.StatusCode.ToString());

@@ -7,6 +7,8 @@ using RewindApp.Data;
 using RewindApp.Entities;
 using RewindApp.Responses;
 using RewindApp.Views;
+using RewindApp.Views.GroupViews;
+using RewindApp.Views.MediaViews;
 
 namespace RewindApp.Tests.GroupControllersTests;
 
@@ -299,7 +301,7 @@ public class GroupsControllerTests
         await _mediaController.LoadMediaToGroup(ContextHelper.BuildLoadMediaRequest(), 1, 1);
 
         // Act
-        var actionResult = await _groupsController.GetMediaByGroupAsync(1);
+        var actionResult = await _groupsController.GetMediaByGroup(1);
         var result = actionResult.Result as ObjectResult;
         var value = result?.Value as IEnumerable<MediaView>;
 
@@ -318,7 +320,7 @@ public class GroupsControllerTests
         await _mediaController.LoadMediaToGroup(ContextHelper.BuildLoadMediaRequest(), 1, 1);
 
         // Act
-        var actionResult = await _groupsController.GetMediaByGroupAsync(2);
+        var actionResult = await _groupsController.GetMediaByGroup(2);
         var result = actionResult.Result as ObjectResult;
 
         // Assert
@@ -369,7 +371,7 @@ public class GroupsControllerTests
         await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
         await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
         await _mediaController.LoadMediaToGroup(ContextHelper.BuildLoadMediaRequest(), 1, 1);
-        await _usersController.DeleteUserAccount(1);
+        await _usersController.DeleteUser(1);
         
         // Act
         var actionResult = await _groupsController.GetGroupInfoById(1, 1,5);

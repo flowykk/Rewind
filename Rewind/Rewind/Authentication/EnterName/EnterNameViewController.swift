@@ -28,8 +28,16 @@ final class EnterNameViewController: UIViewController {
     
     @objc
     private func continueButtonTapped() {
-        guard let name = nameField.text else { return }
-        presenter?.saveName(name: name)
+        presenter?.saveName(name: nameField.text)
+    }
+}
+
+// MARK: - UITextFieldDelegate
+extension EnterNameViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        view.endEditing(true)
+        continueButtonTapped()
+        return false
     }
 }
 
@@ -49,7 +57,7 @@ extension EnterNameViewController {
         let configuration = UIImage.SymbolConfiguration(font: largeFont)
         let image = UIImage(systemName: "chevron.left", withConfiguration: configuration)
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(backButtonTapped))
-        navigationItem.leftBarButtonItem?.tintColor = .black
+        navigationItem.leftBarButtonItem?.tintColor = .blackAdapted
     }
     
     private func configureNameLabel() {
@@ -83,8 +91,9 @@ extension EnterNameViewController {
         nameField.leftViewMode = .always
         nameField.rightViewMode = .always
         
-        nameField.setWidth(350)
         nameField.setHeight(50)
+        nameField.pinLeft(to: view.leadingAnchor, 20)
+        nameField.pinRight(to: view.trailingAnchor, 20)
         nameField.pinTop(to: nameLabel.bottomAnchor, 30)
         nameField.pinCenterX(to: view.centerXAnchor)
     }
@@ -106,11 +115,5 @@ extension EnterNameViewController {
         continueButton.pinCenterX(to: view.centerXAnchor)
         continueButton.setHeight(60)
         continueButton.setWidth(200)
-    }
-}
-
-extension EnterNameViewController: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        view.endEditing(true)
     }
 }

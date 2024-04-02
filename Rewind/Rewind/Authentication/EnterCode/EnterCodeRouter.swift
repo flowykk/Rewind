@@ -22,4 +22,9 @@ final class EnterCodeRouter {
         let vc = EnterPasswordBuilder.build()
         view?.navigationController?.pushViewController(vc, animated: true)
     }
+    
+//    func navigateToRewind() {
+//        let vc = RewindBuilder.build()
+//        view?.navigationController?.pushViewController(vc, animated: true)
+//    }
 }

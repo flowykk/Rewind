@@ -31,11 +31,35 @@ final class EnterCodeViewController: UIViewController {
     
     @objc
     private func continueButtonTapped() {
-        guard let digit1 = digit1Field.text else { return }
-        guard let digit2 = digit2Field.text else { return }
-        guard let digit3 = digit3Field.text else { return }
-        guard let digit4 = digit4Field.text else { return }
-        presenter?.validateCode(code: "\(digit1)\(digit2)\(digit3)\(digit4)")
+        let digits = [digit1Field, digit2Field, digit3Field, digit4Field]
+        let code = digits.compactMap { $0.text }.joined()
+        presenter?.validateCode(code: code)
+    }
+
+}
+
+// MARK: - UITextFieldDelegate
+extension EnterCodeViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        if let character = string.first, character.isNumber {
+            if textField == digit1Field {
+                digit2Field.becomeFirstResponder()
+                textField.text = string
+            } else if textField == digit2Field {
+                digit3Field.becomeFirstResponder()
+                textField.text = string
+            } else if textField == digit3Field {
+                digit4Field.becomeFirstResponder()
+                textField.text = string
+            } else if textField == digit4Field {
+                textField.text = string
+                continueButtonTapped()
+            }
+            return false
+        }
+        
+        return true
     }
 }
 
@@ -55,7 +79,7 @@ extension EnterCodeViewController {
         let configuration = UIImage.SymbolConfiguration(font: largeFont)
         let image = UIImage(systemName: "chevron.left", withConfiguration: configuration)
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(backButtonTapped))
-        navigationItem.leftBarButtonItem?.tintColor = .black
+        navigationItem.leftBarButtonItem?.tintColor = .blackAdapted
     }
     
     private func configureCodeLabel() {
@@ -127,25 +151,5 @@ extension EnterCodeViewController {
         continueButton.pinCenterX(to: view.centerXAnchor)
         continueButton.setHeight(60)
         continueButton.setWidth(200)
-    }
-}
-
-// MARK: - UITextFieldDelegate
-extension EnterCodeViewController: UITextFieldDelegate {
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        
-        if let character = string.first, character.isNumber {
-            if textField == digit1Field {
-                digit2Field.becomeFirstResponder()
-            } else if textField == digit2Field {
-                digit3Field.becomeFirstResponder()
-            } else if textField == digit3Field {
-                digit4Field.becomeFirstResponder()
-            }
-            textField.text = string
-            return false
-        }
-        
-        return true
     }
 }

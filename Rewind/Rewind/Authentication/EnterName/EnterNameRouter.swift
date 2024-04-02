@@ -19,7 +19,7 @@ final class EnterNameRouter {
     }
     
     func navigateToRewind() {
-        let vc = ViewController()
+        let vc = RewindBuilder.build()
         view?.navigationController?.pushViewController(vc, animated: true)
     }
 }

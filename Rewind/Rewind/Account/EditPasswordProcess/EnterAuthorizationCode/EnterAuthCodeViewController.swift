@@ -37,8 +37,34 @@ final class EnterAuthCodeViewController: UIViewController {
     
     @objc
     private func continueButtonTapped() {
-        let code = combineDigitsFromTextFields()
+        let digits = [digit1Field, digit2Field, digit3Field, digit4Field]
+        let code = digits.compactMap { $0.text }.joined()
         presenter?.validateCode(code)
+    }
+}
+
+// MARK: - UITextFieldDelegate
+extension EnterAuthCodeViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        if let character = string.first, character.isNumber {
+            if textField == digit1Field {
+                digit2Field.becomeFirstResponder()
+                textField.text = string
+            } else if textField == digit2Field {
+                digit3Field.becomeFirstResponder()
+                textField.text = string
+            } else if textField == digit3Field {
+                digit4Field.becomeFirstResponder()
+                textField.text = string
+            } else if textField == digit4Field {
+                textField.text = string
+                continueButtonTapped()
+            }
+            return false
+        }
+        
+        return true
     }
 }
 
@@ -75,8 +101,6 @@ extension EnterAuthCodeViewController {
         digit2Field = createDigitField()
         digit3Field = createDigitField()
         digit4Field = createDigitField()
-        
-        //        digit1Field.becomeFirstResponder()
         
         for subView in [digit1Field, digit2Field, digit3Field, digit4Field] {
             stackView.addArrangedSubview(subView)
@@ -123,39 +147,8 @@ extension EnterAuthCodeViewController {
     }
 }
 
-// MARK: - UITextFieldDelegate
-extension EnterAuthCodeViewController: UITextFieldDelegate {
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        
-        if let character = string.first, character.isNumber {
-            if textField == digit1Field {
-                digit2Field.becomeFirstResponder()
-            } else if textField == digit2Field {
-                digit3Field.becomeFirstResponder()
-            } else if textField == digit3Field {
-                digit4Field.becomeFirstResponder()
-            }
-            textField.text = string
-            return false
-        }
-        
-        return true
-    }
-}
-
 // MARK: - Private funcs
 extension EnterAuthCodeViewController {
-    private func combineDigitsFromTextFields() -> String {
-        guard let digit1 = digit1Field.text else { return "" }
-        guard let digit2 = digit2Field.text else { return "" }
-        guard let digit3 = digit3Field.text else { return "" }
-        guard let digit4 = digit4Field.text else { return "" }
-        
-        let code = digit1 + digit2 + digit3 + digit4
-        
-        return code
-    }
-    
     @objc
     private func handlePanGesture(_ gesture: UIPanGestureRecognizer) {
         switch gesture.state {
@@ -188,4 +181,3 @@ extension EnterAuthCodeViewController {
         }
     }
 }
-

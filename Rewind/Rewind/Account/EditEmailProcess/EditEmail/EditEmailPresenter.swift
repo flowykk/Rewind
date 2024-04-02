@@ -16,17 +16,26 @@ final class EditEmailPresenter {
         self.router = router
     }
     
-    func sendVerificationVode(toEmail email: String) {
-        NetworkService.sendCodeToRegister(toEmail: email) { response in
-            DispatchQueue.main.async {
+    func sendVerificationCode(toEmail email: String?) {
+        guard let email = email, Validator.isValidEmail(email) else {
+            AlertHelper.showAlert(from: view, withTitle: "Error", message: "Wrong email")
+            return
+        }
+        
+        LoadingView.show(inVC: view)
+        NetworkService.sendCodeToRegister(toEmail: email) { [weak self] response in
+            DispatchQueue.main.async { [weak self] in
                 if response.success {
-                    let value = self.view?.viewDistanceTop ?? 40
+                    let value = self?.view?.viewDistanceTop ?? 40
                     DataManager.shared.setUserVerificationCode(response.message ?? "")
-                    self.router.navigateToEnterVerificationCode(viewDistanceTop: value, newEmail: email)
+                    self?.router.navigateToEnterVerificationCode(viewDistanceTop: value, newEmail: email)
                 } else {
-                    print(response.statusCode as Any)
-                    print(response.message as Any)
+                    let message = "User with this email address is already registered or something went wrong"
+                    print(#function, response)
+                    LoadingView.hide(fromVC: self?.view)
+                    AlertHelper.showAlert(from: self?.view, withTitle: "Error", message: message)
                 }
+                LoadingView.hide(fromVC: self?.view)
             }
         }
     }

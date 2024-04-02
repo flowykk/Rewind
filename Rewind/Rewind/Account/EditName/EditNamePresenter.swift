@@ -15,15 +15,21 @@ final class EditNamePresenter {
         self.view = view
     }
     
-    func updateName(with name: String) {
-        let userId = DataManager.shared.getUserId()
+    func updateName(with name: String?) {
+        guard let name = name, Validator.isValidUserName(name) else {
+            AlertHelper.showAlert(from: view, withTitle: "Error", message: "Invalid name")
+            return
+        }
+        
+        LoadingView.show(inVC: view)
+        let userId = UserDefaults.standard.integer(forKey: "UserId")
         NetworkService.updateUserName(userId: userId, newName: name) { response in
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [weak self] in
                 if response.success {
-                    if response.message != nil {
-                        self.view?.delegate?.presenter?.didUpdateName(to: name)
-                        DataManager.shared.setUserName(name)
-                        self.view?.dismiss(animated: true)
+                    self?.view?.accountVC?.presenter?.didUpdateName(to: name)
+                    UserDefaults.standard.set(name, forKey: "UserName")
+                    self?.view?.dismiss(animated: true) {
+                        LoadingView.hide(fromVC: self?.view)
                     }
                 } else {
                     print(response.message as Any)

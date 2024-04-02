@@ -20,7 +20,12 @@ final class EnterNamePresenter {
         router.navigateToEnterPassword()
     }
     
-    func saveName(name: String) {
+    func saveName(name: String?) {
+        guard let name = name, Validator.isValidUserName(name) else {
+            AlertHelper.showAlert(from: view, withTitle: "Error", message: "Invalid name")
+            return
+        }
+        LoadingView.show(inVC: view)
         registerUser(withName: name)
     }
 }
@@ -32,7 +37,7 @@ extension EnterNamePresenter {
         let password = DataManager.shared.getUserPassword()
         NetworkService.registerUser(withName: name, email: email, password: password) { [weak self] response in
             DispatchQueue.global().async {
-                self?.handleRegisterUserResponse(response, name: name)
+                self?.handleRegisterUserResponse(response)
             }
         }
     }
@@ -40,17 +45,33 @@ extension EnterNamePresenter {
 
 // MARK: - Network Response Handlers
 extension EnterNamePresenter {
-    private func handleRegisterUserResponse(_ response: NetworkResponse, name: String) {
-        if response.success, let message = response.message, let userId = Int(message) {
-            UserDefaults.standard.set(userId, forKey: "UserId")
-            DataManager.shared.setUserName(name)
-            DataManager.shared.setUserId(userId)
-            DispatchQueue.main.async {
-                self.router.navigateToRewind()
+    private func handleRegisterUserResponse(_ response: NetworkResponse) {
+        if response.success,
+           let json = response.json,
+           let id = json["id"] as? Int,
+           let name = json["userName"] as? String,
+           let email = json["email"] as? String,
+           let regDateString = json["registrationDateTime"] as? String
+        {
+            UserDefaults.standard.set(id, forKey: "UserId")
+            UserDefaults.standard.set(name, forKey: "UserName")
+            UserDefaults.standard.set(email, forKey: "UserEmail")
+            UserDefaults.standard.set(regDateString, forKey: "UserRegDate")
+            
+            DispatchQueue.main.async { [weak self] in
+                LoadingView.hide(fromVC: self?.view)
+                self?.router.navigateToRewind()
             }
         } else {
-            print(response.statusCode as Any)
-            print(response.message as Any)
+            let message = response.message ?? "Something went wrong"
+            print(#function, response)
+            DispatchQueue.main.async { [weak self] in
+                LoadingView.hide(fromVC: self?.view)
+                AlertHelper.showAlert(from: self?.view, withTitle: "Error", message: message)
+            }
+        }
+        DispatchQueue.main.async { [weak self] in
+            LoadingView.hide(fromVC: self?.view)
         }
     }
 }

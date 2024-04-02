@@ -6,12 +6,55 @@
 //
 
 import Foundation
+import UIKit
 
 final class DataManager {
     static let shared = DataManager()
     private var user = User()
+    private var filter = Filter()
+    private var launchImage: UIImage = UIImage()
+    private let launchImageFileName = "launchImage.png"
     
-    // MARK: - SET methods
+    func setCurrentRandomMedia(to newRandomMedia: Media?) {
+        user.currentRandomMedia = newRandomMedia
+    }
+    
+    func getCurrentRandomMedia() -> Media? {
+        return user.currentRandomMedia
+    }
+    
+    func getLaunchImageFileName() -> String {
+        return launchImageFileName
+    }
+    
+    func setLaunchImage(to newImage: UIImage) {
+        launchImage = newImage
+    }
+    
+    func getLaunchImage() -> UIImage {
+        return launchImage
+    }
+    
+    func getFilter() -> Filter {
+        return filter
+    }
+    
+    func setNewTypeValue(forType type: TypesTableView.TypeRow, newValue: Bool) {
+        switch type {
+        case .Photos:
+            filter.includePhotos = newValue
+        case .Quotes:
+            filter.includeQuotes = newValue
+        }
+    }
+    
+    func setNewPropertyValue(forProperty property: PropertiesTableView.PropertyRow, newValue: Bool) {
+        switch property {
+        case .favorites:
+            filter.onlyFavorites = newValue
+        }
+    }
+    
     func setUserProcess(_ process: User.Process) {
         user.proccess = process
     }
@@ -32,15 +75,102 @@ final class DataManager {
         user.name = name
     }
     
-    func setUserId(_ id: Int) {
-        user.id = id
+    func setCurrentGroup(_ group: Group) {
+        user.currentGroup = group
+        UserDefaults.standard.set(group.id, forKey: "CurrentGroupId")
     }
     
-    func setUserImageBase64String(_ imageBase64String: String) {
-        user.imageBase64String = imageBase64String
+    func resetCurrentGroup() {
+        user.currentGroup = nil
     }
     
-    // MARK: - GET methods
+    func setCurrentGroupName(_ name: String) {
+        user.currentGroup?.name = name
+    }
+    
+    func setCurrentGroupBigImage(_ imageData: Data) {
+        user.currentGroup?.bigImage = UIImage(data: imageData)
+    }
+    
+    func setCurrentGroupMiniImage(_ imageData: Data) {
+        user.currentGroup?.miniImage = UIImage(data: imageData)
+    }
+    
+    func setUserGroups(_ groups: [Group]) {
+        user.groups = groups
+    }
+    
+    func addGroupToGroups(_ group: Group) {
+        user.groups.append(group)
+    }
+    
+    func updateGroupWithName(_ groupName: String, forGroupWithId groupId: Int) {
+        for index in user.groups.indices {
+            if user.groups[index].id == groupId {
+                user.groups[index].name = groupName
+                return
+            }
+        }
+    }
+    
+    func updateGroupWithImage(bigImageData: Data, miniImageData: Data, forGroupWithId groupId: Int) {
+        for index in user.groups.indices {
+            if user.groups[index].id == groupId {
+                user.groups[index].bigImage = UIImage(data: bigImageData)
+                user.groups[index].miniImage = UIImage(data: miniImageData)
+                return
+            }
+        }
+    }
+    
+    func removeGroupFromGroups(groupId: Int) {
+        for index in user.groups.indices {
+            if user.groups[index].id == groupId {
+                user.groups.remove(at: index)
+                return
+            }
+        }
+    }
+    
+    func setCurrentGroupToRandomUserGroup() {
+        user.currentGroup = user.groups.randomElement()
+    }
+    
+    func setCurrentGroupGallerySize(_ newGallerySize: Int) {
+        if var currentGroup = user.currentGroup {
+            currentGroup.gallerySize = newGallerySize
+            user.currentGroup = currentGroup
+        }
+    }
+    
+    func decrementCurrentGroupGallerySizer() {
+        if var currentGroup = user.currentGroup,
+           let gallerySize = currentGroup.gallerySize
+        {
+            let newGallerySize = max(0, gallerySize - 1)
+            currentGroup.gallerySize = newGallerySize
+            user.currentGroup = currentGroup
+        }
+    }
+    
+    func incrementCurrentGroupGallerySizer() {
+        if var currentGroup = user.currentGroup,
+           let gallerySize = currentGroup.gallerySize
+        {
+            let newGallerySize = max(0, gallerySize + 1)
+            currentGroup.gallerySize = newGallerySize
+            user.currentGroup = currentGroup
+        }
+    }
+    
+    func getUserGroups() -> [Group] {
+        return user.groups
+    }
+    
+    func getCurrectGroupId() -> Int? {
+        return user.currentGroup?.id
+    }
+    
     func getUser() -> User {
         return user
     }
@@ -61,15 +191,7 @@ final class DataManager {
         return user.verificationCode
     }
     
-    func getAvatarBase64String() -> String {
-        return user.imageBase64String
-    }
-    
-    func getUserId() -> Int {
-        return user.id
-    }
-    
-    func getUserName() -> String {
-        return user.name
+    func getCurrentGroup() -> Group? {
+        return user.currentGroup
     }
 }

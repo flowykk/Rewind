@@ -14,6 +14,7 @@ final class EditPasswordViewController: UIViewController {
     
     private let passwordLabel: UILabel = UILabel()
     private let passwordField: UITextField = UITextField()
+    private let promtLabel: UILabel = UILabel()
     private let continueButton: UIButton = UIButton(type: .system)
     
     var viewDistanceTop: CGFloat = 40
@@ -36,8 +37,16 @@ final class EditPasswordViewController: UIViewController {
     
     @objc
     private func continueButtonTapped() {
-        guard let newPassword = passwordField.text else { return }
-        presenter?.updatePassword(with: newPassword)
+        presenter?.updatePassword(with: passwordField.text)
+    }
+}
+
+// MARK: - UITextFieldDelegate
+extension EditPasswordViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        view.endEditing(true)
+        continueButtonTapped()
+        return false
     }
 }
 
@@ -47,6 +56,7 @@ extension EditPasswordViewController {
         view.backgroundColor = .systemGray5
         configurePasswordLabel()
         configurePasswordField()
+        configurePromtLabel()
         configureContinueButton()
     }
     
@@ -85,6 +95,20 @@ extension EditPasswordViewController {
         passwordField.pinCenterX(to: view.centerXAnchor)
     }
     
+    private func configurePromtLabel() {
+        view.addSubview(promtLabel)
+        promtLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        promtLabel.text = "Your password must contain at least 6 characters. Only Latin letters (uppercase and lowercase) and numbers (0-9) are allowed"
+        promtLabel.numberOfLines = 0
+        promtLabel.font = UIFont.systemFont(ofSize: 10, weight: .medium)
+        promtLabel.textColor = .systemGray2
+        
+        promtLabel.pinTop(to: passwordField.bottomAnchor, 20)
+        promtLabel.pinLeft(to: passwordField.leadingAnchor, 20)
+        promtLabel.pinRight(to: passwordField.trailingAnchor, 20)
+    }
+    
     private func configureContinueButton() {
         view.addSubview(continueButton)
         continueButton.translatesAutoresizingMaskIntoConstraints = false
@@ -102,13 +126,6 @@ extension EditPasswordViewController {
         continueButton.pinCenterX(to: view.centerXAnchor)
         continueButton.setHeight(60)
         continueButton.setWidth(200)
-    }
-}
-
-// MARK: - UITextFieldDelegate
-extension EditPasswordViewController: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        view.endEditing(true)
     }
 }
 

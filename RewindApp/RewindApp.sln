@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RewindApp", "RewindApp\RewindApp.csproj", "{2EDE259D-078D-4415-8A61-99E936A450B2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RewindApp.API", "RewindApp.API\RewindApp.API.csproj", "{2EDE259D-078D-4415-8A61-99E936A450B2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RewindApp.Tests", "RewindApp.Tests\RewindApp.Tests.csproj", "{5D77837C-C895-40C6-9CF0-06BFD76A1D95}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -12,5 +14,9 @@ Global
 		{2EDE259D-078D-4415-8A61-99E936A450B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2EDE259D-078D-4415-8A61-99E936A450B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2EDE259D-078D-4415-8A61-99E936A450B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D77837C-C895-40C6-9CF0-06BFD76A1D95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D77837C-C895-40C6-9CF0-06BFD76A1D95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D77837C-C895-40C6-9CF0-06BFD76A1D95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D77837C-C895-40C6-9CF0-06BFD76A1D95}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

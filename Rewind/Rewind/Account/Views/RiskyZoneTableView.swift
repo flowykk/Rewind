@@ -55,7 +55,7 @@ extension RiskyZoneTableView: UITableViewDataSource {
         guard let customCell = cell as? CustomTableViewCell else { return cell }
         let name = RiskyZoneRow.allCases[indexPath.row].rawValue
         let iconName = getIconName(fromName: name)
-        customCell.configure(withName: name, iconName: iconName, tintColor: .systemRed, squareColor: .systemRed.withAlphaComponent(0.3))
+        customCell.configure(withName: name, imageName: iconName, tintColor: .systemRed, squareColor: .systemRed.withAlphaComponent(0.3))
         return customCell
     }
 }

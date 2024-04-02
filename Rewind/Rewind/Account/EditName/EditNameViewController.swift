@@ -9,15 +9,14 @@ import UIKit
 
 final class EditNameViewController: UIViewController {
     var presenter: EditNamePresenter?
-    weak var delegate: AccountViewController?
+    weak var accountVC: AccountViewController?
+    
+    var viewDistanceTop: CGFloat = 40
+    var onNameUpdated: ((String) -> Void)?
     
     private let nameLabel: UILabel = UILabel()
     private let nameField: UITextField = UITextField()
     private let continueButton: UIButton = UIButton(type: .system)
-   
-    var viewDistanceTop: CGFloat = 40
-    
-    var onNameUpdated: ((String) -> Void)?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,8 +36,16 @@ final class EditNameViewController: UIViewController {
     
     @objc
     private func continueButtonTapped() {
-        guard let newName = nameField.text else { return }
-        presenter?.updateName(with: newName)
+        presenter?.updateName(with: nameField.text)
+    }
+}
+
+// MARK: - UITextFieldDelegate
+extension EditNameViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        view.endEditing(true)
+        continueButtonTapped()
+        return false
     }
 }
 
@@ -105,13 +112,6 @@ extension EditNameViewController {
         continueButton.pinCenterX(to: view.centerXAnchor)
         continueButton.setHeight(60)
         continueButton.setWidth(200)
-    }
-}
-
-// MARK: - UITextFieldDelegate
-extension EditNameViewController: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        view.endEditing(true)
     }
 }
 

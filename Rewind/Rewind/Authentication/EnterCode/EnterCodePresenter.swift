@@ -22,10 +22,12 @@ final class EnterCodePresenter {
     }
     
     func validateCode(code: String) {
+        print(code)
+        print(DataManager.shared.getUserVerificationCode())
         if code == DataManager.shared.getUserVerificationCode() {
             router.navigateToEnterPassword()
         } else {
-            // TODO: alert about wrong code
+            AlertHelper.showAlert(from: view, withTitle: "Error", message: "Wrong code")
         }
     }
 }

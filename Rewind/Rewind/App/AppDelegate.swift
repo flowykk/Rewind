@@ -6,14 +6,23 @@
 //
 
 import UIKit
+import CoreML
+import Vision
+
+var yoloModel: YOLOv3Model?
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-
+    
+    
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        Task { configureYOLOv3Model() }
+        
+        configureLaunchImage()
+        
         return true
     }
 
@@ -34,3 +43,48 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
+extension AppDelegate {
+    func configureYOLOv3Model() {
+        guard let modelURL = Bundle.main.url(forResource: "YOLOv3Int8LUT", withExtension: "mlmodelc") else {
+            fatalError("Failed to find YOLOv3 model file")
+        }
+        do {
+            let model = try VNCoreMLModel(for: MLModel(contentsOf: modelURL))
+            yoloModel = YOLOv3Model(model: model)
+        } catch {
+            fatalError("Failed to load YOLOv3 model: \(error)")
+        }
+    }
+}
+
+extension AppDelegate {
+    private func configureLaunchImage() {
+        let launchImageFileName = DataManager.shared.getLaunchImageFileName()
+        
+        let docDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.absoluteString ?? ""
+        let launchFileFullPath = docDir + launchImageFileName
+        
+        let launchImageURL = URL(string: launchFileFullPath)
+        
+        var launchImage: UIImage = UIImage()
+        
+        do {
+            if (launchImageURL != nil) {
+                let launchImageData = try Data(contentsOf: launchImageURL!)
+                launchImage = UIImage(data: launchImageData) ?? UIImage()
+            }
+        } catch {
+            
+        }
+        
+        if (launchImage.size.width == 0 || launchImage.size.height == 0) {
+            launchImage = UIImage(named: "sea") ?? UIImage()
+        }
+        
+        DataManager.shared.setLaunchImage(to: launchImage)
+        
+        Task {
+            NetworkService.downloadLaunchImage()
+        }
+    }
+}

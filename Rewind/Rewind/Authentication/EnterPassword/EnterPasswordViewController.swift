@@ -12,10 +12,9 @@ final class EnterPasswordViewController: UIViewController {
     
     private let passwordLabel: UILabel = UILabel()
     private let passwordField: UITextField = UITextField()
-    private let forgotPasswordButton: UIButton = UIButton(type: .system)
+    private let promtLabel: UILabel = UILabel()
+//    private let forgotPasswordButton: UIButton = UIButton(type: .system)
     private let continueButton: UIButton = UIButton(type: .system)
-    
-    private let blueMonsterImageView: UIImageView = UIImageView()
     
     var showForgotPasswordButton: Bool = false
     
@@ -32,37 +31,32 @@ final class EnterPasswordViewController: UIViewController {
         presenter?.backButtonTapped()
     }
     
+//    @objc
+//    private func forgotPasswordButtonTapped() {
+//        presenter?.forgotPasswordButtonTapped()
+//    }
+    
     @objc
     private func continueButtonTapped() {
-        guard let password = passwordField.text else { return }
-        presenter?.continueButtonTapped(password: password)
+        presenter?.continueButtonTapped(password: passwordField.text)
     }
     
-    // MARK: - Presenter To View
-    func showLoadingView() {
-        let loadingView = UIView(frame: view.bounds)
-        loadingView.backgroundColor = UIColor(white: 0, alpha: 0.3)
-        let activityIndicator = UIActivityIndicatorView(style: .large)
-        activityIndicator.color = .white
-        activityIndicator.center = loadingView.center
-        loadingView.addSubview(activityIndicator)
-        activityIndicator.startAnimating()
-        view.addSubview(loadingView)
-        loadingView.isUserInteractionEnabled = true
-        view.isUserInteractionEnabled = false
-    }
-    
-    func hideLoadingView() {
-        view.subviews.first(where: { $0.backgroundColor == UIColor(white: 0, alpha: 0.3) })?.removeFromSuperview()
-        view.isUserInteractionEnabled = true
-    }
-    
+    // MARK: - Presenter To View    
     func configureLabel(withText text: String) {
         passwordLabel.text = text
     }
     
     func configureForgotPasswordButton(withDecision decision: Bool) {
         showForgotPasswordButton = decision
+    }
+}
+
+// MARK: - UITextFieldDelegate
+extension EnterPasswordViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        view.endEditing(true)
+        continueButtonTapped()
+        return false
     }
 }
 
@@ -74,9 +68,10 @@ extension EnterPasswordViewController {
         configureBackButton()
         configurePasswordLabel()
         configurePasswordField()
-        if showForgotPasswordButton {
-            configureForgotPasswordButton()
-        }
+//        if showForgotPasswordButton {
+//            configureForgotPasswordButton()
+//        }
+        configurePromtLabel()
         configureContinueButton()
     }
     
@@ -85,7 +80,7 @@ extension EnterPasswordViewController {
         let configuration = UIImage.SymbolConfiguration(font: largeFont)
         let image = UIImage(systemName: "chevron.left", withConfiguration: configuration)
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(backButtonTapped))
-        navigationItem.leftBarButtonItem?.tintColor = .black
+        navigationItem.leftBarButtonItem?.tintColor = .blackAdapted
     }
     
     private func configurePasswordLabel() {
@@ -116,25 +111,41 @@ extension EnterPasswordViewController {
         passwordField.leftViewMode = .always
         passwordField.rightViewMode = .always
         
-        passwordField.setWidth(350)
         passwordField.setHeight(50)
+        passwordField.pinLeft(to: view.leadingAnchor, 20)
+        passwordField.pinRight(to: view.trailingAnchor, 20)
         passwordField.pinTop(to: passwordLabel.bottomAnchor, 30)
         passwordField.pinCenterX(to: view.centerXAnchor)
     }
     
-    private func configureForgotPasswordButton() {
-        view.addSubview(forgotPasswordButton)
-        forgotPasswordButton.translatesAutoresizingMaskIntoConstraints = false
+    private func configurePromtLabel() {
+        view.addSubview(promtLabel)
+        promtLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        forgotPasswordButton.setTitle("forgot password?", for: .normal)
-        forgotPasswordButton.setTitleColor(UIColor(named: "customPink"), for: .normal)
-        forgotPasswordButton.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+        promtLabel.text = "Your password must contain at least 6 characters. Only Latin letters (uppercase and lowercase) and numbers (0-9) are allowed"
+        promtLabel.numberOfLines = 0
+        promtLabel.font = UIFont.systemFont(ofSize: 10, weight: .medium)
+        promtLabel.textColor = .systemGray2
         
-        forgotPasswordButton.addTarget(self, action: #selector(showBlueMonster), for: .touchUpInside)
-        
-        forgotPasswordButton.pinTop(to: passwordField.bottomAnchor, 5)
-        forgotPasswordButton.pinCenterX(to: view.centerXAnchor)
+        promtLabel.pinTop(to: passwordField.bottomAnchor, 20)
+        promtLabel.pinLeft(to: passwordField.leadingAnchor, 20)
+        promtLabel.pinRight(to: passwordField.trailingAnchor, 20)
     }
+    
+    
+//    private func configureForgotPasswordButton() {
+//        view.addSubview(forgotPasswordButton)
+//        forgotPasswordButton.translatesAutoresizingMaskIntoConstraints = false
+//        
+//        forgotPasswordButton.setTitle("forgot password?", for: .normal)
+//        forgotPasswordButton.setTitleColor(UIColor(named: "customPink"), for: .normal)
+//        forgotPasswordButton.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+//        
+//        forgotPasswordButton.addTarget(self, action: #selector(forgotPasswordButtonTapped), for: .touchUpInside)
+//        
+//        forgotPasswordButton.pinTop(to: passwordField.bottomAnchor, 5)
+//        forgotPasswordButton.pinCenterX(to: view.centerXAnchor)
+//    }
     
     private func configureContinueButton() {
         view.addSubview(continueButton)
@@ -153,30 +164,5 @@ extension EnterPasswordViewController {
         continueButton.pinCenterX(to: view.centerXAnchor)
         continueButton.setHeight(60)
         continueButton.setWidth(200)
-    }
-    
-    private func configureBlueMonsterImageView() {
-        view.addSubview(blueMonsterImageView)
-        blueMonsterImageView.translatesAutoresizingMaskIntoConstraints = false
-        
-        blueMonsterImageView.image = UIImage(named: "blueMonster")
-        blueMonsterImageView.layer.cornerRadius = 20
-        
-        blueMonsterImageView.pinCenter(to: continueButton)
-        blueMonsterImageView.setHeight(300)
-        blueMonsterImageView.setWidth(300)
-    }
-    
-    @objc
-    private func showBlueMonster() {
-        configureBlueMonsterImageView()
-        continueButton.isEnabled = false
-    }
-}
-
-// MARK: - UITextFieldDelegate
-extension EnterPasswordViewController: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        view.endEditing(true)
     }
 }

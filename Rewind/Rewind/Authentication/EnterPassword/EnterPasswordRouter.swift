@@ -18,13 +18,18 @@ final class EnterPasswordRouter {
         view?.navigationController?.popViewController(animated: true)
     }
     
+//    func navigateToEnterCodeWhenForgotPassword() {
+//        let vc = EnterCodeBuilder.build()
+//        view?.navigationController?.pushViewController(vc, animated: true)
+//    }
+    
     func navigateToEnterName() {
         let vc = EnterNameBuilder.build()
         view?.navigationController?.pushViewController(vc, animated: true)
     }
     
     func navigateToRewind() {
-        let vc = ViewController()
+        let vc = RewindBuilder.build()
         vc.navigationController?.isNavigationBarHidden = true
         view?.navigationController?.pushViewController(vc, animated: true)
     }

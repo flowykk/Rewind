@@ -15,8 +15,9 @@ final class AccountViewController: UIViewController {
     private let avatarView: UIImageView = UIImageView()
     private var avatarImage: UIImage? = nil
     private let nameLabel: UILabel = UILabel()
+    private let emailLabel: UILabel = UILabel()
     private let groupsLabel: UILabel = UILabel()
-    private let groupsTabel: GroupsTableView = GroupsTableView()
+    private let groupsTabel: PrimaryTableView = PrimaryTableView()
     private let generalLabel: UILabel = UILabel()
     private let generalTable: GeneralTableView = GeneralTableView()
     private let appIconLabel: UILabel = UILabel()
@@ -32,8 +33,8 @@ final class AccountViewController: UIViewController {
         appIconCollectionView.presenter = presenter
         riskyZoneTabel.presenter = presenter
         presenter?.collectionView = appIconCollectionView
-        presenter?.viewDidLoad()
         configureUI()
+        presenter?.viewDidLoad()
     }
     
     @objc
@@ -41,7 +42,7 @@ final class AccountViewController: UIViewController {
         presenter?.backButtonTapped()
     }
     
-    func setAvatarImage(to image: UIImage) {
+    func setUserImage(to image: UIImage) {
         avatarView.image = image
     }
     
@@ -49,69 +50,27 @@ final class AccountViewController: UIViewController {
         nameLabel.text = name
     }
     
-    func showEditImageAlert() {
-        let alertController = UIAlertController(
-            title: "Load your media",
-            message: "This media will be visible to all people",
-            preferredStyle: .alert)
-        let chooseImageAction = UIAlertAction(title: "Choose from Library", style: .default) { _ in
-            self.presenter?.openPhotoGallery()
-        }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-        alertController.addAction(chooseImageAction)
-        alertController.addAction(cancelAction)
-        present(alertController, animated: true)
+    func setUserEmail(to email: String) {
+        emailLabel.text = email
     }
     
-    func showImagePicker() {
-        let imagePickerController = UIImagePickerController()
-        imagePickerController.sourceType = .photoLibrary
-        imagePickerController.delegate = self
-        present(imagePickerController, animated: true, completion: nil)
-    }
-    
-    func showHelpAlert() {
-        let alertController = UIAlertController(
-            title: "Contact Us",
-            message: "If you want to ask questions, you faced some other problems, or you have new ideas for Rewind just email us on sent@rewindapp.ru",
-            preferredStyle: .alert)
-        let copyAction = UIAlertAction(title: "Copy our email", style: .default) { _ in
-            self.presenter?.copyEmailToPasteboard()
-        }
-        let cancelAction = UIAlertAction(title: "Ok", style: .cancel)
-        alertController.addAction(copyAction)
-        alertController.addAction(cancelAction)
-        present(alertController, animated: true)
-    }
-    
-    func showLogOutConfirmationAlert() {
-        let alertController = UIAlertController(
-            title: "Confirm Log Out",
-            message: "Are you sure you want to log out? You will not be able to undo this action in the future",
-            preferredStyle: .alert)
-        let confirmAction = UIAlertAction(title: "Log out", style: .destructive) { _ in
-            self.presenter?.logOut()
-        }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-        alertController.addAction(confirmAction)
-        alertController.addAction(cancelAction)
-        present(alertController, animated: true)
-    }
-    
-    func showDeleteAccountConfirmationAlert() {
-        let alertController = UIAlertController(
-            title: "Confirm Delete",
-            message: "Are you sure you want to delete your account? You will not be able to undo this action in the future",
-            preferredStyle: .alert)
-        let confirmAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
-            self.presenter?.deleteAccount()
-        }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-        alertController.addAction(confirmAction)
-        alertController.addAction(cancelAction)
-        present(alertController, animated: true)
+    func setDaysWithRewind(to days: Int) {
+        daysLabel.text = "You are already \(days) days with Rewind"
     }
 }
+
+// MARK: - UIImagePickerControllerDelegate
+extension AccountViewController: UIImagePickerControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let selectedImage = info[.originalImage] as? UIImage {
+            presenter?.newImageSelected(originalImage: selectedImage)
+        }
+        dismiss(animated: true)
+    }
+}
+
+// MARK: - UINavigationControllerDelegate
+extension AccountViewController: UINavigationControllerDelegate { }
 
 // MARK: - UI Configuration
 extension AccountViewController {
@@ -122,6 +81,7 @@ extension AccountViewController {
         configureContentView()
         configureAvatarView()
         configureNameLabel()
+        configureEmailLabel()
         configureGroupsLabel()
         configureGroupsTable()
         configureGeneralLabel()
@@ -138,13 +98,14 @@ extension AccountViewController {
         let configuration = UIImage.SymbolConfiguration(font: largeFont)
         let image = UIImage(systemName: "chevron.left", withConfiguration: configuration)
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(backButtonTapped))
-        navigationItem.leftBarButtonItem?.tintColor = .black
+        navigationItem.leftBarButtonItem?.tintColor = .blackAdapted
     }
     
     private func configureScrollView() {
         view.addSubview(scrollView)
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         
+        scrollView.delaysContentTouches = false
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.backgroundColor = .systemBackground
@@ -166,7 +127,7 @@ extension AccountViewController {
         contentView.pinTop(to: scrollView.topAnchor)
         contentView.pinBottom(to: scrollView.bottomAnchor)
         contentView.pinWidth(to: scrollView.widthAnchor)
-        contentView.setHeight(1015)
+        contentView.setHeight(1040)
     }
     
     private func configureAvatarView() {
@@ -175,10 +136,13 @@ extension AccountViewController {
         
         avatarView.contentMode = .scaleAspectFill
         avatarView.clipsToBounds = true
-        avatarView.layer.cornerRadius = 65
         
-        avatarView.setWidth(130)
-        avatarView.setHeight(130)
+        let width = UIScreen.main.bounds.width / 3
+        
+        avatarView.layer.cornerRadius = width / 2
+        
+        avatarView.setWidth(width)
+        avatarView.setHeight(width)
         avatarView.pinTop(to: contentView.topAnchor)
         avatarView.pinCenterX(to: contentView.centerXAnchor)
     }
@@ -193,6 +157,17 @@ extension AccountViewController {
         nameLabel.pinCenterX(to: contentView.centerXAnchor)
     }
     
+    private func configureEmailLabel() {
+        contentView.addSubview(emailLabel)
+        emailLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        emailLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        emailLabel.textColor = .systemGray3
+        
+        emailLabel.pinTop(to: nameLabel.bottomAnchor, 5)
+        emailLabel.pinCenterX(to: contentView.centerXAnchor)
+    }
+    
     private func configureGroupsLabel() {
         contentView.addSubview(groupsLabel)
         groupsLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -200,7 +175,7 @@ extension AccountViewController {
         groupsLabel.text = "Groups"
         groupsLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         
-        groupsLabel.pinTop(to: nameLabel.bottomAnchor, 30)
+        groupsLabel.pinTop(to: emailLabel.bottomAnchor, 30)
         groupsLabel.pinLeft(to: contentView.leadingAnchor, 20)
     }
     
@@ -277,29 +252,10 @@ extension AccountViewController {
         contentView.addSubview(daysLabel)
         daysLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        daysLabel.text = "You are already N days with Rewind"
         daysLabel.font = UIFont.systemFont(ofSize: 12, weight: .bold)
         daysLabel.textColor = .systemGray4
         
         daysLabel.pinTop(to: riskyZoneTabel.bottomAnchor, 30)
         daysLabel.pinCenterX(to: contentView.centerXAnchor)
     }
-}
-
-// MARK: - UIImagePickerControllerDelegate
-extension AccountViewController: UIImagePickerControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let selectedImage = info[.originalImage] as? UIImage {
-            if let imageData = selectedImage.jpegData(compressionQuality: 1.0) {
-                let base64String = imageData.base64EncodedString()
-                presenter?.newImageSelected(image: base64String)
-            }
-        }
-        dismiss(animated: true)
-    }
-}
-
-// MARK: - UINavigationControllerDelegate
-extension AccountViewController: UINavigationControllerDelegate {
-    
 }

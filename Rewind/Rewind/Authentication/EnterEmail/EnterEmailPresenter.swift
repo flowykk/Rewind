@@ -21,14 +21,20 @@ final class EnterEmailPresenter {
         router.navigateToWellcome()
     }
     
-    func continueButtonTapped(email: String) {
-        view?.showLoadingView()
+    func continueButtonTapped(email: String?) {
+        guard let email = email, Validator.isValidEmail(email) else {
+            AlertHelper.showAlert(from: view, withTitle: "Error", message: "Wrong email")
+            return
+        }
+        
+        LoadingView.show(inVC: view)
+        
         let process = DataManager.shared.getUserProcess()
         switch process {
         case .registration:
             sendCodeToRegister(toEmail: email)
         case .authorization:
-            sendCodeToLogin(toEmail: email)
+            checkEmailToLogin(email: email)
         default:
             // TODO: something
             return
@@ -46,10 +52,10 @@ extension EnterEmailPresenter {
         }
     }
     
-    private func sendCodeToLogin(toEmail email: String) {
-        NetworkService.sendCodeToLogIn(toEmail: email) { [weak self] response in
+    private func checkEmailToLogin(email: String) {
+        NetworkService.checkEmailToLogin(email: email) { [weak self] response in
             DispatchQueue.global().async {
-                self?.handleSendCodeToLoginResponse(response, email: email)
+                self?.handleCheckEmailToLoginResponse(response, email: email)
             }
         }
     }
@@ -61,30 +67,44 @@ extension EnterEmailPresenter {
         if response.success, let message = response.message, let code = Int(message) {
             DataManager.shared.setUserEmail(email)
             DataManager.shared.setUserVerificationCode("\(code)")
-            DispatchQueue.main.async {
-                self.router.navigateToEnterCode()
+            print(code)
+            DispatchQueue.main.async { [weak self] in
+                LoadingView.hide(fromVC: self?.view)
+                self?.router.navigateToEnterCode()
             }
         } else {
-            print(response.statusCode as Any)
-            print(response.message as Any)
+            let message = "User with this email address is already registered or something went wrong"
+            print(#function, response)
+            DispatchQueue.main.async { [weak self] in
+                LoadingView.hide(fromVC: self?.view)
+                AlertHelper.showAlert(from: self?.view, withTitle: "Error", message: message)
+            }
         }
-        DispatchQueue.main.async {
-            self.view?.hideLoadingView()
+        DispatchQueue.main.async { [weak self] in
+            LoadingView.hide(fromVC: self?.view)
         }
     }
     
-    private func handleSendCodeToLoginResponse(_ response: NetworkResponse, email: String) {
+    private func handleCheckEmailToLoginResponse(_ response: NetworkResponse, email: String) {
         if response.success {
             DataManager.shared.setUserEmail(email)
-            DispatchQueue.main.async {
-                self.router.navigateToEnterPassword()
+            DispatchQueue.main.async { [weak self] in
+                LoadingView.hide(fromVC: self?.view)
+                self?.router.navigateToEnterPassword()
             }
         } else {
-            print(response.message as Any)
-            print(response.statusCode as Any)
+            var message = response.message ?? "Something went wrong"
+            if response.statusCode == 400 {
+                message = "User with this email address is not registered"
+            }
+            print(#function, response)
+            DispatchQueue.main.async { [weak self] in
+                LoadingView.hide(fromVC: self?.view)
+                AlertHelper.showAlert(from: self?.view, withTitle: "Error", message: message)
+            }
         }
-        DispatchQueue.main.async {
-            self.view?.hideLoadingView()
+        DispatchQueue.main.async { [weak self] in
+            LoadingView.hide(fromVC: self?.view)
         }
     }
 }

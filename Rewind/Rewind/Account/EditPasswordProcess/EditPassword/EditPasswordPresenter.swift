@@ -14,12 +14,18 @@ final class EditPasswordPresenter {
         self.view = view
     }
     
-    func updatePassword(with newPassword: String) {
-        let userId = DataManager.shared.getUserId()
-        NetworkService.updateUserPassword(userId: userId, newPassword: newPassword) { response in
-            DispatchQueue.main.async {
-                self.view?.dismiss(animated: true, completion: {
-                    self.view?.enterAuthCodeVC?.dismiss(animated: true)
+    func updatePassword(with newPassword: String?) {
+        guard let newPassword = newPassword, Validator.isValidPassword(newPassword) else {
+            AlertHelper.showAlert(from: view, withTitle: "Error", message: "Invalid password")
+            return
+        }
+        
+        let userId = UserDefaults.standard.integer(forKey: "UserId")
+        let encryptedPassword = newPassword.sha256()
+        NetworkService.updateUserPassword(userId: userId, newPassword: encryptedPassword) { response in
+            DispatchQueue.main.async { [weak self] in
+                self?.view?.dismiss(animated: true, completion: {
+                    self?.view?.enterAuthCodeVC?.dismiss(animated: true)
                 })
             }
         }

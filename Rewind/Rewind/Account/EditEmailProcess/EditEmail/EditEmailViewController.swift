@@ -15,6 +15,7 @@ final class EditEmailViewController: UIViewController {
     private let continueButton: UIButton = UIButton(type: .system)
     
     var viewDistanceTop: CGFloat = 40
+    var accountVC: AccountViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,8 +35,16 @@ final class EditEmailViewController: UIViewController {
     
     @objc
     private func continueButtonTapped() {
-        guard let newEmail = emailField.text else { return }
-        presenter?.sendVerificationVode(toEmail: newEmail)
+        presenter?.sendVerificationCode(toEmail: emailField.text)
+    }
+}
+
+// MARK: - UITextFieldDelegate
+extension EditEmailViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        view.endEditing(true)
+        continueButtonTapped()
+        return false
     }
 }
 
@@ -102,14 +111,6 @@ extension EditEmailViewController {
         continueButton.pinCenterX(to: view.centerXAnchor)
         continueButton.setHeight(60)
         continueButton.setWidth(200)
-    }
-}
-
-// MARK: - UITextFieldDelegate
-extension EditEmailViewController: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        view.endEditing(true)
-        return false
     }
 }
 

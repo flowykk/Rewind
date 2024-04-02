@@ -17,7 +17,6 @@ final class GeneralTableView: UITableView {
         case editName = "Edit name"
         case editEmail = "Edit email"
         case editPassword = "Edit password"
-//        case addWidget = "Add a widget"
         case getHelp = "Get help"
         case share = "Share with friends"
     }
@@ -38,7 +37,7 @@ final class GeneralTableView: UITableView {
         isScrollEnabled = false
         layer.cornerRadius = 20
         rowHeight = 50
-        setHeight(Double(50 * (GeneralRow.allCases.count) - 1))
+        setHeight(Double(Int(rowHeight) * (GeneralRow.allCases.count) - 1))
     }
 }
 
@@ -62,7 +61,7 @@ extension GeneralTableView: UITableViewDataSource {
         guard let customCell = cell as? CustomTableViewCell else { return cell }
         let name = GeneralRow.allCases[indexPath.row].rawValue
         let iconName = getIconName(fromRow: GeneralRow.allCases[indexPath.row])
-        customCell.configure(withName: name, iconName: iconName, tintColor: .darkGray, squareColor: .systemGray4)
+        customCell.configure(withName: name, imageName: iconName, tintColor: .darkGray, squareColor: .systemGray4)
         return customCell
     }
 }

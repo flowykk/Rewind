@@ -28,27 +28,16 @@ final class EnterEmailViewController: UIViewController {
     
     @objc
     private func continueButtonTapped() {
-        guard let email = emailField.text else { return }
-        presenter?.continueButtonTapped(email: email)
+        presenter?.continueButtonTapped(email: emailField.text)
     }
-    
-    // MARK: - Presenter To View
-    func showLoadingView() {
-        let loadingView = UIView(frame: view.bounds)
-        loadingView.backgroundColor = UIColor(white: 0, alpha: 0.3)
-        let activityIndicator = UIActivityIndicatorView(style: .large)
-        activityIndicator.color = .white
-        activityIndicator.center = loadingView.center
-        loadingView.addSubview(activityIndicator)
-        activityIndicator.startAnimating()
-        view.addSubview(loadingView)
-        loadingView.isUserInteractionEnabled = true
-        view.isUserInteractionEnabled = false
-    }
-    
-    func hideLoadingView() {
-        view.subviews.first(where: { $0.backgroundColor == UIColor(white: 0, alpha: 0.3) })?.removeFromSuperview()
-        view.isUserInteractionEnabled = true
+}
+
+// MARK: - UITextFieldDelegate
+extension EnterEmailViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        view.endEditing(true)
+        continueButtonTapped()
+        return false
     }
 }
 
@@ -68,7 +57,7 @@ extension EnterEmailViewController {
         let configuration = UIImage.SymbolConfiguration(font: largeFont)
         let image = UIImage(systemName: "chevron.left", withConfiguration: configuration)
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(backButtonTapped))
-        navigationItem.leftBarButtonItem?.tintColor = .black
+        navigationItem.leftBarButtonItem?.tintColor = .blackAdapted
     }
     
     private func configureEmailLabel() {
@@ -103,8 +92,9 @@ extension EnterEmailViewController {
         emailField.leftViewMode = .always
         emailField.rightViewMode = .always
         
-        emailField.setWidth(350)
         emailField.setHeight(50)
+        emailField.pinLeft(to: view.leadingAnchor, 20)
+        emailField.pinRight(to: view.trailingAnchor, 20)
         emailField.pinTop(to: emailLabel.bottomAnchor, 30)
         emailField.pinCenterX(to: view.centerXAnchor)
     }
@@ -126,12 +116,5 @@ extension EnterEmailViewController {
         continueButton.pinCenterX(to: view.centerXAnchor)
         continueButton.setHeight(60)
         continueButton.setWidth(200)
-    }
-}
-
-extension EnterEmailViewController: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        view.endEditing(true)
-        return false
     }
 }

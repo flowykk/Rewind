@@ -1,3 +1,3 @@
 # Rewind
  
-Hello guys Today we R going to Make this UI View ControleRRRRRR
+Командный курсовой проект НИУ ВШЭ для коллективного медиа потребления

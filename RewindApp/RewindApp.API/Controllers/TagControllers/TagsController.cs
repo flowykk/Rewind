@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
+using RewindApp.Application.Interfaces;
 using RewindApp.Controllers.MediaControllers;
-using RewindApp.Data;
-using RewindApp.Data.Repositories;
-using RewindApp.Entities;
-using RewindApp.Interfaces;
-using RewindApp.Requests.MediaRequests;
-using RewindApp.Requests;
+using RewindApp.Infrastructure.Data;
+using RewindApp.Infrastructure.Data.Repositories;
+using RewindApp.Domain.Entities;
+using RewindApp.Domain.Requests.MediaRequests;
+using RewindApp.Domain.Requests;
 
 namespace RewindApp.Controllers.TagControllers;
 

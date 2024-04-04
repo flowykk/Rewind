@@ -3,7 +3,7 @@ using RewindApp.Controllers.GroupControllers;
 using RewindApp.Controllers.MediaControllers;
 using RewindApp.Controllers.TagControllers;
 using RewindApp.Controllers.UserControllers;
-using RewindApp.Data;
+using RewindApp.Infrastructure.Data;
 
 namespace RewindApp.Tests.TagControllerTests;
 

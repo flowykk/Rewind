@@ -1,0 +1,17 @@
+/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Infrastructure/bin/Debug/net6.0/RewindApp.Infrastructure.deps.json
+/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Infrastructure/bin/Debug/net6.0/RewindApp.Infrastructure.dll
+/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Infrastructure/bin/Debug/net6.0/RewindApp.Infrastructure.pdb
+/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Infrastructure/bin/Debug/net6.0/RewindApp.Domain.dll
+/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Infrastructure/bin/Debug/net6.0/RewindApp.Domain.pdb
+/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Infrastructure/obj/Debug/net6.0/RewindApp.Infrastructure.csproj.AssemblyReference.cache
+/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Infrastructure/obj/Debug/net6.0/RewindApp.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Infrastructure/obj/Debug/net6.0/RewindApp.Infrastructure.AssemblyInfoInputs.cache
+/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Infrastructure/obj/Debug/net6.0/RewindApp.Infrastructure.AssemblyInfo.cs
+/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Infrastructure/obj/Debug/net6.0/RewindApp.Infrastructure.csproj.CoreCompileInputs.cache
+/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Infrastructure/obj/Debug/net6.0/RewindApp.Infrastructure.csproj.CopyComplete
+/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Infrastructure/obj/Debug/net6.0/RewindApp.Infrastructure.dll
+/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Infrastructure/obj/Debug/net6.0/refint/RewindApp.Infrastructure.dll
+/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Infrastructure/obj/Debug/net6.0/RewindApp.Infrastructure.pdb
+/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Infrastructure/obj/Debug/net6.0/ref/RewindApp.Infrastructure.dll
+/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Infrastructure/bin/Debug/net6.0/RewindApp.Application.dll
+/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Infrastructure/bin/Debug/net6.0/RewindApp.Application.pdb

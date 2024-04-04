@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using RewindApp.Data;
-using RewindApp.Entities;
-using RewindApp.Requests.UserRequests;
+using RewindApp.Infrastructure.Data;
+using RewindApp.Domain.Entities;
+using RewindApp.Domain.Requests.UserRequests;
 
 namespace RewindApp.Controllers.UserControllers;
 

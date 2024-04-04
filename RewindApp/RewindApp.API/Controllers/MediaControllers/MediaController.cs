@@ -1,15 +1,14 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using RewindApp.Application.Interfaces;
 using RewindApp.Controllers.GroupControllers;
 using RewindApp.Controllers.UserControllers;
-using RewindApp.Data;
-using RewindApp.Data.Repositories;
-using RewindApp.Entities;
-using RewindApp.Interfaces;
-using RewindApp.Requests.MediaRequests;
-using RewindApp.Services;
-using RewindApp.Views;
-using RewindApp.Views.MediaViews;
+using RewindApp.Infrastructure.Data;
+using RewindApp.Infrastructure.Data.Repositories;
+using RewindApp.Domain.Entities;
+using RewindApp.Domain.Requests.MediaRequests;
+using RewindApp.Infrastructure.Services;
+using RewindApp.Domain.Views.MediaViews;
 
 namespace RewindApp.Controllers.MediaControllers;
 

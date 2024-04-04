@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using RewindApp.Controllers.GroupControllers;
 using RewindApp.Controllers.UserControllers;
-using RewindApp.Data;
-using RewindApp.Requests;
-using RewindApp.Requests.ChangeRequests;
+using RewindApp.Infrastructure.Data;
+using RewindApp.Domain.Requests;
+using RewindApp.Domain.Requests.ChangeRequests;
 
 namespace RewindApp.Tests.GroupControllersTests;
 

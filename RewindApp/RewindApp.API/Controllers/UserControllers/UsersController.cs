@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using RewindApp.Data;
-using RewindApp.Entities;
-using RewindApp.Services;
+using RewindApp.Infrastructure.Data;
+using RewindApp.Domain.Entities;
+using RewindApp.Infrastructure.Services;
 
 namespace RewindApp.Controllers.UserControllers;
 

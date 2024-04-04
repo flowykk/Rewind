@@ -2739,6 +2739,9 @@
           "Microsoft.EntityFrameworkCore": "6.0.25",
           "MySql.Data": "8.3.0",
           "MySql.EntityFrameworkCore": "6.0.25",
+          "RewindApp.Application": "1.0.0",
+          "RewindApp.Domain": "1.0.0",
+          "RewindApp.Infrastructure": "1.0.0",
           "Swashbuckle.AspNetCore": "6.5.0"
         },
         "compile": {
@@ -2750,6 +2753,47 @@
         "frameworkReferences": [
           "Microsoft.AspNetCore.App"
         ]
+      },
+      "RewindApp.Application/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "MySql.Data": "8.3.0",
+          "MySql.EntityFrameworkCore": "6.0.25",
+          "RewindApp.Domain": "1.0.0",
+          "Swashbuckle.AspNetCore": "6.5.0"
+        },
+        "compile": {
+          "bin/placeholder/RewindApp.Application.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/RewindApp.Application.dll": {}
+        }
+      },
+      "RewindApp.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/RewindApp.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/RewindApp.Domain.dll": {}
+        }
+      },
+      "RewindApp.Infrastructure/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "6.0.25",
+          "RewindApp.Application": "1.0.0",
+          "RewindApp.Domain": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/RewindApp.Infrastructure.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/RewindApp.Infrastructure.dll": {}
+        }
       }
     }
   },
@@ -8732,6 +8776,21 @@
       "type": "project",
       "path": "../RewindApp.API/RewindApp.API.csproj",
       "msbuildProject": "../RewindApp.API/RewindApp.API.csproj"
+    },
+    "RewindApp.Application/1.0.0": {
+      "type": "project",
+      "path": "../RewindApp.Application/RewindApp.Application.csproj",
+      "msbuildProject": "../RewindApp.Application/RewindApp.Application.csproj"
+    },
+    "RewindApp.Domain/1.0.0": {
+      "type": "project",
+      "path": "../RewindApp.Domain/RewindApp.Domain.csproj",
+      "msbuildProject": "../RewindApp.Domain/RewindApp.Domain.csproj"
+    },
+    "RewindApp.Infrastructure/1.0.0": {
+      "type": "project",
+      "path": "../RewindApp.Infrastructure/RewindApp.Infrastructure.csproj",
+      "msbuildProject": "../RewindApp.Infrastructure/RewindApp.Infrastructure.csproj"
     }
   },
   "projectFileDependencyGroups": {

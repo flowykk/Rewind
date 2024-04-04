@@ -1047,6 +1047,47 @@
         "runtime": {
           "lib/net6.0/ZstdSharp.dll": {}
         }
+      },
+      "RewindApp.Application/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "MySql.Data": "8.3.0",
+          "MySql.EntityFrameworkCore": "6.0.25",
+          "RewindApp.Domain": "1.0.0",
+          "Swashbuckle.AspNetCore": "6.5.0"
+        },
+        "compile": {
+          "bin/placeholder/RewindApp.Application.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/RewindApp.Application.dll": {}
+        }
+      },
+      "RewindApp.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/RewindApp.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/RewindApp.Domain.dll": {}
+        }
+      },
+      "RewindApp.Infrastructure/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "6.0.25",
+          "RewindApp.Application": "1.0.0",
+          "RewindApp.Domain": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/RewindApp.Infrastructure.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/RewindApp.Infrastructure.dll": {}
+        }
       }
     }
   },
@@ -3227,6 +3268,21 @@
         "zstdsharp.port.0.7.1.nupkg.sha512",
         "zstdsharp.port.nuspec"
       ]
+    },
+    "RewindApp.Application/1.0.0": {
+      "type": "project",
+      "path": "../RewindApp.Application/RewindApp.Application.csproj",
+      "msbuildProject": "../RewindApp.Application/RewindApp.Application.csproj"
+    },
+    "RewindApp.Domain/1.0.0": {
+      "type": "project",
+      "path": "../RewindApp.Domain/RewindApp.Domain.csproj",
+      "msbuildProject": "../RewindApp.Domain/RewindApp.Domain.csproj"
+    },
+    "RewindApp.Infrastructure/1.0.0": {
+      "type": "project",
+      "path": "../RewindApp.Infrastructure/RewindApp.Infrastructure.csproj",
+      "msbuildProject": "../RewindApp.Infrastructure/RewindApp.Infrastructure.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -3236,6 +3292,9 @@
       "Microsoft.EntityFrameworkCore >= 6.0.25",
       "MySql.Data >= 8.3.0",
       "MySql.EntityFrameworkCore >= 6.0.25",
+      "RewindApp.Application >= 1.0.0",
+      "RewindApp.Domain >= 1.0.0",
+      "RewindApp.Infrastructure >= 1.0.0",
       "Swashbuckle.AspNetCore >= 6.5.0"
     ]
   },
@@ -3263,7 +3322,17 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Application/RewindApp.Application.csproj": {
+              "projectPath": "/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Application/RewindApp.Application.csproj"
+            },
+            "/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Domain/RewindApp.Domain.csproj": {
+              "projectPath": "/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Domain/RewindApp.Domain.csproj"
+            },
+            "/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Infrastructure/RewindApp.Infrastructure.csproj": {
+              "projectPath": "/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Infrastructure/RewindApp.Infrastructure.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

@@ -1,14 +1,14 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RewindApp.Controllers.UserControllers;
-using RewindApp.Data;
-using RewindApp.Entities;
-using RewindApp.Extensions;
-using RewindApp.Requests;
-using RewindApp.Responses;
-using RewindApp.Views;
-using RewindApp.Views.GroupViews;
-using RewindApp.Views.MediaViews;
+using RewindApp.Infrastructure.Data;
+using RewindApp.Domain.Entities;
+using RewindApp.Application.Extensions;
+using RewindApp.Domain.Requests;
+using RewindApp.Domain.Responses;
+using RewindApp.Domain.Views;
+using RewindApp.Domain.Views.GroupViews;
+using RewindApp.Domain.Views.MediaViews;
 
 namespace RewindApp.Controllers.GroupControllers;
 
@@ -152,8 +152,8 @@ public class GroupsController : ControllerBase, IGroupsController
         var user = await _usersController.GetUserById(userId);
         if (user == null) return BadRequest("User not found");
         
-        var resultResponse = await GetSmallGroupInfo(group);
-        if (resultResponse == null) return BadRequest("Owner not found");
+        var resultResponse = GetSmallGroupInfo(group);
+        //if (resultResponse == null) return BadRequest("Owner not found");
 
         if ((await GetUsersByGroupAsync(groupId)).ToList().Contains(user)) 
             return Ok(resultResponse);
@@ -239,10 +239,10 @@ public class GroupsController : ControllerBase, IGroupsController
         return resultResponse;
     }
     
-    public async Task<SmallGroupInfoResponse?> GetSmallGroupInfo(Group group)
+    public SmallGroupInfoResponse GetSmallGroupInfo(Group group)
     {
-        var owner = await _usersController.GetUserById(group.OwnerId);
-        if (owner == null) return null;
+        // var owner = await _usersController.GetUserById(group.OwnerId);
+        // if (owner == null) return null;
         
         var resultResponse = new SmallGroupInfoResponse {
             Id = group.Id,

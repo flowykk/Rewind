@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
-using RewindApp.Data;
-using RewindApp.Requests.ChangeRequests;
-using RewindApp.Services;
-using RewindApp.Requests;
+using RewindApp.Infrastructure.Data;
+using RewindApp.Domain.Requests.ChangeRequests;
+using RewindApp.Infrastructure.Services;
+using RewindApp.Domain.Requests;
 
 namespace RewindApp.Controllers.UserControllers;
 

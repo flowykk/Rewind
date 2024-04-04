@@ -1,14 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using RewindApp.Controllers.GroupControllers;
 using RewindApp.Controllers.UserControllers;
-using RewindApp.Data;
-using RewindApp.Data.Repositories;
-using RewindApp.Data.Repositories.GroupRepositories;
-using RewindApp.Data.Repositories.UserRepositories;
-using RewindApp.Interfaces;
-using RewindApp.Interfaces.GroupInterfaces;
-using RewindApp.Interfaces.UserInterfaces;
-using RewindApp.Services;
+using RewindApp.Infrastructure.Data;
+using RewindApp.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,10 +14,10 @@ builder.Services.AddTransient<IUsersController, UsersController>();
 builder.Services.AddTransient<IGroupsController, GroupsController>();
 builder.Services.AddTransient<IUserService, UserService>();
 
-builder.Services.AddTransient<IGroupRepository, GroupRepository>();
-builder.Services.AddTransient<IUserRepository, UserRepository>();
-builder.Services.AddTransient<IRegisterRepository, RegisterRepository>();
-builder.Services.AddTransient<IChangeUserRepository, ChangeUserRepository>();
+// builder.Services.AddTransient<IGroupRepository, GroupRepository>();
+// builder.Services.AddTransient<IUserRepository, UserRepository>();
+// builder.Services.AddTransient<IRegisterRepository, RegisterRepository>();
+// builder.Services.AddTransient<IChangeUserRepository, ChangeUserRepository>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 //builder.Services.AddEndpointsApiExplorer();
@@ -49,9 +43,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();

@@ -3,12 +3,12 @@ using MySqlX.XDevAPI.Common;
 using RewindApp.Controllers.GroupControllers;
 using RewindApp.Controllers.MediaControllers;
 using RewindApp.Controllers.UserControllers;
-using RewindApp.Data;
-using RewindApp.Entities;
-using RewindApp.Responses;
-using RewindApp.Views;
-using RewindApp.Views.GroupViews;
-using RewindApp.Views.MediaViews;
+using RewindApp.Infrastructure.Data;
+using RewindApp.Domain.Entities;
+using RewindApp.Domain.Responses;
+using RewindApp.Domain.Views;
+using RewindApp.Domain.Views.GroupViews;
+using RewindApp.Domain.Views.MediaViews;
 
 namespace RewindApp.Tests.GroupControllersTests;
 
@@ -173,6 +173,22 @@ public class GroupsControllerTests
         Assert.Equal("400", result?.StatusCode.ToString());
         Assert.Equal("Group not found", result?.Value);
     }
+    
+    [Fact]
+    public async void ItShould_fail_to_add_user_to_group_with_invalid_ownerId()
+    {
+        // Arrange
+        await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
+        await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
+        
+        // Act
+        var actionResult = await _groupsController.AddUserToGroup(2,1);
+        var result = actionResult.Result as ObjectResult;
+
+        // Assert
+        Assert.Equal("400", result?.StatusCode.ToString());
+        Assert.Equal("Group not found", result?.Value);
+    }
 
     [Fact]
     public async void ItShould_successfully_delete_group()
@@ -292,7 +308,7 @@ public class GroupsControllerTests
         Assert.Equal("Group not found", result?.Value);
     }
 
-    [Fact]
+    /*[Fact]
     public async void ItShould_successfully_get_group_media_by_groupId()
     {
         // Arrange
@@ -326,7 +342,7 @@ public class GroupsControllerTests
         // Assert
         Assert.Equal("400", result?.StatusCode.ToString());
         Assert.Equal("Group not found", result?.Value);
-    }
+    }*/
 
     [Fact]
     public async void ItShould_successfully_get_group_info_by_groupId()

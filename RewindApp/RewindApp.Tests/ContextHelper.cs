@@ -1,8 +1,8 @@
 using AutoFixture;
-using RewindApp.Requests;
-using RewindApp.Requests.ChangeRequests;
-using RewindApp.Requests.MediaRequests;
-using RewindApp.Requests.UserRequests;
+using RewindApp.Domain.Requests;
+using RewindApp.Domain.Requests.ChangeRequests;
+using RewindApp.Domain.Requests.MediaRequests;
+using RewindApp.Domain.Requests.UserRequests;
 
 namespace RewindApp.Tests;
 

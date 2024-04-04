@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using RewindApp.Controllers.UserControllers;
-using RewindApp.Data;
+using RewindApp.Infrastructure.Data;
 
 namespace RewindApp.Tests.UserControllersTests;
 

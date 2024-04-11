@@ -1,55 +1,65 @@
-/*using MySql.Data.MySqlClient;
-using RewindApp.Entities;
-using RewindApp.Interfaces;
-using RewindApp.Interfaces.UserInterfaces;
-using RewindApp.Requests;
-using RewindApp.Requests.ChangeRequests;
-using RewindApp.Requests;
-using RewindApp.Services;
+using MySql.Data.MySqlClient;
+using RewindApp.Application.Interfaces.UserInterfaces;
+using RewindApp.Domain.Entities;
+using RewindApp.Domain.Requests;
+using RewindApp.Domain.Requests.ChangeRequests;
+using RewindApp.Infrastructure.Services;
 
-namespace RewindApp.Data.Repositories.UserRepositories;
+namespace RewindApp.Infrastructure.Data.Repositories.UserRepositories;
 
 public class ChangeUserRepository : IChangeUserRepository
 {
     private readonly DataContext _context;
     private readonly IUserService _userService;
+    private readonly SqlService _sqlService;
 
     public ChangeUserRepository(DataContext context)
     {
         _context = context;
         _userService = new UserService();
+        _sqlService = new SqlService();
     }
     
-    public async Task<User> ChangeNameAsync(User user, int userId, TextRequest request)
+    public async Task ChangeNameAsync(User user, TextRequest request)
     {
         user.UserName = request.Text;
         _context.Users.Update(user);
         await _context.SaveChangesAsync();
         
-        return user;
+        _sqlService.UpdateUserImage(user);
     }
 
-    public async Task<User> ChangeEmailAsync(User user, int userId, EmailRequest request)
+    public async Task ChangeEmailAsync(User user, EmailRequest request)
     {
         user.Email = request.Email;
         _context.Users.Update(user);
         await _context.SaveChangesAsync();
         
-        return user;
+        _sqlService.UpdateUserImage(user);
     }
 
-    public async Task<User> ChangePasswordAsync(User user, int userId, PasswordRequest request)
+    public async Task ChangePasswordAsync(User user, PasswordRequest request)
     {
-        user.Password = _userService.ComputeHash(request.Password);
+        user.Password = request.Password; 
         _context.Users.Update(user);
         await _context.SaveChangesAsync();
-
-        return user;
+        
+        _sqlService.UpdateUserImage(user);
+    }
+    
+    public async Task ChangeAppIconAsync(User user, string newIcon)
+    {
+        user.AppIcon = newIcon;
+        _context.Users.Update(user);
+        await _context.SaveChangesAsync();
+        
+        _sqlService.UpdateUserImage(user);
     }
 
-    public async Task<User> ChangeProfileImage(User user, int userId, MediaRequest mediaRequest)
+    public async Task ChangeProfileImage(User user, MediaRequest mediaRequest)
     {
         var rawData = Convert.FromBase64String(mediaRequest.Object);
+        var tinyData = Convert.FromBase64String(mediaRequest.TinyObject);
 
         var connectionString = DataContext.GetDbConnection();
         var connection = new MySqlConnection(connectionString);
@@ -58,25 +68,28 @@ public class ChangeUserRepository : IChangeUserRepository
         var command = new MySqlCommand()
         {
             Connection = connection,
-            CommandText = "UPDATE Users SET ProfileImage = @rawData WHERE Id = @userId;"
+            CommandText = "UPDATE Users SET ProfileImage = @rawData, TinyProfileImage = @tinyData WHERE Id = @userId;"
         };
-        var fileContentParameter = new MySqlParameter("?rawData", MySqlDbType.Blob, rawData.Length)
+        var imageParameter = new MySqlParameter("?rawData", MySqlDbType.Blob, rawData.Length)
         {
             Value = rawData
         };
+        var tinyImageParameter = new MySqlParameter("?tinyData", MySqlDbType.TinyBlob, tinyData.Length)
+        {
+            Value = tinyData
+        };
         var userIdParameter = new MySqlParameter("?userId", MySqlDbType.Int64)
         {
-            Value = userId
+            Value = user.Id
         };
-        
-        command.Parameters.Add(fileContentParameter);
-        command.Parameters.Add(userIdParameter);
-        command.ExecuteNonQuery();
         
         user.ProfileImage = rawData;
         _context.Users.Update(user);
         await _context.SaveChangesAsync();
-
-        return user;
+        
+        command.Parameters.Add(imageParameter);
+        command.Parameters.Add(tinyImageParameter);
+        command.Parameters.Add(userIdParameter);
+        command.ExecuteNonQuery();
     }
-}*/
+}

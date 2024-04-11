@@ -3,6 +3,7 @@ using RewindApp.Controllers.GroupControllers;
 using RewindApp.Controllers.MediaControllers;
 using RewindApp.Controllers.TagControllers;
 using RewindApp.Controllers.UserControllers;
+using RewindApp.Domain.Entities;
 using RewindApp.Infrastructure.Data;
 
 namespace RewindApp.Tests.TagControllerTests;
@@ -14,6 +15,7 @@ public class TagsControllerTests
     private readonly GroupsController _groupsController;
     private readonly MediaController _mediaController;
     private readonly TagsController _tagsController;
+    private readonly UsersController _usersController;
     
     public TagsControllerTests()
     {
@@ -21,15 +23,14 @@ public class TagsControllerTests
         _groupsController = new GroupsController(_context);
         _mediaController = new MediaController(_context);
         _tagsController = new TagsController(_context);
+        _usersController = new UsersController(_context);
     }
     
     [Fact]
     public async void ItShould_successfully_add_tag_to_media_by_mediaId()
     {
         // Arrange
-        await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
-        await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
-        await _mediaController.LoadMediaToGroup(ContextHelper.BuildLoadMediaRequest(),1,1);
+        await LoadMedia();
         
         // Assert
         var actionResult = await _tagsController.AddTags(ContextHelper.BuildDefaultTagsRequest(), 1); 
@@ -46,9 +47,7 @@ public class TagsControllerTests
     public async void ItShould_fail_to_add_tag_to_media_with_invalid_mediaId()
     {
         // Arrange
-        await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
-        await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
-        await _mediaController.LoadMediaToGroup(ContextHelper.BuildLoadMediaRequest(), 1, 1);
+        await LoadMedia();
         
         // Assert
         var actionResult = await _tagsController.AddTags(ContextHelper.BuildDefaultTagsRequest(), 2); 
@@ -60,30 +59,10 @@ public class TagsControllerTests
     }
     
     [Fact]
-    public async void ItShould_fail_to_add_duplicate_tag_to_media_by_mediaId()
-    {
-        // Arrange
-        await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
-        await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
-        await _mediaController.LoadMediaToGroup(ContextHelper.BuildLoadMediaRequest(), 1, 1);
-        await _tagsController.AddTags(ContextHelper.BuildTagsRequest("test"), 1);
-        
-        // Assert
-        var actionResult = await _tagsController.AddTags(ContextHelper.BuildTagsRequest("test"), 1); 
-        var result = actionResult.Result as ObjectResult;
-        
-        // Act
-        Assert.Equal("400", result?.StatusCode.ToString());
-        Assert.Equal("Media already has such Tag", result?.Value);
-    }
-    
-    [Fact]
     public async void ItShould_successfully_get_tags()
     {
         // Arrange
-        await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
-        await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
-        await _mediaController.LoadMediaToGroup(ContextHelper.BuildLoadMediaRequest(), 1, 1);
+        await LoadMedia();
         await _tagsController.AddTags(ContextHelper.BuildDefaultTagsRequest(), 1);
         
         // Act
@@ -95,37 +74,65 @@ public class TagsControllerTests
     }
 
     [Fact]
-    public async void ItShould_successfully_get_media_tags_by_mediaId()
+    public async void ItShould_successfully_get_tags_by_mediaId()
     {
         // Arrange
-        await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
-        await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
-        await _mediaController.LoadMediaToGroup(ContextHelper.BuildLoadMediaRequest(), 1, 1);
+        await LoadMedia();
         await _tagsController.AddTags(ContextHelper.BuildDefaultTagsRequest(), 1);
 
         // Assert
         var actionResult = await _tagsController.GetTagsByMediaId(1);
-        var media = await _mediaController.GetMediaById(1);
+        var result = actionResult.Result as ObjectResult;
+        var value = result?.Value as IEnumerable<Tag>;
 
         // Act
-        Assert.NotNull(actionResult.Value);
-        Assert.NotEmpty(media.Tags);
+        Assert.NotNull(value);
+        Assert.NotEmpty(value);
     }
-
-    [Fact] public async void ItShould_fail_to_get_media_tags_with_invalid_mediaId()
+    
+    [Fact]
+    public async void ItShould_successfully_delete_tag_by_mediaId()
     {
         // Arrange
-        await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
-        await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
-        await _mediaController.LoadMediaToGroup(ContextHelper.BuildLoadMediaRequest(), 1, 1);
+        await LoadMedia();
         await _tagsController.AddTags(ContextHelper.BuildDefaultTagsRequest(), 1);
-
+        
         // Assert
-        var actionResult = await _tagsController.GetTagsByMediaId(2);
-        var result = actionResult.Result as ObjectResult;
+        var actionResult = await _tagsController.DeleteTag(ContextHelper.BuildDefaultTagTextRequest(), 1);
+        var result = actionResult as ObjectResult;
+        var media = await _mediaController.GetMediaById(1);
+        
+        // Act
+        Assert.Equal("200", result?.StatusCode.ToString());
+        Assert.Empty(_context.Tags);
+        Assert.Empty(media.Tags);
+    }
+    
+    [Fact]
+    public async void ItShould_fail_to_delete_tag_with_invalid_mediaId()
+    {
+        // Arrange
+        await LoadMedia();
+        await _tagsController.AddTags(ContextHelper.BuildDefaultTagsRequest(), 1);
+        
+        // Assert
+        var actionResult = await _tagsController.DeleteTag(ContextHelper.BuildDefaultTagTextRequest(), 2);
+        var result = actionResult as ObjectResult;
         
         // Act
         Assert.Equal("400", result?.StatusCode.ToString());
         Assert.Equal("Media not found", result?.Value);
+        Assert.NotEmpty(_context.Tags);
+    }
+    
+    private async Task LoadMedia()
+    {
+        await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
+        await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
+
+        var user = await _usersController.GetUserById(1);
+        var group = await _groupsController.GetGroupById(1);
+        
+        await ContextHelper.LoadMedia(ContextHelper.BuildLoadMediaRequest(), _context, group!, user!);
     }
 }

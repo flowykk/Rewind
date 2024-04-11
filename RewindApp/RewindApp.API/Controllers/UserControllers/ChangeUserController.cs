@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
-using MySql.Data.MySqlClient;
+using RewindApp.Application.Interfaces.UserInterfaces;
 using RewindApp.Infrastructure.Data;
 using RewindApp.Domain.Requests.ChangeRequests;
-using RewindApp.Infrastructure.Services;
 using RewindApp.Domain.Requests;
+using RewindApp.Infrastructure.Data.Repositories.UserRepositories;
 
 namespace RewindApp.Controllers.UserControllers;
 
@@ -11,28 +11,22 @@ namespace RewindApp.Controllers.UserControllers;
 [Route("change-user")]
 public class ChangeUserController : ControllerBase
 {
-    private readonly DataContext _context;
-    private readonly IUsersController _usersController;
-    private readonly SqlService _sqlService;
+    private readonly IUserRepository _userRepository;
+    private readonly IChangeUserRepository _changeUserRepository;
 
     public ChangeUserController(DataContext context)
     {
-        _context = context;
-        _usersController = new UsersController(context);
-        _sqlService = new SqlService();
+        _userRepository = new UserRepository(context);
+        _changeUserRepository = new ChangeUserRepository(context);
     }
 
     [HttpPut("name/{userId}")]
     public async Task<ActionResult> ChangeName(int userId, TextRequest request)
     {
-        var user = await _usersController.GetUserById(userId);
+        var user = await _userRepository.GetUserByIdAsync(userId);
         if (user == null) return BadRequest("User not found");
-        
-        user.UserName = request.Text;
-        _context.Users.Update(user);
-        await _context.SaveChangesAsync();
-        
-        _sqlService.UpdateUserImage(user);
+
+        await _changeUserRepository.ChangeNameAsync(user, request);
         
         return Ok("Text changed");
     }
@@ -40,14 +34,10 @@ public class ChangeUserController : ControllerBase
     [HttpPut("email/{userId}")]
     public async Task<ActionResult> ChangeEmail(int userId, EmailRequest request)
     {
-        var user = await _usersController.GetUserById(userId);
+        var user = await _userRepository.GetUserByIdAsync(userId);
         if (user == null) return BadRequest("User not found");
         
-        user.Email = request.Email;
-        _context.Users.Update(user);
-        await _context.SaveChangesAsync();
-        
-        _sqlService.UpdateUserImage(user);
+        await _changeUserRepository.ChangeEmailAsync(user, request);
         
         return Ok("Email changed");
     }
@@ -55,14 +45,10 @@ public class ChangeUserController : ControllerBase
     [HttpPut("password/{userId}")]
     public async Task<ActionResult> ChangePassword(int userId, PasswordRequest request)
     {
-        var user = await _usersController.GetUserById(userId);
+        var user = await _userRepository.GetUserByIdAsync(userId);
         if (user == null) return BadRequest("User not found");
 
-        user.Password = request.Password; 
-        _context.Users.Update(user);
-        await _context.SaveChangesAsync();
-        
-        _sqlService.UpdateUserImage(user);
+        await _changeUserRepository.ChangePasswordAsync(user, request);
         
         return Ok("Password changed");
     }
@@ -70,14 +56,10 @@ public class ChangeUserController : ControllerBase
     [HttpPut("icon/{userId}")]
     public async Task<ActionResult> ChangeAppIcon(int userId, string newIcon)
     {
-        var user = await _usersController.GetUserById(userId);
+        var user = await _userRepository.GetUserByIdAsync(userId);
         if (user == null) return BadRequest("User not found");
 
-        user.AppIcon = newIcon;
-        _context.Users.Update(user);
-        await _context.SaveChangesAsync();
-        
-        _sqlService.UpdateUserImage(user);
+        await _changeUserRepository.ChangeAppIconAsync(user, newIcon);
         
         return Ok("AppIcon changed");
     }
@@ -85,42 +67,10 @@ public class ChangeUserController : ControllerBase
     [HttpPut("image/{userId}")]
     public async Task<ActionResult> ChangeProfileImage(MediaRequest mediaRequest, int userId)
     {
-        var user = await _usersController.GetUserById(userId);
+        var user = await _userRepository.GetUserByIdAsync(userId);
         if (user == null) return BadRequest("User not found");
 
-        var rawData = Convert.FromBase64String(mediaRequest.Object);
-        var tinyData = Convert.FromBase64String(mediaRequest.TinyObject);
-
-        var connectionString = DataContext.GetDbConnection();
-        var connection = new MySqlConnection(connectionString);
-        connection.Open();
-
-        var command = new MySqlCommand()
-        {
-            Connection = connection,
-            CommandText = "UPDATE Users SET ProfileImage = @rawData, TinyProfileImage = @tinyData WHERE Id = @userId;"
-        };
-        var imageParameter = new MySqlParameter("?rawData", MySqlDbType.Blob, rawData.Length)
-        {
-            Value = rawData
-        };
-        var tinyImageParameter = new MySqlParameter("?tinyData", MySqlDbType.TinyBlob, tinyData.Length)
-        {
-            Value = tinyData
-        };
-        var userIdParameter = new MySqlParameter("?userId", MySqlDbType.Int64)
-        {
-            Value = userId
-        };
-        
-        user.ProfileImage = rawData;
-        _context.Users.Update(user);
-        await _context.SaveChangesAsync();
-        
-        command.Parameters.Add(imageParameter);
-        command.Parameters.Add(tinyImageParameter);
-        command.Parameters.Add(userIdParameter);
-        command.ExecuteNonQuery();
+        await _changeUserRepository.ChangeProfileImage(user, mediaRequest);
 
         return Ok("Image changed");
     }

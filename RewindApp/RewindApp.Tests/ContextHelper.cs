@@ -1,8 +1,11 @@
 using AutoFixture;
+using RewindApp.Domain.Entities;
 using RewindApp.Domain.Requests;
 using RewindApp.Domain.Requests.ChangeRequests;
 using RewindApp.Domain.Requests.MediaRequests;
 using RewindApp.Domain.Requests.UserRequests;
+using RewindApp.Domain.Views;
+using RewindApp.Infrastructure.Data;
 
 namespace RewindApp.Tests;
 
@@ -91,29 +94,37 @@ public static class ContextHelper
             .Create();
     }
     
-    public static TextRequest BuildDefaultNameRequest()
+    public static TextRequest BuildDefaultTagTextRequest()
     {
-        return _fixture.Create<TextRequest>();
+        return _fixture.Build<TextRequest>()
+            .With(req => req.Text, "test")
+            .Create();;
     }
-    
+
     public static TagsRequest BuildDefaultTagsRequest()
     {
-        return _fixture.Create<TagsRequest>();
-    }
-    
-    public static TextRequest BuildNameRequest(string name)
-    {
-        return _fixture
-            .Build<TextRequest>()
-            .With(req => req.Text, name)
+        return _fixture.Build<TagsRequest>()
+            .With(req => req.Tags, new List<string> {"test"})
             .Create();
     }
-    
-    public static TagsRequest BuildTagsRequest(string name)
+
+    public static async Task LoadMedia(LoadMediaRequest request, DataContext context, Group group, User user)
     {
-        return _fixture
-            .Build<TagsRequest>()
-            .With(req => req.Tags, new List<string> { name })
-            .Create();
+        var media = new Media
+        {
+            Object = Convert.FromBase64String(request.Object),
+            TinyObject = Convert.FromBase64String(request.TinyObject),
+            IsPhoto = request.IsPhoto == 1,
+            Author = new UserView
+            {
+                Id = user.Id,
+                TinyProfileImage = user.TinyProfileImage,
+                UserName = user.UserName
+            },
+            Group = group
+        };
+        
+        context.Media.Add(media);
+        await context.SaveChangesAsync();
     }
 }

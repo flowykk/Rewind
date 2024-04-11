@@ -6,10 +6,10 @@ public class GroupInfoResponse
 {
     public int Id { get; set; }
     public int DataSize { get; set; }
-    public string Name { get; set; }
-    public byte[] Image { get; set; }
-    public UserView Owner { get; set; }
-    public IEnumerable<UserView>? FirstMembers { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public byte[] Image { get; set; } = Array.Empty<byte>();
     public int GallerySize { get; set; }
+    public UserView Owner { get; set; } = new();
+    public IEnumerable<UserView>? FirstMembers { get; set; }
     public IEnumerable<MediaView>? FirstMedia { get; set; }
 }

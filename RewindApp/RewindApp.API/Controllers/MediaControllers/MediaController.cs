@@ -1,14 +1,14 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using RewindApp.Application.Interfaces;
-using RewindApp.Controllers.GroupControllers;
-using RewindApp.Controllers.UserControllers;
+using RewindApp.Application.Interfaces.GroupInterfaces;
+using RewindApp.Application.Interfaces.MediaInterfaces;
+using RewindApp.Application.Interfaces.UserInterfaces;
 using RewindApp.Infrastructure.Data;
-using RewindApp.Infrastructure.Data.Repositories;
 using RewindApp.Domain.Entities;
 using RewindApp.Domain.Requests.MediaRequests;
-using RewindApp.Infrastructure.Services;
 using RewindApp.Domain.Views.MediaViews;
+using RewindApp.Infrastructure.Data.Repositories.GroupRepositories;
+using RewindApp.Infrastructure.Data.Repositories.MediaRepositories;
+using RewindApp.Infrastructure.Data.Repositories.UserRepositories;
 
 namespace RewindApp.Controllers.MediaControllers;
 
@@ -16,37 +16,27 @@ namespace RewindApp.Controllers.MediaControllers;
 [Route("[controller]")]
 public class MediaController : ControllerBase
 {
-    private readonly DataContext _context;
-    private readonly IGroupsController _groupsController;
-    private readonly IUsersController _usersController;
-    private readonly SqlService _sqlService;
-
-    private readonly ITagsRepository _tagsRepository;
+    private readonly IGroupRepository _groupRepository;
+    private readonly IUserRepository _userRepository;
+    private readonly IMediaRepository _mediaRepository;
 
     public MediaController(DataContext context) 
     {
-        _context = context;
-        _groupsController = new GroupsController(context);
-        _usersController = new UsersController(context);
-        _sqlService = new SqlService();
-        _tagsRepository = new TagsRepository(context);
+        _groupRepository = new GroupRepository(context);
+        _userRepository = new UserRepository(context);
+        _mediaRepository = new MediaRepository(context);
     }
 
     [HttpGet]
-    public async Task<IEnumerable<Media>> GetMedia()   
+    public async Task<IEnumerable<Media>> GetMedia()
     {
-        return await _context.Media.ToListAsync();
+        return await _mediaRepository.GetMediaAsync();
     }
     
     [HttpGet("{mediaId}")]
     public async Task<Media?> GetMediaById(int mediaId)
     {
-        var media = await _context.Media
-            .Include(m => m.Users)
-            .Include(m => m.Author)
-            .Include(m => m.Tags)
-            .FirstOrDefaultAsync(media => media.Id == mediaId);
-        return media;
+        return await _mediaRepository.GetMediaByIdAsync(mediaId);
     }
     
     [HttpGet("info/{mediaId}/{userId}")]
@@ -55,44 +45,33 @@ public class MediaController : ControllerBase
         var media = await GetMediaById(mediaId);
         if (media == null) return BadRequest("Media not found");
 
-        return Ok(new LargeMediaInfoResponse {
-            Id = mediaId,
-            Author = media.Author,
-            Date = media.Date,
-            Object = media.Object,
-            Liked = (await _usersController.GetLikedMediaByUser(userId)).Contains(media),
-            Tags = media.Tags
-        });
+        return Ok(await _mediaRepository.GetMediaInfoByIdAsync(media, userId));
     }
     
     [HttpPost("like/{userId}/{mediaId}")]
-    public async Task<ActionResult<Media>> LikeMedia(int userId, int mediaId)
+    public async Task<ActionResult> LikeMedia(int userId, int mediaId)
     {
-        var user = await _usersController.GetUserById(userId);
+        var user = await _userRepository.GetUserByIdAsync(userId);
         if (user == null) return BadRequest("User not found");
         
         var media = await GetMediaById(mediaId);
         if (media == null) return BadRequest("Media not found");
 
-        user.Media.Add(media);
-        media.Users.Add(user);
-        await _context.SaveChangesAsync();
+        await _mediaRepository.LikeMediaAsync(media, user);
         
         return Ok("liked");
     }
 
     [HttpDelete("unlike/{userId}/{mediaId}")]
-    public async Task<ActionResult<Media>> UnlikeMedia(int userId, int mediaId)
+    public async Task<ActionResult> UnlikeMedia(int userId, int mediaId)
     {
-        var user = await _usersController.GetUserById(userId);
+        var user = await _userRepository.GetUserByIdAsync(userId);
         if (user == null) return BadRequest("User not found");
         
         var media = await GetMediaById(mediaId);
         if (media == null) return BadRequest("Media not found");
 
-        user.Media.Remove(media);
-        media.Users.Remove(user);
-        await _context.SaveChangesAsync();
+        await _mediaRepository.UnlikeMediaAsync(media, user);
         
         return Ok("unliked");
     }
@@ -100,19 +79,13 @@ public class MediaController : ControllerBase
     [HttpPost("load/{groupId}/{authorId}")]
     public async Task<ActionResult> LoadMediaToGroup(LoadMediaRequest mediaRequest, int groupId, int authorId)
     {
-        var group = await _groupsController.GetGroupById(groupId);
+        var group = await _groupRepository.GetGroupByIdAsync(groupId);
         if (group == null) return BadRequest("Group not found");
         
-        var author = await _usersController.GetUserById(authorId);
+        var author = await _userRepository.GetUserByIdAsync(authorId);
         if (author == null) return BadRequest("Author not found");
         
-        var rawData = Convert.FromBase64String(mediaRequest.Object);
-        var tinyData = Convert.FromBase64String(mediaRequest.TinyObject);
-
-        var id = _sqlService.LoadMedia(rawData, tinyData, groupId, authorId, mediaRequest.IsPhoto);
-        
-        foreach (var tag in mediaRequest.Tags)
-            await _tagsRepository.AddTagAsync((await GetMediaById(id))!, tag);
+        var id = await _mediaRepository.LoadMediaToGroupAsync(mediaRequest, groupId, authorId);
         
         return Ok(id);
     }
@@ -120,17 +93,13 @@ public class MediaController : ControllerBase
     [HttpDelete("unload/{mediaId}/{groupId}")]
     public async Task<ActionResult> UnloadMediaFromGroup(int mediaId, int groupId)
     {
-        var group = await _groupsController.GetGroupById(groupId);
+        var group = await _groupRepository.GetGroupByIdAsync(groupId);
         if (group == null) return BadRequest("Group not found");
 
         var media = await GetMediaById(mediaId);
         if (media == null) return BadRequest("Media not found");
-
-        var author = media.Author == null ? null : await _usersController.GetUserById(media.Author.Id);
-
-        group.Media.Remove(media);
-        author?.Media.Remove(media);
-        await _context.SaveChangesAsync();
+        
+        await _mediaRepository.UnloadMediaFromGroupAsync(media, group);
         
         return Ok(media.Id);
     }

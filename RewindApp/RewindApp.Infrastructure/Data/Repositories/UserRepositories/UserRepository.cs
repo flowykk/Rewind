@@ -1,11 +1,9 @@
-/*using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using RewindApp.Entities;
-using RewindApp.Interfaces;
-using RewindApp.Interfaces.UserInterfaces;
-using RewindApp.Services;
+using RewindApp.Application.Interfaces.UserInterfaces;
+using RewindApp.Domain.Entities;
+using RewindApp.Infrastructure.Services;
 
-namespace RewindApp.Data.Repositories.UserRepositories;
+namespace RewindApp.Infrastructure.Data.Repositories.UserRepositories;
 
 public class UserRepository : IUserRepository
 {
@@ -26,7 +24,7 @@ public class UserRepository : IUserRepository
         return await _context.Users.ToListAsync();
     }
 
-    public async Task<User> DeleteUserAccountAsync(User user, int userId)
+    public async Task<User> DeleteUserAccountAsync(User user)
     {
         _context.Users.Remove(user);
         await _context.SaveChangesAsync();
@@ -48,11 +46,25 @@ public class UserRepository : IUserRepository
 
     public async Task<User?> GetUserByEmailAsync(string email)
     {
-        return await _context.Users.FirstOrDefaultAsync(user => user.Email == email);
+        return await _context.Users
+            .Include(u => u.Groups)
+            .Include(u => u.Media)
+            .FirstOrDefaultAsync(user => user.Email == email);
     }
 
     public async Task<User?> GetUserByIdAsync(int userId)
     {
-        return await _context.Users.FirstOrDefaultAsync(user => user.Id == userId);
+        return await _context.Users
+            .Include(u => u.Groups)
+            .Include(u => u.Media)
+            .FirstOrDefaultAsync(user => user.Id == userId);
     }
-}*/
+    
+    public async Task<IEnumerable<Media>> GetLikedMediaByUser(int userId)
+    {
+        return await _context.Users
+            .Include(user => user.Media)
+            .Where(user => user.Id == userId)
+            .SelectMany(user => user.Media).ToListAsync(); 
+    }
+}

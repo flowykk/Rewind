@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
+using RewindApp.Application.Interfaces.UserInterfaces;
 using RewindApp.Infrastructure.Data;
 using RewindApp.Domain.Entities;
 using RewindApp.Domain.Requests.UserRequests;
+using RewindApp.Infrastructure.Data.Repositories.UserRepositories;
 
 namespace RewindApp.Controllers.UserControllers;
 
@@ -9,25 +11,24 @@ namespace RewindApp.Controllers.UserControllers;
 [Route("[controller]")]
 public class RegisterController : ControllerBase
 {
-    private readonly DataContext _context;
-    private readonly IUsersController _usersController;
+    private readonly IUserRepository _userRepository;
+    private readonly IRegisterRepository _registerRepository;
 
     public RegisterController(DataContext context) 
     {
-        _context = context;
-        _usersController = new UsersController(context);
+        _userRepository = new UserRepository(context);
+        _registerRepository = new RegisterRepository(context);
     }
 
     [HttpGet("check-email/{email}")]
     public async Task<ActionResult> CheckEmail(string email)
     {
-        var user = await _usersController.GetUserByEmail(email);
+        var user = await _userRepository.GetUserByEmailAsync(email);
         if (user != null) return BadRequest("User is registered");
 
         try
         {
-            var verificationCode = _usersController.SendVerificationCode(email);
-            return Ok(verificationCode);
+            return Ok(_userRepository.SendVerificationCode(email));
         }
         catch (Exception e)
         {
@@ -38,21 +39,10 @@ public class RegisterController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<User>> Register(UserRegisterRequest request)
     {
-        var user = await _usersController.GetUserByEmail(request.Email);
+        var user = await _userRepository.GetUserByEmailAsync(request.Email);
         if (user != null) return BadRequest("User with this email already exists!");
-        
-        var newUser = new User
-        { 
-            UserName = request.UserName,
-            Email = request.Email,
-            Password = request.Password,
-            RegistrationDateTime = DateTime.Now,
-            ProfileImage = Array.Empty<byte>()
-        };
 
-        _context.Users.Add(newUser);
-        await _context.SaveChangesAsync();
-
+        var newUser = await _registerRepository.RegisterUserAsync(request);
         return StatusCode(200, newUser);
     }
 }

@@ -11,7 +11,6 @@
           "MySql.Data": "8.3.0",
           "MySql.EntityFrameworkCore": "6.0.25",
           "RewindApp.Domain": "1.0.0",
-          "RewindApp.Infrastructure": "1.0.0",
           "Swashbuckle.AspNetCore": "6.5.0"
         },
         "runtime": {
@@ -509,15 +508,6 @@
         "runtime": {
           "RewindApp.Domain.dll": {}
         }
-      },
-      "RewindApp.Infrastructure/1.0.0": {
-        "dependencies": {
-          "Microsoft.EntityFrameworkCore": "6.0.25",
-          "RewindApp.Domain": "1.0.0"
-        },
-        "runtime": {
-          "RewindApp.Infrastructure.dll": {}
-        }
       }
     }
   },
@@ -899,11 +889,6 @@
       "hashPath": "zstdsharp.port.0.7.1.nupkg.sha512"
     },
     "RewindApp.Domain/1.0.0": {
-      "type": "project",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "RewindApp.Infrastructure/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

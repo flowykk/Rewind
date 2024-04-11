@@ -625,7 +625,6 @@
           "MySql.Data": "8.3.0",
           "MySql.EntityFrameworkCore": "6.0.25",
           "RewindApp.Domain": "1.0.0",
-          "RewindApp.Infrastructure": "1.0.0",
           "Swashbuckle.AspNetCore": "6.5.0"
         },
         "runtime": {
@@ -640,6 +639,7 @@
       "RewindApp.Infrastructure/1.0.0": {
         "dependencies": {
           "Microsoft.EntityFrameworkCore": "6.0.25",
+          "RewindApp.Application": "1.0.0",
           "RewindApp.Domain": "1.0.0"
         },
         "runtime": {

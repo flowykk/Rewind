@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using RewindApp.Controllers.GroupControllers;
+using RewindApp.Controllers.MediaControllers;
 using RewindApp.Controllers.UserControllers;
 using RewindApp.Infrastructure.Data;
 
@@ -9,11 +11,15 @@ public class UsersControllerTests
     private readonly DataContext _context = ContextGenerator.Generate();
     private readonly UsersController _userController;
     private readonly RegisterController _registerController;
+    private readonly GroupsController _groupsController;
+    private readonly MediaController _mediaController;
 
     public UsersControllerTests()
     {
         _userController = new UsersController(_context);
         _registerController = new RegisterController(_context);
+        _groupsController = new GroupsController(_context);
+        _mediaController = new MediaController(_context);
     }
     
     [Fact]
@@ -84,5 +90,43 @@ public class UsersControllerTests
         Assert.Equal("400", result?.StatusCode.ToString());
         Assert.Equal("User not found", result?.Value);
         Assert.NotEmpty(_context.Users);
+    }
+
+    [Fact]
+    public async void ItShould_successfully_get_empty_liked_media_by_user()
+    {
+        // Arrange
+        await LoadMedia();
+        
+        // Assert
+        var result = await _userController.GetLikedMediaByUser(1);
+
+        // Act
+        Assert.Empty(result);
+    }
+    
+    [Fact]
+    public async void ItShould_successfully_get_not_empty_liked_media_by_user()
+    {
+        // Arrange
+        await LoadMedia();
+        await _mediaController.LikeMedia(1, 1);
+        
+        // Assert
+        var result = await _userController.GetLikedMediaByUser(1);
+
+        // Act
+        Assert.Single(result);
+    }
+    
+    private async Task LoadMedia()
+    {
+        await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
+        await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
+
+        var user = await _userController.GetUserById(1);
+        var group = await _groupsController.GetGroupById(1);
+        
+        await ContextHelper.LoadMedia(ContextHelper.BuildLoadMediaRequest(), _context, group!, user!);
     }
 }

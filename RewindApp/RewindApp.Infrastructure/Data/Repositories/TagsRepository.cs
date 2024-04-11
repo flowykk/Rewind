@@ -23,21 +23,18 @@ public class TagsRepository : ITagsRepository
         return media == null ? new List<Tag>() : media.Tags.ToList();
     }
 
-    public async Task<Tag> AddTagAsync(Media media, string text)
+    public async Task AddTagAsync(Media media, string text)
     {
         var tag = new Tag()
         {
             Text = text,
             Media = media
         };
+        
+        if (GetTagByMedia(media, tag.Text))
+            _context.Tags.Add(tag); 
 
-        if (media.Tags.ToList().FirstOrDefault(t => t.Text == text) != null)
-            return tag;
-
-        _context.Tags.Add(tag); 
         await _context.SaveChangesAsync();
-
-        return tag;
     }
 
     public async Task DeleteTagAsync(Media media, Tag tag)
@@ -45,5 +42,10 @@ public class TagsRepository : ITagsRepository
         _context.Tags.Remove(tag);
         media.Tags.Remove(tag);
         await _context.SaveChangesAsync();
+    }
+
+    private bool GetTagByMedia(Media media, string text)
+    {
+        return media.Tags.ToList().FirstOrDefault(t => t.Text == text) == null; 
     }
 }

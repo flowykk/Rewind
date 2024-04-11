@@ -13,3 +13,5 @@
 /Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Infrastructure/obj/Release/net6.0/refint/RewindApp.Infrastructure.dll
 /Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Infrastructure/obj/Release/net6.0/RewindApp.Infrastructure.pdb
 /Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Infrastructure/obj/Release/net6.0/ref/RewindApp.Infrastructure.dll
+/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Infrastructure/bin/Release/net6.0/RewindApp.Application.dll
+/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Infrastructure/bin/Release/net6.0/RewindApp.Application.pdb

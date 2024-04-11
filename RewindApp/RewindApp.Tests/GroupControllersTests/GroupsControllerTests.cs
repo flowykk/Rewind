@@ -1,3 +1,4 @@
+using System.Collections;
 using Microsoft.AspNetCore.Mvc;
 using MySqlX.XDevAPI.Common;
 using RewindApp.Controllers.GroupControllers;
@@ -18,14 +19,12 @@ public class GroupsControllerTests
     private readonly UsersController _usersController;
     private readonly GroupsController _groupsController;
     private readonly RegisterController _registerController;
-    private readonly MediaController _mediaController;
     
     public GroupsControllerTests()
     {
         _usersController = new UsersController(_context);
         _groupsController = new GroupsController(_context);
         _registerController = new RegisterController(_context);
-        _mediaController = new MediaController(_context);
     }
     
     [Fact]
@@ -80,13 +79,28 @@ public class GroupsControllerTests
         await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
         
         // Act
-        var actionResult = await _groupsController.GetGroupsByUser(1);
-        var result = actionResult.Result as ObjectResult;
-        var value = result?.Value as IEnumerable<GroupView>;
+        var group = await GetGroupsByUserRequestValue(1);
         
         // Assert
-        Assert.Equal("200", result?.StatusCode.ToString());
-        Assert.NotNull(value);
+        Assert.NotNull(group);
+        Assert.Single(group);
+    }
+    
+    [Fact]
+    public async void ItShould_successfully_build_information_about_groups_by_userId()
+    {
+        // Arrange
+        await LoadMedia();
+        
+        // Act
+        var value = await GetGroupsByUserRequestValue(1);
+        var group = value!.First();
+        
+        // Assert
+        Assert.NotNull(group);
+        Assert.Equal(1, group.OwnerId);
+        Assert.Equal("defaultName", group.Name);
+        Assert.Equal(1, group.GallerySize);
     }
     
     [Fact]
@@ -97,9 +111,8 @@ public class GroupsControllerTests
         await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
         
         // Act
-        var actionResult = await _groupsController.GetGroupsByUser(2);
-        var result = actionResult.Result as ObjectResult;
-        var value = result?.Value as IEnumerable<GroupView>;
+        var result = await GetGroupsByUserRequestResult(2);
+        var value = await GetGroupsByUserRequestValue(2);
 
         // Assert
         Assert.Equal("400", result?.StatusCode.ToString());
@@ -118,7 +131,7 @@ public class GroupsControllerTests
         // Act
         var actionResult = await _groupsController.AddUserToGroup(1,2);
         var result = actionResult.Result as ObjectResult;
-        var groups = await _groupsController.GetGroupsByUserAsync(2);
+        var groups = await GetGroupsByUserRequestResult(2);
         
         // Assert
         Assert.Equal("200", result?.StatusCode.ToString());
@@ -135,7 +148,7 @@ public class GroupsControllerTests
         // Act
         var actionResult = await _groupsController.AddUserToGroup(1,1);
         var result = actionResult.Result as ObjectResult;
-        var groups = await _groupsController.GetGroupsByUserAsync(1);
+        var groups = await GetGroupsByUserRequestValue(1);
 
         // Assert
         Assert.Equal("200", result?.StatusCode.ToString());
@@ -200,7 +213,7 @@ public class GroupsControllerTests
         // Act
         var actionResult = await _groupsController.DeleteGroup(1);
         var result = actionResult as ObjectResult;
-        var groups = await _groupsController.GetGroupsByUserAsync(1);
+        var groups = await GetGroupsByUserRequestValue(1);
         
         // Assert
         Assert.Equal("200", result?.StatusCode.ToString());
@@ -234,8 +247,8 @@ public class GroupsControllerTests
         // Act
         var actionResult = await _groupsController.DeleteUserFromGroup(1, 1);
         var result = actionResult as ObjectResult;
-        var groups = await _groupsController.GetGroupsByUserAsync(1);
-        var users = await _groupsController.GetUsersByGroupAsync(1);
+        var groups = await GetGroupsByUserRequestValue(1);
+        var users = await GetUsersByGroupRequestValue(1);
         
         // Assert
         Assert.Equal("200", result?.StatusCode.ToString());
@@ -308,13 +321,12 @@ public class GroupsControllerTests
         Assert.Equal("Group not found", result?.Value);
     }
 
-    /*[Fact]
+    [Fact]
     public async void ItShould_successfully_get_group_media_by_groupId()
     {
         // Arrange
-        await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
-        await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
-        await _mediaController.LoadMediaToGroup(ContextHelper.BuildLoadMediaRequest(), 1, 1);
+        await LoadMedia();
+        var group = await _groupsController.GetGroupById(1);
 
         // Act
         var actionResult = await _groupsController.GetMediaByGroup(1);
@@ -322,18 +334,16 @@ public class GroupsControllerTests
         var value = result?.Value as IEnumerable<MediaView>;
 
         // Assert
-        Assert.NotNull(actionResult.Result);
-        Assert.NotNull(value);
-        Assert.NotEmpty(value);
+        Assert.Equal("200", result?.StatusCode.ToString());
+        Assert.NotEmpty(group!.Media);
+        Assert.NotEmpty(value!);
     }
     
     [Fact]
     public async void ItShould_fail_to_get_group_media_with_invalid_groupId()
     {
         // Arrange
-        await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
-        await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
-        await _mediaController.LoadMediaToGroup(ContextHelper.BuildLoadMediaRequest(), 1, 1);
+        await LoadMedia();
 
         // Act
         var actionResult = await _groupsController.GetMediaByGroup(2);
@@ -342,7 +352,7 @@ public class GroupsControllerTests
         // Assert
         Assert.Equal("400", result?.StatusCode.ToString());
         Assert.Equal("Group not found", result?.Value);
-    }*/
+    }
 
     [Fact]
     public async void ItShould_successfully_get_group_info_by_groupId()
@@ -350,8 +360,6 @@ public class GroupsControllerTests
         // Arrange
         await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
         await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
-        await _mediaController.LoadMediaToGroup(ContextHelper.BuildLoadMediaRequest(), 1, 1);
-        var group = await _groupsController.GetGroupById(1); 
         
         // Act
         var actionResult = await _groupsController.GetGroupInfoById(1, 1,5);
@@ -369,7 +377,6 @@ public class GroupsControllerTests
         // Arrange
         await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
         await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
-        await _mediaController.LoadMediaToGroup(ContextHelper.BuildLoadMediaRequest(), 1, 1);
         
         // Act
         var actionResult = await _groupsController.GetGroupInfoById(2, 2,5);
@@ -386,7 +393,6 @@ public class GroupsControllerTests
         // Arrange
         await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
         await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
-        await _mediaController.LoadMediaToGroup(ContextHelper.BuildLoadMediaRequest(), 1, 1);
         await _usersController.DeleteUser(1);
         
         // Act
@@ -396,5 +402,103 @@ public class GroupsControllerTests
         // Assert
         Assert.Equal("400", result?.StatusCode.ToString());
         Assert.Equal("Owner not found", result?.Value);
+    }
+    
+    [Fact]
+    public async void ItShould_successfully_get_random_group_media_by_groupId()
+    {
+        // Arrange
+        await LoadMedia();
+
+        // Act
+        var actionResult = await _groupsController.GetRandomMedia(1, 1);
+        var result = actionResult.Result as ObjectResult;
+        var value = result?.Value as BigMediaInfoResponse;
+
+        // Assert
+        Assert.Equal("200", result?.StatusCode.ToString());
+        Assert.NotNull(value);
+    }
+    
+    [Fact]
+    public async void ItShould_fail_to_get_random_group_media_with_invalid_groupId()
+    {
+        // Arrange
+        await LoadMedia();
+
+        // Act
+        var actionResult = await _groupsController.GetRandomMedia(2, 1);
+        var result = actionResult.Result as ObjectResult;
+
+        // Assert
+        Assert.Equal("400", result?.StatusCode.ToString());
+        Assert.Equal("Group not found", result?.Value);
+    }
+    
+    [Fact]
+    public async void ItShould_successfully_get_initial_rewind_screen_data()
+    {
+        // Arrange
+        await LoadMedia();
+
+        // Act
+        var actionResult = await _groupsController.GetInitialRewindScreenData(1, 1);
+        var result = actionResult.Result as ObjectResult;
+        var value = result?.Value as RewindScreenDataResponse;
+
+        // Assert
+        Assert.Equal("200", result?.StatusCode.ToString());
+        Assert.NotNull(value);
+        
+        Assert.Single(value.Groups);
+        Assert.NotNull(value.RandomImage);
+        Assert.Equal(1, value.GallerySize);
+    }
+    
+    [Fact]
+    public async void ItShould_successfully_build_initial_rewind_screen_data()
+    {
+        // Arrange
+        await LoadMedia();
+
+        // Act
+        var actionResult = await _groupsController.GetInitialRewindScreenData(1, 1);
+        var result = actionResult.Result as ObjectResult;
+        var value = result?.Value as RewindScreenDataResponse;
+
+        // Assert
+        Assert.Single(value.Groups);
+        Assert.NotNull(value.RandomImage);
+        Assert.Equal(1, value.GallerySize);
+    }
+
+    private async Task LoadMedia()
+    {
+        await _registerController.Register(ContextHelper.BuildTestRegisterRequest());
+        await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
+
+        var user = await _usersController.GetUserById(1);
+        var group = await _groupsController.GetGroupById(1);
+        
+        await ContextHelper.LoadMedia(ContextHelper.BuildLoadMediaRequest(), _context, group!, user!);
+    }
+
+    private async Task<ObjectResult?> GetGroupsByUserRequestResult(int userId)
+    {
+        var actionResult = await _groupsController.GetGroupsByUser(userId);
+        return actionResult.Result as ObjectResult;
+    }
+    
+    private async Task<IEnumerable<GroupView>> GetGroupsByUserRequestValue(int userId)
+    {
+        var result = await GetGroupsByUserRequestResult(userId);
+        return result.Value as IEnumerable<GroupView>;
+    }
+    
+    private async Task<IEnumerable<UserView>> GetUsersByGroupRequestValue(int groupId)
+    {
+        var actionResult = await _groupsController.GetUsersByGroup(groupId);
+        var result = actionResult.Result as ObjectResult;
+        return result.Value as IEnumerable<UserView>;
     }
 }

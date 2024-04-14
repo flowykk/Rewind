@@ -155,6 +155,8 @@ final class RewindViewController: UIViewController {
         imageInfoView.configureUIForAuthor(randomMedia?.author, withDateAdded: randomMedia?.dateAdded)
         if let liked = randomMedia?.liked {
             configureLikeButtonUI(newState: liked ? .liked : .unliked)
+        } else {
+            configureLikeButtonUI(newState: .unliked)
         }
     }
     

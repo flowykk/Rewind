@@ -83,7 +83,7 @@ final class QuoteImageGenerator {
             let authorTextAttributes: [NSAttributedString.Key: Any] = [.font: authorFont, .foregroundColor: textColor, .paragraphStyle: authorPparagraphStyle]
             
             let quoteRect = CGRect(x: 20, y: 20, width: imageSize.width - 40, height: imageSize.height)
-            let authorRect = CGRect(x: 20, y: imageSize.height - authorFontSize - CGFloat(authorRowsCount) * authorFontSize * authorHeightFactor, width: imageSize.width - 60, height: imageSize.height / 2)
+            let authorRect = CGRect(x: 20, y: imageSize.height - authorFontSize - CGFloat(authorRowsCount) * authorFontSize * authorHeightFactor - 30, width: imageSize.width - 60, height: imageSize.height / 2)
             
             newQuote.draw(in: quoteRect, withAttributes: quoteTextAttributes)
             newAuthor.draw(in: authorRect, withAttributes: authorTextAttributes)

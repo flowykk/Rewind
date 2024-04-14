@@ -62,7 +62,7 @@ final class RewindPresenter {
     }
     
     func galleryButtonTapped() {
-        if let currentGroupId = DataManager.shared.getCurrectGroupId() {
+        if DataManager.shared.getCurrectGroupId() != nil {
             router.navigateToGallery()
         } else {
             

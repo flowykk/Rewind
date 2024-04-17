@@ -1,0 +1,3 @@
+/var/folders/8l/dvplk31n41l7l8_kcd7h60dw0000gn/T/rider-publish14470723644487194057/RewindApp.Domain.dll
+/var/folders/8l/dvplk31n41l7l8_kcd7h60dw0000gn/T/rider-publish14470723644487194057/RewindApp.Domain.deps.json
+/var/folders/8l/dvplk31n41l7l8_kcd7h60dw0000gn/T/rider-publish14470723644487194057/RewindApp.Domain.pdb

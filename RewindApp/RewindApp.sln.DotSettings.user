@@ -5,115 +5,40 @@
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=5D77837C_002DC895_002D40C6_002D9CF0_002D06BFD76A1D95_002Fd_003AGroupControllersTests_002Ff_003AGroupsControllerTests_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=5D77837C_002DC895_002D40C6_002D9CF0_002D06BFD76A1D95_002Fd_003AMediaControllersTests_002Ff_003AMediaControllerTests_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=5D77837C_002DC895_002D40C6_002D9CF0_002D06BFD76A1D95_002Fd_003ATagControllerTests_002Ff_003ATagsControllerTests_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=0cfe2a8f_002D7542_002D4c34_002Dbc68_002Df2984ebd3218/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ItShould_successfully_get_groups_by_userId #5" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;TestAncestor&gt;
-    &lt;TestId&gt;xUnit::5D77837C-C895-40C6-9CF0-06BFD76A1D95::net6.0::RewindApp.Tests.GroupControllersTests.GroupsControllerTests.ItShould_successfully_get_groups_by_userId&lt;/TestId&gt;
-  &lt;/TestAncestor&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=e59e992c_002Dba5f_002D4de7_002Dadbd_002D0ab138c32ca3/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from &amp;lt;RewindApp.Tests&amp;gt;" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;Project Location="/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Tests" Presentation="&amp;lt;RewindApp.Tests&amp;gt;" /&gt;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=4170db86_002D9a94_002D44a2_002D82dc_002D03dcbdef0d35/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ItShould_successfully_get_groups_by_userId #4" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;TestAncestor&gt;
-    &lt;TestId&gt;xUnit::5D77837C-C895-40C6-9CF0-06BFD76A1D95::net6.0::RewindApp.Tests.GroupControllersTests.GroupsControllerTests.ItShould_successfully_get_groups_by_userId&lt;/TestId&gt;
-  &lt;/TestAncestor&gt;
-&lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=4c2c7907_002D03cb_002D4573_002D912f_002D0fa815fc5fb0/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ItShould_fail_to_create_group_because_of_invalid_ownerId" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;TestAncestor&gt;
-    &lt;TestId&gt;xUnit::5D77837C-C895-40C6-9CF0-06BFD76A1D95::net6.0::RewindApp.Tests.GroupControllersTests.GroupsControllerTests.ItShould_fail_to_create_group_because_of_invalid_ownerId&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5D77837C-C895-40C6-9CF0-06BFD76A1D95::net6.0::RewindApp.Tests.GroupControllersTests.GroupsControllerTests.ItShould_successfully_get_groups_by_userId&lt;/TestId&gt;
-  &lt;/TestAncestor&gt;
-&lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=525b26eb_002D149a_002D42e8_002Dbc7c_002D8b5faa7ba2fc/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ItShould_successfully_get_groups_by_userId #7" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;TestAncestor&gt;
-    &lt;TestId&gt;xUnit::5D77837C-C895-40C6-9CF0-06BFD76A1D95::net6.0::RewindApp.Tests.GroupControllersTests.GroupsControllerTests.ItShould_successfully_get_groups_by_userId&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5D77837C-C895-40C6-9CF0-06BFD76A1D95::net6.0::RewindApp.Tests.GroupControllersTests.GroupsControllerTests.ItShould_fail_to_get_groups_by_invalid_userId&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::5D77837C-C895-40C6-9CF0-06BFD76A1D95::net6.0::RewindApp.Tests.GroupControllersTests.GroupsControllerTests.ItShould_successfully_add_user_to_group&lt;/TestId&gt;
-  &lt;/TestAncestor&gt;
-&lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=68a856bb_002Df5db_002D4cae_002Dafa6_002Dbec1be51aa06/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ItShould_successfully_get_group_media_by_groupId #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;TestAncestor&gt;
-    &lt;TestId&gt;xUnit::5D77837C-C895-40C6-9CF0-06BFD76A1D95::net6.0::RewindApp.Tests.GroupControllersTests.GroupsControllerTests.ItShould_successfully_get_group_media_by_groupId&lt;/TestId&gt;
-  &lt;/TestAncestor&gt;
-&lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=69941d90_002D2dd9_002D41ec_002D8830_002D6388016650be/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ItShould_successfully_get_group_info_by_groupId" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;Or&gt;
-    &lt;TestAncestor&gt;
-      &lt;TestId&gt;xUnit::5D77837C-C895-40C6-9CF0-06BFD76A1D95::net6.0::RewindApp.Tests.GroupControllersTests.GroupsControllerTests&lt;/TestId&gt;
-    &lt;/TestAncestor&gt;
-    &lt;ProjectFile&gt;5D77837C-C895-40C6-9CF0-06BFD76A1D95/d:GroupControllersTests/f:ChangeGroupControllerTests.cs&lt;/ProjectFile&gt;
-    &lt;ProjectFolder&gt;5D77837C-C895-40C6-9CF0-06BFD76A1D95/d:UserControllersTests&lt;/ProjectFolder&gt;
-    &lt;ProjectFolder&gt;5D77837C-C895-40C6-9CF0-06BFD76A1D95/d:MediaControllersTests&lt;/ProjectFolder&gt;
-    &lt;ProjectFolder&gt;5D77837C-C895-40C6-9CF0-06BFD76A1D95/d:TagControllerTests&lt;/ProjectFolder&gt;
-  &lt;/Or&gt;
-&lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=81f3d79a_002D52ac_002D48e1_002Dbec2_002D15f1f8679548/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ItShould_successfully_get_group_media_by_groupId #4" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;TestAncestor&gt;
-    &lt;TestId&gt;xUnit::5D77837C-C895-40C6-9CF0-06BFD76A1D95::net6.0::RewindApp.Tests.GroupControllersTests.GroupsControllerTests.ItShould_successfully_get_group_media_by_groupId&lt;/TestId&gt;
-  &lt;/TestAncestor&gt;
-&lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=96486bda_002Dc527_002D4ef4_002D9259_002D3eda3b4a350a/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ItShould_successfully_get_groups_by_userId #6" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;TestAncestor&gt;
-    &lt;TestId&gt;xUnit::5D77837C-C895-40C6-9CF0-06BFD76A1D95::net6.0::RewindApp.Tests.GroupControllersTests.GroupsControllerTests.ItShould_successfully_get_groups_by_userId&lt;/TestId&gt;
-  &lt;/TestAncestor&gt;
-&lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=b3a7077b_002Dcbf9_002D40c7_002Da408_002D3ee616d8d7a6/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ItShould_successfully_get_groups_by_userId #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;TestAncestor&gt;
-    &lt;TestId&gt;xUnit::5D77837C-C895-40C6-9CF0-06BFD76A1D95::net6.0::RewindApp.Tests.GroupControllersTests.GroupsControllerTests.ItShould_successfully_get_groups_by_userId&lt;/TestId&gt;
-  &lt;/TestAncestor&gt;
-&lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=c103dcab_002Db7e0_002D4f4a_002D83da_002Dea9dfc8c74b6/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ItShould_successfully_create_group" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;TestAncestor&gt;
-    &lt;TestId&gt;xUnit::5D77837C-C895-40C6-9CF0-06BFD76A1D95::net6.0::RewindApp.Tests.GroupControllersTests.GroupsControllerTests.ItShould_successfully_create_group&lt;/TestId&gt;
-  &lt;/TestAncestor&gt;
-&lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=dac3efce_002D9dac_002D44a0_002Db759_002D7cad630ae1ec/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ItShould_successfully_get_group_media_by_groupId #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;TestAncestor&gt;
-    &lt;TestId&gt;xUnit::5D77837C-C895-40C6-9CF0-06BFD76A1D95::net6.0::RewindApp.Tests.GroupControllersTests.GroupsControllerTests.ItShould_successfully_get_group_media_by_groupId&lt;/TestId&gt;
-  &lt;/TestAncestor&gt;
-&lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=dd880928_002D81df_002D4a06_002D80f5_002D2800d8319bdd/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ItShould_successfully_get_groups_by_userId #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;TestAncestor&gt;
-    &lt;TestId&gt;xUnit::5D77837C-C895-40C6-9CF0-06BFD76A1D95::net6.0::RewindApp.Tests.GroupControllersTests.GroupsControllerTests.ItShould_successfully_get_groups_by_userId&lt;/TestId&gt;
-  &lt;/TestAncestor&gt;
-&lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=ddfe9cdd_002D8f32_002D4abf_002D99dc_002D81cf7b56e451/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="ItShould_successfully_get_group_media_by_groupId #5" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;Or&gt;
-    &lt;TestAncestor&gt;
-      &lt;TestId&gt;xUnit::5D77837C-C895-40C6-9CF0-06BFD76A1D95::net6.0::RewindApp.Tests.GroupControllersTests.GroupsControllerTests.ItShould_successfully_get_group_media_by_groupId&lt;/TestId&gt;
-      &lt;TestId&gt;xUnit::5D77837C-C895-40C6-9CF0-06BFD76A1D95::net6.0::RewindApp.Tests.GroupControllersTests.GroupsControllerTests.ItShould_fail_to_get_group_media_with_invalid_groupId&lt;/TestId&gt;
-      &lt;TestId&gt;xUnit::5D77837C-C895-40C6-9CF0-06BFD76A1D95::net6.0::RewindApp.Tests.GroupControllersTests.GroupsControllerTests.ItShould_successfully_get_group_info_by_groupId&lt;/TestId&gt;
-    &lt;/TestAncestor&gt;
-    &lt;ProjectFile&gt;5D77837C-C895-40C6-9CF0-06BFD76A1D95/d:UserControllersTests/f:UsersControllerTests.cs&lt;/ProjectFile&gt;
-    &lt;ProjectFolder&gt;5D77837C-C895-40C6-9CF0-06BFD76A1D95/d:UserControllersTests&lt;/ProjectFolder&gt;
-  &lt;/Or&gt;
-&lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=e3f9457e_002Ddae4_002D410f_002D9fae_002Df3fde7569165/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ItShould_successfully_add_user_to_group" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;Or&gt;
-    &lt;TestAncestor&gt;
-      &lt;TestId&gt;xUnit::5D77837C-C895-40C6-9CF0-06BFD76A1D95::net6.0::RewindApp.Tests.GroupControllersTests.GroupsControllerTests.ItShould_successfully_add_user_to_group&lt;/TestId&gt;
-      &lt;TestId&gt;xUnit::5D77837C-C895-40C6-9CF0-06BFD76A1D95::net6.0::RewindApp.Tests.GroupControllersTests.GroupsControllerTests.ItShould_fail_to_add_duplicated_user_to_group&lt;/TestId&gt;
-      &lt;TestId&gt;xUnit::5D77837C-C895-40C6-9CF0-06BFD76A1D95::net6.0::RewindApp.Tests.GroupControllersTests.GroupsControllerTests.ItShould_fail_to_add_user_to_group_with_invalid_userId&lt;/TestId&gt;
-      &lt;TestId&gt;xUnit::5D77837C-C895-40C6-9CF0-06BFD76A1D95::net6.0::RewindApp.Tests.GroupControllersTests.GroupsControllerTests.ItShould_fail_to_add_user_to_group_with_invalid_groupId&lt;/TestId&gt;
-      &lt;TestId&gt;xUnit::5D77837C-C895-40C6-9CF0-06BFD76A1D95::net6.0::RewindApp.Tests.GroupControllersTests.GroupsControllerTests.ItShould_successfully_delete_group&lt;/TestId&gt;
-      &lt;TestId&gt;xUnit::5D77837C-C895-40C6-9CF0-06BFD76A1D95::net6.0::RewindApp.Tests.GroupControllersTests.GroupsControllerTests.ItShould_fail_to_delete_group_with_invalid_groupId&lt;/TestId&gt;
-      &lt;TestId&gt;xUnit::5D77837C-C895-40C6-9CF0-06BFD76A1D95::net6.0::RewindApp.Tests.GroupControllersTests.GroupsControllerTests.ItShould_successfully_delete_user_from_group&lt;/TestId&gt;
-      &lt;TestId&gt;xUnit::5D77837C-C895-40C6-9CF0-06BFD76A1D95::net6.0::RewindApp.Tests.GroupControllersTests.GroupsControllerTests.ItShould_fail_to_delete_user_from_group_with_invalid_groupId&lt;/TestId&gt;
-      &lt;TestId&gt;xUnit::5D77837C-C895-40C6-9CF0-06BFD76A1D95::net6.0::RewindApp.Tests.GroupControllersTests.GroupsControllerTests.ItShould_fail_to_delete_user_from_group_with_invalid_userId&lt;/TestId&gt;
-      &lt;TestId&gt;xUnit::5D77837C-C895-40C6-9CF0-06BFD76A1D95::net6.0::RewindApp.Tests.GroupControllersTests.GroupsControllerTests.ItShould_successfully_get_users_by_groupId&lt;/TestId&gt;
-      &lt;TestId&gt;xUnit::5D77837C-C895-40C6-9CF0-06BFD76A1D95::net6.0::RewindApp.Tests.GroupControllersTests.GroupsControllerTests.ItShould_fail_to_get_users_by_invalid_groupId&lt;/TestId&gt;
-      &lt;TestId&gt;xUnit::5D77837C-C895-40C6-9CF0-06BFD76A1D95::net6.0::RewindApp.Tests.GroupControllersTests.GroupsControllerTests.ItShould_successfully_get_group_media_by_groupId&lt;/TestId&gt;
-    &lt;/TestAncestor&gt;
-    &lt;ProjectFile&gt;5D77837C-C895-40C6-9CF0-06BFD76A1D95/d:MediaControllersTests/f:MediaControllerTests.cs&lt;/ProjectFile&gt;
-  &lt;/Or&gt;
-&lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f4b67d6e_002D526f_002D4f6e_002D990a_002D12a851f7647a/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ItShould_successfully_get_group_media_by_groupId" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;TestAncestor&gt;
-    &lt;TestId&gt;xUnit::5D77837C-C895-40C6-9CF0-06BFD76A1D95::net6.0::RewindApp.Tests.GroupControllersTests.GroupsControllerTests.ItShould_successfully_get_group_media_by_groupId&lt;/TestId&gt;
-  &lt;/TestAncestor&gt;
-&lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=fb40eb07_002D2e1b_002D4a7e_002Da471_002Daf4ce8bc7b4b/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ItShould_successfully_get_groups_by_userId" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;TestAncestor&gt;
-    &lt;TestId&gt;xUnit::5D77837C-C895-40C6-9CF0-06BFD76A1D95::net6.0::RewindApp.Tests.GroupControllersTests.GroupsControllerTests.ItShould_successfully_get_groups_by_userId&lt;/TestId&gt;
-  &lt;/TestAncestor&gt;
-&lt;/SessionState&gt;</s:String>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

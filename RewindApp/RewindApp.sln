@@ -4,6 +4,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RewindApp.API", "RewindApp.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RewindApp.Tests", "RewindApp.Tests\RewindApp.Tests.csproj", "{5D77837C-C895-40C6-9CF0-06BFD76A1D95}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RewindApp.Domain", "RewindApp.Domain\RewindApp.Domain.csproj", "{DFC1EB34-46E5-47A9-A534-983F1F8DD57A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RewindApp.Infrastructure", "RewindApp.Infrastructure\RewindApp.Infrastructure.csproj", "{588E5551-B6ED-4219-9F53-1ABF743052C7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RewindApp.Application", "RewindApp.Application\RewindApp.Application.csproj", "{4087E30E-5C35-4228-900F-E505C778F477}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +24,17 @@ Global
 		{5D77837C-C895-40C6-9CF0-06BFD76A1D95}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D77837C-C895-40C6-9CF0-06BFD76A1D95}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D77837C-C895-40C6-9CF0-06BFD76A1D95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFC1EB34-46E5-47A9-A534-983F1F8DD57A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFC1EB34-46E5-47A9-A534-983F1F8DD57A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFC1EB34-46E5-47A9-A534-983F1F8DD57A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFC1EB34-46E5-47A9-A534-983F1F8DD57A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{588E5551-B6ED-4219-9F53-1ABF743052C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{588E5551-B6ED-4219-9F53-1ABF743052C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{588E5551-B6ED-4219-9F53-1ABF743052C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{588E5551-B6ED-4219-9F53-1ABF743052C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4087E30E-5C35-4228-900F-E505C778F477}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4087E30E-5C35-4228-900F-E505C778F477}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4087E30E-5C35-4228-900F-E505C778F477}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4087E30E-5C35-4228-900F-E505C778F477}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

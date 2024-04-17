@@ -83,8 +83,8 @@ extension LaunchPresenter {
             print("something went wrong - handleGetInitialRewindScreenData (LaunchPresenter")
             print(response)
         }
-        DispatchQueue.main.async { [weak self] in
-            
-        }
+//        DispatchQueue.main.async { [weak self] in
+//            
+//        }
     }
 }

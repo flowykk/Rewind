@@ -1,0 +1,12 @@
+/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Domain/bin/Release/net6.0/RewindApp.Domain.deps.json
+/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Domain/bin/Release/net6.0/RewindApp.Domain.dll
+/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Domain/bin/Release/net6.0/RewindApp.Domain.pdb
+/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Domain/obj/Release/net6.0/RewindApp.Domain.csproj.AssemblyReference.cache
+/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Domain/obj/Release/net6.0/RewindApp.Domain.GeneratedMSBuildEditorConfig.editorconfig
+/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Domain/obj/Release/net6.0/RewindApp.Domain.AssemblyInfoInputs.cache
+/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Domain/obj/Release/net6.0/RewindApp.Domain.AssemblyInfo.cs
+/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Domain/obj/Release/net6.0/RewindApp.Domain.csproj.CoreCompileInputs.cache
+/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Domain/obj/Release/net6.0/RewindApp.Domain.dll
+/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Domain/obj/Release/net6.0/refint/RewindApp.Domain.dll
+/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Domain/obj/Release/net6.0/RewindApp.Domain.pdb
+/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Domain/obj/Release/net6.0/ref/RewindApp.Domain.dll

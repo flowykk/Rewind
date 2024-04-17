@@ -157,3 +157,9 @@
 /Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Tests/bin/Debug/net6.0/RewindApp.API
 /Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Tests/bin/Debug/net6.0/RewindApp.API.dll
 /Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Tests/bin/Debug/net6.0/RewindApp.API.pdb
+/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Tests/bin/Debug/net6.0/RewindApp.Domain.dll
+/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Tests/bin/Debug/net6.0/RewindApp.Domain.pdb
+/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Tests/bin/Debug/net6.0/RewindApp.Infrastructure.dll
+/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Tests/bin/Debug/net6.0/RewindApp.Infrastructure.pdb
+/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Tests/bin/Debug/net6.0/RewindApp.Application.dll
+/Users/danilarahmanov/Desktop/Rewind/Rewind/RewindApp/RewindApp.Tests/bin/Debug/net6.0/RewindApp.Application.pdb

@@ -101,6 +101,11 @@ final class PreviewObjectViewController: UIViewController {
     func configureUIForCurrentMedia(_ currentMedia: Media?) {
         imageView.image = currentMedia?.bigImage ?? UIImage(named: "defaultImage")
         imageInfoView.configureUIForAuthor(currentMedia?.author, withDateAdded: currentMedia?.shortDateAdded)
+        if let liked = currentMedia?.liked {
+            configureLikeButtonUI(newState: liked ? .liked : .unliked)
+        } else {
+            configureLikeButtonUI(newState: .unliked)
+        }
     }
     
     func configureLikeButtonUI(newState: LikeButtonState) {

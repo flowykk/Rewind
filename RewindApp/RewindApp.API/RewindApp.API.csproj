@@ -16,4 +16,10 @@
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\RewindApp.Application\RewindApp.Application.csproj" />
+      <ProjectReference Include="..\RewindApp.Domain\RewindApp.Domain.csproj" />
+      <ProjectReference Include="..\RewindApp.Infrastructure\RewindApp.Infrastructure.csproj" />
+    </ItemGroup>
+
 </Project>

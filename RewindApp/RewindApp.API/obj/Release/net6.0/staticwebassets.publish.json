@@ -1,8 +1,8 @@
 {
   "Version": 1,
-  "Hash": "DE6OR3k2zEgsJS/7JR4YN3HLjCwC60xxEBKJlT/UEO4=",
-  "Source": "RewindApp",
-  "BasePath": "_content/RewindApp",
+  "Hash": "+k8R4lOUmvUUya2wwEjIyxgDBLFWndYq016KqlgFpNE=",
+  "Source": "RewindApp.API",
+  "BasePath": "_content/RewindApp.API",
   "Mode": "Default",
   "ManifestType": "Publish",
   "ReferencedProjectsConfiguration": [],

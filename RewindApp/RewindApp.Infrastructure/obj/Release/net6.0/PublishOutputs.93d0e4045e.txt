@@ -1,0 +1,16 @@
+/var/folders/8l/dvplk31n41l7l8_kcd7h60dw0000gn/T/rider-publish1884220273972495556/RewindApp.Infrastructure.dll
+/var/folders/8l/dvplk31n41l7l8_kcd7h60dw0000gn/T/rider-publish1884220273972495556/RewindApp.Infrastructure.deps.json
+/var/folders/8l/dvplk31n41l7l8_kcd7h60dw0000gn/T/rider-publish1884220273972495556/RewindApp.Infrastructure.pdb
+/var/folders/8l/dvplk31n41l7l8_kcd7h60dw0000gn/T/rider-publish1884220273972495556/Microsoft.EntityFrameworkCore.dll
+/var/folders/8l/dvplk31n41l7l8_kcd7h60dw0000gn/T/rider-publish1884220273972495556/Microsoft.EntityFrameworkCore.Abstractions.dll
+/var/folders/8l/dvplk31n41l7l8_kcd7h60dw0000gn/T/rider-publish1884220273972495556/Microsoft.Extensions.Caching.Abstractions.dll
+/var/folders/8l/dvplk31n41l7l8_kcd7h60dw0000gn/T/rider-publish1884220273972495556/Microsoft.Extensions.Caching.Memory.dll
+/var/folders/8l/dvplk31n41l7l8_kcd7h60dw0000gn/T/rider-publish1884220273972495556/Microsoft.Extensions.DependencyInjection.dll
+/var/folders/8l/dvplk31n41l7l8_kcd7h60dw0000gn/T/rider-publish1884220273972495556/Microsoft.Extensions.DependencyInjection.Abstractions.dll
+/var/folders/8l/dvplk31n41l7l8_kcd7h60dw0000gn/T/rider-publish1884220273972495556/Microsoft.Extensions.Logging.dll
+/var/folders/8l/dvplk31n41l7l8_kcd7h60dw0000gn/T/rider-publish1884220273972495556/Microsoft.Extensions.Logging.Abstractions.dll
+/var/folders/8l/dvplk31n41l7l8_kcd7h60dw0000gn/T/rider-publish1884220273972495556/Microsoft.Extensions.Options.dll
+/var/folders/8l/dvplk31n41l7l8_kcd7h60dw0000gn/T/rider-publish1884220273972495556/Microsoft.Extensions.Primitives.dll
+/var/folders/8l/dvplk31n41l7l8_kcd7h60dw0000gn/T/rider-publish1884220273972495556/System.Diagnostics.DiagnosticSource.dll
+/var/folders/8l/dvplk31n41l7l8_kcd7h60dw0000gn/T/rider-publish1884220273972495556/RewindApp.Domain.dll
+/var/folders/8l/dvplk31n41l7l8_kcd7h60dw0000gn/T/rider-publish1884220273972495556/RewindApp.Domain.pdb

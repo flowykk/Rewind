@@ -1,9 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using RewindApp.Controllers.GroupControllers;
 using RewindApp.Controllers.UserControllers;
-using RewindApp.Data;
-using RewindApp.Requests;
-using RewindApp.Requests.ChangeRequests;
+using RewindApp.Infrastructure.Data;
+using RewindApp.Domain.Requests;
 
 namespace RewindApp.Tests.GroupControllersTests;
 
@@ -30,8 +29,8 @@ public class ChangeGroupControllerTests
         var nameRequest = new TextRequest() { Text = "newName" };
 
         // Act
-        var actionResult = await _changeGroupController.ChangeName(nameRequest, 1);
-        var result = actionResult.Result as ObjectResult;
+        var actionResult = await _changeGroupController.ChangeName(1, nameRequest);
+        var result = actionResult as ObjectResult;
         
         var changedGroup = _context.Groups.FirstOrDefault(g => g.Name == "newName");
         
@@ -51,8 +50,8 @@ public class ChangeGroupControllerTests
         var nameRequest = new TextRequest() { Text = "newName" };
 
         // Act
-        var actionResult = await _changeGroupController.ChangeName(nameRequest, 2);
-        var result = actionResult.Result as ObjectResult;
+        var actionResult = await _changeGroupController.ChangeName(2, nameRequest);
+        var result = actionResult as ObjectResult;
         
         // Assert
         Assert.Equal("400", result?.StatusCode.ToString());
@@ -67,7 +66,7 @@ public class ChangeGroupControllerTests
         await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
         
         // Act
-        var actionResult = await _changeGroupController.ChangeImage(ContextHelper.BuildTestChangeImageRequest(), 1);
+        var actionResult = await _changeGroupController.ChangeImage(1, ContextHelper.BuildTestChangeImageRequest());
         var result = actionResult as ObjectResult;
         
         var changedGroup = _groupsController.GetGroupById(1).Result;
@@ -90,7 +89,7 @@ public class ChangeGroupControllerTests
         await _groupsController.CreateGroup(ContextHelper.BuildTestCreateGroupRequest());
 
         // Act
-        var actionResult = await _changeGroupController.ChangeImage(ContextHelper.BuildTestChangeImageRequest(), 2);
+        var actionResult = await _changeGroupController.ChangeImage(2, ContextHelper.BuildTestChangeImageRequest());
         var result = actionResult as ObjectResult;
         
         // Assert

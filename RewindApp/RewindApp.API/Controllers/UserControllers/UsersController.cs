@@ -1,40 +1,26 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using RewindApp.Data;
-using RewindApp.Entities;
-using RewindApp.Services;
+using RewindApp.Application.Interfaces.UserInterfaces;
+using RewindApp.Infrastructure.Data;
+using RewindApp.Domain.Entities;
+using RewindApp.Infrastructure.Data.Repositories.UserRepositories;
 
 namespace RewindApp.Controllers.UserControllers;
 
-public interface IUsersController
-{
-    public Task<IEnumerable<User>> GetUsers();
-    public Task<User?> GetUserByEmail(string email);
-
-    public Task<User?> GetUserById(int userId);
-    public int SendVerificationCode(string receiverEmail);
-    public Task<IEnumerable<Media>> GetLikedMediaByUser(int userId);
-}
-
 [ApiController]
 [Route("[controller]")]
-public class UsersController : ControllerBase, IUsersController
+public class UsersController : ControllerBase
 {
-    private readonly DataContext _context;
-    private readonly IEmailSender _emailSender;
-    private readonly IUserService _userService;
+    private readonly IUserRepository _userRepository;
 
     public UsersController(DataContext context)
     {
-        _context = context;
-        _emailSender = new EmailSender();
-        _userService = new UserService();
+        _userRepository = new UserRepository(context);
     }
 
     [HttpGet]
     public async Task<IEnumerable<User>> GetUsers()
     {
-        return await _context.Users.ToListAsync();
+        return await _userRepository.GetAllUsersAsync();
     }
     
     [HttpDelete("delete/{userId}")]
@@ -42,47 +28,30 @@ public class UsersController : ControllerBase, IUsersController
     {
         var user = await GetUserById(userId);
         if (user == null) return BadRequest("User not found");
-        
-        _context.Users.Remove(user);
-        await _context.SaveChangesAsync();
-        return Ok(userId);
+
+        var deletion = await _userRepository.DeleteUserAccountAsync(user);
+        return Ok(deletion.Id);
     }
     
     [HttpGet("send-code/{receiverEmail}")]
     public int SendVerificationCode(string receiverEmail)
     {
-        var verificationCode = _userService.GenerateCode();
-
-        _emailSender.SendEmail(
-            receiverEmail, 
-            "Rewind verification code",
-            $"Your verification code - {verificationCode}"
-        );
-
-        return verificationCode;
+        return _userRepository.SendVerificationCode(receiverEmail);
     }
     
     public async Task<User?> GetUserByEmail(string email)
     {
-        var user = await _context.Users.FirstOrDefaultAsync(user => user.Email == email);
-        return user;
+        return await _userRepository.GetUserByEmailAsync(email);
     }
 
     [HttpGet("{userId}")]
     public async Task<User?> GetUserById(int userId)
     {
-        var user = await _context.Users
-            .Include(u => u.Groups)
-            .Include(u => u.Media)
-            .FirstOrDefaultAsync(user => user.Id == userId);
-        return user;
+        return await _userRepository.GetUserByIdAsync(userId);
     }
 
     public async Task<IEnumerable<Media>> GetLikedMediaByUser(int userId)
     {
-        return await _context.Users
-            .Include(user => user.Media)
-            .Where(user => user.Id == userId)
-            .SelectMany(user => user.Media).ToListAsync(); 
+        return await _userRepository.GetLikedMediaByUser(userId);
     }
 }

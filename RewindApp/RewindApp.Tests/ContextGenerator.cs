@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using RewindApp.Data;
+using RewindApp.Infrastructure.Data;
 
 namespace RewindApp.Tests;
 

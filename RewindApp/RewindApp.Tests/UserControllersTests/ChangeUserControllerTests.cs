@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RewindApp.Controllers.UserControllers;
-using RewindApp.Data;
-using RewindApp.Requests;
-using RewindApp.Requests.ChangeRequests;
-using RewindApp.Services;
+using RewindApp.Infrastructure.Data;
+using RewindApp.Domain.Requests;
+using RewindApp.Domain.Requests.ChangeRequests;
+using RewindApp.Infrastructure.Services;
 
 namespace RewindApp.Tests.UserControllersTests;
 
